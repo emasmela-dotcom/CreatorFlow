@@ -5,8 +5,9 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/CreatorFlow' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/CreatorFlow/' : '',
+  distDir: 'out',
+  assetPrefix: '',
+  basePath: '',
 }
 
 module.exports = nextConfig
