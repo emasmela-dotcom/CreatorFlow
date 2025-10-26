@@ -9,14 +9,36 @@ export default function HomePage() {
   const [email, setEmail] = useState('')
   const { trackEvent, trackConversionEvent } = useAnalytics()
 
-  const handleEmailSubmit = () => {
+  const handleEmailSubmit = async () => {
+    if (!email) {
+      alert('Please enter your email address')
+      return
+    }
+    
     trackEvent('email_signup', 'conversion', 'landing_page')
     trackConversionEvent('email_signup', 0)
+    
+    // Simulate email signup
+    try {
+      // In a real app, this would send to your email service
+      console.log('Email signup:', email)
+      alert(`Thanks! We'll send your free trial details to ${email}`)
+      
+      // Redirect to dashboard or pricing
+      window.location.href = '/dashboard'
+    } catch (error) {
+      console.error('Signup error:', error)
+      alert('Something went wrong. Please try again.')
+    }
   }
 
   const handlePricingClick = (plan: string) => {
     trackEvent('pricing_click', 'conversion', plan)
     trackConversionEvent('pricing_click', plan === 'starter' ? 19 : plan === 'pro' ? 49 : 99)
+    
+    // Redirect to pricing or signup
+    alert(`Redirecting to ${plan} plan signup...`)
+    window.location.href = '/dashboard'
   }
 
   return (
