@@ -47,9 +47,9 @@ export default function HomePage() {
       <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-slate-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
             CreatorFlow
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
@@ -61,11 +61,11 @@ export default function HomePage() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-80"
+              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80"
             />
-            <button 
+            <button
               onClick={handleEmailSubmit}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center gap-2"
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2"
             >
               Start Free Trial
               <ArrowRight className="w-5 h-5" />
@@ -81,12 +81,12 @@ export default function HomePage() {
           <h2 className="text-4xl font-bold text-center mb-16">Everything you need to grow as a creator</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-              <BarChart3 className="w-12 h-12 text-purple-400 mb-4" />
+              <BarChart3 className="w-12 h-12 text-blue-400 mb-4" />
               <h3 className="text-xl font-semibold mb-4">Analytics Dashboard</h3>
               <p className="text-gray-400">Track your performance across all platforms with real-time analytics and insights.</p>
             </div>
             <div className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-              <Zap className="w-12 h-12 text-pink-400 mb-4" />
+              <Zap className="w-12 h-12 text-blue-400 mb-4" />
               <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
               <p className="text-gray-400">Schedule posts across Instagram, Twitter, LinkedIn, and TikTok with optimal timing.</p>
             </div>
@@ -120,8 +120,8 @@ export default function HomePage() {
                 Get Started
               </button>
             </div>
-            <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 p-8 rounded-xl border border-purple-500 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="bg-gradient-to-br from-blue-900/50 to-slate-900/50 p-8 rounded-xl border border-blue-500 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
@@ -135,7 +135,7 @@ export default function HomePage() {
               </ul>
               <button 
                 onClick={() => handlePricingClick('pro')}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg transition-all"
+                className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-all"
               >
                 Get Started
               </button>
@@ -168,7 +168,7 @@ export default function HomePage() {
           <p className="text-xl text-gray-400 mb-8">Join thousands of creators who are already using CreatorFlow to scale their content.</p>
           <button 
             onClick={handleEmailSubmit}
-            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center gap-2 mx-auto"
+            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2 mx-auto"
           >
             Start Your Free Trial
             <Play className="w-5 h-5" />
