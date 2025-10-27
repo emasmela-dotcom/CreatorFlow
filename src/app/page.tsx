@@ -20,35 +20,6 @@ export default function HomePage() {
     
     // Send real email using EmailJS
     try {
-      // Send notification to you about the signup
-      const notificationData = {
-        to_email: 'emasmela1976@gmail.com',
-        from_name: 'CreatorFlow Signup',
-        message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`,
-        subject: 'New CreatorFlow Signup!'
-      };
-
-      // Send welcome email to the user
-      const welcomeData = {
-        to_email: email,
-        from_name: 'CreatorFlow Team',
-        message: `Welcome to CreatorFlow! Your 14-day free trial is now active.
-
-Here's what you get:
-✅ Advanced Analytics Dashboard
-✅ Smart Scheduling across all platforms
-✅ Brand Collaboration Management
-✅ Content Calendar
-✅ Hashtag Research
-✅ Performance Insights
-
-Login to your dashboard: https://creatorflow-live-6stau440i-erics-projects-b395e20f.vercel.app/dashboard
-
-Best regards,
-The CreatorFlow Team`,
-        subject: 'Welcome to CreatorFlow - Your Free Trial is Ready!'
-      };
-
       // Send email using a simple service
       const emailData = {
         to: email,
