@@ -174,6 +174,86 @@
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
         }
+
+        /* Tools Section */
+        .tools {
+            padding: 5rem 0;
+            background: #0a0a0a;
+        }
+        
+        .tools h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .tools-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .tool-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tool-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .tool-features li {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tool-features li:last-child {
+            border-bottom: none;
+        }
         
         /* Pricing Section */
         .pricing {
@@ -343,6 +423,114 @@
                     <div class="feature-icon">🤝</div>
                     <h3>Brand Collaborations</h3>
                     <p>Manage partnerships, track deals, and maximize your monetization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools">
+        <div class="container">
+            <h2>7 Powerful Tools for Content Creators</h2>
+            <p class="tools-subtitle">Everything you need to create, manage, and monetize your content</p>
+            
+            <div class="tools-grid">
+                <!-- Tool 1: Content Creation -->
+                <div class="tool-card">
+                    <div class="tool-icon">✍️</div>
+                    <h3>Content Creation Studio</h3>
+                    <p>Multi-platform post creator with media upload, hashtag suggestions, and real-time preview.</p>
+                    <ul class="tool-features">
+                        <li>✓ Instagram, Twitter, LinkedIn, YouTube support</li>
+                        <li>✓ Image & video upload</li>
+                        <li>✓ Hashtag research & suggestions</li>
+                        <li>✓ Real-time preview</li>
+                        <li>✓ Character count tracking</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 2: Smart Scheduling -->
+                <div class="tool-card">
+                    <div class="tool-icon">📅</div>
+                    <h3>Smart Scheduling</h3>
+                    <p>Schedule posts across all platforms with optimal timing recommendations.</p>
+                    <ul class="tool-features">
+                        <li>✓ Best time recommendations</li>
+                        <li>✓ Bulk scheduling</li>
+                        <li>✓ Time zone management</li>
+                        <li>✓ Draft management</li>
+                        <li>✓ Auto-posting</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 3: Analytics Dashboard -->
+                <div class="tool-card">
+                    <div class="tool-icon">📈</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Comprehensive analytics across all platforms with detailed performance metrics.</p>
+                    <ul class="tool-features">
+                        <li>✓ Follower growth tracking</li>
+                        <li>✓ Engagement rate analysis</li>
+                        <li>✓ Reach & impressions</li>
+                        <li>✓ Top performing content</li>
+                        <li>✓ Platform comparison</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 4: Brand Collaborations -->
+                <div class="tool-card">
+                    <div class="tool-icon">🤝</div>
+                    <h3>Brand Collaborations</h3>
+                    <p>Manage partnerships, track deals, and maximize your monetization opportunities.</p>
+                    <ul class="tool-features">
+                        <li>✓ Deal tracking & management</li>
+                        <li>✓ Revenue tracking</li>
+                        <li>✓ Brand communication</li>
+                        <li>✓ Deliverable tracking</li>
+                        <li>✓ Payment management</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 5: Content Calendar -->
+                <div class="tool-card">
+                    <div class="tool-icon">📆</div>
+                    <h3>Content Calendar</h3>
+                    <p>Plan and organize your content strategy with a visual calendar.</p>
+                    <ul class="tool-features">
+                        <li>✓ Visual content planning</li>
+                        <li>✓ Campaign organization</li>
+                        <li>✓ Content themes</li>
+                        <li>✓ Team collaboration</li>
+                        <li>✓ Content templates</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 6: Hashtag Research -->
+                <div class="tool-card">
+                    <div class="tool-icon">#️⃣</div>
+                    <h3>Hashtag Research</h3>
+                    <p>Find trending hashtags and optimize your content for maximum reach.</p>
+                    <ul class="tool-features">
+                        <li>✓ Trending hashtag discovery</li>
+                        <li>✓ Hashtag performance tracking</li>
+                        <li>✓ Competitor analysis</li>
+                        <li>✓ Hashtag suggestions</li>
+                        <li>✓ Reach optimization</li>
+                    </ul>
+                </div>
+
+                <!-- Tool 7: Performance Insights -->
+                <div class="tool-card">
+                    <div class="tool-icon">💡</div>
+                    <h3>Performance Insights</h3>
+                    <p>AI-powered insights and recommendations to improve your content strategy.</p>
+                    <ul class="tool-features">
+                        <li>✓ AI content suggestions</li>
+                        <li>✓ Performance predictions</li>
+                        <li>✓ Audience insights</li>
+                        <li>✓ Growth recommendations</li>
+                        <li>✓ Trend analysis</li>
+                    </ul>
                 </div>
             </div>
         </div>
