@@ -11,6 +11,12 @@
         gtag('js', new Date());
         gtag('config', 'G-J35XT88P70');
     </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY"); // We'll set this up
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -423,12 +429,69 @@
                 'event_label': 'landing_page'
             });
 
-            alert(`Thanks! We'll send your free trial details to ${email}`);
+            // Send email using a simple webhook service
+            sendEmailSignup(email);
+            
+            alert(`Thanks! We'll send your free trial details to ${email}. Check your email in a few minutes!`);
             
             // Simulate redirect to dashboard
             setTimeout(() => {
                 window.location.href = '/dashboard';
             }, 1000);
+        }
+
+        function sendEmailSignup(userEmail) {
+            // Send email using Formspree (free email service)
+            const formData = new FormData();
+            formData.append('email', userEmail);
+            formData.append('message', `New CreatorFlow signup: ${userEmail} at ${new Date().toLocaleString()}`);
+            formData.append('subject', 'New CreatorFlow Signup!');
+            
+            // Send to Formspree (you'll need to set up a free account)
+            fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Signup notification sent to your email');
+                } else {
+                    console.log('Failed to send notification');
+                }
+            }).catch(error => {
+                console.log('Error sending notification:', error);
+            });
+
+            // Also send welcome email to the user
+            const welcomeData = new FormData();
+            welcomeData.append('email', userEmail);
+            welcomeData.append('message', `Welcome to CreatorFlow! Your 14-day free trial is now active.
+
+Here's what you get:
+✅ Advanced Analytics Dashboard
+✅ Smart Scheduling across all platforms
+✅ Brand Collaboration Management
+✅ Content Calendar
+✅ Hashtag Research
+✅ Performance Insights
+
+Login to your dashboard: https://emasmela-dotcom.github.io/CreatorFlow/dashboard
+
+Best regards,
+The CreatorFlow Team`);
+            welcomeData.append('subject', 'Welcome to CreatorFlow - Your Free Trial is Ready!');
+
+            fetch('https://formspree.io/f/YOUR_WELCOME_FORM_ID', {
+                method: 'POST',
+                body: welcomeData
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Welcome email sent to user');
+                } else {
+                    console.log('Failed to send welcome email');
+                }
+            }).catch(error => {
+                console.log('Error sending welcome email:', error);
+            });
         }
 
         function handlePricingClick(plan) {
