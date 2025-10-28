@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
        })
 
       // Send confirmation email
-try {
+      console.log('Signup successful, attempting to send email to:', email);try {
   await resend.emails.send({
     from: 'onboarding@resend.dev',
     to: email,
