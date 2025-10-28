@@ -626,59 +626,26 @@
         }
 
         function sendEmailSignup(userEmail) {
-            // Send email using Formspree (free email service)
-            const formData = new FormData();
-            formData.append('email', userEmail);
-            formData.append('message', `New CreatorFlow signup: ${userEmail} at ${new Date().toLocaleString()}`);
-            formData.append('subject', 'New CreatorFlow Signup!');
-            
-            // Send to Formspree (you'll need to set up a free account)
-            fetch('https://formspree.io/f/YOUR_FORM_ID', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Signup notification sent to your email');
-                } else {
-                    console.log('Failed to send notification');
-                }
-            }).catch(error => {
-                console.log('Error sending notification:', error);
-            });
-
-            // Also send welcome email to the user
-            const welcomeData = new FormData();
-            welcomeData.append('email', userEmail);
-            welcomeData.append('message', `Welcome to CreatorFlow! Your 14-day free trial is now active.
-
-Here's what you get:
-✅ Advanced Analytics Dashboard
-✅ Smart Scheduling across all platforms
-✅ Brand Collaboration Management
-✅ Content Calendar
-✅ Hashtag Research
-✅ Performance Insights
-
-Login to your dashboard: https://creatorflow-live-kzvgihcn4-erics-projects-b395e20f.vercel.app/dashboard
-
-Best regards,
-The CreatorFlow Team`);
-            welcomeData.append('subject', 'Welcome to CreatorFlow - Your Free Trial is Ready!');
-
-            fetch('https://formspree.io/f/YOUR_WELCOME_FORM_ID', {
-                method: 'POST',
-                body: welcomeData
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Welcome email sent to user');
-                } else {
-                    console.log('Failed to send welcome email');
-                }
-            }).catch(error => {
-                console.log('Error sending welcome email:', error);
-            });
+    // Send email using Resend API
+    fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: userEmail,
+            action: 'signup'
+        })
+    }).then(response => {
+        if (response.ok) {
+            console.log('Signup successful, email sent via Resend');
+        } else {
+            console.log('Failed to send email via Resend');
         }
-
+    }).catch(error => {
+        console.log('Error sending email:', error);
+    });
+}
         function handlePricingClick(plan) {
             // Track pricing click
             gtag('event', 'pricing_click', {
