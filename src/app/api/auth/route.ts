@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-
+const resend = new Resend(process.env.RESEND_API_KEY);
 export const dynamic = 'force-static'
 
 export async function POST(request: NextRequest) {
@@ -9,10 +9,22 @@ export async function POST(request: NextRequest) {
 
     if (action === 'signup') {
       const { data, error } = await supabase.auth.signUp({
+        
         email,
         password,
-      })
+       })
 
+      // Send confirmation email
+try {
+  await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: email,
+    subject: 'Welcome to CreatorFlow!',
+    html: '<p>Welcome to CreatorFlow! Your account has been created successfully.</p>'
+  });
+} catch (emailError) {
+  console.error('Error sending welcome email:', emailError);
+}
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 400 })
       }
