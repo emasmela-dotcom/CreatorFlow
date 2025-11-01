@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse JSON fields and prepare backup data
-    const contentPosts = contentPostsResult.rows.map(row => ({
+    const contentPosts = contentPostsResult.rows.map((row: any) => ({
       id: row.id as string,
       user_id: row.user_id as string,
       platform: row.platform as string,
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       updated_at: row.updated_at as string
     }))
 
-    const analytics = analyticsResult.rows.map(row => ({
+    const analytics = analyticsResult.rows.map((row: any) => ({
       id: row.id as string,
       user_id: row.user_id as string,
       platform: row.platform as string,

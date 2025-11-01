@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3 } from 'lucide-react'
+import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, Sparkles, Search, TrendingUp, Hash, RefreshCw, Heart } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 
@@ -164,6 +164,87 @@ The CreatorFlow Team`,
         </div>
       </section>
 
+      {/* 8 Unique AI Tools Section - Teaser (Names Only) */}
+      <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-gray-900/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
+              EXCLUSIVE TO CREATORFLOW
+            </div>
+            <h2 className="text-4xl font-bold mb-4">8 AI Tools Nobody Else Has</h2>
+            <p className="text-xl text-gray-400 mb-6">Available exclusively with the Agency plan</p>
+            <p className="text-lg text-purple-400 font-semibold">🔒 Unlock full access and detailed features with Agency plan ($99/month)</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Search className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Engagement Predictor</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Hash className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <RefreshCw className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Heart className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
+            </div>
+
+            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <BarChart3 className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <button 
+              onClick={() => window.location.href = '/signup?plan=agency'}
+              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg font-semibold text-lg transition-all transform hover:scale-105"
+            >
+              Unlock All 8 Tools with Agency Plan →
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
@@ -173,7 +254,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Starter</h3>
               <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 3 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 2 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Basic analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
@@ -190,7 +271,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Growth</h3>
               <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 5 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 3 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 25 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Enhanced analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
@@ -211,7 +292,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
               <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 10 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 4 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 35 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Brand collaborations</li>
@@ -229,7 +310,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Business</h3>
               <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 5 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 50 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Premium analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced brand collaborations</li>

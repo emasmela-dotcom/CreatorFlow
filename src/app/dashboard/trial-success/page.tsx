@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 
-export default function TrialSuccessPage() {
+function TrialSuccessContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
@@ -54,6 +54,18 @@ export default function TrialSuccessPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function TrialSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    }>
+      <TrialSuccessContent />
+    </Suspense>
   )
 }
 

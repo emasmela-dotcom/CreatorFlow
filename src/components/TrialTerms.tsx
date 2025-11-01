@@ -24,14 +24,14 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       team?: string
     }> = {
       'Starter': {
-        fullAccounts: 3,
+        fullAccounts: 2,
         fullPosts: 15,
         analytics: 'Basic analytics',
         calendar: 'Content calendar',
         support: 'Email support'
       },
       'Growth': {
-        fullAccounts: 5,
+        fullAccounts: 3,
         fullPosts: 25,
         analytics: 'Enhanced analytics',
         calendar: 'Content calendar',
@@ -39,7 +39,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
         collaborations: 'Basic brand collaborations'
       },
       'Pro': {
-        fullAccounts: 10,
+        fullAccounts: 4,
         fullPosts: 35,
         analytics: 'Advanced analytics',
         calendar: 'Content calendar',
@@ -48,7 +48,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
         hashtag: true
       },
       'Business': {
-        fullAccounts: 15,
+        fullAccounts: 5,
         fullPosts: 50,
         analytics: 'Premium analytics',
         calendar: 'Content calendar',

@@ -1,15 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function CreatePost() {
+  const router = useRouter()
   const [content, setContent] = useState('')
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
   const [scheduledDate, setScheduledDate] = useState('')
   const [scheduledTime, setScheduledTime] = useState('')
   const [hashtags, setHashtags] = useState('')
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
+  const [postInfo, setPostInfo] = useState<{
+    monthlyLimit: number | null
+    purchased: number
+    postsThisMonth: number
+    totalAvailable: number
+    remaining: number
+  } | null>(null)
 
   const platforms = [
     { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
@@ -45,6 +54,31 @@ export default function CreatePost() {
     // Publish immediately
     console.log('Publishing now...', { content, selectedPlatforms, hashtags })
   }
+
+  useEffect(() => {
+    // Fetch post usage info
+    const token = localStorage.getItem('token')
+    if (token) {
+      fetch('/api/user/purchase-posts', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          setPostInfo({
+            monthlyLimit: data.monthlyLimit,
+            purchased: data.purchasedPosts || 0,
+            postsThisMonth: data.postsThisMonth || 0,
+            totalAvailable: data.totalAvailable || 0,
+            remaining: data.remaining || 0
+          })
+        }
+      })
+      .catch(err => console.error('Error fetching post info:', err))
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -87,6 +121,58 @@ export default function CreatePost() {
         {/* Main Content */}
         <main className="flex-1 p-6">
           <div className="max-w-4xl mx-auto space-y-6">
+            {/* Post Usage Warning - Low on Posts */}
+            {postInfo && postInfo.remaining <= 5 && (
+              <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border-2 border-yellow-500 rounded-xl p-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-yellow-400 mb-2">Low on Posts!</h4>
+                    <p className="text-sm text-gray-300 mb-3">
+                      You have <strong className="text-white">{postInfo.remaining} posts remaining</strong> this month.
+                      {postInfo.remaining === 0 && (
+                        <span className="text-red-400 font-semibold"> You've used all your posts!</span>
+                      )}
+                    </p>
+                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 mb-3">
+                      <h5 className="font-semibold text-blue-400 text-xs mb-2">📋 How Post Rollover Works:</h5>
+                      <ul className="text-xs text-gray-300 space-y-1 ml-4">
+                        <li>• <strong className="text-white">Monthly posts</strong> reset each month (from your plan)</li>
+                        <li>• <strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</li>
+                        <li>• <strong className="text-white">Monthly posts are used first</strong>, then purchased posts</li>
+                      </ul>
+                    </div>
+                    <button
+                      onClick={() => router.push('/dashboard')}
+                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg font-semibold text-sm transition-all"
+                    >
+                      Buy Additional Posts →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Post Usage Info - Normal */}
+            {postInfo && postInfo.remaining > 5 && (
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-300">
+                    Posts remaining: <strong className="text-blue-400">{postInfo.remaining}</strong>
+                    {postInfo.purchased > 0 && (
+                      <span className="text-green-400 ml-2">({postInfo.purchased} purchased posts roll over forever)</span>
+                    )}
+                  </span>
+                  <button
+                    onClick={() => router.push('/dashboard')}
+                    className="text-blue-400 hover:text-blue-300 text-xs underline"
+                  >
+                    Buy More
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Platform Selection */}
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <h3 className="text-lg font-semibold mb-4">Select Platforms</h3>

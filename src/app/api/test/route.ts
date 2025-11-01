@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       args: []
     })
 
-    const tables = tablesResult.rows.map(row => row.name as string)
+    const tables = tablesResult.rows.map((row: any) => row.name as string)
 
     return NextResponse.json({
       status: 'healthy',

@@ -17,7 +17,7 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text()
-    const headersList = headers()
+    const headersList = await headers()
     const signature = headersList.get('stripe-signature')
 
     if (!signature) {
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
             })
 
             // Prepare backup data
-            const contentPosts = contentPostsResult.rows.map(row => ({
+            const contentPosts = contentPostsResult.rows.map((row: any) => ({
               id: row.id as string,
               user_id: row.user_id as string,
               platform: row.platform as string,
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
               updated_at: row.updated_at as string
             }))
 
-            const analytics = analyticsResult.rows.map(row => ({
+            const analytics = analyticsResult.rows.map((row: any) => ({
               id: row.id as string,
               user_id: row.user_id as string,
               platform: row.platform as string,

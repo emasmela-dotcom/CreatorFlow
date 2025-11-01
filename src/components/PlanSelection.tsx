@@ -21,7 +21,7 @@ const plans: Plan[] = [
     price: 19,
     description: 'Perfect for individual creators getting started',
     features: [
-      '3 social accounts',
+      '2 social accounts',
       '15 posts per month (shared across all accounts)',
       'Basic analytics',
       'Content calendar',
@@ -34,7 +34,7 @@ const plans: Plan[] = [
     price: 29,
     description: 'For creators ready to scale',
     features: [
-      '5 social accounts',
+      '3 social accounts',
       '25 posts per month (shared across all accounts)',
       'Enhanced analytics',
       'Content calendar',
@@ -49,7 +49,7 @@ const plans: Plan[] = [
     description: 'Best for growing creators',
     popular: true,
     features: [
-      '10 social accounts',
+      '4 social accounts',
       '35 posts per month (shared across all accounts)',
       'Advanced analytics',
       'Brand collaborations',
@@ -63,7 +63,7 @@ const plans: Plan[] = [
     price: 49,
     description: 'For serious creators and small teams',
     features: [
-      '15 social accounts',
+      '5 social accounts',
       '50 posts per month (shared across all accounts)',
       'Premium analytics',
       'Advanced brand collaborations',

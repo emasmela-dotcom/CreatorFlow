@@ -9,13 +9,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
-// Pricing for additional posts (per post)
-const ADDITIONAL_POST_PRICE = 0.50 // $0.50 per additional post
+// Pricing for additional posts
 const ADDITIONAL_POST_PACKAGES = [
   { quantity: 10, price: 4.00, savings: '20%' },
   { quantity: 25, price: 9.00, savings: '28%' },
   { quantity: 50, price: 16.00, savings: '36%' },
   { quantity: 100, price: 30.00, savings: '40%' },
+  { quantity: 500, price: 100.00, savings: '60%' }, // $0.20/post
 ]
 
 /**
@@ -69,8 +69,7 @@ export async function GET(request: NextRequest) {
       postsThisMonth: postsThisMonth,
       totalAvailable: totalAvailable,
       remaining: remaining,
-      packages: ADDITIONAL_POST_PACKAGES,
-      individualPrice: ADDITIONAL_POST_PRICE
+      packages: ADDITIONAL_POST_PACKAGES
     })
   } catch (error: any) {
     console.error('Get post purchase info error:', error)
@@ -114,8 +113,9 @@ export async function POST(request: NextRequest) {
       }
       price = packageInfo.price
     } else {
-      // Individual post pricing
-      price = quantity * ADDITIONAL_POST_PRICE
+      return NextResponse.json({ 
+        error: 'Please select one of the available packages' 
+      }, { status: 400 })
     }
 
     // Get user's Stripe customer ID

@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
 
-export default function SignupPage() {
+function SignupPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const preSelectedPlan = searchParams.get('plan') as PlanType | null
@@ -331,6 +331,18 @@ export default function SignupPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    }>
+      <SignupPageContent />
+    </Suspense>
   )
 }
 

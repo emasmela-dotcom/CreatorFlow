@@ -1,11 +1,20 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, Sparkles, Hash, RefreshCw, Heart, Zap } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview')
+  const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
+  const [postInfo, setPostInfo] = useState<{
+    monthlyLimit: number | null
+    purchased: number
+    postsThisMonth: number
+    totalAvailable: number
+    remaining: number
+    packages: Array<{ quantity: number; price: number; savings: string }>
+  } | null>(null)
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -31,6 +40,45 @@ export default function Dashboard() {
     reach: 45000,
     impressions: 180000
   }
+
+  useEffect(() => {
+    // Fetch user subscription tier and post info
+    const token = localStorage.getItem('token')
+    if (token) {
+      // Fetch subscription
+      fetch('/api/subscription/manage', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        setSubscriptionTier(data.plan || null)
+      })
+      .catch(err => console.error('Error fetching subscription:', err))
+
+      // Fetch post purchase info
+      fetch('/api/user/purchase-posts', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          setPostInfo({
+            monthlyLimit: data.monthlyLimit,
+            purchased: data.purchasedPosts || 0,
+            postsThisMonth: data.postsThisMonth || 0,
+            totalAvailable: data.totalAvailable || 0,
+            remaining: data.remaining || 0,
+            packages: data.packages || []
+          })
+        }
+      })
+      .catch(err => console.error('Error fetching post info:', err))
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -318,6 +366,200 @@ export default function Dashboard() {
                   <Users className="w-16 h-16 mx-auto mb-4 text-gray-600" />
                   <p>No active collaborations yet</p>
                   <p className="text-sm">Start reaching out to brands to grow your partnerships</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Purchase Additional Posts Section */}
+          {activeTab === 'overview' && postInfo && (
+            <div className="space-y-6 mt-6">
+              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-2 border-blue-500 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">Post Usage</h3>
+                    <p className="text-gray-300 text-sm">
+                      Monthly limit: <span className="font-semibold">{postInfo.monthlyLimit || 0} posts</span> • 
+                      Purchased: <span className="font-semibold text-green-400">{postInfo.purchased} posts</span> • 
+                      Used this month: <span className="font-semibold">{postInfo.postsThisMonth}</span>
+                    </p>
+                    <p className="text-purple-400 text-sm mt-2 font-semibold">
+                      ✨ Remaining: {postInfo.remaining} posts • Purchased posts roll over forever!
+                    </p>
+                  </div>
+                  {postInfo.remaining < 5 && (
+                    <div className="bg-yellow-500/20 border border-yellow-500 px-4 py-2 rounded-lg">
+                      <p className="text-yellow-400 font-semibold text-sm">Low on posts!</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="border-t border-blue-500/30 pt-4">
+                  <h4 className="font-semibold mb-3">Buy Additional Posts</h4>
+                  
+                  {/* Rollover Logic Explanation */}
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-4">
+                    <h5 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
+                      <span>📋</span> How Post Rollover Works
+                    </h5>
+                    <ul className="text-sm text-gray-300 space-y-2 ml-6">
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">1.</span>
+                        <span><strong className="text-white">Monthly posts</strong> reset each month (from your plan)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">2.</span>
+                        <span><strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">3.</span>
+                        <span><strong className="text-white">Monthly posts are used first</strong>, then purchased posts are used</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-purple-400 mt-1">✨</span>
+                        <span><strong className="text-purple-400">Example:</strong> If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month!</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+                    {postInfo.packages.map((pkg, idx) => (
+                      <div 
+                        key={idx}
+                        className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 hover:border-blue-500 transition-all cursor-pointer"
+                        onClick={async () => {
+                          const token = localStorage.getItem('token')
+                          if (!token) return
+                          
+                          try {
+                            const res = await fetch('/api/user/purchase-posts', {
+                              method: 'POST',
+                              headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({ 
+                                quantity: pkg.quantity, 
+                                packageIndex: idx 
+                              })
+                            })
+                            const data = await res.json()
+                            if (data.url) {
+                              window.location.href = data.url
+                            }
+                          } catch (err) {
+                            console.error('Purchase error:', err)
+                            alert('Error initiating purchase. Please try again.')
+                          }
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-blue-400 mb-1">${pkg.price}</div>
+                          <div className="text-sm text-gray-300 mb-1">{pkg.quantity} Posts</div>
+                          <div className="text-xs text-green-400 mb-2">{pkg.savings} Savings</div>
+                          <div className="text-xs text-gray-400">${(pkg.price / pkg.quantity).toFixed(2)}/post</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 8 Unique AI Tools - Only for Agency Plan */}
+          {subscriptionTier === 'agency' && (
+            <div className="space-y-6 mt-8">
+              <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-2 border-purple-500 rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Sparkles className="w-8 h-8 text-purple-400" />
+                  <h2 className="text-2xl font-bold">Your Exclusive AI Tools</h2>
+                  <span className="ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    AGENCY EXCLUSIVE
+                  </span>
+                </div>
+                <p className="text-gray-300 mb-6">Unlock the full power of these 8 unique AI tools available only to Agency plan members</p>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Sparkles className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Search className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Engagement Predictor</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Hash className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to find the perfect hashtags for your content.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <RefreshCw className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, post everywhere perfectly.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <Heart className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">AI-powered brand-creator matching for perfect partnerships. Find brands that align with your audience and values.</p>
+                  </div>
+
+                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
+                    </div>
+                    <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
+                  </div>
                 </div>
               </div>
             </div>
