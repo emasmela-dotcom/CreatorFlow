@@ -85,7 +85,7 @@ function SignupPageContent() {
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Home</span>
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
             CreatorFlow
           </h1>
           <div className="w-24" /> {/* Spacer for centering */}
@@ -146,7 +146,7 @@ function SignupPageContent() {
               <div className="mt-8 text-center">
                 <button
                   onClick={() => setStep('account')}
-                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all"
+                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
                 >
                   Continue to Account Creation
                 </button>
@@ -227,7 +227,7 @@ function SignupPageContent() {
                 <button
                   type="submit"
                   disabled={loading || !selectedPlan}
-                  className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Creating Account...' : 'Start Free Trial'}
                 </button>
@@ -307,7 +307,7 @@ function SignupPageContent() {
                     }
                   }}
                   disabled={loading}
-                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                 >
                   <CreditCard className="w-5 h-5" />
                   {loading ? 'Processing...' : 'Proceed to Secure Checkout'}

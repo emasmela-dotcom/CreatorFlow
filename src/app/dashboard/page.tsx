@@ -86,7 +86,7 @@ export default function Dashboard() {
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
               CreatorFlow
             </h1>
             <div className="hidden md:flex items-center gap-6">
@@ -135,7 +135,7 @@ export default function Dashboard() {
         {/* Sidebar */}
         <aside className="w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6">
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-lg">
+            <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg">
               <h3 className="font-semibold mb-2">Quick Stats</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -238,7 +238,7 @@ export default function Dashboard() {
                       <p className="text-gray-400 text-sm">Impressions</p>
                       <p className="text-2xl font-bold">{analytics.impressions.toLocaleString()}</p>
                     </div>
-                    <BarChart3 className="w-8 h-8 text-pink-400" />
+                    <BarChart3 className="w-8 h-8 text-indigo-400" />
                   </div>
                   <div className="flex items-center mt-2 text-green-400 text-sm">
                     <TrendingUp className="w-4 h-4 mr-1" />
@@ -307,7 +307,7 @@ export default function Dashboard() {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Content Management</h2>
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center gap-2">
+                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2">
                   <Plus className="w-5 h-5" />
                   Create New Post
                 </button>
@@ -470,11 +470,11 @@ export default function Dashboard() {
           {/* 8 Unique AI Tools - Only for Agency Plan */}
           {subscriptionTier === 'agency' && (
             <div className="space-y-6 mt-8">
-              <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-2 border-purple-500 rounded-xl p-6">
+              <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Sparkles className="w-8 h-8 text-purple-400" />
                   <h2 className="text-2xl font-bold">Your Exclusive AI Tools</h2>
-                  <span className="ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="ml-auto bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     AGENCY EXCLUSIVE
                   </span>
                 </div>
@@ -483,7 +483,7 @@ export default function Dashboard() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Sparkles className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
@@ -493,7 +493,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Search className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
@@ -503,7 +503,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <TrendingUp className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Engagement Predictor</h3>
@@ -513,7 +513,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Zap className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
@@ -523,7 +523,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Hash className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
@@ -533,7 +533,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <RefreshCw className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
@@ -543,7 +543,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <Heart className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
@@ -553,7 +553,7 @@ export default function Dashboard() {
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <BarChart3 className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>

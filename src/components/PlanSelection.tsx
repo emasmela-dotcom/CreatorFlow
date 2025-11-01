@@ -164,7 +164,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
               className={`
                 w-full mt-6 py-3 rounded-lg font-semibold transition-all
                 ${isSelected
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                  ? 'bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600'
                   : 'bg-gray-700 hover:bg-gray-600'
                 }
                 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}

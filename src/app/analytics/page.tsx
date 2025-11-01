@@ -137,7 +137,7 @@ export default function AnalyticsPage() {
                 <p className="text-gray-400 text-sm">Engagement Rate</p>
                 <p className="text-3xl font-bold">{metrics.engagementRate}%</p>
               </div>
-              <Heart className="w-8 h-8 text-pink-400" />
+              <Heart className="w-8 h-8 text-indigo-400" />
             </div>
             <div className="flex items-center mt-2 text-green-400 text-sm">
               <TrendingUp className="w-4 h-4 mr-1" />
@@ -195,7 +195,7 @@ export default function AnalyticsPage() {
               {platformStats.map((stat, index) => (
                 <div key={index} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">{stat.platform[0]}</span>
                     </div>
                     <div>
@@ -259,7 +259,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <h4 className="font-semibold mb-4">Likes</h4>
-            <div className="text-3xl font-bold text-pink-400 mb-2">{metrics.totalLikes.toLocaleString()}</div>
+            <div className="text-3xl font-bold text-indigo-400 mb-2">{metrics.totalLikes.toLocaleString()}</div>
             <div className="flex items-center text-green-400 text-sm">
               <TrendingUp className="w-4 h-4 mr-1" />
               +15% from last month

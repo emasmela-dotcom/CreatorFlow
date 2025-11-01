@@ -168,7 +168,7 @@ The CreatorFlow Team`,
       <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
+            <div className="inline-block bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
               EXCLUSIVE TO CREATORFLOW
             </div>
             <h2 className="text-4xl font-bold mb-4">8 AI Tools Nobody Else Has</h2>
@@ -178,56 +178,56 @@ The CreatorFlow Team`,
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Search className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Engagement Predictor</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Zap className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Hash className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <RefreshCw className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <BarChart3 className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
@@ -237,7 +237,7 @@ The CreatorFlow Team`,
           <div className="text-center mt-8">
             <button 
               onClick={() => window.location.href = '/signup?plan=agency'}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg font-semibold text-lg transition-all transform hover:scale-105"
+              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold text-lg transition-all transform hover:scale-105"
             >
               Unlock All 8 Tools with Agency Plan →
             </button>
@@ -326,8 +326,8 @@ The CreatorFlow Team`,
                 Get Started
               </button>
             </div>
-            <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 p-8 rounded-xl border-2 border-purple-500 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-xl border-2 border-purple-500 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Ultimate Tool
               </div>
               <h3 className="text-2xl font-bold mb-4">Agency</h3>
@@ -346,7 +346,7 @@ The CreatorFlow Team`,
               </ul>
               <button 
                 onClick={() => handlePricingClick('agency')}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg transition-all font-semibold"
+                className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-all font-semibold"
               >
                 Get Started
               </button>

@@ -109,7 +109,7 @@ export default function CollaborationsPage() {
             </select>
             <button
               onClick={() => setShowNewCollaboration(true)}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               New Collaboration
@@ -172,7 +172,7 @@ export default function CollaborationsPage() {
             <div key={collab.id} className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold text-lg">{collab.brand[0]}</span>
                   </div>
                   <div>
@@ -210,7 +210,7 @@ export default function CollaborationsPage() {
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-gray-700 rounded-full h-2">
                       <div 
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
+                        className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full"
                         style={{ width: `${(collab.completed / collab.total) * 100}%` }}
                       ></div>
                     </div>
@@ -250,7 +250,7 @@ export default function CollaborationsPage() {
             <p className="text-gray-400 mb-6">Try adjusting your search or filter criteria</p>
             <button
               onClick={() => setShowNewCollaboration(true)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
             >
               Create Your First Collaboration
             </button>
@@ -329,7 +329,7 @@ export default function CollaborationsPage() {
                 >
                   Cancel
                 </button>
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all">
+                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all">
                   Create Collaboration
                 </button>
               </div>

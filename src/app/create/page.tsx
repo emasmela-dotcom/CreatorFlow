@@ -21,7 +21,7 @@ export default function CreatePost() {
   } | null>(null)
 
   const platforms = [
-    { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+    { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-purple-500 to-indigo-500' },
     { id: 'twitter', name: 'Twitter', icon: Twitter, color: 'bg-blue-500' },
     { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-600' },
     { id: 'youtube', name: 'YouTube', icon: Youtube, color: 'bg-red-500' },
@@ -108,7 +108,7 @@ export default function CreatePost() {
             </button>
             <button
               onClick={handlePublish}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2"
             >
               <Send className="w-4 h-4" />
               Publish Now
@@ -312,7 +312,7 @@ export default function CreatePost() {
               <h4 className="font-semibold mb-3">Preview</h4>
               <div className="bg-gray-700 p-4 rounded-lg">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"></div>
                   <div>
                     <p className="font-medium text-sm">Your Name</p>
                     <p className="text-xs text-gray-400">2h ago</p>

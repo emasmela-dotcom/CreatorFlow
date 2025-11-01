@@ -43,7 +43,7 @@ function TrialSuccessContent() {
 
         <button
           onClick={() => router.push('/dashboard?trial_started=true')}
-          className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-2"
+          className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
         >
           Go to Dashboard
           <ArrowRight className="w-5 h-5" />
