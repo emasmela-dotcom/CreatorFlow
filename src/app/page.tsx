@@ -145,19 +145,22 @@ The CreatorFlow Team`,
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Everything you need to grow as a creator</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-              <BarChart3 className="w-12 h-12 text-blue-400 mb-4" />
+            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
+              <div className="text-xs font-mono text-gray-500 mb-3">ANALYTICS</div>
               <h3 className="text-xl font-semibold mb-4">Analytics Dashboard</h3>
+              <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400">Track your performance across all platforms with real-time analytics and insights.</p>
             </div>
-            <div className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-              <Zap className="w-12 h-12 text-blue-400 mb-4" />
+            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
+              <div className="text-xs font-mono text-gray-500 mb-3">AUTOMATION</div>
               <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
+              <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400">Schedule posts across Instagram, Twitter, LinkedIn, and TikTok with optimal timing.</p>
             </div>
-            <div className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-              <Users className="w-12 h-12 text-blue-400 mb-4" />
+            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
+              <div className="text-xs font-mono text-gray-500 mb-3">PARTNERSHIPS</div>
               <h3 className="text-xl font-semibold mb-4">Brand Collaborations</h3>
+              <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400">Manage partnerships, track campaigns, and grow your brand relationships.</p>
             </div>
           </div>
@@ -177,60 +180,60 @@ The CreatorFlow Team`,
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FileText className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">01</div>
+              <h3 className="text-lg font-semibold text-white">AI Brand Voice Analyzer</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Brand consistency analysis</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FileSearch className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">02</div>
+              <h3 className="text-lg font-semibold text-white">Content Gap Analyzer</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Competitive content intelligence</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Activity className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Engagement Predictor</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">03</div>
+              <h3 className="text-lg font-semibold text-white">Engagement Predictor</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Performance forecasting engine</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Radio className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">04</div>
+              <h3 className="text-lg font-semibold text-white">Viral Moment Detector</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Real-time trend analysis</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Tag className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">05</div>
+              <h3 className="text-lg font-semibold text-white">Smart Hashtag Optimizer</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Context-aware optimization</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Layers className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">06</div>
+              <h3 className="text-lg font-semibold text-white">Multi-Platform Reformatter</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Cross-platform content adaptation</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Handshake className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">07</div>
+              <h3 className="text-lg font-semibold text-white">Collaboration Matchmaker</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Strategic partnership matching</p>
             </div>
 
-            <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
+            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
+              <div className="text-sm font-mono text-gray-400 mb-2">08</div>
+              <h3 className="text-lg font-semibold text-white">Sentiment Analysis Engine</h3>
+              <div className="h-px bg-gray-700 mt-3 mb-2"></div>
+              <p className="text-xs text-gray-500">Audience sentiment tracking</p>
             </div>
           </div>
 

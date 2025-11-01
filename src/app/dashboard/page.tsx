@@ -471,7 +471,6 @@ export default function Dashboard() {
             <div className="space-y-6 mt-8">
               <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <FileText className="w-8 h-8 text-purple-400" />
                   <h2 className="text-2xl font-bold">Your Exclusive AI Tools</h2>
                   <span className="ml-auto bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     AGENCY EXCLUSIVE
@@ -480,83 +479,91 @@ export default function Dashboard() {
                 <p className="text-gray-300 mb-6">Unlock the full power of these 8 unique AI tools available only to Agency plan members</p>
                 
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <FileText className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">01</div>
+                        <h3 className="text-lg font-semibold text-white">AI Brand Voice Analyzer</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <FileSearch className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">02</div>
+                        <h3 className="text-lg font-semibold text-white">Content Gap Analyzer</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Activity className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">03</div>
+                        <h3 className="text-lg font-semibold text-white">Engagement Predictor</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Engagement Predictor</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Radio className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">04</div>
+                        <h3 className="text-lg font-semibold text-white">Viral Moment Detector</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Tag className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">05</div>
+                        <h3 className="text-lg font-semibold text-white">Smart Hashtag Optimizer</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Layers className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">06</div>
+                        <h3 className="text-lg font-semibold text-white">Multi-Platform Reformatter</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Handshake className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">07</div>
+                        <h3 className="text-lg font-semibold text-white">Collaboration Matchmaker</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Brain className="w-6 h-6 text-white" />
+                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="text-xs font-mono text-gray-500 mb-1">08</div>
+                        <h3 className="text-lg font-semibold text-white">Sentiment Analysis Engine</h3>
                       </div>
-                      <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
                     </div>
+                    <div className="h-px bg-gray-700 mb-3"></div>
                     <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
                   </div>
                 </div>
