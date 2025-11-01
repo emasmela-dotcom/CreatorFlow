@@ -173,7 +173,7 @@ The CreatorFlow Team`,
             </div>
             <h2 className="text-4xl font-bold mb-4">8 AI Tools Nobody Else Has</h2>
             <p className="text-xl text-gray-400 mb-6">Available exclusively with the Agency plan</p>
-            <p className="text-lg text-purple-400 font-semibold">🔒 Unlock full access and detailed features with Agency plan ($99/month)</p>
+            <p className="text-lg text-purple-400 font-semibold">Unlock full access and detailed features with Agency plan ($99/month)</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">

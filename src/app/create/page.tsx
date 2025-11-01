@@ -127,15 +127,15 @@ export default function CreatePost() {
                 <div className="flex items-start gap-3">
                   <AlertCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Low on Posts!</h4>
+                    <h4 className="font-semibold text-yellow-400 mb-2">Low on Posts</h4>
                     <p className="text-sm text-gray-300 mb-3">
                       You have <strong className="text-white">{postInfo.remaining} posts remaining</strong> this month.
                       {postInfo.remaining === 0 && (
-                        <span className="text-red-400 font-semibold"> You've used all your posts!</span>
+                        <span className="text-red-400 font-semibold"> You have used all available posts</span>
                       )}
                     </p>
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 mb-3">
-                      <h5 className="font-semibold text-blue-400 text-xs mb-2">📋 How Post Rollover Works:</h5>
+                      <h5 className="font-semibold text-blue-400 text-xs mb-2">How Post Rollover Works:</h5>
                       <ul className="text-xs text-gray-300 space-y-1 ml-4">
                         <li>• <strong className="text-white">Monthly posts</strong> reset each month (from your plan)</li>
                         <li>• <strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</li>

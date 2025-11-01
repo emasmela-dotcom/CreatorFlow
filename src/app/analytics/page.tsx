@@ -37,7 +37,7 @@ export default function AnalyticsPage() {
     {
       id: 1,
       platform: 'Instagram',
-      content: 'Sunset photography from my latest trip 🌅',
+      content: 'Photography content from recent work',
       date: '2024-01-15',
       likes: 2400,
       comments: 180,
@@ -48,7 +48,7 @@ export default function AnalyticsPage() {
     {
       id: 2,
       platform: 'Twitter',
-      content: 'Just launched my new course! Excited to share this journey 🚀',
+      content: 'Course launch announcement',
       date: '2024-01-14',
       likes: 1800,
       comments: 95,

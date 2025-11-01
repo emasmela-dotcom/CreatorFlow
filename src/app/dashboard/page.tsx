@@ -19,7 +19,7 @@ export default function Dashboard() {
     {
       id: 1,
       platform: 'Instagram',
-      content: 'Check out this amazing sunset! 🌅 #photography #nature',
+      content: 'Photography showcase #photography #nature',
       scheduledAt: '2024-01-15T18:00:00Z',
       status: 'scheduled',
       engagement: { likes: 0, comments: 0, shares: 0 }
@@ -27,7 +27,7 @@ export default function Dashboard() {
     {
       id: 2,
       platform: 'Twitter',
-      content: 'Just launched my new course! Excited to share this journey with you all 🚀',
+      content: 'New course launch announcement',
       scheduledAt: '2024-01-16T12:00:00Z',
       status: 'draft',
       engagement: { likes: 0, comments: 0, shares: 0 }
@@ -384,12 +384,12 @@ export default function Dashboard() {
                       Used this month: <span className="font-semibold">{postInfo.postsThisMonth}</span>
                     </p>
                     <p className="text-purple-400 text-sm mt-2 font-semibold">
-                      ✨ Remaining: {postInfo.remaining} posts • Purchased posts roll over forever!
+                      Remaining: {postInfo.remaining} posts • Purchased posts roll over forever
                     </p>
                   </div>
                   {postInfo.remaining < 5 && (
                     <div className="bg-yellow-500/20 border border-yellow-500 px-4 py-2 rounded-lg">
-                      <p className="text-yellow-400 font-semibold text-sm">Low on posts!</p>
+                      <p className="text-yellow-400 font-semibold text-sm">Low on posts</p>
                     </div>
                   )}
                 </div>
@@ -400,7 +400,7 @@ export default function Dashboard() {
                   {/* Rollover Logic Explanation */}
                   <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-4">
                     <h5 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
-                      <span>📋</span> How Post Rollover Works
+                      How Post Rollover Works
                     </h5>
                     <ul className="text-sm text-gray-300 space-y-2 ml-6">
                       <li className="flex items-start gap-2">
@@ -416,8 +416,7 @@ export default function Dashboard() {
                         <span><strong className="text-white">Monthly posts are used first</strong>, then purchased posts are used</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-purple-400 mt-1">✨</span>
-                        <span><strong className="text-purple-400">Example:</strong> If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month!</span>
+                        <span><strong className="text-purple-400">Example:</strong> If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month</span>
                       </li>
                     </ul>
                   </div>
@@ -528,7 +527,7 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
                     </div>
-                    <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to find the perfect hashtags for your content.</p>
+                    <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
                   </div>
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
@@ -538,7 +537,7 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
                     </div>
-                    <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, post everywhere perfectly.</p>
+                    <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
                   </div>
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
@@ -548,7 +547,7 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
                     </div>
-                    <p className="text-sm text-gray-400">AI-powered brand-creator matching for perfect partnerships. Find brands that align with your audience and values.</p>
+                    <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
                   </div>
 
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
