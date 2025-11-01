@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, Sparkles, Hash, RefreshCw, Heart, Zap } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 
 export default function Dashboard() {
@@ -471,7 +471,7 @@ export default function Dashboard() {
             <div className="space-y-6 mt-8">
               <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Sparkles className="w-8 h-8 text-purple-400" />
+                  <FileText className="w-8 h-8 text-purple-400" />
                   <h2 className="text-2xl font-bold">Your Exclusive AI Tools</h2>
                   <span className="ml-auto bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     AGENCY EXCLUSIVE
@@ -483,7 +483,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Sparkles className="w-6 h-6 text-white" />
+                        <FileText className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
                     </div>
@@ -493,7 +493,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Search className="w-6 h-6 text-white" />
+                        <FileSearch className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
                     </div>
@@ -503,7 +503,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <TrendingUp className="w-6 h-6 text-white" />
+                        <Activity className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Engagement Predictor</h3>
                     </div>
@@ -513,7 +513,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Zap className="w-6 h-6 text-white" />
+                        <Radio className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
                     </div>
@@ -523,7 +523,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Hash className="w-6 h-6 text-white" />
+                        <Tag className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
                     </div>
@@ -533,7 +533,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <RefreshCw className="w-6 h-6 text-white" />
+                        <Layers className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
                     </div>
@@ -543,7 +543,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <Heart className="w-6 h-6 text-white" />
+                        <Handshake className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
                     </div>
@@ -553,7 +553,7 @@ export default function Dashboard() {
                   <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/30">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                        <BarChart3 className="w-6 h-6 text-white" />
+                        <Brain className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
                     </div>

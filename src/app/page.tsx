@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, Sparkles, Search, TrendingUp, Hash, RefreshCw, Heart } from 'lucide-react'
+import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 
@@ -179,56 +179,56 @@ The CreatorFlow Team`,
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-6 h-6 text-white" />
+                <FileText className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">AI Brand Voice Analyzer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Search className="w-6 h-6 text-white" />
+                <FileSearch className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Content Gap Analyzer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-6 h-6 text-white" />
+                <Activity className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Engagement Predictor</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Zap className="w-6 h-6 text-white" />
+                <Radio className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Viral Moment Detector</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Hash className="w-6 h-6 text-white" />
+                <Tag className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Smart Hashtag Optimizer</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <RefreshCw className="w-6 h-6 text-white" />
+                <Layers className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Multi-Platform Reformatter</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Heart className="w-6 h-6 text-white" />
+                <Handshake className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Collaboration Matchmaker</h3>
             </div>
 
             <div className="bg-gray-800/50 p-6 rounded-xl border border-purple-500/20 flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <BarChart3 className="w-6 h-6 text-white" />
+                <Brain className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold">Sentiment Analysis Engine</h3>
             </div>
