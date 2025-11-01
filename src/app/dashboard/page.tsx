@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search } from 'lucide-react'
+import TrialStatusBanner from './components/TrialStatusBanner'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview')
@@ -136,6 +137,8 @@ export default function Dashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
+          <TrialStatusBanner />
+          
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

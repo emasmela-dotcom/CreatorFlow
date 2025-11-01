@@ -34,7 +34,7 @@ Here's what you get:
 ✅ Hashtag Research
 ✅ Performance Insights
 
-Login to your dashboard: https://creatorflow-live-6stau440i-erics-projects-b395e20f.vercel.app/dashboard
+Login to your dashboard: ${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai'}/dashboard
 
 Best regards,
 The CreatorFlow Team`,
@@ -102,9 +102,8 @@ The CreatorFlow Team`,
     trackEvent('pricing_click', 'conversion', plan)
     trackConversionEvent('pricing_click', plan === 'starter' ? 19 : plan === 'pro' ? 49 : 99)
     
-    // Redirect to pricing or signup
-    alert(`Redirecting to ${plan} plan signup...`)
-    window.location.href = '/dashboard'
+    // Redirect to signup with plan pre-selected
+    window.location.href = `/signup?plan=${plan}`
   }
 
   return (
@@ -130,14 +129,14 @@ The CreatorFlow Team`,
               className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80"
             />
             <button
-              onClick={handleEmailSubmit}
+              onClick={() => window.location.href = '/signup'}
               className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2"
             >
               Start Free Trial
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-sm text-gray-400 mt-4">No credit card required • 14-day free trial</p>
+          <p className="text-sm text-gray-400 mt-4">Credit card required • 14-day free trial (no charge during trial)</p>
         </div>
       </section>
 
@@ -169,18 +168,37 @@ The CreatorFlow Team`,
       <section className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700">
               <h3 className="text-2xl font-bold mb-4">Starter</h3>
               <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 3 social accounts</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 30 posts per month</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Basic analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Email support</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('starter')}
+                className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+              >
+                Get Started
+              </button>
+            </div>
+            <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700">
+              <h3 className="text-2xl font-bold mb-4">Growth</h3>
+              <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 5 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 25 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Enhanced analytics</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Basic brand collaborations</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Email support</li>
+              </ul>
+              <button 
+                onClick={() => handlePricingClick('growth')}
                 className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
               >
                 Get Started
@@ -191,13 +209,14 @@ The CreatorFlow Team`,
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
-              <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
+              <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 10 social accounts</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited posts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 35 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced analytics</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Brand collaborations</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Hashtag research</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('pro')}
@@ -207,18 +226,46 @@ The CreatorFlow Team`,
               </button>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700">
+              <h3 className="text-2xl font-bold mb-4">Business</h3>
+              <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 social accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 50 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Premium analytics</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced brand collaborations</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Hashtag research</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content scheduling AI</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Team collaboration (up to 3 members)</li>
+              </ul>
+              <button 
+                onClick={() => handlePricingClick('business')}
+                className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+              >
+                Get Started
+              </button>
+            </div>
+            <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 p-8 rounded-xl border-2 border-purple-500 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                Ultimate Tool
+              </div>
               <h3 className="text-2xl font-bold mb-4">Agency</h3>
               <div className="text-4xl font-bold mb-6">$99<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited accounts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited posts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> White-label options</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Team collaboration</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Full team collaboration</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Custom integrations</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Dedicated account manager</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> API access</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced reporting</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Multi-brand management</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('agency')}
-                className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg transition-all font-semibold"
               >
                 Get Started
               </button>
@@ -233,7 +280,7 @@ The CreatorFlow Team`,
           <h2 className="text-4xl font-bold mb-6">Ready to grow your creator business?</h2>
           <p className="text-xl text-gray-400 mb-8">Join thousands of creators who are already using CreatorFlow to scale their content.</p>
           <button 
-            onClick={handleEmailSubmit}
+            onClick={() => window.location.href = '/signup'}
             className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2 mx-auto"
           >
             Start Your Free Trial

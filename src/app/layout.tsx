@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: 'CreatorFlow - The Ultimate Content Creator Platform',
     description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue.',
     type: 'website',
-    url: 'https://creatorflow-public-64sayqv0n-erics-projects-b395e20f.vercel.app',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
   },
 }
 
