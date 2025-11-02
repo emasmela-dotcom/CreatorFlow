@@ -479,92 +479,174 @@ export default function Dashboard() {
                 <p className="text-gray-300 mb-6">Unlock the full power of these 8 unique AI tools available only to Agency plan members</p>
                 
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">01</div>
-                        <h3 className="text-lg font-semibold text-white">AI Brand Voice Analyzer</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20">
+                          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full blur-xl"></div>
+                          <div className="relative w-full h-full border-2 border-blue-400/30 rounded-full flex items-center justify-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-80"></div>
+                          </div>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
+                      <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">02</div>
-                        <h3 className="text-lg font-semibold text-white">Content Gap Analyzer</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20">
+                          <svg className="w-full h-full" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="35" fill="none" stroke="url(#dashGrad1)" strokeWidth="2" opacity="0.3"/>
+                            <circle cx="50" cy="50" r="25" fill="none" stroke="url(#dashGrad2)" strokeWidth="2" opacity="0.5"/>
+                            <circle cx="50" cy="50" r="15" fill="url(#dashGrad3)" opacity="0.8"/>
+                            <defs>
+                              <linearGradient id="dashGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
+                              </linearGradient>
+                              <linearGradient id="dashGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
+                              </linearGradient>
+                              <linearGradient id="dashGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
+                      <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">03</div>
-                        <h3 className="text-lg font-semibold text-white">Engagement Predictor</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20">
+                          <svg className="w-full h-full" viewBox="0 0 100 60">
+                            <path d="M 10 50 L 20 45 L 30 40 L 40 35 L 50 30 L 60 25 L 70 20 L 80 15 L 90 20" 
+                                  stroke="url(#predGrad1)" strokeWidth="3" fill="none" opacity="0.8"/>
+                            <path d="M 10 50 L 20 48 L 30 42 L 40 38 L 50 28 L 60 22 L 70 18 L 80 18 L 90 22" 
+                                  stroke="url(#predGrad2)" strokeWidth="2" fill="none" opacity="0.6"/>
+                            <defs>
+                              <linearGradient id="predGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
+                              </linearGradient>
+                              <linearGradient id="predGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
+                      <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">04</div>
-                        <h3 className="text-lg font-semibold text-white">Viral Moment Detector</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 border-2 border-purple-400/40 rounded-full"></div>
+                            <div className="absolute w-12 h-12 border-2 border-indigo-400/40 rounded-full animate-ping"></div>
+                            <div className="absolute w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
+                      <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">05</div>
-                        <h3 className="text-lg font-semibold text-white">Smart Hashtag Optimizer</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20 flex items-center justify-center">
+                          <div className="text-4xl font-bold bg-gradient-to-br from-blue-400 to-purple-500 bg-clip-text text-transparent">#</div>
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-indigo-400 rounded-full animate-pulse"></div>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
+                      <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">06</div>
-                        <h3 className="text-lg font-semibold text-white">Multi-Platform Reformatter</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20 flex gap-1 items-end">
+                          <div className="w-4 h-12 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-80"></div>
+                          <div className="w-4 h-16 bg-gradient-to-t from-purple-500 to-indigo-400 rounded-t opacity-90"></div>
+                          <div className="w-4 h-8 bg-gradient-to-t from-blue-400 to-purple-500 rounded-t opacity-70"></div>
+                          <div className="w-4 h-14 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-85"></div>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
+                      <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">07</div>
-                        <h3 className="text-lg font-semibold text-white">Collaboration Matchmaker</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20 flex items-center justify-center">
+                          <div className="relative">
+                            <div className="w-12 h-12 border-2 border-purple-400/40 rounded-full"></div>
+                            <div className="absolute top-0 left-0 w-12 h-12 border-2 border-indigo-400/40 rounded-full transform rotate-45"></div>
+                            <div className="absolute top-3 left-3 w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
+                      <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
                   </div>
 
-                  <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-xs font-mono text-gray-500 mb-1">08</div>
-                        <h3 className="text-lg font-semibold text-white">Sentiment Analysis Engine</h3>
+                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
+                    <div className="relative mb-4">
+                      <div className="h-24 flex items-center justify-center mb-4">
+                        <div className="relative w-20 h-20">
+                          <svg className="w-full h-full" viewBox="0 0 100 100">
+                            <path d="M 30 50 Q 50 30, 70 50 Q 50 70, 30 50" fill="url(#sentGrad)" opacity="0.3"/>
+                            <path d="M 35 50 Q 50 35, 65 50 Q 50 65, 35 50" fill="url(#sentGrad2)" opacity="0.5"/>
+                            <path d="M 40 50 Q 50 40, 60 50 Q 50 60, 40 50" fill="url(#sentGrad3)" opacity="0.7"/>
+                            <defs>
+                              <linearGradient id="sentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
+                              </linearGradient>
+                              <linearGradient id="sentGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
+                              </linearGradient>
+                              <linearGradient id="sentGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </div>
                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
+                      <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
                     </div>
-                    <div className="h-px bg-gray-700 mb-3"></div>
-                    <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
                   </div>
                 </div>
               </div>
