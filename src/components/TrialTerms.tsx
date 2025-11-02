@@ -171,6 +171,19 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
               <li>• Your original starting image/backup will be restored</li>
             </ul>
           </div>
+
+          <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-lg p-4">
+            <h5 className="font-semibold text-indigo-400 mb-2 flex items-center gap-2">
+              <Check className="w-5 h-5" />
+              Content Ownership Policy:
+            </h5>
+            <ul className="text-sm text-gray-300 space-y-1 ml-7">
+              <li>• <strong className="text-indigo-400">If you continue with a paid plan:</strong> All content created during trial remains yours permanently</li>
+              <li>• <strong className="text-indigo-400">If you cancel before 3 paid months:</strong> Content will be reverted to original state</li>
+              <li>• <strong className="text-indigo-400">After 3 paid months:</strong> Content is permanently yours, even if you cancel</li>
+              <li>• <strong className="text-white">Policy Commitment:</strong> CreatorFlow commits to this policy - your content ownership is protected after 3 months of paid subscription</li>
+            </ul>
+          </div>
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
@@ -178,6 +191,11 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             By proceeding, you agree that CreatorFlow will create a backup of your current project state before the trial begins. 
             If you choose not to continue after the trial, all modifications made during the trial period will be automatically 
             reverted and your project will be restored to its original state.
+          </p>
+          <p className="text-xs text-indigo-300/80 leading-relaxed mb-2">
+            <strong>Content Ownership Commitment:</strong> CreatorFlow commits to preserving your content ownership. Content created during trial 
+            remains yours if you continue with a paid plan. After 3 consecutive paid months, your content is permanently yours, even if you cancel your subscription. 
+            If you cancel before completing 3 paid months, content will be reverted to your original pre-trial state.
           </p>
           <p className="text-xs text-yellow-300/80 leading-relaxed">
             <strong>Important:</strong> Your selected social accounts (Facebook, Twitter, Instagram, etc.) will be locked in and cannot be changed each month. 
