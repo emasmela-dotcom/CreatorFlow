@@ -180,176 +180,137 @@ The CreatorFlow Team`,
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full blur-xl"></div>
-                    <div className="relative w-full h-full border-2 border-blue-400/30 rounded-full flex items-center justify-center">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-80"></div>
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-purple-500/40">
+                    <rect x="10" y="10" width="80" height="80" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+                    <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.5"/>
+                    <rect x="30" y="30" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
+                    <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
+                    <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
-                <p className="text-xs text-gray-400">Brand consistency analysis</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
+              <p className="text-xs text-gray-400">Brand consistency analysis</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/20 to-blue-500/20 rounded-full blur-xl"></div>
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                      <circle cx="50" cy="50" r="35" fill="none" stroke="url(#grad1)" strokeWidth="2" opacity="0.3"/>
-                      <circle cx="50" cy="50" r="25" fill="none" stroke="url(#grad2)" strokeWidth="2" opacity="0.5"/>
-                      <circle cx="50" cy="50" r="15" fill="url(#grad3)" opacity="0.8"/>
-                      <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                        </linearGradient>
-                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                        </linearGradient>
-                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-indigo-500/40">
+                    <polygon points="50,10 90,90 10,90" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
+                    <polygon points="50,25 75,80 25,80" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <polygon points="50,40 60,70 40,70" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
+                    <circle cx="50" cy="55" r="8" fill="currentColor" opacity="0.5"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
-                <p className="text-xs text-gray-400">Competitive content intelligence</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
+              <p className="text-xs text-gray-400">Competitive content intelligence</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16">
-                    <svg className="w-full h-full" viewBox="0 0 100 60">
-                      <path d="M 10 50 L 20 45 L 30 40 L 40 35 L 50 30 L 60 25 L 70 20 L 80 15 L 90 20" 
-                            stroke="url(#lineGrad)" strokeWidth="3" fill="none" opacity="0.8"/>
-                      <path d="M 10 50 L 20 48 L 30 42 L 40 38 L 50 28 L 60 22 L 70 18 L 80 18 L 90 22" 
-                            stroke="url(#lineGrad2)" strokeWidth="2" fill="none" opacity="0.6"/>
-                      <defs>
-                        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                      </linearGradient>
-                        <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                      </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 60" className="text-purple-500/50">
+                    <defs>
+                      <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.2"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100" height="60" fill="url(#grid)"/>
+                    <polyline points="10,50 25,40 40,30 55,20 70,15 85,18" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8"/>
+                    <polyline points="15,52 30,42 45,32 60,22 75,17 90,20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
-                <p className="text-xs text-gray-400">Performance forecasting engine</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
+              <p className="text-xs text-gray-400">Performance forecasting engine</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 border-2 border-purple-400/40 rounded-full"></div>
-                      <div className="absolute w-8 h-8 border-2 border-indigo-400/40 rounded-full animate-ping"></div>
-                      <div className="absolute w-4 h-4 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
-                    </div>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-indigo-500/40">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5,5" opacity="0.3"/>
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" opacity="0.5"/>
+                    <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
+                    <circle cx="50" cy="50" r="8" fill="currentColor" opacity="0.8"/>
+                    <line x1="50" y1="10" x2="50" y2="42" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <line x1="50" y1="58" x2="50" y2="90" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <line x1="10" y1="50" x2="42" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <line x1="58" y1="50" x2="90" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
-                <p className="text-xs text-gray-400">Real-time trend analysis</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
+              <p className="text-xs text-gray-400">Real-time trend analysis</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16 flex items-center justify-center">
-                    <div className="text-3xl font-bold bg-gradient-to-br from-blue-400 to-purple-500 bg-clip-text text-transparent">#</div>
-                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-purple-500/50">
+                    <path d="M 30 30 L 70 30 L 70 40 L 50 50 L 30 40 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <path d="M 30 50 L 70 50 L 70 60 L 50 70 L 30 60 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
+                    <line x1="50" y1="30" x2="50" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
+                    <circle cx="50" cy="50" r="3" fill="currentColor" opacity="0.9"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
-                <p className="text-xs text-gray-400">Context-aware optimization</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
+              <p className="text-xs text-gray-400">Context-aware optimization</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16 flex gap-1 items-end">
-                    <div className="w-3 h-8 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-80"></div>
-                    <div className="w-3 h-12 bg-gradient-to-t from-purple-500 to-indigo-400 rounded-t opacity-90"></div>
-                    <div className="w-3 h-6 bg-gradient-to-t from-blue-400 to-purple-500 rounded-t opacity-70"></div>
-                    <div className="w-3 h-10 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-85"></div>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-indigo-500/50">
+                    <rect x="20" y="60" width="15" height="30" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <rect x="40" y="40" width="15" height="50" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
+                    <rect x="60" y="70" width="15" height="20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
+                    <line x1="10" y1="90" x2="90" y2="90" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+                    <line x1="10" y1="80" x2="90" y2="80" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
+                    <line x1="10" y1="70" x2="90" y2="70" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
-                <p className="text-xs text-gray-400">Cross-platform content adaptation</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
+              <p className="text-xs text-gray-400">Cross-platform content adaptation</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16 flex items-center justify-center">
-                    <div className="relative">
-                      <div className="w-8 h-8 border-2 border-purple-400/40 rounded-full"></div>
-                      <div className="absolute top-0 left-0 w-8 h-8 border-2 border-indigo-400/40 rounded-full transform rotate-45"></div>
-                      <div className="absolute top-2 left-2 w-4 h-4 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
-                    </div>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-indigo-500/40">
+                    <path d="M 30 30 L 70 30 L 70 70 L 30 70 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
+                    <path d="M 40 40 L 60 40 L 60 60 L 40 60 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
+                    <circle cx="50" cy="50" r="5" fill="currentColor" opacity="0.8"/>
+                    <line x1="50" y1="40" x2="50" y2="60" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                    <line x1="40" y1="50" x2="60" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
-                <p className="text-xs text-gray-400">Strategic partnership matching</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
+              <p className="text-xs text-gray-400">Strategic partnership matching</p>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative">
-                <div className="mb-4 h-20 flex items-center justify-center">
-                  <div className="relative w-16 h-16">
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                      <path d="M 30 50 Q 50 30, 70 50 Q 50 70, 30 50" fill="url(#brainGrad)" opacity="0.3"/>
-                      <path d="M 35 50 Q 50 35, 65 50 Q 50 65, 35 50" fill="url(#brainGrad2)" opacity="0.5"/>
-                      <path d="M 40 50 Q 50 40, 60 50 Q 50 60, 40 50" fill="url(#brainGrad3)" opacity="0.7"/>
-                      <defs>
-                        <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                        </linearGradient>
-                        <linearGradient id="brainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                        </linearGradient>
-                        <linearGradient id="brainGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
+            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
+              <div className="mb-4 h-20 flex items-center justify-center">
+                <div className="relative w-16 h-16">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" className="text-purple-500/40">
+                    <path d="M 20 50 Q 35 30, 50 50 Q 65 70, 80 50" fill="none" stroke="currentColor" strokeWidth="2.5" opacity="0.6"/>
+                    <path d="M 25 50 Q 38 35, 50 50 Q 62 65, 75 50" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
+                    <circle cx="50" cy="50" r="3" fill="currentColor" opacity="0.9"/>
+                    <line x1="50" y1="20" x2="50" y2="45" stroke="currentColor" strokeWidth="1.5" opacity="0.4"/>
+                    <line x1="50" y1="55" x2="50" y2="80" stroke="currentColor" strokeWidth="1.5" opacity="0.4"/>
+                  </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
-                <p className="text-xs text-gray-400">Audience sentiment tracking</p>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
+              <p className="text-xs text-gray-400">Audience sentiment tracking</p>
             </div>
           </div>
 
