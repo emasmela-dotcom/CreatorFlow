@@ -35,6 +35,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
     }
 
+    // Check if user has been paying for 3+ months (content ownership protection)
+    const userResult = await db.execute({
+      sql: 'SELECT trial_end_at, subscription_tier FROM users WHERE id = ?',
+      args: [userId]
+    })
+
+    if (userResult.rows.length === 0) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const user = userResult.rows[0]
+    const trialEndAt = user.trial_end_at as string | null
+    const subscriptionTier = user.subscription_tier as string | null
+
+    // If user has an active subscription and trial ended, check if 3 months have passed
+    if (trialEndAt && subscriptionTier) {
+      const trialEndDate = new Date(trialEndAt)
+      const now = new Date()
+      
+      // Calculate months since trial ended (when they started paying)
+      const monthsDiff = (now.getTime() - trialEndDate.getTime()) / (1000 * 60 * 60 * 24 * 30) // Approximate months
+      
+      if (monthsDiff >= 3) {
+        // User has been paying for 3+ months - content is permanently theirs
+        return NextResponse.json({ 
+          success: false,
+          message: 'Content ownership protected',
+          reason: 'Your content is permanently yours. You have been a paying customer for 3 or more months, so your content will not be restored even after cancellation.',
+          monthsPaid: Math.floor(monthsDiff),
+          policy: 'After 3 consecutive paid months, content ownership is permanent per CreatorFlow policy.'
+        }, { status: 200 })
+      }
+    }
+
     // Find the active backup for this user
     const backupResult = await db.execute({
       sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = 0 ORDER BY created_at DESC LIMIT 1',

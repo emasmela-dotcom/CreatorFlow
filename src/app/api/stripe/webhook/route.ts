@@ -197,25 +197,56 @@ export async function POST(request: NextRequest) {
             ]
           })
         } else if (subscription.status === 'canceled' || subscription.status === 'past_due') {
-          // Subscription canceled or past due - trigger restore
+          // Subscription canceled or past due - check 3-month policy before restoring
           const userResult = await db.execute({
-            sql: 'SELECT id FROM users WHERE stripe_customer_id = ?',
+            sql: 'SELECT id, trial_end_at, subscription_tier FROM users WHERE stripe_customer_id = ?',
             args: [customerId]
           })
 
           if (userResult.rows.length > 0) {
             const userId = userResult.rows[0].id as string
-            // Trigger restore process
-            try {
-              await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/restore`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId }),
+            const trialEndAt = userResult.rows[0].trial_end_at as string | null
+            const subscriptionTier = userResult.rows[0].subscription_tier as string | null
+
+            // Check if user has been paying for 3+ months
+            let shouldRestore = true
+            
+            if (trialEndAt && subscriptionTier) {
+              const trialEndDate = new Date(trialEndAt)
+              const now = new Date()
+              const monthsDiff = (now.getTime() - trialEndDate.getTime()) / (1000 * 60 * 60 * 24 * 30) // Approximate months
+              
+              if (monthsDiff >= 3) {
+                // User has been paying for 3+ months - content is permanently theirs, don't restore
+                shouldRestore = false
+                console.log(`User ${userId} cancellation: Content ownership protected (${Math.floor(monthsDiff)} months paid)`)
+              }
+            }
+
+            // Only trigger restore if user hasn't reached 3-month threshold
+            if (shouldRestore) {
+              try {
+                await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/restore`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ userId }),
+                })
+                console.log(`Restore triggered for user ${userId} (cancellation before 3 months)`)
+              } catch (error) {
+                console.error('Restore trigger failed:', error)
+              }
+            } else {
+              // Update subscription tier to null but keep content
+              await db.execute({
+                sql: `UPDATE users 
+                      SET subscription_tier = NULL,
+                          updated_at = ?
+                      WHERE id = ?`,
+                args: [new Date().toISOString(), userId]
               })
-            } catch (error) {
-              console.error('Restore trigger failed:', error)
+              console.log(`User ${userId} canceled after 3+ months: Content kept, subscription removed`)
             }
           }
         }
