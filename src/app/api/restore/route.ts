@@ -5,8 +5,11 @@ import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
 /**
- * Restore user's project to original state from backup
- * Called when user chooses NOT to continue after trial
+ * Restore user's project to original state from backup (OPTIONAL - user-initiated only)
+ * 
+ * NEW POLICY: Content created during trial is kept but becomes read-only (locked) after cancel
+ * This endpoint is now optional - users can manually restore if they want to revert to original state
+ * When subscription is cancelled, trial content is automatically locked (no deletion)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -35,38 +38,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
     }
 
-    // Check if user has been paying for 3+ months (content ownership protection)
+    // Verify user exists
     const userResult = await db.execute({
-      sql: 'SELECT trial_end_at, subscription_tier FROM users WHERE id = ?',
+      sql: 'SELECT id FROM users WHERE id = ?',
       args: [userId]
     })
 
     if (userResult.rows.length === 0) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
-    }
-
-    const user = userResult.rows[0]
-    const trialEndAt = user.trial_end_at as string | null
-    const subscriptionTier = user.subscription_tier as string | null
-
-    // If user has an active subscription and trial ended, check if 3 months have passed
-    if (trialEndAt && subscriptionTier) {
-      const trialEndDate = new Date(trialEndAt)
-      const now = new Date()
-      
-      // Calculate months since trial ended (when they started paying)
-      const monthsDiff = (now.getTime() - trialEndDate.getTime()) / (1000 * 60 * 60 * 24 * 30) // Approximate months
-      
-      if (monthsDiff >= 3) {
-        // User has been paying for 3+ months - content is permanently theirs
-        return NextResponse.json({ 
-          success: false,
-          message: 'Content ownership protected',
-          reason: 'Your content is permanently yours. You have been a paying customer for 3 or more months, so your content will not be restored even after cancellation.',
-          monthsPaid: Math.floor(monthsDiff),
-          policy: 'After 3 consecutive paid months, content ownership is permanent per CreatorFlow policy.'
-        }, { status: 200 })
-      }
     }
 
     // Find the active backup for this user
@@ -84,14 +63,15 @@ export async function POST(request: NextRequest) {
     const backup = backupResult.rows[0]
     const backupData = JSON.parse(backup.backup_data as string)
 
-    // Start restoration process
+    // OPTIONAL RESTORE: User wants to revert to original state
+    // This is completely optional - by default, trial content is kept but locked
     try {
       // 1. Delete all current content_posts that were created after trial started
       // Keep only posts that existed before trial (in backup)
       const backupPostIds = backupData.content_posts.map((post: any) => post.id)
       
       if (backupPostIds.length > 0) {
-        // Delete posts not in backup
+        // Delete posts not in backup (trial content will be deleted)
         const placeholders = backupPostIds.map(() => '?').join(',')
         await db.execute({
           sql: `DELETE FROM content_posts 
@@ -102,9 +82,19 @@ export async function POST(request: NextRequest) {
         // Restore original content_posts
         for (const post of backupData.content_posts) {
           await db.execute({
-            sql: `INSERT OR REPLACE INTO content_posts 
+            sql: `INSERT INTO content_posts 
                   (id, user_id, platform, content, media_urls, scheduled_at, published_at, status, engagement_metrics, created_at, updated_at)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                  ON CONFLICT (id) DO UPDATE SET
+                    platform = EXCLUDED.platform,
+                    content = EXCLUDED.content,
+                    media_urls = EXCLUDED.media_urls,
+                    scheduled_at = EXCLUDED.scheduled_at,
+                    published_at = EXCLUDED.published_at,
+                    status = EXCLUDED.status,
+                    engagement_metrics = EXCLUDED.engagement_metrics,
+                    created_at = EXCLUDED.created_at,
+                    updated_at = EXCLUDED.updated_at`,
             args: [
               post.id,
               post.user_id,
@@ -143,9 +133,15 @@ export async function POST(request: NextRequest) {
         // Restore original analytics
         for (const analytics of backupData.analytics) {
           await db.execute({
-            sql: `INSERT OR REPLACE INTO analytics 
+            sql: `INSERT INTO analytics 
                   (id, user_id, platform, metric_type, value, date, created_at)
-                  VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                  VALUES (?, ?, ?, ?, ?, ?, ?)
+                  ON CONFLICT (id) DO UPDATE SET
+                    platform = EXCLUDED.platform,
+                    metric_type = EXCLUDED.metric_type,
+                    value = EXCLUDED.value,
+                    date = EXCLUDED.date,
+                    created_at = EXCLUDED.created_at`,
             args: [
               analytics.id,
               analytics.user_id,

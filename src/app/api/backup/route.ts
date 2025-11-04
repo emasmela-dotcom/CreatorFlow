@@ -1,34 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { randomUUID } from 'crypto'
+import { verifyAuth } from '@/lib/auth'
 
 /**
  * Create a backup/save point of user's project BEFORE any CreatorFlow changes
  * This is called when user starts their trial
  */
-import jwt from 'jsonwebtoken'
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
-
 export async function POST(request: NextRequest) {
   try {
-    // Get auth token
-    const authHeader = request.headers.get('authorization')
-    const token = authHeader?.replace('Bearer ', '')
-
-    if (!token) {
-      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    // SECURITY: Verify auth and get userId from JWT (never trust request body)
+    const authUser = await verifyAuth(request)
+    if (!authUser) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Verify token and get user ID
-    let decoded: { userId: string; email: string }
-    try {
-      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string }
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    }
-
-    const userId = decoded.userId
+    const userId = authUser.userId
 
     // Fetch all current user data to create backup
     const contentPostsResult = await db.execute({

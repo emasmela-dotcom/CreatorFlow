@@ -143,14 +143,24 @@ function SignupPageContent() {
             />
 
             {selectedPlan && (
-              <div className="mt-8 text-center">
-                <button
-                  onClick={() => setStep('account')}
-                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
-                >
-                  Continue to Account Creation
-                </button>
-              </div>
+              <>
+                {/* Show Trial Terms BEFORE account creation */}
+                <div className="mt-8">
+                  <TrialTerms 
+                    planName={plans.find(p => p.id === selectedPlan)?.name || selectedPlan}
+                    planPrice={plans.find(p => p.id === selectedPlan)?.price || 0}
+                  />
+                </div>
+                
+                <div className="mt-8 text-center">
+                  <button
+                    onClick={() => setStep('account')}
+                    className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+                  >
+                    Continue to Account Creation
+                  </button>
+                </div>
+              </>
             )}
           </div>
         )}

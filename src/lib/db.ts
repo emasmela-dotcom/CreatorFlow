@@ -1,32 +1,157 @@
-import { createClient } from '@libsql/client/web'
+// Import Neon client - PostgreSQL serverless database
+import { neon } from '@neondatabase/serverless'
 
-// Turso database connection
-// Get connection from environment variables
-const url = process.env.TURSO_DATABASE_URL || ''
-const authToken = process.env.TURSO_AUTH_TOKEN || ''
+let sqlClient: any
 
-// Create Turso client - only if credentials are available
-// During build (static analysis), credentials may not be available
-let dbInstance: ReturnType<typeof createClient> | null = null
-
-try {
-  if (url && authToken && url.startsWith('libsql://')) {
-    dbInstance = createClient({
-      url: url,
-      authToken: authToken
-    })
+// Initialize client function
+function getClient() {
+  if (sqlClient) return sqlClient
+  
+  const databaseUrl = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || ''
+  
+  if (!databaseUrl || (!databaseUrl.startsWith('postgresql://') && !databaseUrl.startsWith('postgres://'))) {
+    console.warn('Database URL not configured. Set DATABASE_URL or NEON_DATABASE_URL environment variable.')
+    return null
   }
-} catch (error) {
-  // Silently fail during build if credentials aren't available
-  console.warn('Database client not initialized:', error instanceof Error ? error.message : 'Unknown error')
+
+  try {
+    sqlClient = neon(databaseUrl)
+    return sqlClient
+  } catch (error) {
+    console.warn('Database client not initialized:', error)
+    return null
+  }
 }
 
-// Export db - will be null during build, initialized at runtime
-export const db = dbInstance || {
-  execute: () => Promise.resolve({ rows: [], rowsAffected: 0 } as any),
-  batch: () => Promise.resolve([] as any),
-  transaction: () => Promise.resolve({} as any),
-} as any
+// Wrapper to maintain compatibility with existing code
+// Converts db.execute({ sql, args }) to Neon's format
+interface DbInterface {
+  execute: (query: { sql: string; args?: any[] }) => Promise<{ rows: any[]; rowsAffected: number }>
+  batch: (queries: Array<{ sql: string; args?: any[] }>) => Promise<Array<{ rows: any[]; rowsAffected: number }>>
+  transaction: (callback: (tx: DbInterface) => Promise<any>) => Promise<any>
+}
+
+export const db: DbInterface = {
+  execute: async (query: { sql: string; args?: any[] }) => {
+    const client = getClient()
+    if (!client) {
+      return { rows: [], rowsAffected: 0 }
+    }
+    
+    try {
+      // Convert SQLite placeholders (?) to PostgreSQL placeholders ($1, $2, etc.)
+      let sqlQuery = query.sql
+      const args = query.args || []
+      
+      if (args.length > 0) {
+        // Replace ? placeholders with $1, $2, etc.
+        let argIndex = 1
+        sqlQuery = sqlQuery.replace(/\?/g, () => `$${argIndex++}`)
+      }
+      
+      // Use client as tagged template - build proper template literal
+      let result: any
+      
+      if (args.length === 0) {
+        // No parameters - use template literal directly
+        const templateArray = Object.assign([sqlQuery], { raw: [sqlQuery] }) as TemplateStringsArray
+        result = await client(templateArray)
+      } else {
+        // Build template parts and values for tagged template
+        // Template literals: sql`text${val1}more${val2}end`
+        // Becomes: sql(['text', 'more', 'end'], val1, val2)
+        const parts: string[] = []
+        const values: any[] = []
+        let queryText = sqlQuery
+        let idx = 1
+        
+        while (queryText.includes(`$${idx}`)) {
+          const placeholder = `$${idx}`
+          const pos = queryText.indexOf(placeholder)
+          parts.push(queryText.substring(0, pos))
+          values.push(args[idx - 1])
+          queryText = queryText.substring(pos + placeholder.length)
+          idx++
+        }
+        parts.push(queryText) // final part
+        
+        // Create proper TemplateStringsArray with raw property
+        const templateArray = Object.assign([...parts], { raw: [...parts] }) as TemplateStringsArray
+        
+        // Call as tagged template function
+        result = await client(templateArray, ...values)
+      }
+      
+      // Convert Neon result format to expected format
+      // Neon returns an array of rows directly
+      return {
+        rows: Array.isArray(result) ? result : [],
+        rowsAffected: Array.isArray(result) ? result.length : 0
+      }
+    } catch (error) {
+      console.error('Database query error:', error)
+      throw error
+    }
+  },
+  
+  // Batch operations for Neon
+  batch: async (queries: Array<{ sql: string; args?: any[] }>) => {
+    const client = getClient()
+    if (!client) {
+      return []
+    }
+    
+    try {
+      const results = await Promise.all(
+        queries.map(q => {
+          let sqlQuery = q.sql
+          const args = q.args || []
+          
+          if (args.length > 0) {
+            let argIndex = 1
+            sqlQuery = sqlQuery.replace(/\?/g, () => `$${argIndex++}`)
+          }
+          
+          // Use client as tagged template for batch
+          if (!q.args || q.args.length === 0) {
+            const templateArray = Object.assign([sqlQuery], { raw: [sqlQuery] }) as TemplateStringsArray
+            return client(templateArray)
+          }
+          
+          const parts: string[] = []
+          const values: any[] = []
+          let text = sqlQuery
+          let idx = 1
+          while (text.includes(`$${idx}`)) {
+            const ph = `$${idx}`
+            const pos = text.indexOf(ph)
+            parts.push(text.substring(0, pos))
+            values.push(q.args[idx - 1])
+            text = text.substring(pos + ph.length)
+            idx++
+          }
+          parts.push(text)
+          
+          const templateArray = Object.assign([...parts], { raw: [...parts] }) as TemplateStringsArray
+          return client(templateArray, ...values)
+        })
+      )
+      
+      return results.map(result => ({
+        rows: Array.isArray(result) ? result : (result as any).rows || [],
+        rowsAffected: (result as any).rowCount || 0
+      }))
+    } catch (error) {
+      console.error('Database batch error:', error)
+      throw error
+    }
+  },
+  
+  // Transaction support (simplified for Neon serverless)
+  transaction: async (callback: (tx: DbInterface) => Promise<any>) => {
+    return await callback(db)
+  }
+}
 
 // Database schema types
 export interface User {
@@ -75,7 +200,7 @@ export interface ProjectBackup {
   user_id: string
   trial_started_at: string
   backup_data: string // JSON string
-  is_restored: number // SQLite uses 0/1 for boolean
+  is_restored: boolean // PostgreSQL uses BOOLEAN
   created_at: string
   restored_at: string | null
 }
@@ -84,101 +209,106 @@ export interface ProjectBackup {
 export async function initDatabase() {
   try {
     // Create users table
-    await db.execute(`
+    await db.execute({
+      sql: `
       CREATE TABLE IF NOT EXISTS users (
-        id TEXT PRIMARY KEY,
-        email TEXT UNIQUE NOT NULL,
+        id VARCHAR(255) PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL,
         password_hash TEXT,
-        full_name TEXT,
+        full_name VARCHAR(255),
         avatar_url TEXT,
-        subscription_tier TEXT CHECK(subscription_tier IN ('starter', 'growth', 'pro', 'business', 'agency')),
-        stripe_customer_id TEXT,
-        trial_started_at TEXT,
-        trial_end_at TEXT,
-        trial_plan TEXT CHECK(trial_plan IN ('starter', 'growth', 'pro', 'business', 'agency')),
+        subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('starter', 'growth', 'pro', 'business', 'agency')),
+        stripe_customer_id VARCHAR(255),
+        trial_started_at TIMESTAMP,
+        trial_end_at TIMESTAMP,
+        trial_plan VARCHAR(50) CHECK(trial_plan IN ('starter', 'growth', 'pro', 'business', 'agency')),
         social_accounts TEXT,
         monthly_post_limit INTEGER,
         additional_posts_purchased INTEGER DEFAULT 0,
-        created_at TEXT NOT NULL DEFAULT (datetime('now')),
-        updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
-    `)
+    `
+    })
     
     // Add new columns to existing table if they don't exist (migration)
     try {
-      await db.execute(`ALTER TABLE users ADD COLUMN social_accounts TEXT`)
+      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS social_accounts TEXT` })
     } catch (e: any) {
       // Column already exists, ignore
-      if (!e.message?.includes('duplicate column')) {
+      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
         console.warn('Could not add social_accounts column:', e.message)
       }
     }
     try {
-      await db.execute(`ALTER TABLE users ADD COLUMN monthly_post_limit INTEGER`)
+      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS monthly_post_limit INTEGER` })
     } catch (e: any) {
-      if (!e.message?.includes('duplicate column')) {
+      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
         console.warn('Could not add monthly_post_limit column:', e.message)
       }
     }
     try {
-      await db.execute(`ALTER TABLE users ADD COLUMN additional_posts_purchased INTEGER DEFAULT 0`)
+      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS additional_posts_purchased INTEGER DEFAULT 0` })
     } catch (e: any) {
-      if (!e.message?.includes('duplicate column')) {
+      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
         console.warn('Could not add additional_posts_purchased column:', e.message)
       }
     }
 
     // Create content_posts table
-    await db.execute(`
+    await db.execute({
+      sql: `
       CREATE TABLE IF NOT EXISTS content_posts (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        platform TEXT NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube')),
+        id VARCHAR(255) PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube')),
         content TEXT NOT NULL,
         media_urls TEXT DEFAULT '[]',
-        scheduled_at TEXT,
-        published_at TEXT,
-        status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft', 'scheduled', 'published', 'failed')),
-        engagement_metrics TEXT,
-        created_at TEXT NOT NULL DEFAULT (datetime('now')),
-        updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        scheduled_at TIMESTAMP,
+        published_at TIMESTAMP,
+        status VARCHAR(50) NOT NULL DEFAULT 'draft' CHECK(status IN ('draft', 'scheduled', 'published', 'failed')),
+        engagement_metrics JSONB,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
-    `)
+    `
+    })
 
     // Create analytics table
-    await db.execute(`
+    await db.execute({
+      sql: `
       CREATE TABLE IF NOT EXISTS analytics (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        platform TEXT NOT NULL,
-        metric_type TEXT NOT NULL CHECK(metric_type IN ('followers', 'engagement', 'reach', 'impressions', 'clicks')),
-        value REAL NOT NULL,
-        date TEXT NOT NULL,
-        created_at TEXT NOT NULL DEFAULT (datetime('now')),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        id VARCHAR(255) PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        platform VARCHAR(50) NOT NULL,
+        metric_type VARCHAR(50) NOT NULL CHECK(metric_type IN ('followers', 'engagement', 'reach', 'impressions', 'clicks')),
+        value DOUBLE PRECISION NOT NULL,
+        date DATE NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
-    `)
+    `
+    })
 
     // Create project_backups table
-    await db.execute(`
+    await db.execute({
+      sql: `
       CREATE TABLE IF NOT EXISTS project_backups (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        trial_started_at TEXT NOT NULL,
-        backup_data TEXT NOT NULL,
-        is_restored INTEGER NOT NULL DEFAULT 0,
-        created_at TEXT NOT NULL DEFAULT (datetime('now')),
-        restored_at TEXT,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        id VARCHAR(255) PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        trial_started_at TIMESTAMP NOT NULL,
+        backup_data JSONB NOT NULL,
+        is_restored BOOLEAN NOT NULL DEFAULT FALSE,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        restored_at TIMESTAMP
       )
-    `)
+    `
+    })
 
     // Create indexes for performance
-    await db.execute(`CREATE INDEX IF NOT EXISTS idx_content_posts_user_id ON content_posts(user_id)`)
-    await db.execute(`CREATE INDEX IF NOT EXISTS idx_analytics_user_id ON analytics(user_id)`)
-    await db.execute(`CREATE INDEX IF NOT EXISTS idx_project_backups_user_id ON project_backups(user_id)`)
-    await db.execute(`CREATE INDEX IF NOT EXISTS idx_project_backups_restored ON project_backups(is_restored)`)
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_content_posts_user_id ON content_posts(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_analytics_user_id ON analytics(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_project_backups_user_id ON project_backups(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_project_backups_restored ON project_backups(is_restored)` })
 
     console.log('Database initialized successfully')
   } catch (error) {

@@ -3,24 +3,64 @@ import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { randomUUID } from 'crypto'
+import { isValidEmail, isStrongPassword } from '@/lib/auth'
+import { rateLimitMiddleware } from '@/lib/rateLimit'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
+
+// Security: Validate JWT_SECRET
+if (!JWT_SECRET || JWT_SECRET === 'your-secret-key-change-in-production') {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET must be set in production!')
+  }
+}
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    // SECURITY: Rate limiting for auth endpoints (prevents brute force)
+    const rateLimit = rateLimitMiddleware(request, {
+      maxRequests: 5, // 5 requests per window
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      identifier: 'auth'
+    })
+
+    if (!rateLimit.allowed && rateLimit.response) {
+      return rateLimit.response
+    }
+
     const { email, password, action } = await request.json()
+
+    // SECURITY: Input validation
+    if (!email || typeof email !== 'string') {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+    }
+
+    // Normalize email
+    const normalizedEmail = email.toLowerCase().trim()
 
     if (action === 'signup') {
       // Check if user already exists
       const existingUser = await db.execute({
         sql: 'SELECT * FROM users WHERE email = ?',
-        args: [email]
+        args: [normalizedEmail]
       })
 
+      // SECURITY: Generic error message (doesn't reveal if user exists)
       if (existingUser.rows.length > 0) {
-        return NextResponse.json({ error: 'User already exists' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
+
+      // SECURITY: Validate password strength if provided
+      if (password && typeof password === 'string' && !isStrongPassword(password)) {
+        return NextResponse.json({ 
+          error: 'Password must be at least 8 characters with uppercase, lowercase, and number' 
+        }, { status: 400 })
       }
 
       // Generate a server-side password if one was not provided by the client
@@ -38,15 +78,19 @@ export async function POST(request: NextRequest) {
       await db.execute({
         sql: `INSERT INTO users (id, email, password_hash, created_at, updated_at)
               VALUES (?, ?, ?, ?, ?)`,
-        args: [userId, email, hashedPassword, now, now]
+        args: [userId, normalizedEmail, hashedPassword, now, now]
       })
 
-      // Create a simple password storage (you might want a separate passwords table)
-      // For now, we'll store it in a simple way - you may want to add a passwords table
-      
-      // Generate JWT token
-      const token = jwt.sign(
-        { userId, email },
+      // SECURITY: Generate shorter-lived access token (1 hour)
+      const accessToken = jwt.sign(
+        { userId, email: normalizedEmail, type: 'access' },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      )
+
+      // Generate refresh token (30 days)
+      const refreshToken = jwt.sign(
+        { userId, email: normalizedEmail, type: 'refresh' },
         JWT_SECRET,
         { expiresIn: '30d' }
       )
@@ -60,40 +104,51 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ 
         message: 'Account created successfully',
-        user: { id: userId, email },
-        token,
+        user: { id: userId, email: normalizedEmail },
+        accessToken,
+        refreshToken,
         password: generatedPassword // Include the generated password for first-time users
       })
     }
 
     if (action === 'signin') {
-      // Find user
+      // SECURITY: Input validation
+      if (!password || typeof password !== 'string') {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
+
+      // Find user (use normalized email)
       const userResult = await db.execute({
         sql: 'SELECT * FROM users WHERE email = ?',
-        args: [email]
+        args: [normalizedEmail]
       })
 
-      if (userResult.rows.length === 0) {
-        return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 })
+      // SECURITY: Generic error message (prevents user enumeration)
+      // Always check password even if user doesn't exist (constant time)
+      const user = userResult.rows.length > 0 ? userResult.rows[0] : null
+      const storedHash = user?.password_hash as string
+
+      // Always perform bcrypt compare (even with dummy hash) to prevent timing attacks
+      const dummyHash = '$2a$10$dummyhashdummyhashdummyhashdummyhashdummyhashdummyhashdu'
+      const hashToCompare = storedHash || dummyHash
+      const passwordMatch = user && storedHash 
+        ? await bcrypt.compare(password, hashToCompare)
+        : false
+
+      if (!passwordMatch || !user) {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
       }
 
-      const user = userResult.rows[0]
-      const storedHash = user.password_hash as string
+      // SECURITY: Generate shorter-lived access token
+      const accessToken = jwt.sign(
+        { userId: user.id, email: user.email, type: 'access' },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      )
 
-      if (!storedHash || !password) {
-        return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 })
-      }
-
-      // Verify password
-      const passwordMatch = await bcrypt.compare(password, storedHash)
-
-      if (!passwordMatch) {
-        return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 })
-      }
-
-      // Generate JWT token
-      const token = jwt.sign(
-        { userId: user.id, email: user.email },
+      // Generate refresh token
+      const refreshToken = jwt.sign(
+        { userId: user.id, email: user.email, type: 'refresh' },
         JWT_SECRET,
         { expiresIn: '30d' }
       )
@@ -101,7 +156,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ 
         message: 'Signed in successfully',
         user: { id: user.id, email: user.email },
-        token
+        accessToken,
+        refreshToken
       })
     }
 

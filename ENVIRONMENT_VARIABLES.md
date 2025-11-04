@@ -9,11 +9,15 @@ Copy these to Vercel Dashboard → Settings → Environment Variables
 NEXT_PUBLIC_APP_URL=https://creatorflow.ai
 ```
 
-### Database (Turso)
+### Database (Neon PostgreSQL)
 ```env
-TURSO_DATABASE_URL=libsql://your-database-url.turso.io
-TURSO_AUTH_TOKEN=your-turso-auth-token
+DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 ```
+**OR** (alternative name)
+```env
+NEON_DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
+```
+**📝 Note**: Get your connection string from the Neon console → Click "Connect" on your database
 
 ### Authentication
 ```env

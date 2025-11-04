@@ -158,44 +158,70 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             </ul>
           </div>
 
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-            <h5 className="font-semibold text-red-400 mb-2 flex items-center gap-2">
-              <X className="w-5 h-5" />
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+            <h5 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
+              <Check className="w-5 h-5" />
               If You Don't Continue:
             </h5>
             <ul className="text-sm text-gray-300 space-y-1 ml-7">
               <li>• Your subscription will not be charged</li>
               <li>• Access to paid features will stop</li>
-              <li>• <strong className="text-red-400">All changes made during trial will be reverted</strong></li>
-              <li>• Your project will be restored to the original state (before trial)</li>
-              <li>• Your original starting image/backup will be restored</li>
+              <li>• <strong className="text-blue-400">All your content remains yours - nothing is deleted</strong></li>
+              <li>• You keep all posts, content, and analytics you created during the trial</li>
+              <li>• Your original snapshot is saved if you ever want to revert (optional)</li>
             </ul>
           </div>
 
-          <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-lg p-4">
-            <h5 className="font-semibold text-indigo-400 mb-2 flex items-center gap-2">
-              <Check className="w-5 h-5" />
+          <div className="bg-indigo-500/20 border-2 border-indigo-400 rounded-lg p-5">
+            <h5 className="font-bold text-lg text-indigo-300 mb-3 flex items-center gap-2">
+              <AlertCircle className="w-6 h-6" />
               Content Ownership Policy:
             </h5>
-            <ul className="text-sm text-gray-300 space-y-1 ml-7">
-              <li>• <strong className="text-indigo-400">If you continue with a paid plan:</strong> All content created during trial remains yours permanently</li>
-              <li>• <strong className="text-indigo-400">If you cancel before 3 paid months:</strong> Content will be reverted to original state</li>
-              <li>• <strong className="text-indigo-400">After 3 paid months:</strong> Content is permanently yours, even if you cancel</li>
-              <li>• <strong className="text-white">Policy Commitment:</strong> CreatorFlow commits to this policy - your content ownership is protected after 3 months of paid subscription</li>
-            </ul>
+            <div className="space-y-3">
+              <div className="bg-white/5 rounded p-3 border border-indigo-500/30">
+                <p className="text-sm font-semibold text-indigo-300 mb-2">✓ If you continue with a paid plan:</p>
+                <p className="text-sm text-gray-200">
+                  All changes made to your social media accounts during the trial period will be kept. 
+                  This includes all posts, content modifications, scheduled content, and analytics data created during your trial.
+                  <strong className="text-indigo-300"> All content is immediately yours.</strong>
+                </p>
+              </div>
+              <div className="bg-blue-500/10 rounded p-3 border border-blue-500/30">
+                <p className="text-sm font-semibold text-blue-300 mb-2">✓ If you cancel after trial:</p>
+                <p className="text-sm text-gray-200">
+                  <strong className="text-blue-300">All your content stays with you forever.</strong> Everything you created 
+                  during the trial period remains yours and is permanently saved. However, to edit, export, or use this content 
+                  after canceling, you'll need an active subscription. Content created during trial becomes <strong className="text-blue-400">read-only</strong> 
+                  (you can view it but cannot modify it) until you upgrade to a paid plan. We save a snapshot of your original 
+                  state before the trial, which you can use to revert at any time if you choose, but this is completely optional.
+                </p>
+              </div>
+              <div className="bg-indigo-600/20 rounded p-3 border border-indigo-400">
+                <p className="text-xs font-bold text-indigo-200 uppercase tracking-wide mb-1">Our Commitment</p>
+                <p className="text-sm text-white">
+                  CreatorFlow believes in creator-first ownership. <strong className="text-indigo-300">All content you create 
+                  through our platform is immediately and permanently yours, whether you stay or go.</strong> We compete on quality, 
+                  not lock-in. Your content is never deleted. If you cancel, your trial content becomes read-only until you upgrade 
+                  - you can view it anytime, but editing requires an active subscription. Before you start, we'll take a snapshot 
+                  of your original state so you can revert if you ever want to, but this is completely optional.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
           <p className="text-xs text-gray-400 leading-relaxed mb-2">
-            By proceeding, you agree that CreatorFlow will create a backup of your current project state before the trial begins. 
-            If you choose not to continue after the trial, all modifications made during the trial period will be automatically 
-            reverted and your project will be restored to its original state.
+            By proceeding, you agree that CreatorFlow will create a snapshot of your current project state before the trial begins. 
+            This snapshot will be saved so you can optionally revert to your original state at any time if you choose. 
+            <strong className="text-white"> All content you create during the trial remains yours forever, whether you continue or not.</strong>
           </p>
           <p className="text-xs text-indigo-300/80 leading-relaxed mb-2">
-            <strong>Content Ownership Commitment:</strong> CreatorFlow commits to preserving your content ownership. Content created during trial 
-            remains yours if you continue with a paid plan. After 3 consecutive paid months, your content is permanently yours, even if you cancel your subscription. 
-            If you cancel before completing 3 paid months, content will be reverted to your original pre-trial state.
+            <strong>Content Ownership Commitment:</strong> CreatorFlow commits to creator-first ownership. <strong className="text-indigo-200">All content you create 
+            through our platform is immediately and permanently yours - no exceptions.</strong> Whether you continue with a paid plan or cancel after the trial, 
+            everything you created (posts, content modifications, scheduled content, analytics) stays with you forever. If you cancel, trial content becomes 
+            read-only (view-only, no editing or exporting) until you upgrade to unlock it. We compete on quality, not lock-in. The original snapshot is available 
+            if you want to revert, but this is completely optional.
           </p>
           <p className="text-xs text-yellow-300/80 leading-relaxed">
             <strong>Important:</strong> Your selected social accounts (Facebook, Twitter, Instagram, etc.) will be locked in and cannot be changed each month. 

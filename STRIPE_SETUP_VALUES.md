@@ -7,11 +7,11 @@
 ## Stripe API Keys
 
 ```
-STRIPE_SECRET_KEY = sk_live____________________
+STRIPE_SECRET_KEY = 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
 ```
 
 ```
-STRIPE_WEBHOOK_SECRET = whsec____________________
+STRIPE_WEBHOOK_SECRET = whsec_J0hMDb0ahvxo4qyt62zEQyvCZJdKiG2K
 ```
 
 ---
@@ -20,27 +20,27 @@ STRIPE_WEBHOOK_SECRET = whsec____________________
 
 ### Starter Plan ($19/month)
 ```
-STRIPE_PRICE_STARTER = price____________________
+STRIPE_PRICE_STARTER = price_1SOqFjIGaH1td4JMBwcypWwV
 ```
 
 ### Growth Plan ($29/month)
 ```
-STRIPE_PRICE_GROWTH = price____________________
+STRIPE_PRICE_GROWTH = price_1SOqUCIGaH1td4JMMG0dRT1V
 ```
 
 ### Pro Plan ($39/month)
 ```
-STRIPE_PRICE_PRO = price____________________
+STRIPE_PRICE_PRO = price_1SOqdilGaH1td4JMxVVWSaBR
 ```
 
 ### Business Plan ($49/month)
 ```
-STRIPE_PRICE_BUSINESS = price____________________
+STRIPE_PRICE_BUSINESS = price_1SOqgTIGaH1td4JMUMgZxq89
 ```
 
 ### Agency Plan ($99/month)
 ```
-STRIPE_PRICE_AGENCY = price____________________
+STRIPE_PRICE_AGENCY = price_1SOqiklGaH1td4JMON17yzmP
 ```
 
 ---
