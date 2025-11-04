@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
+import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 
 export default function CreatePost() {
   const router = useRouter()
@@ -202,7 +204,15 @@ export default function CreatePost() {
 
             {/* Content Editor */}
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-semibold mb-4">Content</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Content</h3>
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    AI Assistant Active
+                  </span>
+                </div>
+              </div>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -220,6 +230,18 @@ export default function CreatePost() {
                   </button>
                 </div>
               </div>
+              
+              {/* Content Assistant Bot - Real-time Feedback */}
+              {selectedPlatforms.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-gray-700">
+                  <ContentAssistantBot
+                    content={content}
+                    platform={selectedPlatforms[0]} // Use first selected platform
+                    hashtags={hashtags}
+                    token={localStorage.getItem('token') || ''}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Media Upload */}
@@ -279,7 +301,15 @@ export default function CreatePost() {
 
             {/* Scheduling */}
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-semibold mb-4">Schedule</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Schedule</h3>
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    AI Assistant Active
+                  </span>
+                </div>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Date</label>
@@ -300,6 +330,25 @@ export default function CreatePost() {
                   />
                 </div>
               </div>
+              
+              {/* Scheduling Assistant Bot */}
+              {selectedPlatforms.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-gray-700">
+                  <SchedulingAssistantBot
+                    platform={selectedPlatforms[0]}
+                    token={localStorage.getItem('token') || ''}
+                    onTimeSelect={(time) => {
+                      // Auto-fill time when user clicks
+                      const [hours, minutes] = time.split(':')
+                      const hour24 = hours.includes('PM') 
+                        ? parseInt(hours) + 12 
+                        : parseInt(hours)
+                      const time24 = `${hour24.toString().padStart(2, '0')}:${minutes || '00'}`
+                      setScheduledTime(time24)
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </main>

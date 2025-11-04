@@ -3,6 +3,17 @@
 import { useState, useEffect } from 'react'
 import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
+import NewBotsBanner from '@/components/NewBotsBanner'
+import AIToolPanel from '@/components/AIToolPanel'
+import BrandVoiceTool from '@/components/ai/BrandVoiceTool'
+import HashtagOptimizerTool from '@/components/ai/HashtagOptimizerTool'
+import ContentGapTool from '@/components/ai/ContentGapTool'
+import EngagementPredictorTool from '@/components/ai/EngagementPredictorTool'
+import ViralDetectorTool from '@/components/ai/ViralDetectorTool'
+import ReformatterTool from '@/components/ai/ReformatterTool'
+import CollaborationMatchmakerTool from '@/components/ai/CollaborationMatchmakerTool'
+import SentimentTool from '@/components/ai/SentimentTool'
+import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview')
@@ -15,24 +26,16 @@ export default function Dashboard() {
     remaining: number
     packages: Array<{ quantity: number; price: number; savings: string }>
   } | null>(null)
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      platform: 'Instagram',
-      content: 'Photography showcase #photography #nature',
-      scheduledAt: '2024-01-15T18:00:00Z',
-      status: 'scheduled',
-      engagement: { likes: 0, comments: 0, shares: 0 }
-    },
-    {
-      id: 2,
-      platform: 'Twitter',
-      content: 'New course launch announcement',
-      scheduledAt: '2024-01-16T12:00:00Z',
-      status: 'draft',
-      engagement: { likes: 0, comments: 0, shares: 0 }
-    }
-  ])
+  const [posts, setPosts] = useState<Array<{
+    id: string
+    platform: string
+    content: string
+    scheduled_at: string | null
+    status: string
+    isLocked?: boolean
+    created_at: string
+  }>>([])
+  const [openAITool, setOpenAITool] = useState<string | null>(null)
 
   const analytics = {
     totalFollowers: 125000,
@@ -77,6 +80,20 @@ export default function Dashboard() {
         }
       })
       .catch(err => console.error('Error fetching post info:', err))
+
+      // Fetch posts with lock status
+      fetch('/api/posts', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.posts) {
+          setPosts(data.posts)
+        }
+      })
+      .catch(err => console.error('Error fetching posts:', err))
     }
   }, [])
 
@@ -185,6 +202,7 @@ export default function Dashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
+          <NewBotsBanner />
           <TrialStatusBanner />
           
           {activeTab === 'overview' && (
@@ -251,21 +269,28 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-lg font-semibold mb-4">Recent Posts</h3>
                   <div className="space-y-4">
-                    {posts.map((post) => (
-                      <div key={post.id} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                    {posts.slice(0, 5).map((post) => (
+                      <div key={post.id} className={`flex items-center justify-between p-4 rounded-lg ${
+                        post.isLocked ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-gray-700'
+                      }`}>
                         <div className="flex items-center gap-3">
                           <div className={`w-3 h-3 rounded-full ${
                             post.status === 'scheduled' ? 'bg-yellow-400' : 
                             post.status === 'published' ? 'bg-green-400' : 'bg-gray-400'
                           }`} />
-                          <div>
-                            <p className="font-medium">{post.platform}</p>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium">{post.platform}</p>
+                              {post.isLocked && <LockedContentIcon />}
+                            </div>
                             <p className="text-sm text-gray-400 truncate max-w-xs">{post.content}</p>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-gray-400">
-                            {new Date(post.scheduledAt).toLocaleDateString()}
+                            {post.scheduled_at 
+                              ? new Date(post.scheduled_at).toLocaleDateString() 
+                              : new Date(post.created_at).toLocaleDateString()}
                           </p>
                           <p className="text-xs text-gray-500">{post.status}</p>
                         </div>
@@ -313,31 +338,99 @@ export default function Dashboard() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {posts.map((post) => (
-                  <div key={post.id} className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded-full">
-                        {post.platform}
-                      </span>
-                      <span className={`px-3 py-1 text-sm rounded-full ${
-                        post.status === 'scheduled' ? 'bg-yellow-500 text-black' : 
-                        post.status === 'published' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
-                      }`}>
-                        {post.status}
-                      </span>
-                    </div>
-                    <p className="text-gray-300 mb-4">{post.content}</p>
-                    <div className="flex justify-between items-center text-sm text-gray-400">
-                      <span>{new Date(post.scheduledAt).toLocaleDateString()}</span>
-                      <div className="flex gap-4">
-                        <span>{post.engagement.likes} likes</span>
-                        <span>{post.engagement.comments} comments</span>
+              {posts.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-400 mb-4">No posts yet. Create your first post!</p>
+                  <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all">
+                    Create Post
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {posts.map((post) => (
+                    <div 
+                      key={post.id} 
+                      className={`bg-gray-800 p-6 rounded-lg border ${
+                        post.isLocked 
+                          ? 'border-blue-500/50 bg-blue-500/5' 
+                          : 'border-gray-700'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                          <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded-full">
+                            {post.platform}
+                          </span>
+                          {post.isLocked && <LockedContentIcon />}
+                        </div>
+                        <span className={`px-3 py-1 text-sm rounded-full ${
+                          post.status === 'scheduled' ? 'bg-yellow-500 text-black' : 
+                          post.status === 'published' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
+                        }`}>
+                          {post.status}
+                        </span>
+                      </div>
+                      
+                      {post.isLocked && (
+                        <LockedContentBadge 
+                          message="This content is locked"
+                          showUpgradeButton={true}
+                          size="sm"
+                        />
+                      )}
+                      
+                      <p className="text-gray-300 mb-4 mt-4">{post.content}</p>
+                      
+                      <div className="flex justify-between items-center text-sm text-gray-400 mb-4">
+                        <span>
+                          {post.scheduled_at 
+                            ? new Date(post.scheduled_at).toLocaleDateString() 
+                            : new Date(post.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            if (post.isLocked) {
+                              alert('This content is locked. Upgrade to edit it.')
+                              return
+                            }
+                            // Handle edit
+                            console.log('Edit post', post.id)
+                          }}
+                          disabled={post.isLocked}
+                          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                            post.isLocked
+                              ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                              : 'bg-blue-600 hover:bg-blue-700'
+                          }`}
+                        >
+                          {post.isLocked ? '🔒 Locked' : 'Edit'}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (post.isLocked) {
+                              alert('This content is locked. Upgrade to export it.')
+                              return
+                            }
+                            // Handle export
+                            console.log('Export post', post.id)
+                          }}
+                          disabled={post.isLocked}
+                          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                            post.isLocked
+                              ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                              : 'bg-purple-600 hover:bg-purple-700'
+                          }`}
+                        >
+                          {post.isLocked ? '🔒 Locked' : 'Export'}
+                        </button>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -479,7 +572,10 @@ export default function Dashboard() {
                 <p className="text-gray-300 mb-6">Unlock the full power of these 8 unique AI tools available only to Agency plan members</p>
                 
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('brand-voice')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -493,9 +589,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
                       <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('content-gap')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -524,9 +623,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
                       <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('engagement-predictor')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -552,9 +654,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
                       <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('viral-detector')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -569,9 +674,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
                       <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('hashtag-optimizer')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -583,9 +691,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
                       <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('reformatter')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -599,9 +710,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
                       <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('collaboration-matchmaker')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -616,9 +730,12 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
                       <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
                     </div>
-                  </div>
+                  </button>
 
-                  <div className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden">
+                  <button
+                    onClick={() => setOpenAITool('sentiment')}
+                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
                     <div className="relative mb-4">
                       <div className="h-24 flex items-center justify-center mb-4">
@@ -647,10 +764,35 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
                       <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
                     </div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
+          )}
+
+          {/* AI Tool Panels */}
+          {subscriptionTier === 'agency' && (
+            <>
+              <AIToolPanel
+                toolName="AI Brand Voice Analyzer"
+                toolId="brand-voice"
+                description="Analyzes and maintains your unique brand voice across all content"
+                isOpen={openAITool === 'brand-voice'}
+                onClose={() => setOpenAITool(null)}
+              >
+                <BrandVoiceTool token={localStorage.getItem('token') || ''} />
+              </AIToolPanel>
+
+              <AIToolPanel
+                toolName="Smart Hashtag Optimizer"
+                toolId="hashtag-optimizer"
+                description="Context-aware hashtag suggestions that maximize reach and engagement"
+                isOpen={openAITool === 'hashtag-optimizer'}
+                onClose={() => setOpenAITool(null)}
+              >
+                <HashtagOptimizerTool token={localStorage.getItem('token') || ''} />
+              </AIToolPanel>
+            </>
           )}
         </main>
       </div>
