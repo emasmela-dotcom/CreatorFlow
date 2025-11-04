@@ -614,36 +614,38 @@
                 'event_label': 'landing_page'
             });
 
-            // Call backend and wait for password, then show one alert and redirect
-            sendEmailSignup(email).then((data) => {
-                if (data && data.message === 'Account created successfully') {
-                    alert(`Account created for ${email}!\n\nYour password: ${data.password}\n\nSave this password. You'll need it to sign in.`);
-                    setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 800);
-                } else {
-                    const err = data && data.error ? data.error : 'Signup failed. Please try again.';
-                    alert(err);
-                }
-            }).catch(() => {
-                alert('Signup failed. Please try again.');
-            });
+            // Send email using a simple webhook service
+            sendEmailSignup(email);
+            
+            alert(`Thanks! We'll send your free trial details to ${email}. Check your email in a few minutes!`);
+            
+            // Simulate redirect to dashboard
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 1000);
         }
 
         function sendEmailSignup(userEmail) {
-            // Send signup request to our API and return the response JSON
-            return fetch('/api/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: userEmail,
-                    action: 'signup'
-                })
-            }).then(response => response.json());
+    // Send email using Resend API
+    fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: userEmail,
+            action: 'signup'
+        })
+    }).then(response => {
+        if (response.ok) {
+            console.log('Signup successful, email sent via Resend');
+        } else {
+            console.log('Failed to send email via Resend');
         }
-
+    }).catch(error => {
+        console.log('Error sending email:', error);
+    });
+}
         function handlePricingClick(plan) {
             // Track pricing click
             gtag('event', 'pricing_click', {
