@@ -20,7 +20,7 @@
   - Pro Plan ($39/month) - Price ID: `price_1SOqdilGaH1td4JMxVVWSaBR`
   - Business Plan ($49/month) - Price ID: `price_1SOqgTIGaH1td4JMUMgZxq89`
   - Agency Plan ($99/month) - Price ID: `price_1SOqiklGaH1td4JMON17yzmP`
-- ✅ Copied Live Secret Key: `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`
+- ✅ Copied Live Secret Key: `[REMOVED - See STRIPE_SETUP_VALUES.md]`
 - 🟡 Webhook setup in progress (need to get webhook secret after completing endpoint configuration)
 
 ---

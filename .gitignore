@@ -42,3 +42,5 @@ next-env.d.ts
 
 # secrets - never commit these
 STRIPE_SETUP_VALUES.md
+VERCEL_ENV_VARS.md
+project_status.md
