@@ -14,6 +14,7 @@ export default function CreatePost() {
   const [scheduledTime, setScheduledTime] = useState('')
   const [hashtags, setHashtags] = useState('')
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
+  const [token, setToken] = useState('')
   const [postInfo, setPostInfo] = useState<{
     monthlyLimit: number | null
     purchased: number
@@ -58,12 +59,17 @@ export default function CreatePost() {
   }
 
   useEffect(() => {
+    // Load auth token on client
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('token') || '')
+    }
+
     // Fetch post usage info
-    const token = localStorage.getItem('token')
-    if (token) {
+    const t = localStorage.getItem('token')
+    if (t) {
       fetch('/api/user/purchase-posts', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${t}`
         }
       })
       .then(res => res.json())
@@ -238,7 +244,7 @@ export default function CreatePost() {
                     content={content}
                     platform={selectedPlatforms[0]} // Use first selected platform
                     hashtags={hashtags}
-                    token={localStorage.getItem('token') || ''}
+                token={token}
                   />
                 </div>
               )}
@@ -336,7 +342,7 @@ export default function CreatePost() {
                 <div className="mt-4 pt-4 border-t border-gray-700">
                   <SchedulingAssistantBot
                     platform={selectedPlatforms[0]}
-                    token={localStorage.getItem('token') || ''}
+                token={token}
                     onTimeSelect={(time) => {
                       // Auto-fill time when user clicks
                       const [hours, minutes] = time.split(':')

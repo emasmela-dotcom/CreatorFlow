@@ -56,9 +56,11 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
       const data = await response.json()
 
       if (!response.ok) {
+        console.error('Content Assistant API Error:', data)
         throw new Error(data.error || 'Analysis failed')
       }
 
+      console.log('Content Assistant Analysis:', data.analysis)
       setAnalysis(data.analysis)
     } catch (err: any) {
       setError(err.message || 'Failed to analyze')
@@ -127,6 +129,11 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
   if (!content.trim() || !platform) {
     return null
   }
+
+  // Debug logging
+  useEffect(() => {
+    console.log('ContentAssistantBot props:', { content, platform, token: token ? 'present' : 'missing' })
+  }, [content, platform, token])
 
   return (
     <div className="space-y-3">

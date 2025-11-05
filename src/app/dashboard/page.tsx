@@ -1,21 +1,29 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import NewBotsBanner from '@/components/NewBotsBanner'
-import AIToolPanel from '@/components/AIToolPanel'
-import BrandVoiceTool from '@/components/ai/BrandVoiceTool'
-import HashtagOptimizerTool from '@/components/ai/HashtagOptimizerTool'
-import ContentGapTool from '@/components/ai/ContentGapTool'
-import EngagementPredictorTool from '@/components/ai/EngagementPredictorTool'
-import ViralDetectorTool from '@/components/ai/ViralDetectorTool'
-import ReformatterTool from '@/components/ai/ReformatterTool'
-import CollaborationMatchmakerTool from '@/components/ai/CollaborationMatchmakerTool'
-import SentimentTool from '@/components/ai/SentimentTool'
+import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
+import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
+import EngagementAnalyzerBot from '@/components/bots/EngagementAnalyzerBot'
+import TrendScoutBot from '@/components/bots/TrendScoutBot'
+import ContentCurationBot from '@/components/bots/ContentCurationBot'
+import AnalyticsCoachBot from '@/components/bots/AnalyticsCoachBot'
+// AI Tool components - commented out until components are created
+// import BrandVoiceTool from '@/components/ai/BrandVoiceTool'
+// import HashtagOptimizerTool from '@/components/ai/HashtagOptimizerTool'
+// import ContentGapTool from '@/components/ai/ContentGapTool'
+// import EngagementPredictorTool from '@/components/ai/EngagementPredictorTool'
+// import ViralDetectorTool from '@/components/ai/ViralDetectorTool'
+// import ReformatterTool from '@/components/ai/ReformatterTool'
+// import CollaborationMatchmakerTool from '@/components/ai/CollaborationMatchmakerTool'
+// import SentimentTool from '@/components/ai/SentimentTool'
 import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
 export default function Dashboard() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const [postInfo, setPostInfo] = useState<{
@@ -36,6 +44,14 @@ export default function Dashboard() {
     created_at: string
   }>>([])
   const [openAITool, setOpenAITool] = useState<string | null>(null)
+  const [token, setToken] = useState<string>('')
+
+  useEffect(() => {
+    // Get token from localStorage on client side
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('token') || '')
+    }
+  }, [])
 
   const analytics = {
     totalFollowers: 125000,
@@ -131,6 +147,13 @@ export default function Dashboard() {
               >
                 Collaborations
               </button>
+              <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'bots' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('bots')}
+              >
+                <Brain className="w-4 h-4 inline mr-2" />
+                AI Bots
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -144,6 +167,17 @@ export default function Dashboard() {
             </div>
             <Bell className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
             <Settings className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
+            <button
+              onClick={() => {
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                router.push('/signin')
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
       </header>
@@ -169,15 +203,24 @@ export default function Dashboard() {
             <div>
               <h4 className="font-semibold mb-3 text-gray-300">Quick Actions</h4>
               <div className="space-y-2">
-                <button className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                <button
+                  onClick={() => router.push('/create')}
+                  className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                >
                   <Plus className="w-4 h-4" />
                   New Post
                 </button>
-                <button className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                <button
+                  onClick={() => router.push('/create')}
+                  className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                >
                   <Calendar className="w-4 h-4" />
                   Schedule
                 </button>
-                <button className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                <button
+                  onClick={() => router.push('/analytics')}
+                  className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                >
                   <BarChart3 className="w-4 h-4" />
                   Analytics
                 </button>
@@ -332,7 +375,10 @@ export default function Dashboard() {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Content Management</h2>
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2">
+                <button
+                  onClick={() => router.push('/create')}
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
+                >
                   <Plus className="w-5 h-5" />
                   Create New Post
                 </button>
@@ -341,7 +387,10 @@ export default function Dashboard() {
               {posts.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-gray-400 mb-4">No posts yet. Create your first post!</p>
-                  <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all">
+                  <button
+                    onClick={() => router.push('/create')}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+                  >
                     Create Post
                   </button>
                 </div>
@@ -464,6 +513,104 @@ export default function Dashboard() {
             </div>
           )}
 
+          {activeTab === 'bots' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">AI Bots</h2>
+                <p className="text-gray-400">Free AI assistants to help you create better content</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Content Assistant Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Content Assistant Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">Real-time content analysis</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <ContentAssistantBot
+                        content="Check out this amazing new product! #innovation #tech"
+                        platform="instagram"
+                        hashtags="#innovation #tech"
+                        token={token}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Scheduling Assistant Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Scheduling Assistant Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">AI suggests optimal posting times</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <SchedulingAssistantBot
+                        platform="instagram"
+                        token={token}
+                        onTimeSelect={(time) => console.log('Selected time:', time)}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Engagement Analyzer Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Engagement Analyzer Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">Analyzes your post performance</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <EngagementAnalyzerBot
+                        platform="instagram"
+                        token={token}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Trend Scout Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Trend Scout Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">Identifies trending topics</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <TrendScoutBot
+                        platform="instagram"
+                        token={token}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Content Curation Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Content Curation Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">Suggests content ideas</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <ContentCurationBot
+                        platform="instagram"
+                        token={token}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Analytics Coach Bot */}
+                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-1">Analytics Coach Bot</h3>
+                  <p className="text-xs text-gray-400 mb-2">Provides growth insights</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
+                    {token && (
+                      <AnalyticsCoachBot
+                        platform="instagram"
+                        token={token}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Purchase Additional Posts Section */}
           {activeTab === 'overview' && postInfo && (
             <div className="space-y-6 mt-6">
@@ -559,17 +706,17 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* 8 Unique AI Tools - Only for Agency Plan */}
-          {subscriptionTier === 'agency' && (
+          {/* 8 Unique AI Tools - Available to All Paying Subscribers */}
+          {subscriptionTier && (
             <div className="space-y-6 mt-8">
               <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-2xl font-bold">Your Exclusive AI Tools</h2>
+                  <h2 className="text-2xl font-bold">Your AI Tools</h2>
                   <span className="ml-auto bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    AGENCY EXCLUSIVE
+                    INCLUDED
                   </span>
                 </div>
-                <p className="text-gray-300 mb-6">Unlock the full power of these 8 unique AI tools available only to Agency plan members</p>
+                <p className="text-gray-300 mb-6">Access all AI tools included with your subscription</p>
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <button
@@ -770,28 +917,10 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* AI Tool Panels */}
-          {subscriptionTier === 'agency' && (
+          {/* AI Tool Panels - Available to All Paying Subscribers */}
+          {subscriptionTier && (
             <>
-              <AIToolPanel
-                toolName="AI Brand Voice Analyzer"
-                toolId="brand-voice"
-                description="Analyzes and maintains your unique brand voice across all content"
-                isOpen={openAITool === 'brand-voice'}
-                onClose={() => setOpenAITool(null)}
-              >
-                <BrandVoiceTool token={localStorage.getItem('token') || ''} />
-              </AIToolPanel>
-
-              <AIToolPanel
-                toolName="Smart Hashtag Optimizer"
-                toolId="hashtag-optimizer"
-                description="Context-aware hashtag suggestions that maximize reach and engagement"
-                isOpen={openAITool === 'hashtag-optimizer'}
-                onClose={() => setOpenAITool(null)}
-              >
-                <HashtagOptimizerTool token={localStorage.getItem('token') || ''} />
-              </AIToolPanel>
+              {/* Brand Voice and Hashtag Optimizer tools will be added here when AIToolPanel is created */}
             </>
           )}
         </main>
