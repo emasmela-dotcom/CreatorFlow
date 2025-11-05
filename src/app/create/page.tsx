@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
@@ -15,6 +15,7 @@ export default function CreatePost() {
   const [hashtags, setHashtags] = useState('')
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [token, setToken] = useState('')
+  const analysisRef = useRef<HTMLDivElement | null>(null)
   const [postInfo, setPostInfo] = useState<{
     monthlyLimit: number | null
     purchased: number
@@ -236,10 +237,26 @@ export default function CreatePost() {
                   </button>
                 </div>
               </div>
+
+              {/* Inline AI status bar */}
+              {selectedPlatforms.length > 0 && content.trim().length > 0 && (
+                <div className="mt-3 flex items-center justify-between bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm">
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <Sparkles className="w-4 h-4 text-purple-400" />
+                    <span>AI analysis running…</span>
+                  </div>
+                  <button
+                    onClick={() => analysisRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-purple-300 hover:text-purple-200 underline"
+                  >
+                    Show analysis
+                  </button>
+                </div>
+              )}
               
               {/* Content Assistant Bot - Real-time Feedback */}
               {selectedPlatforms.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-gray-700">
+                <div ref={analysisRef} className="mt-4 pt-4 border-t border-gray-700">
                   <ContentAssistantBot
                     content={content}
                     platform={selectedPlatforms[0]} // Use first selected platform
