@@ -9,6 +9,12 @@ export default function HomePage() {
   const [email, setEmail] = useState('')
   const { trackEvent, trackConversionEvent } = useAnalytics()
 
+  const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
+    // Redirect to signup with plan parameter
+    // User will select plan during signup/trial activation
+    window.location.href = `/signup?plan=${plan}`
+  }
+
   const handleEmailSubmit = async () => {
     if (!email) {
       alert('Please enter your email address')

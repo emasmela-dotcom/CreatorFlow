@@ -198,7 +198,7 @@ export default function CreatePost() {
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+            <button onClick={() => router.push('/dashboard')} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
               <ArrowLeft className="w-5 h-5" />
             </button>
             <h1 className="text-2xl font-bold">Create New Post</h1>
