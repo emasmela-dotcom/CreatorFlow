@@ -54,12 +54,13 @@ export async function GET(request: NextRequest) {
     // Get current month's post count
     const currentMonth = new Date().toISOString().slice(0, 7) // YYYY-MM
     const postsResult = await db.execute({
-      sql: `SELECT COUNT(*) as count FROM content_posts 
+      sql: `SELECT COUNT(*)::int as count FROM content_posts 
             WHERE user_id = ? AND TO_CHAR(created_at, 'YYYY-MM') = ?`,
       args: [decoded.userId, currentMonth]
     })
 
-    const postsThisMonth = (postsResult.rows[0].count as number) || 0
+    // PostgreSQL returns count as bigint, convert to number
+    const postsThisMonth = postsResult.rows[0] ? Number(postsResult.rows[0].count || 0) : 0
     const totalAvailable = (monthlyLimit || 0) + purchasedPosts
     const remaining = totalAvailable - postsThisMonth
 
@@ -73,7 +74,15 @@ export async function GET(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('Get post purchase info error:', error)
-    return NextResponse.json({ error: error.message || 'Failed to get post purchase info' }, { status: 500 })
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    })
+    return NextResponse.json({ 
+      error: error.message || 'Failed to get post purchase info',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    }, { status: 500 })
   }
 }
 
