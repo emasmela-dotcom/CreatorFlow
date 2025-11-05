@@ -44,19 +44,122 @@ export default function CreatePost() {
     setMediaFiles(prev => [...prev, ...files])
   }
 
-  const handleSave = () => {
-    // Save as draft
-    console.log('Saving draft...', { content, selectedPlatforms, scheduledDate, scheduledTime, hashtags })
+  const [isSaving, setIsSaving] = useState(false)
+  const [isScheduling, setIsScheduling] = useState(false)
+  const [isPublishing, setIsPublishing] = useState(false)
+
+  const createPost = async (status: 'draft' | 'scheduled' | 'published') => {
+    if (!content.trim()) {
+      alert('Please enter content for your post')
+      return
+    }
+
+    if (selectedPlatforms.length === 0) {
+      alert('Please select at least one platform')
+      return
+    }
+
+    if (!token) {
+      alert('You must be logged in to create a post')
+      router.push('/signin')
+      return
+    }
+
+    // Check post limit
+    if (postInfo && postInfo.remaining <= 0 && status !== 'draft') {
+      alert('You have reached your post limit. Please upgrade your plan or purchase additional posts.')
+      router.push('/dashboard')
+      return
+    }
+
+    // Combine content with hashtags
+    const fullContent = hashtags.trim() 
+      ? `${content.trim()}\n\n${hashtags.trim()}`
+      : content.trim()
+
+    // Create scheduled_at timestamp if scheduling
+    let scheduled_at = null
+    if (status === 'scheduled' && scheduledDate && scheduledTime) {
+      const dateTime = new Date(`${scheduledDate}T${scheduledTime}`)
+      if (!isNaN(dateTime.getTime())) {
+        scheduled_at = dateTime.toISOString()
+      } else {
+        alert('Please select a valid date and time')
+        return
+      }
+    }
+
+    try {
+      // Create post for each selected platform
+      const platform = selectedPlatforms[0] // API currently supports one platform at a time
+      
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          platform,
+          content: fullContent,
+          media_urls: [], // TODO: Handle media uploads
+          scheduled_at,
+          status
+        })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create post')
+      }
+
+      // Success!
+      if (status === 'draft') {
+        alert('Draft saved successfully!')
+      } else if (status === 'scheduled') {
+        alert(`Post scheduled for ${scheduledDate} at ${scheduledTime}!`)
+      } else {
+        alert('Post published successfully!')
+      }
+
+      // Redirect to dashboard
+      router.push('/dashboard')
+    } catch (error: any) {
+      console.error('Create post error:', error)
+      alert(error.message || 'Failed to create post. Please try again.')
+    }
   }
 
-  const handleSchedule = () => {
-    // Schedule post
-    console.log('Scheduling post...', { content, selectedPlatforms, scheduledDate, scheduledTime, hashtags })
+  const handleSave = async () => {
+    setIsSaving(true)
+    try {
+      await createPost('draft')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
-  const handlePublish = () => {
-    // Publish immediately
-    console.log('Publishing now...', { content, selectedPlatforms, hashtags })
+  const handleSchedule = async () => {
+    if (!scheduledDate || !scheduledTime) {
+      alert('Please select a date and time to schedule the post')
+      return
+    }
+    setIsScheduling(true)
+    try {
+      await createPost('scheduled')
+    } finally {
+      setIsScheduling(false)
+    }
+  }
+
+  const handlePublish = async () => {
+    setIsPublishing(true)
+    try {
+      await createPost('published')
+    } finally {
+      setIsPublishing(false)
+    }
   }
 
   useEffect(() => {
@@ -103,24 +206,27 @@ export default function CreatePost() {
           <div className="flex items-center gap-3">
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2"
+              disabled={isSaving || isScheduling || isPublishing}
+              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
-              Save Draft
+              {isSaving ? 'Saving...' : 'Save Draft'}
             </button>
             <button
               onClick={handleSchedule}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2"
+              disabled={isSaving || isScheduling || isPublishing}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Calendar className="w-4 h-4" />
-              Schedule
+              {isScheduling ? 'Scheduling...' : 'Schedule'}
             </button>
             <button
               onClick={handlePublish}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2"
+              disabled={isSaving || isScheduling || isPublishing}
+              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4" />
-              Publish Now
+              {isPublishing ? 'Publishing...' : 'Publish Now'}
             </button>
           </div>
         </div>
