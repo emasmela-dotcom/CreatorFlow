@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     // Get user's current post limit and purchased posts
     const userResult = await db.execute({
-      sql: 'SELECT monthly_post_limit, additional_posts_purchased FROM users WHERE id = $1',
+      sql: 'SELECT monthly_post_limit, additional_posts_purchased FROM users WHERE id = ?',
       args: [decoded.userId]
     })
 
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     const currentMonth = new Date().toISOString().slice(0, 7) // YYYY-MM
     const postsResult = await db.execute({
       sql: `SELECT COUNT(*) as count FROM content_posts 
-            WHERE user_id = $1 AND TO_CHAR(created_at, 'YYYY-MM') = $2`,
+            WHERE user_id = ? AND TO_CHAR(created_at, 'YYYY-MM') = ?`,
       args: [decoded.userId, currentMonth]
     })
 
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
 
     // Get user's Stripe customer ID
     const userResult = await db.execute({
-      sql: 'SELECT stripe_customer_id, email FROM users WHERE id = $1',
+      sql: 'SELECT stripe_customer_id, email FROM users WHERE id = ?',
       args: [decoded.userId]
     })
 
