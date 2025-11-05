@@ -40,23 +40,35 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
     setError('')
 
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
+
       const response = await fetch('/api/bots/trend-scout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ platform })
+        body: JSON.stringify({ platform }),
+        signal: controller.signal
       })
 
+      clearTimeout(timeoutId)
+
       if (!response.ok) {
-        throw new Error('Failed to scout trends')
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to scout trends')
       }
 
       const data = await response.json()
       setAnalysis(data.analysis)
+      setError('')
     } catch (err: any) {
-      setError(err.message || 'Failed to load trends')
+      if (err.name === 'AbortError') {
+        setError('Request timed out')
+      } else {
+        setError(err.message || 'Failed to load trends')
+      }
     } finally {
       setLoading(false)
     }
@@ -73,14 +85,45 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
 
   if (error) {
     return (
-      <div className="text-sm text-red-400">
-        {error}
+      <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 rounded-lg p-4 border border-orange-500/30">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-orange-400" />
+            <h4 className="font-semibold text-white">Trend Scout</h4>
+          </div>
+        </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p className="text-xs text-yellow-400 mb-2">⚠️ Showing general trends</p>
+          <p className="text-xs text-gray-400 mb-3">Post more content to get personalized trend recommendations</p>
+          <div className="space-y-2">
+            <div className="text-xs text-gray-300">
+              <strong>Popular:</strong> #MotivationMonday, #Lifestyle, #WeekendVibes
+            </div>
+            <div className="text-xs text-gray-300">
+              <strong>Best time:</strong> 9 AM - 11 AM or 7 PM - 9 PM
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
+  // Always show something
   if (!analysis) {
-    return null
+    return (
+      <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 rounded-lg p-4 border border-orange-500/30">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-orange-400" />
+            <h4 className="font-semibold text-white">Trend Scout</h4>
+          </div>
+        </div>
+        <div className="text-center py-4">
+          <p className="text-sm text-gray-400 mb-2">Loading trending topics...</p>
+          <p className="text-xs text-gray-500">Analyzing your niche for opportunities</p>
+        </div>
+      </div>
+    )
   }
 
   return (

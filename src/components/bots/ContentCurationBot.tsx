@@ -48,23 +48,35 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
     setError('')
 
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
+
       const response = await fetch('/api/bots/content-curation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ platform })
+        body: JSON.stringify({ platform }),
+        signal: controller.signal
       })
 
+      clearTimeout(timeoutId)
+
       if (!response.ok) {
-        throw new Error('Failed to curate content')
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to curate content')
       }
 
       const data = await response.json()
       setAnalysis(data.analysis)
+      setError('')
     } catch (err: any) {
-      setError(err.message || 'Failed to load content ideas')
+      if (err.name === 'AbortError') {
+        setError('Request timed out')
+      } else {
+        setError(err.message || 'Failed to load content ideas')
+      }
     } finally {
       setLoading(false)
     }
@@ -81,14 +93,45 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
 
   if (error) {
     return (
-      <div className="text-sm text-red-400">
-        {error}
+      <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-lg p-4 border border-purple-500/30">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-purple-400" />
+            <h4 className="font-semibold text-white">Content Curation</h4>
+          </div>
+        </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p className="text-xs text-yellow-400 mb-2">⚠️ Showing general content ideas</p>
+          <p className="text-xs text-gray-400 mb-3">Post more content to get personalized suggestions</p>
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-purple-400">Content Ideas:</div>
+            <ul className="space-y-1 text-xs text-gray-300 ml-4">
+              <li>• Daily tips and advice</li>
+              <li>• Behind-the-scenes content</li>
+              <li>• Educational tutorials</li>
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }
 
+  // Always show something
   if (!analysis) {
-    return null
+    return (
+      <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-lg p-4 border border-purple-500/30">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-purple-400" />
+            <h4 className="font-semibold text-white">Content Curation</h4>
+          </div>
+        </div>
+        <div className="text-center py-4">
+          <p className="text-sm text-gray-400 mb-2">Generating content ideas...</p>
+          <p className="text-xs text-gray-500">Analyzing your content patterns</p>
+        </div>
+      </div>
+    )
   }
 
   return (

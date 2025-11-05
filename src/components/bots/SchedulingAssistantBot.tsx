@@ -51,14 +51,21 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
     setError('')
 
     try {
+      // Add timeout to prevent hanging
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
       const response = await fetch('/api/bots/scheduling-assistant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ platform })
+        body: JSON.stringify({ platform }),
+        signal: controller.signal
       })
+
+      clearTimeout(timeoutId)
 
       const data = await response.json()
 
@@ -67,9 +74,14 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
       }
 
       setRecommendations(data.recommendations)
+      setError('') // Clear any previous errors
     } catch (err: any) {
-      setError(err.message || 'Failed to load recommendations')
-      setRecommendations(null)
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Showing default recommendations.')
+      } else {
+        setError(err.message || 'Failed to load recommendations')
+      }
+      setRecommendations(null) // Show fallback UI
     } finally {
       setLoading(false)
     }
@@ -103,8 +115,18 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
           <span className="text-sm text-gray-400">Analyzing best times...</span>
         </div>
       ) : error ? (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-          <p className="text-xs text-red-400">{error}</p>
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+          <p className="text-xs text-yellow-400 mb-2">⚠️ Using default recommendations</p>
+          <p className="text-xs text-gray-400">Industry best times for {platform}</p>
+          {/* Show fallback data */}
+          <div className="mt-3 space-y-2">
+            <div className="text-xs text-gray-300">
+              <strong>Best times:</strong> 6-9 PM (evenings perform best)
+            </div>
+            <div className="text-xs text-gray-300">
+              <strong>Best days:</strong> Tuesday, Thursday, Friday
+            </div>
+          </div>
         </div>
       ) : recommendations ? (
         <div className="space-y-3">

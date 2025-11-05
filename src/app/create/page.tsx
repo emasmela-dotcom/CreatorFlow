@@ -254,31 +254,17 @@ export default function CreatePost() {
                 </div>
               )}
               
-              {/* Content Assistant Bot - Real-time Feedback - ALWAYS VISIBLE FOR DEBUG */}
-              <div ref={analysisRef} className="mt-4 pt-4 border-t border-gray-700 bg-yellow-500/10 border-yellow-500/30 p-4 rounded-lg">
-                <div className="mb-2 text-sm font-bold text-yellow-400">
-                  DEBUG: Content Assistant Bot Section
-                </div>
-                <div className="text-xs text-gray-300 mb-2">
-                  Selected Platforms: {selectedPlatforms.length > 0 ? selectedPlatforms.join(', ') : 'NONE'}
-                </div>
-                <div className="text-xs text-gray-300 mb-2">
-                  Content Length: {content.length} | Token: {token ? 'PRESENT' : 'MISSING'}
-                </div>
-                {selectedPlatforms.length > 0 && content.trim() ? (
+              {/* Content Assistant Bot - Real-time Feedback */}
+              {selectedPlatforms.length > 0 && content.trim() && (
+                <div ref={analysisRef} className="mt-4 pt-4 border-t border-gray-700">
                   <ContentAssistantBot
                     content={content}
                     platform={selectedPlatforms[0]}
                     hashtags={hashtags}
                     token={token}
                   />
-                ) : (
-                  <div className="text-xs text-gray-400">
-                    {!selectedPlatforms.length && 'Select a platform'}
-                    {selectedPlatforms.length > 0 && !content.trim() && 'Type some content'}
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Media Upload */}

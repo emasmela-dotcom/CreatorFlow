@@ -43,23 +43,36 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
     setError('')
 
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
+
       const response = await fetch('/api/bots/engagement-analyzer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ platform })
+        body: JSON.stringify({ platform }),
+        signal: controller.signal
       })
 
+      clearTimeout(timeoutId)
+
       if (!response.ok) {
-        throw new Error('Failed to analyze engagement')
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to analyze engagement')
       }
 
       const data = await response.json()
       setAnalysis(data.analysis)
+      setError('') // Clear any previous errors
     } catch (err: any) {
-      setError(err.message || 'Failed to load engagement data')
+      if (err.name === 'AbortError') {
+        setError('Request timed out')
+      } else {
+        setError(err.message || 'Failed to load engagement data')
+      }
+      // Don't set analysis to null - let it show fallback UI
     } finally {
       setLoading(false)
     }
@@ -76,14 +89,47 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
 
   if (error) {
     return (
-      <div className="text-sm text-red-400">
-        {error}
+      <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-yellow-400" />
+            <h4 className="font-semibold text-white">Engagement Analysis</h4>
+          </div>
+        </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 mb-3">
+          <p className="text-xs text-yellow-400 mb-2">⚠️ Using default insights</p>
+          <p className="text-xs text-gray-400">Start posting to see your personalized engagement data</p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-gray-800/50 rounded-lg p-3">
+            <div className="text-xs text-gray-400 mb-1">Average Engagement</div>
+            <div className="text-2xl font-bold text-gray-500">-</div>
+          </div>
+          <div className="bg-gray-800/50 rounded-lg p-3">
+            <div className="text-xs text-gray-400 mb-1">Best Post</div>
+            <div className="text-lg font-semibold text-gray-500">-</div>
+          </div>
+        </div>
       </div>
     )
   }
 
+  // Always show something - even if no analysis yet
   if (!analysis) {
-    return null
+    return (
+      <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-yellow-400" />
+            <h4 className="font-semibold text-white">Engagement Analysis</h4>
+          </div>
+        </div>
+        <div className="text-center py-4">
+          <p className="text-sm text-gray-400 mb-2">No published posts found yet</p>
+          <p className="text-xs text-gray-500">Start posting to get engagement insights!</p>
+        </div>
+      </div>
+    )
   }
 
   return (
