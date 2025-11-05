@@ -1,74 +1,59 @@
-# 🚀 CreatorFlow - Quick Start Guide
+# CreatorFlow Quick Start Guide
 
-## **LIVE URL:** https://creatorflow-public-eiiwyaxnn-erics-projects-b395e20f.vercel.app
-
----
-
-## ⚡ **5-MINUTE ANALYTICS SETUP**
-
-### **Step 1: Get Google Analytics ID**
-1. Go to [analytics.google.com](https://analytics.google.com)
-2. Click "Start measuring"
-3. Create property: "CreatorFlow"
-4. Choose "Web" platform
-5. Enter URL: `https://creatorflow-public-eiiwyaxnn-erics-projects-b395e20f.vercel.app`
-6. Copy your **Measurement ID** (G-XXXXXXXXXX)
-
-### **Step 2: Add to Vercel**
-1. Go to [vercel.com/dashboard](https://vercel.com/dashboard)
-2. Find "creatorflow-public" project
-3. Settings → Environment Variables
-4. Add: `NEXT_PUBLIC_GA_ID` = `G-XXXXXXXXXX`
-5. Redeploy project
-
-### **Step 3: Start Tracking!**
-- Visit your site
-- Check Google Analytics for real-time data
-- Start sharing the URL to get visitors
+## 🚀 Start the Server
+```bash
+cd /Users/ericmasmela/CreatorFlow
+npm run dev
+```
+Then open: **http://localhost:3000**
 
 ---
 
-## 📊 **WHAT YOU'LL SEE IN ANALYTICS**
-
-### **Real-Time Data:**
-- Current visitors on site
-- Live page views
-- Geographic location of users
-- Device types (mobile/desktop)
-
-### **Conversion Tracking:**
-- Email signups
-- Pricing plan clicks
-- Button interactions
-- Navigation patterns
-
-### **Revenue Metrics:**
-- Subscription attempts
-- Plan popularity
-- Conversion rates
-- Revenue attribution
+## 📝 Test Account
+- Email: `test@creatorflow.com` or `emasmela1976@gmail.com`
+- Password: `test123`
 
 ---
 
-## 🎯 **SUCCESS TARGETS**
+## 🔧 If Server Won't Start
 
-| Metric | Week 1 | Month 1 | Month 3 |
-|--------|--------|---------|---------|
-| **Visitors** | 100+ | 1,000+ | 5,000+ |
-| **Email Signups** | 10+ | 100+ | 500+ |
-| **Pricing Clicks** | 5+ | 50+ | 250+ |
-| **Subscriptions** | 1+ | 5+ | 50+ |
-| **Revenue** | $50+ | $500+ | $2,500+ |
+**Kill old processes:**
+```bash
+lsof -ti:3000,3002 | xargs kill -9 2>/dev/null
+rm -rf .next/dev/lock
+```
+
+Then try `npm run dev` again.
 
 ---
 
-## 🚀 **READY TO MAKE MONEY!**
+## 📂 Important Files
+- Landing page: `src/app/page.tsx`
+- Dashboard: `src/app/dashboard/page.tsx`
+- Pricing: In `page.tsx` around line 400
 
-**Your CreatorFlow platform is:**
-- ✅ **Live and accessible**
-- ✅ **Analytics ready**
-- ✅ **Revenue tracking enabled**
-- ✅ **Mobile responsive**
-- ✅ **Professional design**
+---
 
-**Next step: Share the URL and start tracking!** 💰📊
+## 💾 Push to Git (GitHub Desktop)
+1. Open GitHub Desktop
+2. Make sure you're in CreatorFlow repo
+3. Click "Commit" button
+4. Click "Push" button
+
+---
+
+## 🎯 What You Asked For
+- ✅ All paying subscribers get ALL features
+- ✅ Only pay for posts when you run out
+- ✅ Plans differ by monthly post count only
+
+---
+
+## ⚠️ If Something Breaks
+1. Check terminal for errors
+2. Refresh browser
+3. If still broken, tell me the error message
+
+---
+
+**That's it. You only need to remember these basics.**

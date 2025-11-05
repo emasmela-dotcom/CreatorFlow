@@ -255,14 +255,21 @@ export default function CreatePost() {
               )}
               
               {/* Content Assistant Bot - Real-time Feedback */}
-              {selectedPlatforms.length > 0 && (
+              {selectedPlatforms.length > 0 ? (
                 <div ref={analysisRef} className="mt-4 pt-4 border-t border-gray-700">
+                  <div className="mb-2 text-xs text-gray-500">
+                    Content Assistant Bot (Platform: {selectedPlatforms[0]}, Content length: {content.length})
+                  </div>
                   <ContentAssistantBot
                     content={content}
                     platform={selectedPlatforms[0]} // Use first selected platform
                     hashtags={hashtags}
-                token={token}
+                    token={token}
                   />
+                </div>
+              ) : (
+                <div className="mt-4 pt-4 border-t border-gray-700 text-xs text-gray-500">
+                  Select a platform to see AI analysis
                 </div>
               )}
             </div>

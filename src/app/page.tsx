@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp } from 'lucide-react'
+import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 
@@ -163,118 +163,80 @@ The CreatorFlow Team`,
         </div>
       </section>
 
-      {/* AI Bots Section - Key Differentiator */}
-      <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-black">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-              NEW: FREE AI BOTS
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              AI Assistants That Actually Help
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Free AI bots built into every plan. Get real-time suggestions, smart scheduling, and engagement insights—no extra cost.
-            </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-lg">
-              <Check className="w-4 h-4 text-green-400" />
-              <span className="text-sm text-green-400 font-semibold">100% FREE - Included in all plans</span>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {/* Content Assistant Bot */}
-            <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 p-6 rounded-xl border border-purple-500/30 hover:border-purple-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white">Content Assistant</h3>
-              </div>
-              <p className="text-gray-300 mb-4">
-                Real-time content analysis as you type. Get instant feedback on length, hashtags, tone, and engagement optimization.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded">Length Check</span>
-                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded">Hashtag Tips</span>
-                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded">Brand Voice</span>
-              </div>
-            </div>
-
-            {/* Scheduling Assistant Bot */}
-            <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 p-6 rounded-xl border border-blue-500/30 hover:border-blue-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white">Scheduling Assistant</h3>
-              </div>
-              <p className="text-gray-300 mb-4">
-                AI analyzes your best-performing times and suggests optimal posting schedules. Smart recommendations based on your data.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">Best Times</span>
-                <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">Weekly Schedule</span>
-                <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">Data-Driven</span>
-              </div>
-            </div>
-
-            {/* Engagement Analyzer Bot */}
-            <div className="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 p-6 rounded-xl border border-yellow-500/30 hover:border-yellow-500/50 transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white">Engagement Analyzer</h3>
-              </div>
-              <p className="text-gray-300 mb-4">
-                Discover what content performs best. Analyze your posts to find winning hashtags, topics, and posting times.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">Performance Data</span>
-                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">Trends</span>
-                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded">Insights</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-gray-400 mb-4">
-              <span className="text-white font-semibold">Bot performance scales with your plan.</span> Higher tiers get smarter, AI-powered analysis.
-            </p>
-            <button 
-              onClick={() => window.location.href = '/signup'}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold transition-all inline-flex items-center gap-2"
-            >
-              Try Bots Free
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Features Section */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16">Everything you need to grow as a creator</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
-              <div className="text-xs font-mono text-gray-500 mb-3">ANALYTICS</div>
-              <h3 className="text-xl font-semibold mb-4">Analytics Dashboard</h3>
-              <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400">Track your performance across all platforms with real-time analytics and insights.</p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
+            <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
+              Get more than you pay for. Premium features included in every plan.
+            </p>
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-lg mb-8">
+              <Star className="w-5 h-5 text-purple-400" />
+              <span className="text-purple-300 font-semibold">Premium value included - no hidden fees, no upsells</span>
             </div>
-            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
-              <div className="text-xs font-mono text-gray-500 mb-3">AUTOMATION</div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
+              <div className="text-xs font-mono text-purple-400 mb-3">ANALYTICS</div>
+              <h3 className="text-xl font-semibold mb-4">Advanced Analytics Dashboard</h3>
+              <div className="h-px bg-gray-800 mb-4"></div>
+              <p className="text-gray-400 mb-4">Track your performance across all platforms with real-time analytics and insights.</p>
+              <div className="flex items-center gap-2 text-sm text-purple-300">
+                <Check className="w-4 h-4" />
+                <span>Included in all plans</span>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
+              <div className="text-xs font-mono text-purple-400 mb-3">AUTOMATION</div>
               <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400">Schedule posts across Instagram, Twitter, LinkedIn, and TikTok with optimal timing.</p>
+              <p className="text-gray-400 mb-4">Schedule posts across Instagram, Twitter, LinkedIn, and TikTok with optimal timing.</p>
+              <div className="flex items-center gap-2 text-sm text-purple-300">
+                <Check className="w-4 h-4" />
+                <span>AI-powered recommendations</span>
+              </div>
             </div>
-            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
-              <div className="text-xs font-mono text-gray-500 mb-3">PARTNERSHIPS</div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
+              <div className="text-xs font-mono text-purple-400 mb-3">PARTNERSHIPS</div>
               <h3 className="text-xl font-semibold mb-4">Brand Collaborations</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400">Manage partnerships, track campaigns, and grow your brand relationships.</p>
+              <p className="text-gray-400 mb-4">Manage partnerships, track campaigns, and grow your brand relationships.</p>
+              <div className="flex items-center gap-2 text-sm text-purple-300">
+                <Check className="w-4 h-4" />
+                <span>Full collaboration tools</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Value Proposition */}
+          <div className="mt-16 bg-gradient-to-r from-purple-900/20 to-indigo-900/20 rounded-xl border border-purple-500/30 p-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-white mb-4">You Get More Than You Pay For</h3>
+              <div className="grid md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="w-5 h-5 text-purple-400" />
+                    <h4 className="font-semibold text-white">Premium Features</h4>
+                  </div>
+                  <p className="text-sm text-gray-300">Enterprise-level tools included in every plan</p>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-5 h-5 text-purple-400" />
+                    <h4 className="font-semibold text-white">No Hidden Costs</h4>
+                  </div>
+                  <p className="text-sm text-gray-300">Everything you see is included—no upsells, no surprises</p>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-5 h-5 text-purple-400" />
+                    <h4 className="font-semibold text-white">Always Improving</h4>
+                  </div>
+                  <p className="text-sm text-gray-300">New features added regularly at no extra cost</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -447,11 +409,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Starter</h3>
               <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 2 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Basic analytics</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Email support</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('starter')}
@@ -464,12 +423,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Growth</h3>
               <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 3 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 25 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Enhanced analytics</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content calendar</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Basic brand collaborations</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Email support</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('growth')}
@@ -485,12 +440,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
               <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 4 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 35 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced analytics</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Brand collaborations</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Hashtag research</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('pro')}
@@ -503,14 +454,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Business</h3>
               <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 5 social accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 50 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Premium analytics</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced brand collaborations</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Hashtag research</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Content scheduling AI</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Team collaboration (up to 3 members)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('business')}
@@ -526,16 +471,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Agency</h3>
               <div className="text-4xl font-bold mb-6">$99<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited accounts</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited posts</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> White-label options</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Full team collaboration</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Priority support</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Custom integrations</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Dedicated account manager</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> API access</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Advanced reporting</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Multi-brand management</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('agency')}

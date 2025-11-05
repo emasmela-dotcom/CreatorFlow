@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
       })
 
       if (userResult.rows.length > 0) {
-        const user = userResult.rows[0] as any
-        const trialEnd = user.trial_end_at ? new Date(user.trial_end_at) : null
+        const userData = userResult.rows[0] as any
+        const trialEnd = userData.trial_end_at ? new Date(userData.trial_end_at) : null
         const now = new Date()
 
         if (!trialEnd || now > trialEnd) {
@@ -125,11 +125,11 @@ export async function GET(request: NextRequest) {
       args: [userId]
     })
 
-    const user = userResult.rows[0] as any
+    const userData = userResult.rows[0] as any
     const { isContentLocked } = await import('@/lib/contentLock')
 
     const posts = postsResult.rows.map((post: any) => {
-      const isLocked = isContentLocked(post, user)
+      const isLocked = isContentLocked(post, userData)
       return {
         ...post,
         isLocked

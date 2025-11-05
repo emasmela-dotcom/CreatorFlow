@@ -125,18 +125,31 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
     )
   }
 
+  // Debug logging
+  useEffect(() => {
+    console.log('ContentAssistantBot props:', { 
+      content: content?.substring(0, 20), 
+      platform, 
+      token: token ? 'present' : 'missing',
+      contentLength: content?.length,
+      hasPlatform: !!platform
+    })
+  }, [content, platform, token])
+
   // Don't show anything if no content
   if (!content.trim() || !platform) {
+    console.log('ContentAssistantBot: Not rendering - missing content or platform', { hasContent: !!content.trim(), hasPlatform: !!platform })
     return null
   }
 
-  // Debug logging
-  useEffect(() => {
-    console.log('ContentAssistantBot props:', { content, platform, token: token ? 'present' : 'missing' })
-  }, [content, platform, token])
-
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" style={{ minHeight: '50px' }}>
+      {/* Debug info in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="text-xs text-gray-500 mb-2">
+          Debug: loading={loading ? 'true' : 'false'}, analysis={analysis ? 'present' : 'null'}, error={error || 'none'}
+        </div>
+      )}
       {/* Real-time Status Badge */}
       {loading ? (
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-700/50 border border-gray-600">

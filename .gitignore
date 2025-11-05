@@ -44,3 +44,4 @@ next-env.d.ts
 STRIPE_SETUP_VALUES.md
 VERCEL_ENV_VARS.md
 project_status.md
+DATABASE_CONNECTION.md

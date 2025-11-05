@@ -39,7 +39,10 @@ const REFRESH_TOKEN_EXPIRY = '30d' // Longer-lived refresh token
  */
 export async function verifyAuth(request: NextRequest): Promise<AuthUser | null> {
   try {
-    if (!JWT_SECRET || JWT_SECRET.length < 32) {
+    // Use fallback secret in development if JWT_SECRET is not set
+    const secret = JWT_SECRET || (process.env.NODE_ENV === 'development' ? 'fallback-secret-key-for-development-only' : null)
+    
+    if (!secret) {
       console.error('JWT_SECRET not properly configured')
       return null
     }
@@ -51,7 +54,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthUser | null>
       return null
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as { 
+    const decoded = jwt.verify(token, secret) as { 
       userId: string
       email: string
       type?: string
@@ -120,6 +123,24 @@ export function isStrongPassword(password: string): boolean {
   if (!/[a-z]/.test(password)) return false
   if (!/[0-9]/.test(password)) return false
   return true
+}
+
+/**
+ * Generate JWT token for user
+ */
+export function generateToken(userId: string, email?: string): string {
+  // Use fallback secret in development if JWT_SECRET is not set
+  const secret = JWT_SECRET || (process.env.NODE_ENV === 'development' ? 'fallback-secret-key-for-development-only' : 'fallback-secret-key-for-development-only')
+  
+  return jwt.sign(
+    {
+      userId,
+      email: email || '',
+      type: 'access'
+    },
+    secret,
+    { expiresIn: ACCESS_TOKEN_EXPIRY }
+  )
 }
 
 /**

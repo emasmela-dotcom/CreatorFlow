@@ -232,26 +232,35 @@ export async function initDatabase() {
     })
     
     // Add new columns to existing table if they don't exist (migration)
-    try {
-      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS social_accounts TEXT` })
-    } catch (e: any) {
-      // Column already exists, ignore
-      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
-        console.warn('Could not add social_accounts column:', e.message)
-      }
-    }
-    try {
-      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS monthly_post_limit INTEGER` })
-    } catch (e: any) {
-      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
-        console.warn('Could not add monthly_post_limit column:', e.message)
-      }
-    }
-    try {
-      await db.execute({ sql: `ALTER TABLE users ADD COLUMN IF NOT EXISTS additional_posts_purchased INTEGER DEFAULT 0` })
-    } catch (e: any) {
-      if (!e.message?.includes('duplicate') && !e.message?.includes('already exists')) {
-        console.warn('Could not add additional_posts_purchased column:', e.message)
+    // PostgreSQL doesn't support IF NOT EXISTS for ALTER TABLE, so we check first
+    const columnsToAdd = [
+      { name: 'subscription_tier', sql: `ALTER TABLE users ADD COLUMN subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('starter', 'growth', 'pro', 'business', 'agency'))` },
+      { name: 'stripe_customer_id', sql: `ALTER TABLE users ADD COLUMN stripe_customer_id VARCHAR(255)` },
+      { name: 'trial_started_at', sql: `ALTER TABLE users ADD COLUMN trial_started_at TIMESTAMP` },
+      { name: 'trial_end_at', sql: `ALTER TABLE users ADD COLUMN trial_end_at TIMESTAMP` },
+      { name: 'trial_plan', sql: `ALTER TABLE users ADD COLUMN trial_plan VARCHAR(50) CHECK(trial_plan IN ('starter', 'growth', 'pro', 'business', 'agency'))` },
+      { name: 'social_accounts', sql: `ALTER TABLE users ADD COLUMN social_accounts TEXT` },
+      { name: 'monthly_post_limit', sql: `ALTER TABLE users ADD COLUMN monthly_post_limit INTEGER` },
+      { name: 'additional_posts_purchased', sql: `ALTER TABLE users ADD COLUMN additional_posts_purchased INTEGER DEFAULT 0` },
+      { name: 'created_at', sql: `ALTER TABLE users ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT NOW()` },
+      { name: 'updated_at', sql: `ALTER TABLE users ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW()` }
+    ]
+    
+    for (const column of columnsToAdd) {
+      try {
+        // Check if column exists by trying to select it
+        await db.execute({ sql: `SELECT ${column.name} FROM users LIMIT 1` })
+        // If we get here, column exists, skip
+      } catch (e: any) {
+        // Column doesn't exist, try to add it
+        try {
+          await db.execute({ sql: column.sql })
+          console.log(`Added column: ${column.name}`)
+        } catch (addError: any) {
+          if (!addError.message?.includes('duplicate') && !addError.message?.includes('already exists')) {
+            console.warn(`Could not add ${column.name} column:`, addError.message)
+          }
+        }
       }
     }
 
