@@ -3,7 +3,8 @@
  */
 
 import { db } from './db'
-import { isContentLocked, User, ContentPost } from './contentLock'
+import { isContentLocked } from './contentLock'
+import type { User, ContentPost } from './db'
 
 /**
  * Check if content is locked and throw error if it is

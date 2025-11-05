@@ -3,6 +3,8 @@
  * Simple in-memory rate limiter (for serverless - use Redis for production scale)
  */
 
+import { NextRequest, NextResponse } from 'next/server'
+
 interface RateLimitStore {
   [key: string]: {
     count: number
@@ -94,7 +96,6 @@ export function getClientIdentifier(request: NextRequest): string {
   return 'unknown'
 }
 
-import { NextRequest } from 'next/server'
 
 /**
  * Rate limit middleware helper
@@ -123,9 +124,9 @@ export function rateLimitMiddleware(
         }
       }
     )
-    return { allowed: false, response, ...result }
+    return { allowed: false, response, remaining: result.remaining, resetAt: result.resetAt }
   }
 
-  return { allowed: true, ...result }
+  return { allowed: true, remaining: result.remaining, resetAt: result.resetAt }
 }
 

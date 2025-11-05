@@ -8,7 +8,7 @@ import { verifyAuth, sanitizeContent } from '@/lib/auth'
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // SECURITY: Verify auth from JWT
@@ -19,7 +19,8 @@ export async function PUT(
 
     const userId = user.userId
 
-    const postId = params.id
+    const { id } = await params
+    const postId = id
 
     // ENFORCE LOCK - prevent editing locked content
     try {
@@ -92,25 +93,19 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const authHeader = request.headers.get('authorization')
-    const token = authHeader?.replace('Bearer ', '')
-
-    if (!token) {
+    // SECURITY: Verify auth from JWT
+    const user = await verifyAuth(request)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    let userId: string
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string }
-      userId = decoded.userId
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    }
+    const userId = user.userId
 
-    const postId = params.id
+    const { id } = await params
+    const postId = id
 
     // ENFORCE LOCK - prevent deleting locked content
     try {

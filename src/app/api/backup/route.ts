@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { randomUUID } from 'crypto'
 
 /**
  * Create a backup/save point of user's project BEFORE any CreatorFlow changes
