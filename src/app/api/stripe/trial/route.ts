@@ -1,76 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import jwt from 'jsonwebtoken'
+import { verifyAuth } from '@/lib/auth'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2025-09-30.clover',
 })
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
-
-// Plan price IDs in Stripe (you'll need to set these up in Stripe Dashboard)
-const PLAN_PRICE_IDS: Record<string, string> = {
-  starter: process.env.STRIPE_PRICE_STARTER || 'price_starter',
-  growth: process.env.STRIPE_PRICE_GROWTH || 'price_growth',
-  pro: process.env.STRIPE_PRICE_PRO || 'price_pro',
-  business: process.env.STRIPE_PRICE_BUSINESS || 'price_business',
-  agency: process.env.STRIPE_PRICE_AGENCY || 'price_agency',
+// Price IDs from environment variables
+const PRICE_IDS: Record<string, string> = {
+  starter: process.env.STRIPE_PRICE_STARTER || '',
+  growth: process.env.STRIPE_PRICE_GROWTH || '',
+  pro: process.env.STRIPE_PRICE_PRO || '',
+  business: process.env.STRIPE_PRICE_BUSINESS || '',
+  agency: process.env.STRIPE_PRICE_AGENCY || '',
 }
 
-/**
- * Create Stripe checkout session with trial period
- * Free 14-day trial (no charge during trial)
- */
 export async function POST(request: NextRequest) {
   try {
-    // Get auth token
-    const authHeader = request.headers.get('authorization')
-    const token = authHeader?.replace('Bearer ', '')
-
-    if (!token) {
-      return NextResponse.json({ error: 'No token provided' }, { status: 401 })
-    }
-
-    // Verify token
-    let decoded: { userId: string; email: string }
-    try {
-      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string }
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    // Verify authentication
+    const authResult = await verifyAuth(request)
+    if (!authResult.success || !authResult.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { planType } = await request.json()
 
-    if (!planType || !['starter', 'growth', 'pro', 'business', 'agency'].includes(planType)) {
-      return NextResponse.json({ error: 'Valid plan type is required' }, { status: 400 })
+    if (!planType || !PRICE_IDS[planType]) {
+      return NextResponse.json({ error: 'Invalid plan type' }, { status: 400 })
     }
 
-    const priceId = PLAN_PRICE_IDS[planType]
-
-    if (!priceId) {
-      return NextResponse.json({ error: `Price ID not configured for plan: ${planType}` }, { status: 400 })
-    }
+    const priceId = PRICE_IDS[planType]
+    const user = authResult.user
 
     // Get or create Stripe customer
-    let customer
-    try {
-      // Check if customer already exists (you might want to store stripe_customer_id in your DB)
-      // For now, we'll create a new customer each time
-      customer = await stripe.customers.create({
-        email: decoded.email,
+    let customerId = user.stripe_customer_id
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: user.email,
         metadata: {
-          userId: decoded.userId,
-          planType: planType,
+          userId: user.id.toString(),
         },
       })
-    } catch (error: any) {
-      return NextResponse.json({ error: `Failed to create customer: ${error.message}` }, { status: 500 })
+      customerId = customer.id
+
+      // Update user with Stripe customer ID
+      // TODO: Update user record in database with customerId
+      // This would require importing db and updating the user record
     }
 
-    // Create checkout session with free trial period (14 days)
-    const trialPeriodDays = 14
+    // Create checkout session with 15-day trial
     const session = await stripe.checkout.sessions.create({
-      customer: customer.id,
+      customer: customerId,
       payment_method_types: ['card'],
       line_items: [
         {
@@ -80,31 +60,28 @@ export async function POST(request: NextRequest) {
       ],
       mode: 'subscription',
       subscription_data: {
-        trial_period_days: trialPeriodDays,
+        trial_period_days: 15,
         metadata: {
-          userId: decoded.userId,
+          userId: user.id.toString(),
           planType: planType,
-          trial_started_at: new Date().toISOString(),
         },
       },
-      // Allow customers to set up payment method without immediate charge
-      payment_method_collection: 'always', // Require payment method for trial
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/trial-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/signup?canceled=true&plan=${planType}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/dashboard?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/signup?canceled=true`,
       metadata: {
-        userId: decoded.userId,
+        userId: user.id.toString(),
         planType: planType,
       },
     })
 
-    return NextResponse.json({
+    return NextResponse.json({ 
       sessionId: session.id,
-      url: session.url,
-      trialDays: trialPeriodDays,
+      url: session.url 
     })
   } catch (error: any) {
-    console.error('Stripe trial checkout error:', error)
-    return NextResponse.json({ error: error.message || 'Payment processing failed' }, { status: 500 })
+    console.error('Stripe trial error:', error)
+    return NextResponse.json({ 
+      error: error.message || 'Payment processing failed' 
+    }, { status: 500 })
   }
 }
-
