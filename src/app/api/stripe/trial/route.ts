@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { verifyAuth } from '@/lib/auth'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-09-30.clover',
-})
+// Lazy initialize Stripe to avoid build-time errors
+const getStripe = () => {
+  const secretKey = process.env.STRIPE_SECRET_KEY
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured')
+  }
+  return new Stripe(secretKey, {
+    apiVersion: '2025-09-30.clover',
+  })
+}
 
 // Price IDs from environment variables
 const PRICE_IDS: Record<string, string> = {
@@ -45,6 +52,7 @@ export async function POST(request: NextRequest) {
     const user = userResult.rows[0] as { id: string, email: string, stripe_customer_id: string | null }
 
     // Get or create Stripe customer
+    const stripe = getStripe()
     let customerId = user.stripe_customer_id
     if (!customerId) {
       const customer = await stripe.customers.create({

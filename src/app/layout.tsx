@@ -8,13 +8,38 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'CreatorFlow - The Ultimate Content Creator Platform',
-  description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue with our all-in-one platform.',
-  keywords: 'content creator, social media management, analytics, brand collaborations, creator tools',
+  description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue with our all-in-one platform. 15-day free trial available.',
+  keywords: 'content creator, social media management, analytics, brand collaborations, creator tools, Instagram scheduler, Twitter scheduler, LinkedIn scheduler, YouTube scheduler',
+  authors: [{ name: 'CreatorFlow' }],
+  creator: 'CreatorFlow',
+  publisher: 'CreatorFlow',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'CreatorFlow - The Ultimate Content Creator Platform',
     description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue.',
     type: 'website',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
+    siteName: 'CreatorFlow',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CreatorFlow - The Ultimate Content Creator Platform',
+    description: 'Scale your content creation business with CreatorFlow.',
+    creator: '@creatorflow',
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
   },
 }
 

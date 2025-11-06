@@ -3,9 +3,16 @@ import Stripe from 'stripe'
 
 export const dynamic = 'force-static'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
-  apiVersion: '2025-09-30.clover',
-})
+// Lazy initialize Stripe to avoid build-time errors
+const getStripe = () => {
+  const secretKey = process.env.STRIPE_SECRET_KEY
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured')
+  }
+  return new Stripe(secretKey, {
+    apiVersion: '2025-09-30.clover',
+  })
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +21,8 @@ export async function POST(request: NextRequest) {
     if (!priceId) {
       return NextResponse.json({ error: 'Price ID is required' }, { status: 400 })
     }
+
+    const stripe = getStripe()
 
     // Create or retrieve customer
     let customer
@@ -60,6 +69,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Customer ID is required' }, { status: 400 })
     }
 
+    const stripe = getStripe()
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       status: 'active',

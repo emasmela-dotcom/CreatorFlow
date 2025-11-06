@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { db } from '@/lib/db'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-09-30.clover',
-})
+// Lazy initialize Stripe to avoid build-time errors
+const getStripe = () => {
+  const secretKey = process.env.STRIPE_SECRET_KEY
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured')
+  }
+  return new Stripe(secretKey, {
+    apiVersion: '2025-09-30.clover',
+  })
+}
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -24,6 +31,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event
 
   try {
+    const stripe = getStripe()
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message)
@@ -43,6 +51,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Update user subscription and trial info
+        const stripe = getStripe()
         const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
         const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null
 

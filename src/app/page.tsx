@@ -10,8 +10,10 @@ export default function HomePage() {
   const { trackEvent, trackConversionEvent } = useAnalytics()
 
   const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
+    trackEvent('pricing_click', 'conversion', plan)
+    trackConversionEvent('pricing_click', plan === 'starter' ? 19 : plan === 'pro' ? 49 : 99)
+    
     // Redirect to signup with plan parameter
-    // User will select plan during signup/trial activation
     window.location.href = `/signup?plan=${plan}`
   }
 
@@ -104,13 +106,6 @@ The CreatorFlow Team`,
     }
   }
 
-  const handlePricingClick = (plan: string) => {
-    trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'starter' ? 19 : plan === 'pro' ? 49 : 99)
-    
-    // Redirect to signup with plan pre-selected
-    window.location.href = `/signup?plan=${plan}`
-  }
 
   return (
     <>
