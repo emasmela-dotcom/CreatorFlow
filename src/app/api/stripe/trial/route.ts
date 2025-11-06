@@ -18,8 +18,8 @@ const PRICE_IDS: Record<string, string> = {
 export async function POST(request: NextRequest) {
   try {
     // Verify authentication
-    const authResult = await verifyAuth(request)
-    if (!authResult.success || !authResult.user) {
+    const authUser = await verifyAuth(request)
+    if (!authUser) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -30,7 +30,19 @@ export async function POST(request: NextRequest) {
     }
 
     const priceId = PRICE_IDS[planType]
-    const user = authResult.user
+
+    // Get user from database to access full user data
+    const { db } = await import('@/lib/db')
+    const userResult = await db.execute({
+      sql: 'SELECT id, email, stripe_customer_id FROM users WHERE id = ?',
+      args: [authUser.userId]
+    })
+
+    if (userResult.rows.length === 0) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const user = userResult.rows[0] as { id: string, email: string, stripe_customer_id: string | null }
 
     // Get or create Stripe customer
     let customerId = user.stripe_customer_id
@@ -44,8 +56,10 @@ export async function POST(request: NextRequest) {
       customerId = customer.id
 
       // Update user with Stripe customer ID
-      // TODO: Update user record in database with customerId
-      // This would require importing db and updating the user record
+      await db.execute({
+        sql: 'UPDATE users SET stripe_customer_id = ? WHERE id = ?',
+        args: [customerId, user.id]
+      })
     }
 
     // Create checkout session with 15-day trial
@@ -62,14 +76,14 @@ export async function POST(request: NextRequest) {
       subscription_data: {
         trial_period_days: 15,
         metadata: {
-          userId: user.id.toString(),
+          userId: user.id,
           planType: planType,
         },
       },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/dashboard?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/signup?canceled=true`,
       metadata: {
-        userId: user.id.toString(),
+        userId: user.id,
         planType: planType,
       },
     })
