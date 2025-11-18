@@ -7,6 +7,9 @@ import { NextRequest } from 'next/server'
 import { db } from './db'
 import { getClientIdentifier, checkRateLimit } from './rateLimit'
 
+// Re-export for convenience
+export { getClientIdentifier }
+
 // Disposable email domains (common ones - expand this list)
 const DISPOSABLE_EMAIL_DOMAINS = [
   'tempmail.com', '10minutemail.com', 'guerrillamail.com', 'mailinator.com',

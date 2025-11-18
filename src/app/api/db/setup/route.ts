@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { initDatabase, db } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Complete Database Setup
  * Initializes all tables, indexes, and verifies setup
