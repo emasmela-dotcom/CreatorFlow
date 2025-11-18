@@ -22,7 +22,7 @@ const plans: Plan[] = [
     description: 'Perfect for individual creators getting started',
     features: [
       '2 social accounts',
-      '15 posts per month (shared across all accounts)',
+      '8 posts per month (shared across all accounts)',
       'Basic analytics',
       'Content calendar',
       'Email support'
@@ -35,7 +35,7 @@ const plans: Plan[] = [
     description: 'For creators ready to scale',
     features: [
       '3 social accounts',
-      '25 posts per month (shared across all accounts)',
+      '10 posts per month (shared across all accounts)',
       'Enhanced analytics',
       'Content calendar',
       'Basic brand collaborations',
@@ -50,7 +50,7 @@ const plans: Plan[] = [
     popular: true,
     features: [
       '4 social accounts',
-      '35 posts per month (shared across all accounts)',
+      '12 posts per month (shared across all accounts)',
       'Advanced analytics',
       'Brand collaborations',
       'Hashtag research',
@@ -64,7 +64,7 @@ const plans: Plan[] = [
     description: 'For serious creators and small teams',
     features: [
       '5 social accounts',
-      '50 posts per month (shared across all accounts)',
+      '15 posts per month (shared across all accounts)',
       'Premium analytics',
       'Advanced brand collaborations',
       'Hashtag research',
@@ -80,7 +80,7 @@ const plans: Plan[] = [
     description: 'The ultimate tool for agencies',
     features: [
       'Unlimited accounts',
-      'Unlimited posts',
+      '18 posts per month',
       'White-label options',
       'Full team collaboration',
       'Priority support',

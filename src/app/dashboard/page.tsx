@@ -5,12 +5,1604 @@ import { useRouter } from 'next/navigation'
 import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import NewBotsBanner from '@/components/NewBotsBanner'
-import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
-import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
-import EngagementAnalyzerBot from '@/components/bots/EngagementAnalyzerBot'
-import TrendScoutBot from '@/components/bots/TrendScoutBot'
-import ContentCurationBot from '@/components/bots/ContentCurationBot'
-import AnalyticsCoachBot from '@/components/bots/AnalyticsCoachBot'
+
+// Simple UI Components for Bots
+function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [expenseDate, setExpenseDate] = useState('')
+  const [amount, setAmount] = useState('')
+  const [description, setDescription] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/expense-tracker', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          expenseDate,
+          amount: parseFloat(amount),
+          description
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        if (data.upgradeRequired) {
+          throw new Error(`This bot requires ${data.error.includes('Growth') ? 'Growth' : data.error.includes('Pro') ? 'Pro' : data.error.includes('Business') ? 'Business' : 'higher'} tier. Please upgrade your plan.`)
+        }
+        throw new Error(data.error || 'Failed to add expense')
+      }
+      setResult(data)
+      setExpenseDate('')
+      setAmount('')
+      setDescription('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Date</label>
+        <input
+          type="date"
+          value={expenseDate}
+          onChange={(e) => setExpenseDate(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Amount</label>
+        <input
+          type="number"
+          step="0.01"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="0.00"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Description</label>
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="What did you spend on?"
+          required
+        />
+      </div>
+      {!token && (
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-3 text-sm text-yellow-400">
+          ⚠️ Please sign in to use this bot
+          <button
+            onClick={() => router.push('/signin')}
+            className="ml-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+          >
+            Sign In
+          </button>
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
+          <div className="text-red-400 font-semibold">Error:</div>
+          <div className="text-red-300 mt-1">{error}</div>
+          {error.includes('tier') && (
+            <button
+              onClick={() => router.push('/')}
+              className="mt-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+            >
+              Upgrade Plan
+            </button>
+          )}
+        </div>
+      )}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold">✅ Expense added successfully!</div>
+          <div className="text-gray-300 mt-1">Amount: ${result.expense?.amount}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Adding...' : 'Add Expense'}
+      </button>
+    </form>
+  )
+}
+
+function EmailSorterUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [from, setFrom] = useState('')
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/email-sorter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ from, subject, body })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        if (data.upgradeRequired) {
+          throw new Error(`This bot requires ${data.error.includes('Growth') ? 'Growth' : data.error.includes('Pro') ? 'Pro' : data.error.includes('Business') ? 'Business' : 'higher'} tier. Please upgrade your plan.`)
+        }
+        throw new Error(data.error || 'Failed to sort email')
+      }
+      setResult(data)
+      setFrom('')
+      setSubject('')
+      setBody('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">From</label>
+        <input
+          type="email"
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="sender@example.com"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Subject</label>
+        <input
+          type="text"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Email subject"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Body</label>
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Email content..."
+          rows={4}
+          required
+        />
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Categorized:</div>
+          <div className="text-gray-300">Category: {result.categorization?.category}</div>
+          <div className="text-gray-300">Priority: {result.categorization?.priority}</div>
+          {result.categorization?.isUrgent && <div className="text-red-400">⚠️ Urgent</div>}
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Sorting...' : 'Sort Email'}
+      </button>
+    </form>
+  )
+}
+
+function ContentWriterUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [topic, setTopic] = useState('')
+  const [type, setType] = useState('blog-post')
+  const [tone, setTone] = useState('professional')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/content-writer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ topic, type, tone })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        if (data.upgradeRequired) {
+          throw new Error(`This bot requires ${data.error.includes('Growth') ? 'Growth' : data.error.includes('Pro') ? 'Pro' : data.error.includes('Business') ? 'Business' : 'higher'} tier. Please upgrade your plan.`)
+        }
+        throw new Error(data.error || 'Failed to generate content')
+      }
+      setResult(data)
+      setTopic('')
+      setType('blog-post')
+      setTone('professional')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Topic</label>
+        <input
+          type="text"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="What should the content be about?"
+          required
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Type</label>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          >
+            <option value="blog-post">Blog Post</option>
+            <option value="article">Article</option>
+            <option value="social-post">Social Post</option>
+            <option value="email">Email</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Tone</label>
+          <select
+            value={tone}
+            onChange={(e) => setTone(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          >
+            <option value="professional">Professional</option>
+            <option value="casual">Casual</option>
+            <option value="friendly">Friendly</option>
+            <option value="formal">Formal</option>
+          </select>
+        </div>
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Content Generated!</div>
+          <div className="text-gray-300 whitespace-pre-wrap">{result.content?.content || 'Content created successfully'}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Generating...' : 'Generate Content'}
+      </button>
+    </form>
+  )
+}
+
+function InvoiceGeneratorUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [clientName, setClientName] = useState('')
+  const [invoiceDate, setInvoiceDate] = useState('')
+  const [dueDate, setDueDate] = useState('')
+  const [itemDesc, setItemDesc] = useState('')
+  const [quantity, setQuantity] = useState('1')
+  const [unitPrice, setUnitPrice] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/invoice-generator', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          clientId: 1, // Will need client management later
+          invoiceDate,
+          dueDate,
+          items: [{
+            description: itemDesc,
+            quantity: parseFloat(quantity),
+            unit_price: parseFloat(unitPrice)
+          }]
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to create invoice')
+      }
+      setResult(data)
+      setClientName('')
+      setInvoiceDate('')
+      setDueDate('')
+      setItemDesc('')
+      setQuantity('1')
+      setUnitPrice('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Client Name</label>
+        <input
+          type="text"
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Client name"
+          required
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Invoice Date</label>
+          <input
+            type="date"
+            value={invoiceDate}
+            onChange={(e) => setInvoiceDate(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Due Date</label>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Item Description</label>
+        <input
+          type="text"
+          value={itemDesc}
+          onChange={(e) => setItemDesc(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Service or product name"
+          required
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Quantity</label>
+          <input
+            type="number"
+            step="0.01"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Unit Price</label>
+          <input
+            type="number"
+            step="0.01"
+            value={unitPrice}
+            onChange={(e) => setUnitPrice(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="0.00"
+            required
+          />
+        </div>
+      </div>
+      {!token && (
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-3 text-sm text-yellow-400">
+          ⚠️ Please sign in to use this bot
+          <button
+            onClick={() => router.push('/signin')}
+            className="ml-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+          >
+            Sign In
+          </button>
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
+          <div className="text-red-400 font-semibold">Error:</div>
+          <div className="text-red-300 mt-1">{error}</div>
+        </div>
+      )}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">✅ Invoice Created!</div>
+          <div className="text-gray-300">Invoice Number: {result.invoice?.invoice_number}</div>
+          <div className="text-gray-300">Total: ${result.invoice?.total_amount}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Creating...' : 'Create Invoice'}
+      </button>
+    </form>
+  )
+}
+
+function CustomerServiceUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [message, setMessage] = useState('')
+  const [customerName, setCustomerName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/customer-service', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message,
+          customerName: customerName || 'Customer'
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to process message')
+      }
+      setResult(data)
+      setMessage('')
+      setCustomerName('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Customer Name (Optional)</label>
+        <input
+          type="text"
+          value={customerName}
+          onChange={(e) => setCustomerName(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Customer name"
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Customer Message</label>
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="What is the customer asking?"
+          rows={4}
+          required
+        />
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Bot Response:</div>
+          <div className="text-gray-300 whitespace-pre-wrap">{result.response}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Processing...' : 'Get Bot Response'}
+      </button>
+    </form>
+  )
+}
+
+function ProductRecommendationUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [category, setCategory] = useState('')
+  const [preferences, setPreferences] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/product-recommendation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          category: category || undefined,
+          preferences: preferences ? preferences.split(',').map(p => p.trim()) : undefined
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to get recommendations')
+      }
+      setResult(data)
+      setCategory('')
+      setPreferences('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Category (Optional)</label>
+        <input
+          type="text"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="e.g., electronics, clothing"
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Preferences (Optional)</label>
+        <input
+          type="text"
+          value={preferences}
+          onChange={(e) => setPreferences(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="e.g., wireless, portable, budget-friendly"
+        />
+        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Recommended Products:</div>
+          {result.recommendations?.map((rec: any, i: number) => (
+            <div key={i} className="text-gray-300 mb-2">
+              • {rec.name} - ${rec.price} (Score: {rec.score?.toFixed(0)})
+            </div>
+          ))}
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Getting Recommendations...' : 'Get Recommendations'}
+      </button>
+    </form>
+  )
+}
+
+function SalesLeadQualifierUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [companyName, setCompanyName] = useState('')
+  const [contactName, setContactName] = useState('')
+  const [email, setEmail] = useState('')
+  const [industry, setIndustry] = useState('')
+  const [companySize, setCompanySize] = useState('')
+  const [jobTitle, setJobTitle] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/sales-lead-qualifier', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          companyName,
+          contactName,
+          email,
+          industry,
+          companySize,
+          jobTitle
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to qualify lead')
+      }
+      setResult(data)
+      setCompanyName('')
+      setContactName('')
+      setEmail('')
+      setIndustry('')
+      setCompanySize('')
+      setJobTitle('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Company Name</label>
+          <input
+            type="text"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="Company name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Contact Name</label>
+          <input
+            type="text"
+            value={contactName}
+            onChange={(e) => setContactName(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="Contact name"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="email@example.com"
+          required
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Industry</label>
+          <input
+            type="text"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="e.g., Technology"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Company Size</label>
+          <input
+            type="text"
+            value={companySize}
+            onChange={(e) => setCompanySize(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="e.g., 100-500"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Job Title</label>
+        <input
+          type="text"
+          value={jobTitle}
+          onChange={(e) => setJobTitle(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="e.g., CEO, Director"
+        />
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Lead Qualified!</div>
+          <div className="text-gray-300">Score: {result.qualification?.score}/100</div>
+          <div className="text-gray-300">Status: <span className={result.qualification?.status === 'qualified' ? 'text-green-400' : 'text-yellow-400'}>{result.qualification?.status}</span></div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Qualifying...' : 'Qualify Lead'}
+      </button>
+    </form>
+  )
+}
+
+function WebsiteChatUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [message, setMessage] = useState('')
+  const [visitorName, setVisitorName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/website-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message,
+          visitorName: visitorName || 'Visitor'
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to process message')
+      }
+      setResult(data)
+      setMessage('')
+      setVisitorName('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Visitor Name (Optional)</label>
+        <input
+          type="text"
+          value={visitorName}
+          onChange={(e) => setVisitorName(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Visitor name"
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Visitor Message</label>
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="What is the visitor asking?"
+          rows={4}
+          required
+        />
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">Bot Response:</div>
+          <div className="text-gray-300 whitespace-pre-wrap">{result.response}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Processing...' : 'Get Bot Response'}
+      </button>
+    </form>
+  )
+}
+
+function MeetingSchedulerUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [title, setTitle] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [attendees, setAttendees] = useState('')
+  const [location, setLocation] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/meeting-scheduler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title,
+          startTime: new Date(startTime).toISOString(),
+          endTime: new Date(endTime).toISOString(),
+          attendees: attendees ? attendees.split(',').map(a => a.trim()) : [],
+          location: location || undefined
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to schedule meeting')
+      }
+      setResult(data)
+      setTitle('')
+      setStartTime('')
+      setEndTime('')
+      setAttendees('')
+      setLocation('')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Meeting Title</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="e.g., Client Consultation"
+          required
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Start Time</label>
+          <input
+            type="datetime-local"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">End Time</label>
+          <input
+            type="datetime-local"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Attendees (Optional)</label>
+        <input
+          type="text"
+          value={attendees}
+          onChange={(e) => setAttendees(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="email1@example.com, email2@example.com"
+        />
+        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Location (Optional)</label>
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="e.g., Zoom, Office, Address"
+        />
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">✅ Meeting Scheduled!</div>
+          <div className="text-gray-300">Title: {result.meeting?.title}</div>
+          <div className="text-gray-300">Date: {new Date(result.meeting?.start_time).toLocaleString()}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Scheduling...' : 'Schedule Meeting'}
+      </button>
+    </form>
+  )
+}
+
+function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [platform, setPlatform] = useState('instagram')
+  const [content, setContent] = useState('')
+  const [hashtags, setHashtags] = useState('')
+  const [scheduledAt, setScheduledAt] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/social-media-manager', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          platform,
+          content,
+          hashtags: hashtags ? hashtags.split(',').map(h => h.trim()) : [],
+          scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : undefined
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to signin
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to create post')
+      }
+      setResult(data)
+      setContent('')
+      setHashtags('')
+      setScheduledAt('')
+      setPlatform('instagram')
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Platform</label>
+        <select
+          value={platform}
+          onChange={(e) => setPlatform(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        >
+          <option value="instagram">Instagram</option>
+          <option value="twitter">Twitter</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="tiktok">TikTok</option>
+          <option value="youtube">YouTube</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Content</label>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Write your post content..."
+          rows={4}
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Hashtags (Optional)</label>
+        <input
+          type="text"
+          value={hashtags}
+          onChange={(e) => setHashtags(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="#hashtag1, #hashtag2, #hashtag3"
+        />
+        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Schedule For (Optional)</label>
+        <input
+          type="datetime-local"
+          value={scheduledAt}
+          onChange={(e) => setScheduledAt(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <p className="text-xs text-gray-400 mt-1">Leave empty to post immediately</p>
+      </div>
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
+          <div className="text-red-400 font-semibold">Error:</div>
+          <div className="text-red-300 mt-1">{error}</div>
+        </div>
+      )}
+      {result && (
+        <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+          <div className="text-green-400 font-semibold mb-2">✅ Post Created!</div>
+          <div className="text-gray-300">Platform: {result.post?.platform}</div>
+          <div className="text-gray-300">Status: {result.post?.status}</div>
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Creating...' : 'Create Post'}
+      </button>
+    </form>
+  )
+}
+
+function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [originalContent, setOriginalContent] = useState('')
+  const [contentType, setContentType] = useState('blog-post')
+  const [targetPlatforms, setTargetPlatforms] = useState<string[]>(['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube'])
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handlePlatformToggle = (platform: string) => {
+    if (targetPlatforms.includes(platform)) {
+      setTargetPlatforms(targetPlatforms.filter(p => p !== platform))
+    } else {
+      setTargetPlatforms([...targetPlatforms, platform])
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    if (!originalContent.trim()) {
+      setError('Please enter content to repurpose')
+      return
+    }
+
+    if (targetPlatforms.length === 0) {
+      setError('Please select at least one platform')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/content-repurposing', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          originalContent,
+          contentType,
+          targetPlatforms
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to repurpose content')
+      }
+      setResult(data)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Content Type</label>
+        <select
+          value={contentType}
+          onChange={(e) => setContentType(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        >
+          <option value="blog-post">Blog Post</option>
+          <option value="article">Article</option>
+          <option value="video-script">Video Script</option>
+          <option value="social-media">Social Media Post</option>
+          <option value="email">Email</option>
+          <option value="newsletter">Newsletter</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Original Content</label>
+        <textarea
+          value={originalContent}
+          onChange={(e) => setOriginalContent(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Paste your original content here..."
+          rows={6}
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-2">Target Platforms</label>
+        <div className="grid grid-cols-3 gap-2">
+          {['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'pinterest'].map((platform) => (
+            <label key={platform} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={targetPlatforms.includes(platform)}
+                onChange={() => handlePlatformToggle(platform)}
+                className="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500"
+              />
+              <span className="text-sm text-gray-300 capitalize">{platform}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
+          <div className="text-red-400 font-semibold">Error:</div>
+          <div className="text-red-300 mt-1">{error}</div>
+        </div>
+      )}
+      {result && (
+        <div className="space-y-4">
+          <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+            <div className="text-green-400 font-semibold">✅ Content Repurposed Successfully!</div>
+          </div>
+          {result.repurposed && result.repurposed.map((item: any, index: number) => (
+            <div key={index} className="bg-gray-800/50 border border-gray-700 rounded p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-semibold text-white capitalize">{item.platform}</h4>
+                <span className="text-xs text-gray-400">{item.formatType} • {item.characterCount} chars</span>
+              </div>
+              <div className="bg-gray-900/50 rounded p-3 text-sm text-gray-300 whitespace-pre-wrap mb-2">
+                {item.content}
+              </div>
+              {item.hashtags && item.hashtags.length > 0 && (
+                <div className="text-xs text-purple-400">
+                  {item.hashtags.join(' ')}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Repurposing...' : 'Repurpose Content'}
+      </button>
+    </form>
+  )
+}
+
+function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () => void }) {
+  const router = useRouter()
+  const [niche, setNiche] = useState('')
+  const [targetAudience, setTargetAudience] = useState('')
+  const [competitorTopics, setCompetitorTopics] = useState('')
+  const [yourTopics, setYourTopics] = useState('')
+  const [competitorFormats, setCompetitorFormats] = useState('')
+  const [yourFormats, setYourFormats] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError('Please sign in to use this bot')
+      return
+    }
+
+    if (!competitorTopics.trim()) {
+      setError('Please enter at least one competitor topic')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setResult(null)
+
+    try {
+      const response = await fetch('/api/bots/content-gap-analyzer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          niche: niche || undefined,
+          targetAudience: targetAudience || undefined,
+          competitorTopics: competitorTopics.split('\n').filter(t => t.trim()).map(t => t.trim()),
+          yourTopics: yourTopics ? yourTopics.split('\n').filter(t => t.trim()).map(t => t.trim()) : [],
+          competitorFormats: competitorFormats ? competitorFormats.split(',').filter(f => f.trim()).map(f => f.trim()) : [],
+          yourFormats: yourFormats ? yourFormats.split(',').filter(f => f.trim()).map(f => f.trim()) : []
+        })
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('token')
+          router.push('/signin')
+          throw new Error('Session expired. Please sign in again.')
+        }
+        throw new Error(data.error || 'Failed to analyze content gaps')
+      }
+      setResult(data)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Niche (Optional)</label>
+          <input
+            type="text"
+            value={niche}
+            onChange={(e) => setNiche(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="e.g., Fitness, Tech, Marketing"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Target Audience (Optional)</label>
+          <input
+            type="text"
+            value={targetAudience}
+            onChange={(e) => setTargetAudience(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="e.g., Small business owners"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Competitor Topics *</label>
+        <textarea
+          value={competitorTopics}
+          onChange={(e) => setCompetitorTopics(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Enter competitor topics, one per line:&#10;How to start a business&#10;Marketing strategies&#10;SEO tips"
+          rows={5}
+          required
+        />
+        <p className="text-xs text-gray-400 mt-1">One topic per line</p>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">Your Topics (Optional)</label>
+        <textarea
+          value={yourTopics}
+          onChange={(e) => setYourTopics(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+          placeholder="Enter your existing topics, one per line:&#10;Social media marketing&#10;Content creation"
+          rows={4}
+        />
+        <p className="text-xs text-gray-400 mt-1">One topic per line</p>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Competitor Formats (Optional)</label>
+          <input
+            type="text"
+            value={competitorFormats}
+            onChange={(e) => setCompetitorFormats(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="blog-post, video, carousel"
+          />
+          <p className="text-xs text-gray-400 mt-1">Comma-separated</p>
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">Your Formats (Optional)</label>
+          <input
+            type="text"
+            value={yourFormats}
+            onChange={(e) => setYourFormats(e.target.value)}
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+            placeholder="blog-post, video"
+          />
+          <p className="text-xs text-gray-400 mt-1">Comma-separated</p>
+        </div>
+      </div>
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
+          <div className="text-red-400 font-semibold">Error:</div>
+          <div className="text-red-300 mt-1">{error}</div>
+        </div>
+      )}
+      {result && (
+        <div className="space-y-4">
+          <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
+            <div className="text-green-400 font-semibold">✅ Analysis Complete!</div>
+            <div className="text-gray-300 mt-2">
+              <div>Found {result.gaps?.topics?.length || 0} content gaps</div>
+              <div>You have {result.gaps?.yourUniqueTopics?.length || 0} unique topics</div>
+            </div>
+          </div>
+          
+          {result.insights && result.insights.length > 0 && (
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded p-3">
+              <h4 className="text-sm font-semibold text-blue-400 mb-2">Key Insights:</h4>
+              <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
+                {result.insights.map((insight: string, index: number) => (
+                  <li key={index}>{insight}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {result.suggestions && result.suggestions.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-2">Top Content Suggestions:</h4>
+              <div className="space-y-2">
+                {result.suggestions.map((suggestion: any, index: number) => (
+                  <div key={index} className="bg-gray-800/50 border border-gray-700 rounded p-3">
+                    <div className="flex items-start justify-between mb-1">
+                      <h5 className="text-sm font-semibold text-white">{suggestion.topic}</h5>
+                      <span className="text-xs text-purple-400">Priority: {suggestion.priorityScore}</span>
+                    </div>
+                    <div className="text-xs text-gray-400 mb-1">
+                      Format: <span className="text-gray-300 capitalize">{suggestion.format?.replace('-', ' ')}</span>
+                    </div>
+                    <div className="text-xs text-gray-400 mb-1">
+                      Angle: <span className="text-gray-300">{suggestion.angle}</span>
+                    </div>
+                    <div className="text-xs text-gray-500">{suggestion.reason}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {result.gaps?.yourUniqueTopics && result.gaps.yourUniqueTopics.length > 0 && (
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded p-3">
+              <h4 className="text-sm font-semibold text-purple-400 mb-2">Your Unique Advantages:</h4>
+              <div className="text-sm text-gray-300">
+                {result.gaps.yourUniqueTopics.join(', ')}
+              </div>
+              <p className="text-xs text-purple-300 mt-2">These are topics you cover that competitors don't - leverage them!</p>
+            </div>
+          )}
+        </div>
+      )}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+      >
+        {loading ? 'Analyzing...' : 'Analyze Content Gaps'}
+      </button>
+    </form>
+  )
+}
 // AI Tool components - commented out until components are created
 // import BrandVoiceTool from '@/components/ai/BrandVoiceTool'
 // import HashtagOptimizerTool from '@/components/ai/HashtagOptimizerTool'
@@ -45,13 +1637,20 @@ export default function Dashboard() {
   }>>([])
   const [openAITool, setOpenAITool] = useState<string | null>(null)
   const [token, setToken] = useState<string>('')
+  const [selectedBot, setSelectedBot] = useState<string | null>(null)
 
   useEffect(() => {
     // Get token from localStorage on client side
     if (typeof window !== 'undefined') {
-      setToken(localStorage.getItem('token') || '')
+      const storedToken = localStorage.getItem('token') || ''
+      setToken(storedToken)
+      
+      // Redirect to signin if no token
+      if (!storedToken) {
+        router.push('/signin')
+      }
     }
-  }, [])
+  }, [router])
 
   const analytics = {
     totalFollowers: 125000,
@@ -521,90 +2120,197 @@ export default function Dashboard() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* Content Assistant Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Content Assistant Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">Real-time content analysis</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <ContentAssistantBot
-                        content="Check out this amazing new product! #innovation #tech"
-                        platform="instagram"
-                        hashtags="#innovation #tech"
-                        token={token}
-                      />
-                    )}
+                {/* All Bots - Integrated from Archived Projects */}
+                
+                {/* Expense Tracker Bot */}
+                <div 
+                  onClick={() => setSelectedBot('expense-tracker')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Expense Tracker Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Track and manage expenses</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Track expenses, budgets, and generate reports</p>
                   </div>
                 </div>
 
-                {/* Scheduling Assistant Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Scheduling Assistant Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">AI suggests optimal posting times</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <SchedulingAssistantBot
-                        platform="instagram"
-                        token={token}
-                        onTimeSelect={(time) => console.log('Selected time:', time)}
-                      />
-                    )}
+                {/* Invoice Generator Bot */}
+                <div 
+                  onClick={() => setSelectedBot('invoice-generator')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Invoice Generator Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Create and manage invoices</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Generate invoices, track payments, manage clients</p>
                   </div>
                 </div>
 
-                {/* Engagement Analyzer Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Engagement Analyzer Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">Analyzes your post performance</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <EngagementAnalyzerBot
-                        platform="instagram"
-                        token={token}
-                      />
-                    )}
+                {/* Email Sorter Bot */}
+                <div 
+                  onClick={() => setSelectedBot('email-sorter')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Email Sorter Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Automatically categorize emails</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">AI-powered email categorization and prioritization</p>
                   </div>
                 </div>
 
-                {/* Trend Scout Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Trend Scout Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">Identifies trending topics</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <TrendScoutBot
-                        platform="instagram"
-                        token={token}
-                      />
-                    )}
+                {/* Customer Service Bot */}
+                <div 
+                  onClick={() => setSelectedBot('customer-service')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Customer Service Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">AI-powered customer support</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Handle customer inquiries with AI assistance</p>
                   </div>
                 </div>
 
-                {/* Content Curation Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Content Curation Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">Suggests content ideas</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <ContentCurationBot
-                        platform="instagram"
-                        token={token}
-                      />
-                    )}
+                {/* Product Recommendation Bot */}
+                <div 
+                  onClick={() => setSelectedBot('product-recommendation')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Product Recommendation Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">AI product recommendations</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Personalized product recommendations for customers</p>
                   </div>
                 </div>
 
-                {/* Analytics Coach Bot */}
-                <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 flex flex-col">
-                  <h3 className="text-sm font-semibold mb-1">Analytics Coach Bot</h3>
-                  <p className="text-xs text-gray-400 mb-2">Provides growth insights</p>
-                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1">
-                    {token && (
-                      <AnalyticsCoachBot
-                        platform="instagram"
-                        token={token}
-                      />
-                    )}
+                {/* Sales Lead Qualifier Bot */}
+                <div 
+                  onClick={() => setSelectedBot('sales-lead-qualifier')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Sales Lead Qualifier Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Automatically qualify leads</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Score and qualify sales leads automatically</p>
+                  </div>
+                </div>
+
+                {/* Website Chat Bot */}
+                <div 
+                  onClick={() => setSelectedBot('website-chat')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Website Chat Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Live chat widget for websites</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Embeddable chat widget with AI responses</p>
+                  </div>
+                </div>
+
+                {/* Content Writer Bot */}
+                <div 
+                  onClick={() => setSelectedBot('content-writer')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Content Writer Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">AI-powered content generation</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Generate blog posts, articles, and social content</p>
+                  </div>
+                </div>
+
+                {/* Meeting Scheduler Bot */}
+                <div 
+                  onClick={() => setSelectedBot('meeting-scheduler')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Meeting Scheduler Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Advanced meeting scheduling</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Schedule and manage meetings with reminders</p>
+                  </div>
+                </div>
+
+                {/* Social Media Manager Bot */}
+                <div 
+                  onClick={() => setSelectedBot('social-media-manager')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Social Media Manager Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Advanced social media management</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Create, schedule, and manage social media posts</p>
+                  </div>
+                </div>
+
+                {/* Content Repurposing Bot */}
+                <div 
+                  onClick={() => setSelectedBot('content-repurposing')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Content Repurposing Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Automatically repurpose content across platforms</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Transform one piece of content into multiple platform formats</p>
+                  </div>
+                </div>
+
+                {/* Content Gap Analyzer Bot */}
+                <div 
+                  onClick={() => setSelectedBot('content-gap-analyzer')}
+                  className="bg-gray-800 p-3 rounded-lg border border-purple-500/30 flex flex-col cursor-pointer hover:border-purple-500/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold">Content Gap Analyzer Bot</h3>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-2">Find content opportunities competitors miss</p>
+                  <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
+                    <p>Click to open →</p>
+                    <p className="mt-2">Discover what to create next based on competitor analysis</p>
                   </div>
                 </div>
               </div>
@@ -706,216 +2412,6 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* 8 Unique AI Tools - Available to All Paying Subscribers */}
-          {subscriptionTier && (
-            <div className="space-y-6 mt-8">
-              <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-2xl font-bold">Your AI Tools</h2>
-                  <span className="ml-auto bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    INCLUDED
-                  </span>
-                </div>
-                <p className="text-gray-300 mb-6">Access all AI tools included with your subscription</p>
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <button
-                    onClick={() => setOpenAITool('brand-voice')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20">
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full blur-xl"></div>
-                          <div className="relative w-full h-full border-2 border-blue-400/30 rounded-full flex items-center justify-center">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full opacity-80"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
-                      <p className="text-sm text-gray-400">Analyzes and maintains your unique brand voice across all content automatically. Ensures consistency in tone, style, and messaging.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('content-gap')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20">
-                          <svg className="w-full h-full" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="35" fill="none" stroke="url(#dashGrad1)" strokeWidth="2" opacity="0.3"/>
-                            <circle cx="50" cy="50" r="25" fill="none" stroke="url(#dashGrad2)" strokeWidth="2" opacity="0.5"/>
-                            <circle cx="50" cy="50" r="15" fill="url(#dashGrad3)" opacity="0.8"/>
-                            <defs>
-                              <linearGradient id="dashGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                              </linearGradient>
-                              <linearGradient id="dashGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                              </linearGradient>
-                              <linearGradient id="dashGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                              </linearGradient>
-                            </defs>
-                          </svg>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
-                      <p className="text-sm text-gray-400">Identifies content opportunities your competitors are missing. Shows you exactly what to create next for maximum impact.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('engagement-predictor')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20">
-                          <svg className="w-full h-full" viewBox="0 0 100 60">
-                            <path d="M 10 50 L 20 45 L 30 40 L 40 35 L 50 30 L 60 25 L 70 20 L 80 15 L 90 20" 
-                                  stroke="url(#predGrad1)" strokeWidth="3" fill="none" opacity="0.8"/>
-                            <path d="M 10 50 L 20 48 L 30 42 L 40 38 L 50 28 L 60 22 L 70 18 L 80 18 L 90 22" 
-                                  stroke="url(#predGrad2)" strokeWidth="2" fill="none" opacity="0.6"/>
-                            <defs>
-                              <linearGradient id="predGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                              </linearGradient>
-                              <linearGradient id="predGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                              </linearGradient>
-                            </defs>
-                          </svg>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
-                      <p className="text-sm text-gray-400">AI predicts how your posts will perform before you publish them. Get engagement forecasts and optimization suggestions.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('viral-detector')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 border-2 border-purple-400/40 rounded-full"></div>
-                            <div className="absolute w-12 h-12 border-2 border-indigo-400/40 rounded-full animate-ping"></div>
-                            <div className="absolute w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
-                      <p className="text-sm text-gray-400">Identifies trending topics and optimal posting moments in real-time. Never miss a viral opportunity.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('hashtag-optimizer')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20 flex items-center justify-center">
-                          <div className="text-4xl font-bold bg-gradient-to-br from-blue-400 to-purple-500 bg-clip-text text-transparent">#</div>
-                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-indigo-400 rounded-full animate-pulse"></div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
-                      <p className="text-sm text-gray-400">Context-aware hashtag suggestions that maximize reach and engagement. Uses AI to identify optimal hashtags for your content.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('reformatter')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20 flex gap-1 items-end">
-                          <div className="w-4 h-12 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-80"></div>
-                          <div className="w-4 h-16 bg-gradient-to-t from-purple-500 to-indigo-400 rounded-t opacity-90"></div>
-                          <div className="w-4 h-8 bg-gradient-to-t from-blue-400 to-purple-500 rounded-t opacity-70"></div>
-                          <div className="w-4 h-14 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-t opacity-85"></div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
-                      <p className="text-sm text-gray-400">Automatically adapts one post for all platforms with optimal formatting. Write once, publish across all platforms.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('collaboration-matchmaker')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20 flex items-center justify-center">
-                          <div className="relative">
-                            <div className="w-12 h-12 border-2 border-purple-400/40 rounded-full"></div>
-                            <div className="absolute top-0 left-0 w-12 h-12 border-2 border-indigo-400/40 rounded-full transform rotate-45"></div>
-                            <div className="absolute top-3 left-3 w-6 h-6 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
-                      <p className="text-sm text-gray-400">AI-powered brand-creator matching for strategic partnerships. Find brands that align with your audience and values.</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setOpenAITool('sentiment')}
-                    className="bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-all relative overflow-hidden text-left cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-0 hover:opacity-100 transition-opacity"></div>
-                    <div className="relative mb-4">
-                      <div className="h-24 flex items-center justify-center mb-4">
-                        <div className="relative w-20 h-20">
-                          <svg className="w-full h-full" viewBox="0 0 100 100">
-                            <path d="M 30 50 Q 50 30, 70 50 Q 50 70, 30 50" fill="url(#sentGrad)" opacity="0.3"/>
-                            <path d="M 35 50 Q 50 35, 65 50 Q 50 65, 35 50" fill="url(#sentGrad2)" opacity="0.5"/>
-                            <path d="M 40 50 Q 50 40, 60 50 Q 50 60, 40 50" fill="url(#sentGrad3)" opacity="0.7"/>
-                            <defs>
-                              <linearGradient id="sentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                              </linearGradient>
-                              <linearGradient id="sentGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#818cf8" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#a78bfa" stopOpacity="1"/>
-                              </linearGradient>
-                              <linearGradient id="sentGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity="1"/>
-                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1"/>
-                              </linearGradient>
-                            </defs>
-                          </svg>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
-                      <p className="text-sm text-gray-400">Real-time audience mood tracking to guide your content strategy. Understand how your audience feels and respond accordingly.</p>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* AI Tool Panels - Available to All Paying Subscribers */}
           {subscriptionTier && (
@@ -923,6 +2419,314 @@ export default function Dashboard() {
               {/* Brand Voice and Hashtag Optimizer tools will be added here when AIToolPanel is created */}
             </>
           )}
+
+          {/* Bot Modal */}
+          {selectedBot && (() => {
+            const botDocs: Record<string, { title: string; description: string; useCase: string; howToUse: string[]; tier: string; example?: string }> = {
+              'expense-tracker': {
+                title: 'Expense Tracker Bot',
+                description: 'Track and manage all your business expenses with automatic categorization, budget management, and financial reporting.',
+                useCase: 'Perfect for freelancers, small businesses, and anyone who needs to track expenses for tax purposes or budget management.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Add expenses by providing date, amount, description, and optional category',
+                  'Set budgets by category to track spending limits',
+                  'View expense reports and analytics',
+                  'Export data for accounting or tax purposes',
+                  'Track recurring expenses automatically'
+                ],
+                example: 'POST /api/bots/expense-tracker\n{\n  "expenseDate": "2024-01-15",\n  "amount": 50.00,\n  "description": "Office supplies",\n  "categoryId": 1\n}'
+              },
+              'invoice-generator': {
+                title: 'Invoice Generator Bot',
+                description: 'Create professional invoices, track payments, manage clients, and automate your billing process.',
+                useCase: 'Ideal for freelancers, consultants, agencies, and small businesses that need to invoice clients regularly.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Add clients to your client database',
+                  'Create invoices with line items, tax, and discounts',
+                  'Track invoice status (draft, sent, paid, overdue)',
+                  'Record payments and view outstanding balances',
+                  'Generate financial reports and aging reports',
+                  'Set up automatic payment reminders'
+                ],
+                example: 'POST /api/bots/invoice-generator\n{\n  "clientId": 1,\n  "invoiceDate": "2024-01-15",\n  "dueDate": "2024-02-15",\n  "items": [{"description": "Web Design", "quantity": 10, "unit_price": 100}]\n}'
+              },
+              'email-sorter': {
+                title: 'Email Sorter Bot',
+                description: 'Automatically categorize and prioritize your emails using AI, so you can focus on what matters most.',
+                useCase: 'Great for busy professionals who receive many emails and need automatic organization and prioritization.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Send email data (from, subject, body) to the API',
+                  'Bot automatically categorizes emails (urgent, sales, support, etc.)',
+                  'Get priority level (low, normal, high, urgent)',
+                  'View sorted emails by category or priority',
+                  'Set up custom categories for your business needs'
+                ],
+                example: 'POST /api/bots/email-sorter\n{\n  "from": "client@example.com",\n  "subject": "Urgent: Project Update",\n  "body": "We need to discuss the project..."\n}'
+              },
+              'customer-service': {
+                title: 'Customer Service Bot',
+                description: 'AI-powered customer support chatbot that handles inquiries, answers questions, and escalates when needed.',
+                useCase: 'Perfect for businesses that want 24/7 customer support without hiring a full support team.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Add knowledge base entries with common questions and answers',
+                  'Configure bot settings (greeting message, escalation rules)',
+                  'Chat widget automatically responds to customer inquiries',
+                  'View all conversations in the admin dashboard',
+                  'Bot escalates to human support when needed',
+                  'Track analytics and customer satisfaction'
+                ],
+                example: 'POST /api/bots/customer-service\n{\n  "message": "What are your business hours?",\n  "conversationId": "conv_123",\n  "customerName": "John Doe"\n}'
+              },
+              'product-recommendation': {
+                title: 'Product Recommendation Bot',
+                description: 'AI-powered product recommendation engine that suggests products to customers based on their preferences and purchase history.',
+                useCase: 'Essential for e-commerce stores, marketplaces, and businesses selling multiple products who want to increase sales through personalized recommendations.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Add products to your catalog with categories and details',
+                  'Track customer purchase history and preferences',
+                  'Bot analyzes customer data and product attributes',
+                  'Get personalized product recommendations for each customer',
+                  'View recommendation analytics and conversion rates',
+                  'A/B test different recommendation strategies'
+                ],
+                example: 'POST /api/bots/product-recommendation\n{\n  "customerId": 123,\n  "category": "electronics",\n  "preferences": ["wireless", "portable"]\n}'
+              },
+              'sales-lead-qualifier': {
+                title: 'Sales Lead Qualifier Bot',
+                description: 'Automatically score and qualify sales leads to help your sales team focus on the most promising opportunities.',
+                useCase: 'Ideal for sales teams, B2B businesses, and anyone who needs to prioritize leads and improve conversion rates.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Submit lead information (company, contact, industry, etc.)',
+                  'Bot calculates qualification score (0-100) based on multiple factors',
+                  'Leads are automatically marked as qualified or unqualified',
+                  'Get AI-powered recommendations for each lead',
+                  'View all leads in dashboard sorted by score',
+                  'Export qualified leads for your sales team'
+                ],
+                example: 'POST /api/bots/sales-lead-qualifier\n{\n  "companyName": "Acme Corp",\n  "contactName": "John Doe",\n  "email": "john@acme.com",\n  "industry": "Technology",\n  "companySize": "100-500"\n}'
+              },
+              'website-chat': {
+                title: 'Website Chat Bot',
+                description: 'Live chat widget for your website that engages visitors, answers questions, and captures leads 24/7.',
+                useCase: 'Perfect for any business website that wants to engage visitors, answer questions, and convert more leads.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Embed the chat widget code on your website',
+                  'Configure bot settings (greeting, responses, business hours)',
+                  'Chat widget appears on your website automatically',
+                  'Visitors can chat and get instant responses',
+                  'View all conversations in admin dashboard',
+                  'Export leads and conversation transcripts'
+                ],
+                example: 'POST /api/bots/website-chat\n{\n  "message": "Hello, I have a question",\n  "sessionId": "sess_123",\n  "visitorName": "Jane Doe",\n  "pageUrl": "https://yoursite.com/products"\n}'
+              },
+              'content-writer': {
+                title: 'Content Writer Bot',
+                description: 'AI-powered content generation tool that creates blog posts, articles, social media content, and more based on your topics and requirements.',
+                useCase: 'Great for content creators, marketers, bloggers, and businesses that need to produce high-quality content consistently.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Provide topic, content type (blog post, article, social post), and tone',
+                  'Specify length, platform, and target keywords',
+                  'Bot generates content based on your requirements',
+                  'Review and edit generated content',
+                  'Save drafts and publish when ready',
+                  'Track content performance and optimize'
+                ],
+                example: 'POST /api/bots/content-writer\n{\n  "topic": "AI Technology Trends",\n  "type": "blog-post",\n  "tone": "professional",\n  "length": 1000,\n  "platform": "blog",\n  "keywords": ["AI", "technology", "trends"]\n}'
+              },
+              'meeting-scheduler': {
+                title: 'Meeting Scheduler Bot',
+                description: 'Advanced meeting scheduling system with automatic reminders, calendar integration, and conflict detection.',
+                useCase: 'Perfect for consultants, coaches, service businesses, and anyone who schedules meetings regularly and wants to automate the process.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Create meetings with title, description, date/time, and attendees',
+                  'Set up meeting types (consultation, follow-up, team meeting, etc.)',
+                  'Bot sends automatic reminders to all attendees',
+                  'View all scheduled meetings in calendar view',
+                  'Reschedule or cancel meetings easily',
+                  'Track meeting attendance and notes'
+                ],
+                example: 'POST /api/bots/meeting-scheduler\n{\n  "title": "Client Consultation",\n  "startTime": "2024-01-20T10:00:00Z",\n  "endTime": "2024-01-20T11:00:00Z",\n  "attendees": ["client@example.com"],\n  "location": "Zoom"\n}'
+              },
+              'social-media-manager': {
+                title: 'Social Media Manager Bot',
+                description: 'Advanced social media management tool for creating, scheduling, and managing posts across multiple platforms.',
+                useCase: 'Essential for social media managers, marketers, and businesses that manage multiple social media accounts and need to schedule content in advance.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Create posts for Instagram, Twitter, LinkedIn, TikTok, or YouTube',
+                  'Add media (images, videos) and hashtags',
+                  'Schedule posts for optimal posting times',
+                  'View all posts in calendar view',
+                  'Track post performance and engagement',
+                  'Bulk schedule multiple posts at once'
+                ],
+                example: 'POST /api/bots/social-media-manager\n{\n  "platform": "instagram",\n  "content": "Check out our new product! #newproduct #innovation",\n  "mediaUrls": ["https://example.com/image.jpg"],\n  "scheduledAt": "2024-01-20T14:00:00Z",\n  "hashtags": ["newproduct", "innovation"]\n}'
+              },
+              'content-repurposing': {
+                title: 'Content Repurposing Bot',
+                description: 'Automatically transform one piece of content into multiple platform-specific formats. Save hours of manual work by repurposing blog posts, articles, videos, and more across Instagram, Twitter, LinkedIn, TikTok, YouTube, and Pinterest.',
+                useCase: 'Perfect for content creators, marketers, and businesses that create content once but need to adapt it for multiple platforms. Maximize your content ROI by getting 5-6 platform variations from a single piece of content.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Paste your original content (blog post, article, video script, etc.)',
+                  'Select the content type (blog-post, article, video-script, etc.)',
+                  'Choose target platforms (Instagram, Twitter, LinkedIn, TikTok, YouTube, Pinterest)',
+                  'Bot automatically formats content for each platform with appropriate hooks, CTAs, and hashtags',
+                  'Copy and use the repurposed content directly on each platform',
+                  'View repurposing history in your dashboard'
+                ],
+                example: 'POST /api/bots/content-repurposing\n{\n  "originalContent": "Your blog post content here...",\n  "contentType": "blog-post",\n  "targetPlatforms": ["instagram", "twitter", "linkedin", "tiktok", "youtube"]\n}'
+              },
+              'content-gap-analyzer': {
+                title: 'Content Gap Analyzer Bot',
+                description: 'Identify content opportunities your competitors are missing. Analyze competitor content strategies and discover gaps in your own content to find the perfect topics, formats, and angles that will help you stand out.',
+                useCase: 'Essential for content creators, marketers, and businesses who want to stay ahead of the competition. Perfect for anyone struggling with "what to create next" - this bot tells you exactly what content opportunities exist.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Enter competitor topics (what they\'re covering)',
+                  'Enter your existing topics (what you\'ve already covered)',
+                  'Optionally add niche, target audience, and format preferences',
+                  'Bot analyzes gaps and identifies missing topics',
+                  'Get prioritized content suggestions with recommended formats and angles',
+                  'Discover your unique advantages (topics you cover that competitors don\'t)',
+                  'View analysis history to track your content strategy evolution'
+                ],
+                example: 'POST /api/bots/content-gap-analyzer\n{\n  "competitorTopics": ["How to start a business", "Marketing strategies"],\n  "yourTopics": ["Social media marketing"],\n  "niche": "Business",\n  "targetAudience": "Entrepreneurs"\n}'
+              }
+            }
+
+            const doc = botDocs[selectedBot]
+            if (!doc) return null
+
+            return (
+              <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setSelectedBot(null)}>
+                <div className="bg-gray-800 rounded-xl border border-gray-700 max-w-3xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                  <div className="p-6 border-b border-gray-700 flex items-center justify-between sticky top-0 bg-gray-800">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white">{doc.title}</h2>
+                      <p className="text-sm text-gray-400 mt-1">{doc.tier}</p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedBot(null)}
+                      className="text-gray-400 hover:text-white transition-colors text-2xl"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="p-6 space-y-6">
+                    {/* Description */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-2">What is it?</h3>
+                      <p className="text-gray-300">{doc.description}</p>
+                    </div>
+
+                    {/* Use Case */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Who is it for?</h3>
+                      <p className="text-gray-300">{doc.useCase}</p>
+                    </div>
+
+                    {/* Simple UI Interface */}
+                    <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+                      <h3 className="text-lg font-semibold text-white mb-4">Use It Now</h3>
+                      {selectedBot === 'expense-tracker' && (
+                        <ExpenseTrackerUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'email-sorter' && (
+                        <EmailSorterUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'content-writer' && (
+                        <ContentWriterUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'invoice-generator' && (
+                        <InvoiceGeneratorUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'customer-service' && (
+                        <CustomerServiceUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'product-recommendation' && (
+                        <ProductRecommendationUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'sales-lead-qualifier' && (
+                        <SalesLeadQualifierUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'website-chat' && (
+                        <WebsiteChatUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'meeting-scheduler' && (
+                        <MeetingSchedulerUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'social-media-manager' && (
+                        <SocialMediaManagerUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'content-repurposing' && (
+                        <ContentRepurposingUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                      {selectedBot === 'content-gap-analyzer' && (
+                        <ContentGapAnalyzerUI token={token} onClose={() => setSelectedBot(null)} />
+                      )}
+                    </div>
+
+                    {/* How to Use */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-3">How to Use</h3>
+                      <ol className="list-decimal list-inside space-y-2 text-gray-300">
+                        {doc.howToUse.map((step, index) => (
+                          <li key={index} className="pl-2">{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+
+                    {/* API Endpoint (Collapsed) */}
+                    <details className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                      <summary className="text-sm font-semibold text-blue-400 cursor-pointer">API Endpoint (Advanced)</summary>
+                      <div className="mt-3">
+                        <code className="text-xs text-blue-300 block mb-3">
+                          /api/bots/{selectedBot}
+                        </code>
+                        {doc.example && (
+                          <div className="mt-3">
+                            <p className="text-xs text-blue-400 mb-2">Example Request:</p>
+                            <pre className="text-xs text-blue-200 bg-gray-900/50 p-3 rounded overflow-x-auto">
+                              {doc.example}
+                            </pre>
+                          </div>
+                        )}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(`/api/bots/${selectedBot}`)
+                            alert('API endpoint copied to clipboard!')
+                          }}
+                          className="mt-3 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+                        >
+                          Copy API Endpoint
+                        </button>
+                      </div>
+                    </details>
+
+                    {/* Actions */}
+                    <div className="flex gap-3 pt-4 border-t border-gray-700">
+                      <button
+                        onClick={() => setSelectedBot(null)}
+                        className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white text-sm"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
         </main>
       </div>
     </div>

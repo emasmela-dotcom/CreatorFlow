@@ -1,0 +1,32 @@
+STRIPE WEBHOOK SETUP - STEP BY STEP
+====================================
+
+Step 1: Open Stripe Dashboard
+- Go to: https://dashboard.stripe.com
+- Make sure you're in LIVE MODE (toggle top-right)
+- Click "Developers" in left sidebar
+- Click "Webhooks" in submenu
+
+Step 2: Add Endpoint
+- Click "+ Add endpoint" button (top-right)
+- Paste URL: https://creatorflow-iota.vercel.app/api/stripe/webhook
+
+Step 3: Select Events
+Check these 4 boxes:
+☐ checkout.session.completed
+☐ customer.subscription.created
+☐ customer.subscription.updated
+☐ invoice.payment_failed
+
+Step 4: Save
+- Click "Add endpoint"
+
+Step 5: Copy Secret
+- Click on the new webhook
+- Click "Reveal" next to "Signing secret"
+- Copy the whsec_... value
+
+Step 6: Verify in Vercel
+- Check if STRIPE_WEBHOOK_SECRET matches
+- Update if needed
+

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { db } from '@/lib/db'
+import { getPostLimit } from '@/lib/planLimits'
 
 // Lazy initialize Stripe to avoid build-time errors
 const getStripe = () => {
@@ -55,18 +56,22 @@ export async function POST(request: NextRequest) {
         const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
         const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null
 
+        // Get post limit for this plan
+        const postLimit = getPostLimit(planType as any)
+
         await db.execute({
           sql: `
             UPDATE users 
             SET 
               subscription_tier = ?,
               stripe_customer_id = ?,
+              monthly_post_limit = ?,
               trial_started_at = CURRENT_TIMESTAMP,
               trial_end_at = ?,
               trial_plan = ?
             WHERE id = ?
           `,
-          args: [planType, session.customer, trialEnd?.toISOString() || null, planType, userId]
+          args: [planType, session.customer, postLimit, trialEnd?.toISOString() || null, planType, userId]
         })
 
         console.log(`✅ Subscription activated for user ${userId}, plan: ${planType}`)
@@ -94,14 +99,15 @@ export async function POST(request: NextRequest) {
 
         // Update subscription status
         if (subscription.status === 'active') {
+          const postLimit = getPostLimit(planType as any)
           await db.execute({
-            sql: 'UPDATE users SET subscription_tier = ? WHERE id = ?',
-            args: [planType, userId]
+            sql: 'UPDATE users SET subscription_tier = ?, monthly_post_limit = ? WHERE id = ?',
+            args: [planType, postLimit, userId]
           })
           console.log(`✅ Subscription ${subscription.status} for user ${userId}`)
         } else if (subscription.status === 'canceled') {
           await db.execute({
-            sql: 'UPDATE users SET subscription_tier = NULL WHERE id = ?',
+            sql: 'UPDATE users SET subscription_tier = NULL, monthly_post_limit = NULL WHERE id = ?',
             args: [userId]
           })
           console.log(`⚠️ Subscription canceled for user ${userId}`)

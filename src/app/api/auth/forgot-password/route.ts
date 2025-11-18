@@ -1,0 +1,74 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+import { isStrongPassword } from '@/lib/auth'
+import bcrypt from 'bcryptjs'
+
+/**
+ * Forgot Password API
+ * Simple password reset - for production, add email verification with tokens
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { email, action, newPassword } = body
+
+    if (!email) {
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    }
+
+    // Check if user exists
+    const userResult = await db.execute({
+      sql: 'SELECT id, email FROM users WHERE email = ?',
+      args: [email]
+    })
+
+    if (userResult.rows.length === 0) {
+      // Don't reveal if user exists for security
+      return NextResponse.json({ 
+        message: 'If an account exists with this email, a password reset link has been sent.' 
+      })
+    }
+
+    if (action === 'request') {
+      // In production, send email with reset token
+      // For now, just allow direct reset
+      return NextResponse.json({ 
+        message: 'You can now reset your password. Enter your new password below.',
+        canReset: true
+      })
+    }
+
+    if (action === 'reset') {
+      if (!newPassword) {
+        return NextResponse.json({ error: 'New password is required' }, { status: 400 })
+      }
+
+      if (!isStrongPassword(newPassword)) {
+        return NextResponse.json({ 
+          error: 'Password must be at least 8 characters with uppercase, lowercase, and number' 
+        }, { status: 400 })
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+      // Update password
+      await db.execute({
+        sql: 'UPDATE users SET password_hash = ? WHERE email = ?',
+        args: [hashedPassword, email]
+      })
+
+      return NextResponse.json({ 
+        message: 'Password reset successfully!' 
+      })
+    }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+  } catch (error: any) {
+    console.error('Forgot password error:', error)
+    return NextResponse.json({ 
+      error: error.message || 'Failed to process password reset' 
+    }, { status: 500 })
+  }
+}
+

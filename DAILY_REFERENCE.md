@@ -11,11 +11,11 @@
 ---
 
 ## 💰 YOUR PRICING PLANS
-1. **Starter** - $19/month (2 accounts, 15 posts)
-2. **Growth** - $29/month (3 accounts, 25 posts)
-3. **Pro** - $39/month (4 accounts, 35 posts)
-4. **Business** - $49/month (5 accounts, 50 posts)
-5. **Agency** - $99/month (Unlimited accounts, unlimited posts)
+1. **Starter** - $19/month (2 accounts, 8 posts)
+2. **Growth** - $29/month (3 accounts, 10 posts)
+3. **Pro** - $39/month (4 accounts, 12 posts)
+4. **Business** - $49/month (5 accounts, 15 posts)
+5. **Agency** - $99/month (Unlimited accounts, 18 posts)
 
 **Trial:** 14-day FREE trial (credit card required, no charge during trial)
 
@@ -61,7 +61,6 @@
 1. **Creator-first** (competitors focus on brands/agencies)
 2. **Post-based pricing** (they charge per account - more expensive)
 3. **Lower entry point** ($19 vs competitors' $25-$99+)
-4. **8 unique AI tools** (exclusive to Agency plan)
 5. **No 3-month lock-in** - content is immediately theirs after paying
 
 ---
@@ -148,18 +147,7 @@ Review these questions each day:
 - Check this section for recent updates
 
 **Recent Updates:**
-- **January 2025:** All 8 AI bot API endpoints created! They run in cloud on Vercel.
-  1. Brand Voice Analyzer
-  2. Content Gap Analyzer  
-  3. Engagement Predictor
-  4. Viral Moment Detector
-  5. Smart Hashtag Optimizer
-  6. Multi-Platform Reformatter
-  7. Collaboration Matchmaker
-  8. Sentiment Analysis Engine
-  - All endpoints are live on Vercel (cloud) - can shut down Mac after deployment
-  - Next step: Build frontend components to use these APIs
-  - AI integration ready (just needs API key when available)
+- **January 2025:** Platform selection feature added - users can select which social media platforms they want content created for
 
 ---
 

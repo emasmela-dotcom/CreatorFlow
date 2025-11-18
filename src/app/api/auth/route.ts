@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { verifyAuth, generateToken } from '@/lib/auth'
 import { Resend } from 'resend'
 import bcrypt from 'bcryptjs'
+import { checkAbusePrevention, logSignupAttempt, getClientIdentifier, getDeviceFingerprint } from '@/lib/abusePrevention'
 
 // Lazy initialize Resend to avoid errors when API key is missing
 function getResend() {
@@ -45,6 +46,14 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'User already exists' }, { status: 400 })
       }
 
+      // ABUSE PREVENTION: Check for abuse before allowing signup
+      const abuseCheck = await checkAbusePrevention(request, email)
+      if (!abuseCheck.allowed) {
+        return NextResponse.json({ 
+          error: abuseCheck.reason || 'Signup not allowed. Please contact support if you believe this is an error.' 
+        }, { status: 403 })
+      }
+
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -54,6 +63,11 @@ export async function POST(request: NextRequest) {
           sql: 'INSERT INTO users (id, email, password_hash, subscription_tier, created_at) VALUES (?, ?, ?, ?, ?)',
           args: [userId, email, hashedPassword, 'starter', new Date().toISOString()]
         })
+
+      // Log signup attempt for abuse tracking
+      const ipAddress = getClientIdentifier(request)
+      const deviceFingerprint = getDeviceFingerprint(request)
+      await logSignupAttempt(userId, email, ipAddress, deviceFingerprint)
 
       // Send welcome email (optional)
       try {

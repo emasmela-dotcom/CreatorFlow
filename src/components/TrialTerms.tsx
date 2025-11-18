@@ -25,14 +25,14 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
     }> = {
       'Starter': {
         fullAccounts: 2,
-        fullPosts: 15,
+        fullPosts: 8,
         analytics: 'Basic analytics',
         calendar: 'Content calendar',
         support: 'Email support'
       },
       'Growth': {
         fullAccounts: 3,
-        fullPosts: 25,
+        fullPosts: 10,
         analytics: 'Enhanced analytics',
         calendar: 'Content calendar',
         support: 'Email support',
@@ -40,7 +40,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       },
       'Pro': {
         fullAccounts: 4,
-        fullPosts: 35,
+        fullPosts: 12,
         analytics: 'Advanced analytics',
         calendar: 'Content calendar',
         support: 'Priority support',
@@ -49,7 +49,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       },
       'Business': {
         fullAccounts: 5,
-        fullPosts: 50,
+        fullPosts: 15,
         analytics: 'Premium analytics',
         calendar: 'Content calendar',
         support: 'Priority support',
@@ -60,7 +60,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       },
       'Agency': {
         fullAccounts: -1, // Unlimited
-        fullPosts: -1, // Unlimited
+        fullPosts: 18,
         analytics: 'Advanced reporting',
         calendar: 'Content calendar',
         support: 'Priority support + Dedicated account manager',

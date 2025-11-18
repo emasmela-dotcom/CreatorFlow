@@ -26,17 +26,35 @@ export default function CreatePost() {
 
   const platforms = [
     { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-purple-500 to-indigo-500' },
-    { id: 'twitter', name: 'Twitter', icon: Twitter, color: 'bg-blue-500' },
+    { id: 'twitter', name: 'Twitter/X', icon: Twitter, color: 'bg-blue-500' },
     { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-600' },
+    { id: 'tiktok', name: 'TikTok', icon: Video, color: 'bg-black' },
     { id: 'youtube', name: 'YouTube', icon: Youtube, color: 'bg-red-500' },
   ]
 
-  const togglePlatform = (platformId: string) => {
-    setSelectedPlatforms(prev => 
-      prev.includes(platformId) 
-        ? prev.filter(id => id !== platformId)
-        : [...prev, platformId]
-    )
+  const togglePlatform = async (platformId: string) => {
+    const newPlatforms = selectedPlatforms.includes(platformId)
+      ? selectedPlatforms.filter(id => id !== platformId)
+      : [...selectedPlatforms, platformId]
+    
+    setSelectedPlatforms(newPlatforms)
+
+    // Save preferred platforms to user settings
+    if (token && newPlatforms.length > 0) {
+      try {
+        await fetch('/api/user/preferred-platforms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ preferredPlatforms: newPlatforms })
+        })
+      } catch (error) {
+        console.error('Error saving preferred platforms:', error)
+        // Don't show error to user, just log it
+      }
+    }
   }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,36 +109,40 @@ export default function CreatePost() {
 
     try {
       // Create post for each selected platform
-      const platform = selectedPlatforms[0] // API currently supports one platform at a time
-      
-      const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          platform,
-          content: fullContent,
-          media_urls: [], // TODO: Handle media uploads
-          scheduled_at,
-          status
+      const promises = selectedPlatforms.map(platform => 
+        fetch('/api/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            platform,
+            content: fullContent,
+            media_urls: [], // TODO: Handle media uploads
+            scheduled_at,
+            status
+          })
         })
-      })
+      )
 
-      const data = await response.json()
+      const responses = await Promise.all(promises)
+      const results = await Promise.all(responses.map(res => res.json()))
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create post')
+      // Check if any failed
+      const failed = results.filter(r => !r.success)
+      if (failed.length > 0) {
+        throw new Error(`Failed to create posts for ${failed.length} platform(s)`)
       }
 
       // Success!
+      const platformNames = selectedPlatforms.map(p => platforms.find(pl => pl.id === p)?.name || p).join(', ')
       if (status === 'draft') {
-        alert('Draft saved successfully!')
+        alert(`Draft saved successfully for ${platformNames}!`)
       } else if (status === 'scheduled') {
-        alert(`Post scheduled for ${scheduledDate} at ${scheduledTime}!`)
+        alert(`Post scheduled for ${platformNames} on ${scheduledDate} at ${scheduledTime}!`)
       } else {
-        alert('Post published successfully!')
+        alert(`Post published successfully to ${platformNames}!`)
       }
 
       // Redirect to dashboard
@@ -168,9 +190,10 @@ export default function CreatePost() {
       setToken(localStorage.getItem('token') || '')
     }
 
-    // Fetch post usage info
+    // Fetch post usage info and preferred platforms
     const t = localStorage.getItem('token')
     if (t) {
+      // Fetch post usage info
       fetch('/api/user/purchase-posts', {
         headers: {
           'Authorization': `Bearer ${t}`
@@ -189,6 +212,20 @@ export default function CreatePost() {
         }
       })
       .catch(err => console.error('Error fetching post info:', err))
+
+      // Fetch preferred platforms
+      fetch('/api/user/preferred-platforms', {
+        headers: {
+          'Authorization': `Bearer ${t}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error && data.preferredPlatforms && data.preferredPlatforms.length > 0) {
+          setSelectedPlatforms(data.preferredPlatforms)
+        }
+      })
+      .catch(err => console.error('Error fetching preferred platforms:', err))
     }
   }, [])
 
@@ -290,8 +327,18 @@ export default function CreatePost() {
 
             {/* Platform Selection */}
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-semibold mb-4">Select Platforms</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Select Platforms for Content Creation</h3>
+                {selectedPlatforms.length > 0 && (
+                  <span className="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">
+                    {selectedPlatforms.length} selected
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-gray-400 mb-4">
+                Choose which social media platforms you want to create content for. Your selection will be saved as your default.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {platforms.map((platform) => {
                   const Icon = platform.icon
                   const isSelected = selectedPlatforms.includes(platform.id)

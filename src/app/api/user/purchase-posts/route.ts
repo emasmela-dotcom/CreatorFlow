@@ -11,11 +11,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 
 // Pricing for additional posts
 const ADDITIONAL_POST_PACKAGES = [
-  { quantity: 10, price: 4.00, savings: '20%' },
-  { quantity: 25, price: 9.00, savings: '28%' },
-  { quantity: 50, price: 16.00, savings: '36%' },
-  { quantity: 100, price: 30.00, savings: '40%' },
-  { quantity: 500, price: 100.00, savings: '60%' }, // $0.20/post
+  { quantity: 5, price: 4.00, savings: '0%', perPost: '$0.80/post' },
+  { quantity: 10, price: 8.00, savings: '0%', perPost: '$0.80/post' },
+  { quantity: 15, price: 12.00, savings: '0%', perPost: '$0.80/post' },
+  { quantity: 20, price: 15.00, savings: '6%', perPost: '$0.75/post' },
+  { quantity: 24, price: 18.00, savings: '10%', perPost: '$0.75/post' },
 ]
 
 /**

@@ -119,6 +119,12 @@ The CreatorFlow Team`,
           </h1>
           <div className="flex items-center gap-4">
             <button
+              onClick={() => window.location.href = '/reviews'}
+              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            >
+              Reviews
+            </button>
+            <button
               onClick={() => window.location.href = '/signin'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
@@ -134,8 +140,21 @@ The CreatorFlow Team`,
         </div>
       </header>
 
+      {/* Promo Banner - First 25 Creators */}
+      <section className="bg-gradient-to-r from-purple-600 to-indigo-600 py-4 px-6 border-b border-purple-500/30 relative z-10">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+            <Star className="w-5 h-5 text-yellow-300" />
+            <span className="text-white font-semibold text-lg">
+              🎉 LIMITED TIME: First 25 creators get <strong>FREE membership + 25 free posts</strong> in exchange for a review!
+            </span>
+            <Star className="w-5 h-5 text-yellow-300" />
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-16">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-slate-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
@@ -150,7 +169,8 @@ The CreatorFlow Team`,
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80"
+              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80 transition-none"
+              style={{ willChange: 'auto' }}
             />
             <button
               onClick={() => window.location.href = '/signup'}
@@ -160,13 +180,17 @@ The CreatorFlow Team`,
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-sm text-gray-400 mt-4">Credit card required • 14-day free trial (no charge during trial)</p>
+          <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Keep your changes when you subscribe</p>
+          <div className="mt-4 bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 max-w-2xl mx-auto">
+            <p className="text-sm text-blue-300">
+              <strong className="text-white">How it works:</strong> Create and manage all your content within CreatorFlow, then simply copy and paste to your social media platforms. We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube.
+            </p>
+          </div>
         </div>
       </section>
 
-
       {/* Features Section */}
-      <section className="py-20 px-6">
+      <section className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
@@ -193,10 +217,20 @@ The CreatorFlow Team`,
               <div className="text-xs font-mono text-purple-400 mb-3">AUTOMATION</div>
               <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Schedule posts across Instagram, Twitter, LinkedIn, and TikTok with optimal timing.</p>
-              <div className="flex items-center gap-2 text-sm text-purple-300">
+              <p className="text-gray-400 mb-4">Schedule posts across Instagram, Twitter, LinkedIn, TikTok, and YouTube with optimal timing.</p>
+              <div className="flex items-center gap-2 text-sm text-purple-300 mb-3">
                 <Check className="w-4 h-4" />
                 <span>AI-powered recommendations</span>
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-700">
+                <p className="text-xs text-gray-500 mb-2">Supported Platforms:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">Instagram</span>
+                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">Twitter/X</span>
+                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">LinkedIn</span>
+                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">TikTok</span>
+                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">YouTube</span>
+                </div>
               </div>
             </div>
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
@@ -243,163 +277,6 @@ The CreatorFlow Team`,
         </div>
       </section>
 
-      {/* 8 Unique AI Tools Section - Teaser (Names Only) */}
-      <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-gray-900/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-              EXCLUSIVE TO CREATORFLOW
-            </div>
-            <h2 className="text-4xl font-bold mb-4">8 AI Tools Nobody Else Has</h2>
-            <p className="text-xl text-gray-400 mb-6">Available exclusively with the Agency plan</p>
-            <p className="text-lg text-purple-400 font-semibold">Unlock full access and detailed features with Agency plan ($99/month)</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-purple-500/40" viewBox="0 0 100 100">
-                    <rect x="10" y="10" width="80" height="80" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
-                    <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.5"/>
-                    <rect x="30" y="30" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
-                    <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
-                    <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">AI Brand Voice Analyzer</h3>
-              <p className="text-xs text-gray-400">Brand consistency analysis</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-indigo-500/40" viewBox="0 0 100 100">
-                    <polygon points="50,10 90,90 10,90" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.4"/>
-                    <polygon points="50,25 75,80 25,80" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <polygon points="50,40 60,70 40,70" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
-                    <circle cx="50" cy="55" r="8" fill="currentColor" opacity="0.5"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Content Gap Analyzer</h3>
-              <p className="text-xs text-gray-400">Competitive content intelligence</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-purple-500/50" viewBox="0 0 100 60">
-                    <defs>
-                      <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.2"/>
-                      </pattern>
-                    </defs>
-                    <rect width="100" height="60" fill="url(#grid)"/>
-                    <polyline points="10,50 25,40 40,30 55,20 70,15 85,18" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8"/>
-                    <polyline points="15,52 30,42 45,32 60,22 75,17 90,20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Engagement Predictor</h3>
-              <p className="text-xs text-gray-400">Performance forecasting engine</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-indigo-500/40" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5,5" opacity="0.3"/>
-                    <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" opacity="0.5"/>
-                    <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
-                    <circle cx="50" cy="50" r="8" fill="currentColor" opacity="0.8"/>
-                    <line x1="50" y1="10" x2="50" y2="42" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <line x1="50" y1="58" x2="50" y2="90" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <line x1="10" y1="50" x2="42" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <line x1="58" y1="50" x2="90" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Viral Moment Detector</h3>
-              <p className="text-xs text-gray-400">Real-time trend analysis</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-purple-500/50" viewBox="0 0 100 100">
-                    <path d="M 30 30 L 70 30 L 70 40 L 50 50 L 30 40 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <path d="M 30 50 L 70 50 L 70 60 L 50 70 L 30 60 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
-                    <line x1="50" y1="30" x2="50" y2="70" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
-                    <circle cx="50" cy="50" r="3" fill="currentColor" opacity="0.9"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Smart Hashtag Optimizer</h3>
-              <p className="text-xs text-gray-400">Context-aware optimization</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-indigo-500/50" viewBox="0 0 100 100">
-                    <rect x="20" y="60" width="15" height="30" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <rect x="40" y="40" width="15" height="50" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
-                    <rect x="60" y="70" width="15" height="20" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
-                    <line x1="10" y1="90" x2="90" y2="90" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
-                    <line x1="10" y1="80" x2="90" y2="80" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
-                    <line x1="10" y1="70" x2="90" y2="70" stroke="currentColor" strokeWidth="1" opacity="0.2"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Multi-Platform Reformatter</h3>
-              <p className="text-xs text-gray-400">Cross-platform content adaptation</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-indigo-500/40" viewBox="0 0 100 100">
-                    <path d="M 30 30 L 70 30 L 70 70 L 30 70 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5"/>
-                    <path d="M 40 40 L 60 40 L 60 60 L 40 60 Z" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7"/>
-                    <circle cx="50" cy="50" r="5" fill="currentColor" opacity="0.8"/>
-                    <line x1="50" y1="40" x2="50" y2="60" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                    <line x1="40" y1="50" x2="60" y2="50" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Collaboration Matchmaker</h3>
-              <p className="text-xs text-gray-400">Strategic partnership matching</p>
-            </div>
-
-            <div className="bg-gray-800/60 p-6 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-all relative overflow-hidden">
-              <div className="mb-4 h-20 flex items-center justify-center">
-                <div className="relative w-16 h-16">
-                  <svg className="w-full h-full text-purple-500/40" viewBox="0 0 100 100">
-                    <path d="M 20 50 Q 35 30, 50 50 Q 65 70, 80 50" fill="none" stroke="currentColor" strokeWidth="2.5" opacity="0.6"/>
-                    <path d="M 25 50 Q 38 35, 50 50 Q 62 65, 75 50" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
-                    <circle cx="50" cy="50" r="3" fill="currentColor" opacity="0.9"/>
-                    <line x1="50" y1="20" x2="50" y2="45" stroke="currentColor" strokeWidth="1.5" opacity="0.4"/>
-                    <line x1="50" y1="55" x2="50" y2="80" stroke="currentColor" strokeWidth="1.5" opacity="0.4"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Sentiment Analysis Engine</h3>
-              <p className="text-xs text-gray-400">Audience sentiment tracking</p>
-            </div>
-          </div>
-
-          <div className="text-center mt-8">
-            <button 
-              onClick={() => window.location.href = '/signup?plan=agency'}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold text-lg transition-all transform hover:scale-105"
-            >
-              Unlock All 8 Tools with Agency Plan →
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Pricing Section */}
       <section className="py-20 px-6 bg-gray-900/30">
@@ -410,7 +287,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Starter</h3>
               <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 8 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
@@ -424,7 +301,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Growth</h3>
               <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 25 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 10 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
@@ -441,7 +318,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
               <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 35 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 12 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
@@ -455,7 +332,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Business</h3>
               <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 50 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
@@ -472,7 +349,7 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Agency</h3>
               <div className="text-4xl font-bold mb-6">$99<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> Unlimited posts</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 18 posts per month</li>
                 <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
               </ul>
               <button 
@@ -526,28 +403,28 @@ The CreatorFlow Team`,
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
                   <div className="text-2xl font-bold text-blue-400 mb-1">$4</div>
+                  <div className="text-sm text-gray-300 mb-1">5 Posts</div>
+                  <div className="text-xs text-gray-400">$0.80/post</div>
+                </div>
+                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
+                  <div className="text-2xl font-bold text-blue-400 mb-1">$8</div>
                   <div className="text-sm text-gray-300 mb-1">10 Posts</div>
-                  <div className="text-xs text-gray-400">$0.40/post</div>
+                  <div className="text-xs text-gray-400">$0.80/post</div>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$9</div>
-                  <div className="text-sm text-gray-300 mb-1">25 Posts</div>
-                  <div className="text-xs text-gray-400">$0.36/post</div>
+                  <div className="text-2xl font-bold text-blue-400 mb-1">$12</div>
+                  <div className="text-sm text-gray-300 mb-1">15 Posts</div>
+                  <div className="text-xs text-gray-400">$0.80/post</div>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$16</div>
-                  <div className="text-sm text-gray-300 mb-1">50 Posts</div>
-                  <div className="text-xs text-gray-400">$0.32/post</div>
-                </div>
-                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$30</div>
-                  <div className="text-sm text-gray-300 mb-1">100 Posts</div>
-                  <div className="text-xs text-gray-400">$0.30/post</div>
+                  <div className="text-2xl font-bold text-blue-400 mb-1">$15</div>
+                  <div className="text-sm text-gray-300 mb-1">20 Posts</div>
+                  <div className="text-xs text-gray-400">$0.75/post</div>
                 </div>
                 <div className="bg-gradient-to-br from-purple-600/20 to-indigo-600/20 p-4 rounded-lg border-2 border-purple-500 text-center">
-                  <div className="text-2xl font-bold text-purple-400 mb-1">$100</div>
-                  <div className="text-sm text-gray-300 mb-1">500 Posts</div>
-                  <div className="text-xs text-green-400 font-semibold">$0.20/post • 60% Savings</div>
+                  <div className="text-2xl font-bold text-purple-400 mb-1">$18</div>
+                  <div className="text-sm text-gray-300 mb-1">24 Posts</div>
+                  <div className="text-xs text-green-400 font-semibold">$0.75/post • 10% Savings</div>
                 </div>
               </div>
               <p className="text-sm text-gray-400 mt-4 text-center">
@@ -607,9 +484,9 @@ The CreatorFlow Team`,
 
             <div className="mt-6 pt-6 border-t border-gray-700">
               <p className="text-sm text-gray-400">
-                <strong className="text-gray-300">Credit Card Required:</strong> A credit card is required to start your free 14-day trial. 
-                Your card will <strong className="text-white">NOT</strong> be charged during the trial period. 
-                After the trial ends, you'll be charged only if you choose to continue with a paid plan.
+                <strong className="text-gray-300">Free Trial:</strong> Start your 14-day free trial with <strong className="text-white">no credit card required</strong>. 
+                Create content, schedule posts, and use all features. If you love it and want to keep your changes, simply subscribe to a paid plan. 
+                If you don't subscribe, your changes will be reverted to your original state.
               </p>
             </div>
           </div>
@@ -637,6 +514,7 @@ The CreatorFlow Team`,
           <h3 className="text-2xl font-bold mb-4">CreatorFlow</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
+            <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
             <a href="#" className="hover:text-white transition-colors">Support</a>
