@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       switch (platform.toLowerCase()) {
         case 'instagram':
           // Instagram: Carousel post format
-          repurposed = `📱 Instagram Carousel Post\n\n${originalContent.substring(0, 200)}...\n\n💡 Key Points:\n${originalContent.split('.').slice(0, 3).map((p, i) => `${i + 1}. ${p.trim()}`).join('\n')}\n\n✨ Call to Action: Check out the full content in our bio!`
+          repurposed = `📱 Instagram Carousel Post\n\n${originalContent.substring(0, 200)}...\n\n💡 Key Points:\n${originalContent.split('.').slice(0, 3).map((p: string, i: number) => `${i + 1}. ${p.trim()}`).join('\n')}\n\n✨ Call to Action: Check out the full content in our bio!`
           formatType = 'carousel'
           hashtags = '#content #creators #socialmedia #instagram'
           characterCount = repurposed.length
@@ -83,8 +83,8 @@ export async function POST(request: NextRequest) {
         case 'twitter':
         case 'x':
           // Twitter: Thread format
-          const sentences = originalContent.split('.').filter(s => s.trim().length > 10)
-          const threadParts = sentences.slice(0, 5).map((s, i) => `${i + 1}/5 ${s.trim()}`)
+          const sentences = originalContent.split('.').filter((s: string) => s.trim().length > 10)
+          const threadParts = sentences.slice(0, 5).map((s: string, i: number) => `${i + 1}/5 ${s.trim()}`)
           repurposed = threadParts.join('\n\n')
           formatType = 'thread'
           hashtags = '#ContentCreator #TwitterThread'
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
         case 'linkedin':
           // LinkedIn: Professional article format
-          repurposed = `🚀 ${originalContent.substring(0, 100)}...\n\n${originalContent}\n\n💼 Key Takeaways:\n${originalContent.split('.').slice(0, 4).map((p, i) => `• ${p.trim()}`).join('\n')}\n\nWhat are your thoughts on this? Let's discuss in the comments! 👇`
+          repurposed = `🚀 ${originalContent.substring(0, 100)}...\n\n${originalContent}\n\n💼 Key Takeaways:\n${originalContent.split('.').slice(0, 4).map((p: string, i: number) => `• ${p.trim()}`).join('\n')}\n\nWhat are your thoughts on this? Let's discuss in the comments! 👇`
           formatType = 'article'
           hashtags = '#LinkedIn #ProfessionalDevelopment #ContentCreation'
           characterCount = repurposed.length
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
         case 'youtube':
           // YouTube: Video script format
-          repurposed = `🎥 YouTube Video Script\n\n[INTRO - 0:00-0:15]\nHey everyone! Today we're diving into: ${originalContent.substring(0, 50)}...\n\n[MAIN CONTENT - 0:15-5:00]\n${originalContent}\n\n[KEY POINTS]\n${originalContent.split('.').slice(0, 5).map((p, i) => `${i + 1}. ${p.trim()}`).join('\n')}\n\n[OUTRO - 5:00-5:15]\nIf you found this helpful, smash that like button and subscribe for more!`
+          repurposed = `🎥 YouTube Video Script\n\n[INTRO - 0:00-0:15]\nHey everyone! Today we're diving into: ${originalContent.substring(0, 50)}...\n\n[MAIN CONTENT - 0:15-5:00]\n${originalContent}\n\n[KEY POINTS]\n${originalContent.split('.').slice(0, 5).map((p: string, i: number) => `${i + 1}. ${p.trim()}`).join('\n')}\n\n[OUTRO - 5:00-5:15]\nIf you found this helpful, smash that like button and subscribe for more!`
           formatType = 'video-script'
           hashtags = '#YouTube #ContentCreator #Tutorial'
           characterCount = repurposed.length
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
         case 'pinterest':
           // Pinterest: Pin description format
-          repurposed = `${originalContent.substring(0, 100)}...\n\n📌 Save this for later!\n\n${originalContent.split('.').slice(0, 3).map(p => `• ${p.trim()}`).join('\n')}`
+          repurposed = `${originalContent.substring(0, 100)}...\n\n📌 Save this for later!\n\n${originalContent.split('.').slice(0, 3).map((p: string) => `• ${p.trim()}`).join('\n')}`
           formatType = 'pin-description'
           hashtags = '#Pinterest #DIY #Tips #Ideas'
           characterCount = repurposed.length
