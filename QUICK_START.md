@@ -10,7 +10,7 @@ Then open: **http://localhost:3000**
 ---
 
 ## 📝 Test Account
-- Email: `test@creatorflow.com` or `emasmela1976@gmail.com`
+- Email: `test@creatorflow.com` or `partners.clearhub@gmail.com`
 - Password: `test123`
 
 ---

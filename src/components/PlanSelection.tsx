@@ -113,15 +113,15 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             className={`
               relative p-6 rounded-xl border-2 transition-all cursor-pointer
               ${isSelected 
-                ? 'border-purple-500 bg-purple-500/10' 
+                ? 'border-white bg-white/10' 
                 : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
               }
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-              ${isPopular && !isSelected ? 'ring-2 ring-blue-500/20' : ''}
+              ${isPopular && !isSelected ? 'ring-2 ring-gray-500/20' : ''}
             `}
           >
             {isPopular && (
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
             )}
@@ -132,8 +132,8 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
                 <p className="text-sm text-gray-400">{plan.description}</p>
               </div>
               {isSelected && (
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-black" />
                 </div>
               )}
             </div>
@@ -143,13 +143,13 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
                 <span className="text-4xl font-bold">${plan.price}</span>
                 <span className="text-lg text-gray-400 ml-2">/month</span>
               </div>
-              <p className="text-sm text-green-400 mt-1">14-day free trial</p>
+              <p className="text-sm text-gray-300 mt-1">14-day free trial</p>
             </div>
 
             <ul className="space-y-3">
               {plan.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Star className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                  <Star className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
                   <span className="text-sm text-gray-300">{feature}</span>
                 </li>
               ))}
@@ -164,7 +164,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
               className={`
                 w-full mt-6 py-3 rounded-lg font-semibold transition-all
                 ${isSelected
-                  ? 'bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600'
+                  ? 'bg-white text-black hover:bg-gray-200'
                   : 'bg-gray-700 hover:bg-gray-600'
                 }
                 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}

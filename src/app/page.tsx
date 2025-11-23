@@ -51,7 +51,7 @@ The CreatorFlow Team`,
 
       // Send notification to you
       const notificationData = {
-        to: 'emasmela1976@gmail.com',
+        to: 'partners.clearhub@gmail.com',
         subject: 'New CreatorFlow Signup!',
         message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`,
         from: 'CreatorFlow Signup <noreply@creatorflow.com>'
@@ -68,7 +68,7 @@ The CreatorFlow Team`,
           body: JSON.stringify({
             access_key: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', // This is a demo key
             name: 'CreatorFlow Signup',
-            email: 'emasmela1976@gmail.com',
+            email: 'partners.clearhub@gmail.com',
             subject: 'New CreatorFlow Signup!',
             message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`
           })
@@ -114,7 +114,7 @@ The CreatorFlow Team`,
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold text-white">
             CreatorFlow
           </h1>
           <div className="flex items-center gap-4">
@@ -132,7 +132,7 @@ The CreatorFlow Team`,
             </button>
             <button
               onClick={() => window.location.href = '/signup'}
-              className="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+              className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all"
             >
               Get Started
             </button>
@@ -141,23 +141,23 @@ The CreatorFlow Team`,
       </header>
 
       {/* Promo Banner - First 25 Creators */}
-      <section className="bg-gradient-to-r from-purple-600 to-indigo-600 py-4 px-6 border-b border-purple-500/30 relative z-10">
+      <section className="bg-gray-800 py-4 px-6 border-b border-gray-700 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
           <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-            <Star className="w-5 h-5 text-yellow-300" />
+            <Star className="w-5 h-5 text-white" />
             <span className="text-white font-semibold text-lg">
               🎉 LIMITED TIME: First 25 creators get <strong>FREE membership + 25 free posts</strong> in exchange for a review!
             </span>
-            <Star className="w-5 h-5 text-yellow-300" />
+            <Star className="w-5 h-5 text-white" />
           </div>
         </div>
       </section>
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-slate-900/20" />
+        <div className="absolute inset-0 bg-gray-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
             CreatorFlow
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
@@ -169,20 +169,20 @@ The CreatorFlow Team`,
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80 transition-none"
+              className="px-6 py-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white w-full sm:w-80 transition-none"
               style={{ willChange: 'auto' }}
             />
             <button
               onClick={() => window.location.href = '/signup'}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2"
+              className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2"
             >
               Start Free Trial
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Keep your changes when you subscribe</p>
-          <div className="mt-4 bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 max-w-2xl mx-auto">
-            <p className="text-sm text-blue-300">
+          <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
+            <p className="text-sm text-gray-300">
               <strong className="text-white">How it works:</strong> Create and manage all your content within CreatorFlow, then simply copy and paste to your social media platforms. We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube.
             </p>
           </div>
@@ -197,48 +197,48 @@ The CreatorFlow Team`,
             <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
               Get more than you pay for. Premium features included in every plan.
             </p>
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-lg mb-8">
-              <Star className="w-5 h-5 text-purple-400" />
-              <span className="text-purple-300 font-semibold">Premium value included - no hidden fees, no upsells</span>
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
+              <Star className="w-5 h-5 text-white" />
+              <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
-              <div className="text-xs font-mono text-purple-400 mb-3">ANALYTICS</div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
+              <div className="text-xs font-mono text-white mb-3">ANALYTICS</div>
               <h3 className="text-xl font-semibold mb-4">Advanced Analytics Dashboard</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400 mb-4">Track your performance across all platforms with real-time analytics and insights.</p>
-              <div className="flex items-center gap-2 text-sm text-purple-300">
+              <div className="flex items-center gap-2 text-sm text-white">
                 <Check className="w-4 h-4" />
                 <span>Included in all plans</span>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
-              <div className="text-xs font-mono text-purple-400 mb-3">AUTOMATION</div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
+              <div className="text-xs font-mono text-white mb-3">AUTOMATION</div>
               <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400 mb-4">Schedule posts across Instagram, Twitter, LinkedIn, TikTok, and YouTube with optimal timing.</p>
-              <div className="flex items-center gap-2 text-sm text-purple-300 mb-3">
+              <div className="flex items-center gap-2 text-sm text-white mb-3">
                 <Check className="w-4 h-4" />
                 <span>AI-powered recommendations</span>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-700">
                 <p className="text-xs text-gray-500 mb-2">Supported Platforms:</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">Instagram</span>
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">Twitter/X</span>
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">LinkedIn</span>
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">TikTok</span>
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">YouTube</span>
+                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Instagram</span>
+                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Twitter/X</span>
+                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">LinkedIn</span>
+                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">TikTok</span>
+                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">YouTube</span>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-purple-500/30 transition-all">
-              <div className="text-xs font-mono text-purple-400 mb-3">PARTNERSHIPS</div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
+              <div className="text-xs font-mono text-white mb-3">PARTNERSHIPS</div>
               <h3 className="text-xl font-semibold mb-4">Brand Collaborations</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
               <p className="text-gray-400 mb-4">Manage partnerships, track campaigns, and grow your brand relationships.</p>
-              <div className="flex items-center gap-2 text-sm text-purple-300">
+              <div className="flex items-center gap-2 text-sm text-white">
                 <Check className="w-4 h-4" />
                 <span>Full collaboration tools</span>
               </div>
@@ -246,27 +246,27 @@ The CreatorFlow Team`,
           </div>
           
           {/* Value Proposition */}
-          <div className="mt-16 bg-gradient-to-r from-purple-900/20 to-indigo-900/20 rounded-xl border border-purple-500/30 p-8">
+          <div className="mt-16 bg-gray-800/50 rounded-xl border border-gray-700 p-8">
             <div className="text-center">
               <h3 className="text-2xl font-bold text-white mb-4">You Get More Than You Pay For</h3>
               <div className="grid md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-5 h-5 text-purple-400" />
+                    <Zap className="w-5 h-5 text-white" />
                     <h4 className="font-semibold text-white">Premium Features</h4>
                   </div>
                   <p className="text-sm text-gray-300">Enterprise-level tools included in every plan</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Star className="w-5 h-5 text-purple-400" />
+                    <Star className="w-5 h-5 text-white" />
                     <h4 className="font-semibold text-white">No Hidden Costs</h4>
                   </div>
                   <p className="text-sm text-gray-300">Everything you see is included—no upsells, no surprises</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-5 h-5 text-purple-400" />
+                    <Shield className="w-5 h-5 text-white" />
                     <h4 className="font-semibold text-white">Always Improving</h4>
                   </div>
                   <p className="text-sm text-gray-300">New features added regularly at no extra cost</p>
@@ -287,8 +287,8 @@ The CreatorFlow Team`,
               <h3 className="text-2xl font-bold mb-4">Starter</h3>
               <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 8 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-white" /> 8 posts per month (shared)</li>
+                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-white" /> All features included</li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('starter')}
@@ -311,8 +311,8 @@ The CreatorFlow Team`,
                 Get Started
               </button>
             </div>
-            <div className="bg-gradient-to-br from-blue-900/50 to-slate-900/50 p-8 rounded-xl border border-blue-500 relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-4">Pro</h3>
@@ -323,7 +323,7 @@ The CreatorFlow Team`,
               </ul>
               <button 
                 onClick={() => handlePricingClick('pro')}
-                className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-all"
+                className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg transition-all"
               >
                 Get Started
               </button>
@@ -342,8 +342,8 @@ The CreatorFlow Team`,
                 Get Started
               </button>
             </div>
-            <div className="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-xl border-2 border-purple-500 relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Ultimate Tool
               </div>
               <h3 className="text-2xl font-bold mb-4">Agency</h3>
@@ -354,7 +354,7 @@ The CreatorFlow Team`,
               </ul>
               <button 
                 onClick={() => handlePricingClick('agency')}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-all font-semibold"
+                className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg transition-all font-semibold"
               >
                 Get Started
               </button>
@@ -368,7 +368,7 @@ The CreatorFlow Team`,
         <div className="max-w-4xl mx-auto">
           <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
             <div className="flex items-center gap-3 mb-6">
-              <Zap className="w-8 h-8 text-blue-400" />
+              <Zap className="w-8 h-8 text-white" />
               <h2 className="text-3xl font-bold text-white">Purchase Additional Posts</h2>
             </div>
 
@@ -376,55 +376,55 @@ The CreatorFlow Team`,
               Need more posts than your plan includes? Purchase additional posts that roll over forever.
             </p>
 
-            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-6">
-              <h3 className="font-semibold text-blue-400 mb-4 text-xl">How Post Rollover Works</h3>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6">
+              <h3 className="font-semibold text-white mb-4 text-xl">How Post Rollover Works</h3>
               <ul className="text-gray-300 space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="text-blue-400 mt-1 font-bold">1.</span>
+                  <span className="text-white mt-1 font-bold">1.</span>
                   <span><strong className="text-white">Monthly posts</strong> reset each month (from your subscription plan)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-blue-400 mt-1 font-bold">2.</span>
+                  <span className="text-white mt-1 font-bold">2.</span>
                   <span><strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-blue-400 mt-1 font-bold">3.</span>
+                  <span className="text-white mt-1 font-bold">3.</span>
                   <span><strong className="text-white">Monthly posts are used first</strong>, then purchased posts are used</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-purple-400 mt-1 font-bold">Example:</span>
+                  <span className="text-white mt-1 font-bold">Example:</span>
                   <span>If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month</span>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-6">
-              <h3 className="font-semibold text-indigo-400 mb-4">Available Packages</h3>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+              <h3 className="font-semibold text-white mb-4">Available Packages</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$4</div>
+                  <div className="text-2xl font-bold text-white mb-1">$4</div>
                   <div className="text-sm text-gray-300 mb-1">5 Posts</div>
                   <div className="text-xs text-gray-400">$0.80/post</div>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$8</div>
+                  <div className="text-2xl font-bold text-white mb-1">$8</div>
                   <div className="text-sm text-gray-300 mb-1">10 Posts</div>
                   <div className="text-xs text-gray-400">$0.80/post</div>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$12</div>
+                  <div className="text-2xl font-bold text-white mb-1">$12</div>
                   <div className="text-sm text-gray-300 mb-1">15 Posts</div>
                   <div className="text-xs text-gray-400">$0.80/post</div>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">$15</div>
+                  <div className="text-2xl font-bold text-white mb-1">$15</div>
                   <div className="text-sm text-gray-300 mb-1">20 Posts</div>
                   <div className="text-xs text-gray-400">$0.75/post</div>
                 </div>
-                <div className="bg-gradient-to-br from-purple-600/20 to-indigo-600/20 p-4 rounded-lg border-2 border-purple-500 text-center">
-                  <div className="text-2xl font-bold text-purple-400 mb-1">$18</div>
+                <div className="bg-gray-800/50 p-4 rounded-lg border-2 border-white text-center">
+                  <div className="text-2xl font-bold text-white mb-1">$18</div>
                   <div className="text-sm text-gray-300 mb-1">24 Posts</div>
-                  <div className="text-xs text-green-400 font-semibold">$0.75/post • 10% Savings</div>
+                  <div className="text-xs text-white font-semibold">$0.75/post • 10% Savings</div>
                 </div>
               </div>
               <p className="text-sm text-gray-400 mt-4 text-center">
@@ -440,7 +440,7 @@ The CreatorFlow Team`,
         <div className="max-w-4xl mx-auto">
           <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
             <div className="flex items-center gap-3 mb-6">
-              <AlertCircle className="w-8 h-8 text-indigo-400" />
+              <AlertCircle className="w-8 h-8 text-white" />
               <h2 className="text-3xl font-bold text-white">Content Ownership Policy</h2>
             </div>
 
@@ -450,8 +450,8 @@ The CreatorFlow Team`,
             </p>
 
             <div className="space-y-4">
-              <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-5">
-                <h3 className="font-semibold text-indigo-300 mb-3 flex items-center gap-2">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                   <Check className="w-5 h-5" />
                   If you continue with a paid plan:
                 </h3>
@@ -461,8 +461,8 @@ The CreatorFlow Team`,
                 </p>
               </div>
 
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-5">
-                <h3 className="font-semibold text-red-300 mb-3 flex items-center gap-2">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                   <AlertCircle className="w-5 h-5" />
                   If you cancel after trial:
                 </h3>
@@ -473,8 +473,8 @@ The CreatorFlow Team`,
                 </p>
               </div>
 
-              <div className="bg-indigo-600/20 border-2 border-indigo-400 rounded-lg p-5 mt-6">
-                <p className="text-xs font-bold text-indigo-200 uppercase tracking-wide mb-2">Our Commitment</p>
+              <div className="bg-gray-800/50 border-2 border-white rounded-lg p-5 mt-6">
+                <p className="text-xs font-bold text-white uppercase tracking-wide mb-2">Our Commitment</p>
                 <p className="text-white">
                   CreatorFlow believes in creator-first ownership. Once you become a paying member, all content you create 
                   through our platform is immediately and permanently yours. We compete on quality, not restrictions.
@@ -500,7 +500,7 @@ The CreatorFlow Team`,
           <p className="text-xl text-gray-400 mb-8">Join thousands of creators who are already using CreatorFlow to scale their content.</p>
           <button 
             onClick={() => window.location.href = '/signup'}
-            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center gap-2 mx-auto"
+            className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"
           >
             Start Your Free Trial
             <Play className="w-5 h-5" />
