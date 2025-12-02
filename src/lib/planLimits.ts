@@ -17,11 +17,11 @@ export function getPostLimit(planType: PlanType | null): number {
   if (!planType) return 0
   
   const limits: Record<PlanType, number> = {
-    starter: 8,
+    starter: 5,
     growth: 10,
-    pro: 12,
-    business: 15,
-    agency: 18
+    pro: 15,
+    business: 25,
+    agency: 50
   }
   
   return limits[planType] || 0
@@ -34,10 +34,10 @@ export function getAccountLimit(planType: PlanType | null): number {
   if (!planType) return 0
   
   const limits: Record<PlanType, number> = {
-    starter: 2,
-    growth: 3,
-    pro: 4,
-    business: 5,
+    starter: 1,
+    growth: 2,
+    pro: 3,
+    business: 4,
     agency: -1 // Unlimited
   }
   

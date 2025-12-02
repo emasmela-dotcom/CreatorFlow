@@ -11,7 +11,7 @@ export default function HomePage() {
 
   const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
     trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'starter' ? 19 : plan === 'pro' ? 49 : 99)
+    trackConversionEvent('pricing_click', plan === 'starter' ? 9 : plan === 'growth' ? 19 : plan === 'pro' ? 29 : plan === 'business' ? 49 : 99)
     
     // Redirect to signup with plan parameter
     window.location.href = `/signup?plan=${plan}`
@@ -284,11 +284,15 @@ The CreatorFlow Team`,
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
           <div className="flex flex-wrap justify-center gap-6">
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-4">Starter</h3>
-              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-white" /> 8 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-white" /> All features included</li>
+              <h3 className="text-2xl font-bold mb-2">Starter</h3>
+              <p className="text-xs text-gray-400 mb-4">Barely better than manual</p>
+              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-400">/month</span></div>
+              <ul className="space-y-2 mb-8 text-sm">
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>1 social account</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>5 posts per month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Basic content calendar</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Simple post tracking</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Email support (48hr)</span></li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('starter')}
@@ -298,11 +302,16 @@ The CreatorFlow Team`,
               </button>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-4">Growth</h3>
-              <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 10 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
+              <h3 className="text-2xl font-bold mb-2">Growth</h3>
+              <p className="text-xs text-gray-400 mb-4">Actually helpful</p>
+              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
+              <ul className="space-y-2 mb-8 text-sm">
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>2 social accounts</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>10 posts per month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Content Assistant Bot</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Basic analytics</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Post templates</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Email support (24hr)</span></li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('growth')}
@@ -311,15 +320,21 @@ The CreatorFlow Team`,
                 Get Started
               </button>
             </div>
-            <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
+            <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
-              <h3 className="text-2xl font-bold mb-4">Pro</h3>
-              <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 12 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
+              <h3 className="text-2xl font-bold mb-2">Pro</h3>
+              <p className="text-xs text-gray-400 mb-4">Time saver</p>
+              <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/month</span></div>
+              <ul className="space-y-2 mb-8 text-sm">
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>3 social accounts</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>15 posts per month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>All AI Bots included</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Advanced analytics</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Hashtag research</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Brand collaboration tracking</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (12hr)</span></li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('pro')}
@@ -329,11 +344,17 @@ The CreatorFlow Team`,
               </button>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-4">Business</h3>
+              <h3 className="text-2xl font-bold mb-2">Business</h3>
+              <p className="text-xs text-gray-400 mb-4">Professional</p>
               <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 15 posts per month (shared)</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
+              <ul className="space-y-2 mb-8 text-sm">
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>4 social accounts</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>25 posts per month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Enhanced AI bots</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Premium analytics + predictions</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Advanced brand collaborations</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Team collaboration (2 members)</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (6hr)</span></li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('business')}
@@ -344,13 +365,21 @@ The CreatorFlow Team`,
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
-                Ultimate Tool
+                Enterprise Power
               </div>
-              <h3 className="text-2xl font-bold mb-4">Agency</h3>
+              <h3 className="text-2xl font-bold mb-2">Agency</h3>
+              <p className="text-xs text-gray-400 mb-4">Unlimited scale</p>
               <div className="text-4xl font-bold mb-6">$99<span className="text-lg text-gray-400">/month</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> 18 posts per month</li>
-                <li className="flex items-center gap-3"><Star className="w-5 h-5 text-green-400" /> All features included</li>
+              <ul className="space-y-2 mb-8 text-sm">
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited accounts</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>50 posts per month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Enterprise analytics & reporting</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>White-label options</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited team members</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>API access & custom integrations</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Dedicated account manager</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (2hr)</span></li>
               </ul>
               <button 
                 onClick={() => handlePricingClick('agency')}

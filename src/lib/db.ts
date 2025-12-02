@@ -574,6 +574,63 @@ export async function initDatabase() {
       )
     `
     })
+
+    // Hashtag Research tables
+    console.log('Creating hashtag_sets table...')
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS hashtag_sets (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        platform VARCHAR(50),
+        hashtags TEXT NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    // Content Templates table
+    console.log('Creating content_templates table...')
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS content_templates (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        platform VARCHAR(50),
+        content TEXT NOT NULL,
+        variables TEXT,
+        category VARCHAR(100),
+        description TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    // Engagement Inbox table
+    console.log('Creating engagement_inbox table...')
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS engagement_inbox (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        platform VARCHAR(50) NOT NULL,
+        post_id VARCHAR(255),
+        type VARCHAR(50) NOT NULL CHECK(type IN ('comment', 'message', 'mention', 'reply')),
+        author_name VARCHAR(255),
+        author_handle VARCHAR(255),
+        content TEXT NOT NULL,
+        status VARCHAR(50) DEFAULT 'unread' CHECK(status IN ('unread', 'read', 'replied', 'archived')),
+        engagement_metrics JSONB,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
     
     console.log('Creating content_gap_suggestions table...')
     await db.execute({

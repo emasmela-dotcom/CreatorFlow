@@ -18,77 +18,79 @@ const plans: Plan[] = [
   {
     id: 'starter',
     name: 'Starter',
-    price: 19,
-    description: 'Perfect for individual creators getting started',
+    price: 9,
+    description: 'Barely better than manual - just organization',
     features: [
-      '2 social accounts',
-      '8 posts per month (shared across all accounts)',
-      'Basic analytics',
-      'Content calendar',
-      'Email support'
+      '1 social account',
+      '5 posts per month',
+      'Basic content calendar',
+      'Manual post creation',
+      'Simple post tracking',
+      'Email support (48hr response)'
     ]
   },
   {
     id: 'growth',
     name: 'Growth',
-    price: 29,
-    description: 'For creators ready to scale',
+    price: 19,
+    description: 'Actually helpful - AI assistance included',
     features: [
-      '3 social accounts',
-      '10 posts per month (shared across all accounts)',
-      'Enhanced analytics',
-      'Content calendar',
-      'Basic brand collaborations',
-      'Email support'
+      '2 social accounts',
+      '10 posts per month',
+      'Content calendar with drag-and-drop',
+      'Content Assistant Bot (basic)',
+      'Basic analytics',
+      'Post templates',
+      'Email support (24hr response)'
     ]
   },
   {
     id: 'pro',
     name: 'Pro',
-    price: 39,
-    description: 'Best for growing creators',
+    price: 29,
+    description: 'Time saver - full AI bot suite',
     popular: true,
     features: [
-      '4 social accounts',
-      '12 posts per month (shared across all accounts)',
-      'Advanced analytics',
-      'Brand collaborations',
-      'Hashtag research',
-      'Priority support'
+      '3 social accounts',
+      '15 posts per month',
+      'All AI Bots (Content, Scheduling, Engagement)',
+      'Advanced analytics with insights',
+      'Hashtag research tool',
+      'Brand collaboration tracking',
+      'Priority support (12hr response)'
     ]
   },
   {
     id: 'business',
     name: 'Business',
     price: 49,
-    description: 'For serious creators and small teams',
+    description: 'Professional - enhanced AI & team features',
     features: [
-      '5 social accounts',
-      '15 posts per month (shared across all accounts)',
-      'Premium analytics',
-      'Advanced brand collaborations',
-      'Hashtag research',
+      '4 social accounts',
+      '25 posts per month',
+      'Enhanced AI bots (better performance)',
+      'Premium analytics with predictions',
+      'Advanced brand collaboration management',
       'Content scheduling AI',
-      'Priority support',
-      'Team collaboration (up to 3 members)'
+      'Team collaboration (2 members)',
+      'Priority support (6hr response)'
     ]
   },
   {
     id: 'agency',
     name: 'Agency',
     price: 99,
-    description: 'The ultimate tool for agencies',
+    description: 'Enterprise power - unlimited scale',
     features: [
-      'Unlimited accounts',
-      '18 posts per month',
+      'Unlimited social accounts',
+      '50 posts per month',
+      'Maximum AI bot performance',
+      'Enterprise analytics & custom reporting',
       'White-label options',
-      'Full team collaboration',
-      'Priority support',
-      'Custom integrations',
+      'Full team collaboration (unlimited)',
+      'Custom integrations & API access',
       'Dedicated account manager',
-      'API access',
-      'Advanced reporting',
-      'Multi-brand management'
+      'Priority support (2hr response)'
     ]
   }
 ]

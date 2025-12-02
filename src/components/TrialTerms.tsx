@@ -24,50 +24,53 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       team?: string
     }> = {
       'Starter': {
-        fullAccounts: 2,
-        fullPosts: 8,
+        fullAccounts: 1,
+        fullPosts: 5,
         analytics: 'Basic analytics',
-        calendar: 'Content calendar',
-        support: 'Email support'
+        calendar: 'Basic content calendar',
+        support: 'Email support (48hr response)'
       },
       'Growth': {
-        fullAccounts: 3,
+        fullAccounts: 2,
         fullPosts: 10,
-        analytics: 'Enhanced analytics',
-        calendar: 'Content calendar',
-        support: 'Email support',
-        collaborations: 'Basic brand collaborations'
+        analytics: 'Basic analytics',
+        calendar: 'Content calendar with drag-and-drop',
+        support: 'Email support (24hr response)',
+        collaborations: undefined,
+        hashtag: false,
+        ai: true // Content Assistant Bot
       },
       'Pro': {
-        fullAccounts: 4,
-        fullPosts: 12,
-        analytics: 'Advanced analytics',
-        calendar: 'Content calendar',
-        support: 'Priority support',
-        collaborations: 'Brand collaborations',
-        hashtag: true
+        fullAccounts: 3,
+        fullPosts: 15,
+        analytics: 'Advanced analytics with insights',
+        calendar: 'Content calendar with drag-and-drop',
+        support: 'Priority support (12hr response)',
+        collaborations: 'Brand collaboration tracking',
+        hashtag: true,
+        ai: true // All AI Bots
       },
       'Business': {
-        fullAccounts: 5,
-        fullPosts: 15,
-        analytics: 'Premium analytics',
-        calendar: 'Content calendar',
-        support: 'Priority support',
-        collaborations: 'Advanced brand collaborations',
+        fullAccounts: 4,
+        fullPosts: 25,
+        analytics: 'Premium analytics with predictions',
+        calendar: 'Content calendar with drag-and-drop',
+        support: 'Priority support (6hr response)',
+        collaborations: 'Advanced brand collaboration management',
         hashtag: true,
-        ai: true,
-        team: 'Team collaboration (up to 3 members)'
+        ai: true, // Enhanced AI bots
+        team: 'Team collaboration (2 members)'
       },
       'Agency': {
         fullAccounts: -1, // Unlimited
-        fullPosts: 18,
-        analytics: 'Advanced reporting',
-        calendar: 'Content calendar',
-        support: 'Priority support + Dedicated account manager',
-        collaborations: 'Advanced brand collaborations',
+        fullPosts: 50,
+        analytics: 'Enterprise analytics & custom reporting',
+        calendar: 'Content calendar with drag-and-drop',
+        support: 'Priority support (2hr response) + Dedicated account manager',
+        collaborations: 'Advanced brand collaboration management',
         hashtag: true,
-        ai: true,
-        team: 'Full team collaboration'
+        ai: true, // Maximum AI bot performance
+        team: 'Full team collaboration (unlimited)'
       }
     }
 
