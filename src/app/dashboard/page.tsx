@@ -2395,6 +2395,13 @@ export default function Dashboard() {
                 Collaborations
               </button>
               <button 
+                className="px-4 py-2 rounded-lg transition-colors hover:bg-gray-700"
+                onClick={() => router.push('/documents')}
+              >
+                <FileText className="w-4 h-4 inline mr-2" />
+                Documents
+              </button>
+              <button 
                 className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'bots' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
                 onClick={() => setActiveTab('bots')}
               >

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles } from 'lucide-react'
+import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
@@ -373,12 +373,23 @@ export default function CreatePost() {
                   </span>
                 </div>
               </div>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="What's on your mind? Share your thoughts with your audience..."
-                className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
-              />
+              <div className="relative">
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="What's on your mind? Share your thoughts with your audience... Or paste from your Documents!"
+                  className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => router.push('/documents')}
+                  className="absolute top-2 right-2 px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 rounded text-white flex items-center gap-1 transition-colors"
+                  title="Open Documents to copy content"
+                >
+                  <FileText className="w-3 h-3" />
+                  My Documents
+                </button>
+              </div>
               <div className="flex justify-between items-center mt-2">
                 <span className="text-sm text-gray-400">{content.length}/280 characters</span>
                 <div className="flex gap-2">

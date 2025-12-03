@@ -631,6 +631,33 @@ export async function initDatabase() {
       )
     `
     })
+
+    // Documents/Notes table - Built-in document storage
+    console.log('Creating documents table...')
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS documents (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        category VARCHAR(100),
+        tags TEXT,
+        is_pinned BOOLEAN DEFAULT FALSE,
+        word_count INTEGER DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+    
+    // Create index for faster document searches
+    await db.execute({
+      sql: `CREATE INDEX IF NOT EXISTS idx_documents_user_id ON documents(user_id)`
+    })
+    await db.execute({
+      sql: `CREATE INDEX IF NOT EXISTS idx_documents_updated ON documents(updated_at DESC)`
+    })
     
     console.log('Creating content_gap_suggestions table...')
     await db.execute({
