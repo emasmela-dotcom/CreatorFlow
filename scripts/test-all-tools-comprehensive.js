@@ -310,49 +310,147 @@ async function testEngagementInbox() {
 async function testDocuments() {
   console.log('\n📄 Testing Documents Feature...')
   
-  // 1. Create document
-  const createResult = await makeRequest('POST', '/api/documents', {
-    title: 'Test Document',
-    content: 'This is a test document for functional testing.',
+  // 1. Create first document
+  const createResult1 = await makeRequest('POST', '/api/documents', {
+    title: 'Test Document 1',
+    content: 'This is the first test document for functional testing.',
     category: 'Test',
-    tags: 'test, functional',
+    tags: 'test, functional, document-1',
     is_pinned: false
   }, results.authToken)
   
-  if (!createResult.ok || !createResult.data.success) {
-    logTest('Documents - Create', 'fail', {
-      message: 'Failed to create document',
-      error: createResult.data?.error
+  if (!createResult1.ok || !createResult1.data.success) {
+    logTest('Documents - Create Single', 'fail', {
+      message: 'Failed to create first document',
+      error: createResult1.data?.error
     })
     return
   }
   
-  const docId = createResult.data.document?.id
-  logTest('Documents - Create', 'pass', {
-    message: `Document created with ID: ${docId}`
+  const docId1 = createResult1.data.document?.id
+  logTest('Documents - Create Single', 'pass', {
+    message: `Document 1 created with ID: ${docId1}`
   })
   
-  // 2. Retrieve document (data retention)
+  // 2. Create multiple documents
+  console.log('   Creating multiple documents...')
+  const docIds = [docId1]
+  const docTitles = ['Test Document 1']
+  
+  for (let i = 2; i <= 5; i++) {
+    const createResult = await makeRequest('POST', '/api/documents', {
+      title: `Test Document ${i}`,
+      content: `This is test document number ${i} for testing multiple document storage and recall.`,
+      category: i % 2 === 0 ? 'Category A' : 'Category B',
+      tags: `test, document-${i}`,
+      is_pinned: i === 3 // Pin document 3
+    }, results.authToken)
+    
+    if (createResult.ok && createResult.data.success) {
+      docIds.push(createResult.data.document?.id)
+      docTitles.push(`Test Document ${i}`)
+    }
+  }
+  
+  logTest('Documents - Create Multiple', docIds.length >= 5 ? 'pass' : 'fail', {
+    message: `Created ${docIds.length} documents successfully`
+  })
+  
+  // 3. Retrieve all documents (data retention and recall test)
   const getResult = await makeRequest('GET', '/api/documents', null, results.authToken)
   
   if (!getResult.ok || !getResult.data.success) {
-    logTest('Documents - Data Retention', 'fail', {
+    logTest('Documents - Recall All', 'fail', {
       message: 'Failed to retrieve documents',
       error: getResult.data?.error
     })
   } else {
     const docs = getResult.data.documents || []
-    const foundDoc = docs.find(d => d.id === docId)
-    if (foundDoc && foundDoc.content) {
-      logTest('Documents - Data Retention', 'pass', {
-        message: `Data persisted: Retrieved document "${foundDoc.title}" with content`
+    const foundDocs = docIds.filter(id => docs.find(d => d.id === id))
+    
+    if (foundDocs.length === docIds.length) {
+      logTest('Documents - Recall All', 'pass', {
+        message: `Successfully recalled all ${foundDocs.length} documents`
       })
     } else {
-      logTest('Documents - Data Retention', 'fail', {
-        message: 'Created document not found or data missing'
+      logTest('Documents - Recall All', 'fail', {
+        message: `Only found ${foundDocs.length} of ${docIds.length} created documents`
+      })
+    }
+    
+    // Verify all documents have their content
+    const docsWithContent = foundDocs.filter(id => {
+      const doc = docs.find(d => d.id === id)
+      return doc && doc.content && doc.title
+    })
+    
+    if (docsWithContent.length === docIds.length) {
+      logTest('Documents - Data Integrity', 'pass', {
+        message: `All ${docsWithContent.length} documents have complete data (title, content)`
+      })
+    } else {
+      logTest('Documents - Data Integrity', 'fail', {
+        message: `Only ${docsWithContent.length} of ${docIds.length} documents have complete data`
       })
     }
   }
+  
+  // 4. Test filtering by category
+  const categoryResult = await makeRequest('GET', '/api/documents?category=Category A', null, results.authToken)
+  
+  if (categoryResult.ok && categoryResult.data.success) {
+    const categoryDocs = categoryResult.data.documents || []
+    const expectedCount = docTitles.filter((_, i) => (i + 1) % 2 === 0).length // Documents 2, 4
+    
+    if (categoryDocs.length >= expectedCount) {
+      logTest('Documents - Filter by Category', 'pass', {
+        message: `Filtered by category: Found ${categoryDocs.length} documents in "Category A"`
+      })
+    } else {
+      logTest('Documents - Filter by Category', 'fail', {
+        message: `Expected ${expectedCount} documents in Category A, found ${categoryDocs.length}`
+      })
+    }
+  }
+  
+  // 5. Test search functionality
+  const searchResult = await makeRequest('GET', '/api/documents?search=document number 3', null, results.authToken)
+  
+  if (searchResult.ok && searchResult.data.success) {
+    const searchDocs = searchResult.data.documents || []
+    const foundDoc3 = searchDocs.find(d => d.title === 'Test Document 3')
+    
+    if (foundDoc3) {
+      logTest('Documents - Search', 'pass', {
+        message: `Search found document: "${foundDoc3.title}"`
+      })
+    } else {
+      logTest('Documents - Search', 'fail', {
+        message: 'Search did not find expected document'
+      })
+    }
+  }
+  
+  // 6. Test pinned documents
+  const pinnedResult = await makeRequest('GET', '/api/documents?pinned=true', null, results.authToken)
+  
+  if (pinnedResult.ok && pinnedResult.data.success) {
+    const pinnedDocs = pinnedResult.data.documents || []
+    const foundPinned = pinnedDocs.find(d => d.title === 'Test Document 3')
+    
+    if (foundPinned && foundPinned.is_pinned) {
+      logTest('Documents - Pinned Documents', 'pass', {
+        message: `Pinned document retrieved: "${foundPinned.title}"`
+      })
+    } else {
+      logTest('Documents - Pinned Documents', 'fail', {
+        message: 'Pinned document not found or not marked as pinned'
+      })
+    }
+  }
+  
+  // Store document IDs for cleanup or further testing
+  results.createdData.documents = docIds
 }
 
 // Test 5: Copy/Paste to Documents
