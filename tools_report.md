@@ -1,90 +1,114 @@
-# CreatorFlow Tools Test Report
+# CreatorFlow Functional Tool Test Report
 
-**Generated:** 2025-12-03T14:58:30.698Z
+**Generated:** 2025-12-03T15:37:05.808Z
 **Base URL:** https://creatorflow-iota.vercel.app
 
 ## Test Results Summary
 
 - ✅ **Passed:** 10
-- ⚠️  **Failed:** 0
-- ❌ **Errors:** 2
+- ⚠️  **Failed:** 2
+- ❌ **Errors:** 0
 - 📊 **Total Tests:** 12
 
 ---
 
 ## Detailed Test Results
 
-### ✅ Hashtag Research API
+### ✅ Authentication Setup
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:32.606Z
-- **Details:** Status: 401 (Exists, requires auth)
+- **Time:** 2025-12-03T15:37:06.716Z
+- **Details:** Test user created: test-1764776225893@creatorflow.test
 
-### ✅ Content Templates API
 
-- **Status:** PASS
-- **Time:** 2025-12-03T14:58:32.759Z
-- **Details:** Status: 401 (Exists, requires auth)
 
-### ✅ Engagement Inbox API
+### ⚠️ Documents - Create
 
-- **Status:** PASS
-- **Time:** 2025-12-03T14:58:32.898Z
-- **Details:** Status: 401 (Exists, requires auth)
+- **Status:** FAIL
+- **Time:** 2025-12-03T15:37:06.834Z
+- **Details:** Failed to create document
+- **Error:** Invalid JSON response
+- **HTTP Status:** 405
 
-### ❌ Documents API
-
-- **Status:** ERROR
-- **Time:** 2025-12-03T14:58:33.007Z
-- **Details:** Endpoint not found (404)
-
-### ❌ Documents Page
-
-- **Status:** ERROR
-- **Time:** 2025-12-03T14:58:33.885Z
-- **Details:** Page not found (404)
-
-### ✅ Content Repurposing Bot
+### ✅ Hashtag Research - Research
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:34.030Z
-- **Details:** Status: 401
+- **Time:** 2025-12-03T15:37:06.991Z
+- **Details:** Found 7 hashtag suggestions (5 trending, 2 recommended)
 
-### ✅ Content Assistant Bot
 
-- **Status:** PASS
-- **Time:** 2025-12-03T14:58:34.198Z
-- **Details:** Status: 401
 
-### ✅ Scheduling Assistant Bot
+### ✅ Hashtag Research - Save Set
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:34.332Z
-- **Details:** Status: 401
+- **Time:** 2025-12-03T15:37:07.185Z
+- **Details:** Hashtag set saved with ID: 1
 
-### ✅ Engagement Analyzer Bot
 
-- **Status:** PASS
-- **Time:** 2025-12-03T14:58:34.635Z
-- **Details:** Status: 401
 
-### ✅ Content Gap Analyzer Bot
+### ✅ Hashtag Research - Retrieve Sets
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:34.791Z
-- **Details:** Status: 401
+- **Time:** 2025-12-03T15:37:07.342Z
+- **Details:** Retrieved 1 set(s), found saved set
 
-### ✅ Database Health Check
+
+
+### ⚠️ Content Templates - Create
+
+- **Status:** FAIL
+- **Time:** 2025-12-03T15:37:07.492Z
+- **Details:** Failed to create template
+- **Error:** column "user_id" of relation "content_templates" does not exist
+- **HTTP Status:** 500
+
+### ✅ Engagement Inbox - Add
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:35.624Z
-- **Details:** Database is accessible
+- **Time:** 2025-12-03T15:37:07.642Z
+- **Details:** Engagement item added with ID: 1
 
-### ✅ Dashboard Page
+
+
+### ✅ Engagement Inbox - Read
 
 - **Status:** PASS
-- **Time:** 2025-12-03T14:58:35.753Z
-- **Details:** Status: 200
+- **Time:** 2025-12-03T15:37:07.807Z
+- **Details:** Retrieved 1 item(s), found added item
+
+
+
+### ✅ Engagement Inbox - Update Status
+
+- **Status:** PASS
+- **Time:** 2025-12-03T15:37:07.961Z
+- **Details:** Engagement status updated successfully
+
+
+
+### ✅ AI Bots - Content Assistant
+
+- **Status:** PASS
+- **Time:** 2025-12-03T15:37:08.127Z
+- **Details:** Received analysis with score 65
+
+
+
+### ✅ AI Bots - Content Repurposing
+
+- **Status:** PASS
+- **Time:** 2025-12-03T15:37:08.329Z
+- **Details:** Content repurposed for 2 platform(s)
+
+
+
+### ✅ AI Bots - Content Gap Analyzer
+
+- **Status:** PASS
+- **Time:** 2025-12-03T15:37:08.544Z
+- **Details:** Content gaps identified
+
+
 
 
 ---
@@ -92,19 +116,17 @@
 ## Recommendations
 
 
-### ❌ Critical Issues
-
-The following tools are not accessible:
-- Documents API
-- Documents Page
-
-**Action Required:** These endpoints need to be deployed or fixed.
 
 
+### ⚠️  Failed Tests
+
+The following tests failed:
+- Documents - Create: Invalid JSON response
+- Content Templates - Create: column "user_id" of relation "content_templates" does not exist
 
 
 
 
 ---
 
-**Note:** Tests check for endpoint existence and basic functionality. Full functionality requires authentication and proper test data.
+**Note:** This is a functional test that actually exercises tool functionality, not just endpoint existence.
