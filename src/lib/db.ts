@@ -595,6 +595,24 @@ export async function initDatabase() {
 
     // Content Templates table
     console.log('Creating content_templates table...')
+    // First, try to drop the table if it exists without user_id (migration fix)
+    try {
+      // Check if table exists and if user_id column exists
+      const checkResult = await db.execute({
+        sql: `SELECT column_name FROM information_schema.columns 
+              WHERE table_name = 'content_templates' AND column_name = 'user_id'`
+      })
+      
+      if (checkResult.rows.length === 0) {
+        // Table exists but user_id column is missing - drop and recreate
+        console.log('content_templates table exists but missing user_id column, recreating...')
+        await db.execute({ sql: `DROP TABLE IF EXISTS content_templates CASCADE` })
+      }
+    } catch (e) {
+      // Table might not exist, that's fine
+      console.log('Checking content_templates table structure...')
+    }
+    
     await db.execute({
       sql: `
       CREATE TABLE IF NOT EXISTS content_templates (
@@ -611,6 +629,22 @@ export async function initDatabase() {
       )
     `
     })
+    
+    // Ensure user_id column exists (migration safety)
+    try {
+      await db.execute({
+        sql: `ALTER TABLE content_templates ADD COLUMN IF NOT EXISTS user_id VARCHAR(255) NOT NULL DEFAULT ''`
+      })
+      // Remove default after adding
+      await db.execute({
+        sql: `ALTER TABLE content_templates ALTER COLUMN user_id DROP DEFAULT`
+      })
+    } catch (e: any) {
+      // Column might already exist, that's fine
+      if (!e.message?.includes('already exists') && !e.message?.includes('duplicate')) {
+        console.log('Note: Could not add user_id column (may already exist):', e.message)
+      }
+    }
 
     // Engagement Inbox table
     console.log('Creating engagement_inbox table...')
