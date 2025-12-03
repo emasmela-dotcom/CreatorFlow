@@ -68,7 +68,9 @@ async function makeRequest(method, path, body = null, token = null) {
 async function setupAuth() {
   console.log('🔐 Setting up authentication...')
   
-  const testEmail = `test-${Date.now()}@creatorflow.test`
+  // Use a random domain to avoid abuse prevention limits
+  const randomDomain = `test${Math.floor(Math.random() * 10000)}.example.com`
+  const testEmail = `test-${Date.now()}@${randomDomain}`
   const testPassword = 'TestPassword123!'
   
   // Try to sign up
