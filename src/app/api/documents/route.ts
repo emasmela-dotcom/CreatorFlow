@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Documents API - Built-in document/notes storage
  * Creators can write and store all their content in CreatorFlow
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate word count
-    const wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length
+    const wordCount = content.trim().split(/\s+/).filter((word: string) => word.length > 0).length
 
     if (id) {
       // Update existing document
