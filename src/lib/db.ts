@@ -163,7 +163,7 @@ export interface User {
   stripe_customer_id: string | null
   trial_started_at: string | null
   trial_end_at: string | null
-  trial_plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency' | null
+  trial_plan: 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency' | null
   social_accounts: string | null // JSON array of locked social accounts ['instagram', 'twitter', 'facebook']
   preferred_platforms: string | null // JSON array of preferred platforms for content creation ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube']
   monthly_post_limit: number | null
@@ -218,7 +218,7 @@ export async function initDatabase() {
         password_hash TEXT,
         full_name VARCHAR(255),
         avatar_url TEXT,
-        subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('starter', 'growth', 'pro', 'business', 'agency')),
+        subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('free', 'starter', 'growth', 'pro', 'business', 'agency')),
         stripe_customer_id VARCHAR(255),
         trial_started_at TIMESTAMP,
         trial_end_at TIMESTAMP,
@@ -236,11 +236,11 @@ export async function initDatabase() {
     // Add new columns to existing table if they don't exist (migration)
     // PostgreSQL doesn't support IF NOT EXISTS for ALTER TABLE, so we check first
     const columnsToAdd = [
-      { name: 'subscription_tier', sql: `ALTER TABLE users ADD COLUMN subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('starter', 'growth', 'pro', 'business', 'agency'))` },
+      { name: 'subscription_tier', sql: `ALTER TABLE users ADD COLUMN subscription_tier VARCHAR(50) CHECK(subscription_tier IN ('free', 'starter', 'growth', 'pro', 'business', 'agency'))` },
       { name: 'stripe_customer_id', sql: `ALTER TABLE users ADD COLUMN stripe_customer_id VARCHAR(255)` },
       { name: 'trial_started_at', sql: `ALTER TABLE users ADD COLUMN trial_started_at TIMESTAMP` },
       { name: 'trial_end_at', sql: `ALTER TABLE users ADD COLUMN trial_end_at TIMESTAMP` },
-      { name: 'trial_plan', sql: `ALTER TABLE users ADD COLUMN trial_plan VARCHAR(50) CHECK(trial_plan IN ('starter', 'growth', 'pro', 'business', 'agency'))` },
+      { name: 'trial_plan', sql: `ALTER TABLE users ADD COLUMN trial_plan VARCHAR(50) CHECK(trial_plan IN ('free', 'starter', 'growth', 'pro', 'business', 'agency'))` },
       { name: 'social_accounts', sql: `ALTER TABLE users ADD COLUMN social_accounts TEXT` },
       { name: 'preferred_platforms', sql: `ALTER TABLE users ADD COLUMN preferred_platforms TEXT` },
       { name: 'monthly_post_limit', sql: `ALTER TABLE users ADD COLUMN monthly_post_limit INTEGER` },

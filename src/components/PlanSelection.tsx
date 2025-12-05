@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Star, Check } from 'lucide-react'
 
-export type PlanType = 'starter' | 'growth' | 'pro' | 'business' | 'agency'
+export type PlanType = 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency'
 
 export interface Plan {
   id: PlanType
@@ -16,16 +16,33 @@ export interface Plan {
 
 const plans: Plan[] = [
   {
+    id: 'free',
+    name: 'Free',
+    price: 0,
+    description: 'Perfect for getting started - all core tools',
+    features: [
+      '1 social account',
+      'All core tools (Hashtag Research, Templates, Engagement Inbox)',
+      '10 documents',
+      '5 hashtag sets',
+      '3 content templates',
+      '50 AI bot calls per month',
+      'Basic AI features',
+      'Community support'
+    ]
+  },
+  {
     id: 'starter',
     name: 'Starter',
     price: 9,
-    description: 'Barely better than manual - just organization',
+    description: 'Remove limits - unlock full potential',
     features: [
-      '1 social account',
-      '5 posts per month',
-      'Basic content calendar',
-      'Manual post creation',
-      'Simple post tracking',
+      '3 social accounts',
+      'Unlimited documents',
+      'Unlimited hashtag sets',
+      'Unlimited templates',
+      '500 AI bot calls per month',
+      'Enhanced AI features',
       'Email support (48hr response)'
     ]
   },
@@ -35,13 +52,12 @@ const plans: Plan[] = [
     price: 19,
     description: 'Actually helpful - AI assistance included',
     features: [
-      '2 social accounts',
-      '10 posts per month',
-      'Content calendar with drag-and-drop',
-      'Content Assistant Bot (basic)',
-      'Basic analytics',
-      'Post templates',
-      'Email support (24hr response)'
+      '5 social accounts',
+      'Unlimited everything',
+      '1,000 AI bot calls per month',
+      'Advanced AI features',
+      'Content analytics',
+      'Priority support (24hr response)'
     ]
   },
   {
@@ -51,12 +67,12 @@ const plans: Plan[] = [
     description: 'Time saver - full AI bot suite',
     popular: true,
     features: [
-      '3 social accounts',
-      '15 posts per month',
-      'All AI Bots (Content, Scheduling, Engagement)',
+      '10 social accounts',
+      'Unlimited AI bot calls',
+      'Premium AI features',
       'Advanced analytics with insights',
-      'Hashtag research tool',
-      'Brand collaboration tracking',
+      'Team collaboration (3 members)',
+      'API access',
       'Priority support (12hr response)'
     ]
   },
@@ -66,13 +82,12 @@ const plans: Plan[] = [
     price: 49,
     description: 'Professional - enhanced AI & team features',
     features: [
-      '4 social accounts',
-      '25 posts per month',
-      'Enhanced AI bots (better performance)',
+      'Unlimited social accounts',
+      'Maximum AI performance',
       'Premium analytics with predictions',
-      'Advanced brand collaboration management',
-      'Content scheduling AI',
-      'Team collaboration (2 members)',
+      'Team collaboration (10 members)',
+      'White-label options',
+      'Advanced API access',
       'Priority support (6hr response)'
     ]
   },
@@ -82,12 +97,11 @@ const plans: Plan[] = [
     price: 99,
     description: 'Enterprise power - unlimited scale',
     features: [
-      'Unlimited social accounts',
-      '50 posts per month',
+      'Unlimited everything',
       'Maximum AI bot performance',
       'Enterprise analytics & custom reporting',
-      'White-label options',
-      'Full team collaboration (unlimited)',
+      'Full white-label',
+      'Unlimited team collaboration',
       'Custom integrations & API access',
       'Dedicated account manager',
       'Priority support (2hr response)'
@@ -103,7 +117,7 @@ interface PlanSelectionProps {
 
 export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: PlanSelectionProps) {
   return (
-    <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
       {plans.map((plan) => {
         const isSelected = selectedPlan === plan.id
         const isPopular = plan.popular
@@ -145,7 +159,11 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
                 <span className="text-4xl font-bold">${plan.price}</span>
                 <span className="text-lg text-gray-400 ml-2">/month</span>
               </div>
-              <p className="text-sm text-gray-300 mt-1">14-day free trial</p>
+              {plan.price === 0 ? (
+                <p className="text-sm text-green-400 mt-1 font-semibold">Forever free</p>
+              ) : (
+                <p className="text-sm text-gray-300 mt-1">14-day free trial</p>
+              )}
             </div>
 
             <ul className="space-y-3">
