@@ -34,7 +34,7 @@ const plans: Plan[] = [
   {
     id: 'starter',
     name: 'Starter',
-    price: 9,
+    price: 5,
     description: 'Remove limits - unlock full potential',
     features: [
       '3 social accounts',

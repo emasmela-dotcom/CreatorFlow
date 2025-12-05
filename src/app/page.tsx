@@ -11,13 +11,13 @@ export default function HomePage() {
 
   const handlePricingClick = async (plan: 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
     trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'free' ? 0 : plan === 'starter' ? 9 : plan === 'growth' ? 9 : plan === 'pro' ? 19 : plan === 'business' ? 39 : 89)
+    trackConversionEvent('pricing_click', plan === 'free' ? 0 : plan === 'starter' ? 5 : plan === 'growth' ? 9 : plan === 'pro' ? 19 : plan === 'business' ? 39 : 89)
     
     // Redirect to signup with plan parameter
     if (plan === 'free') {
       window.location.href = `/signup`
     } else {
-      window.location.href = `/signup?plan=${plan}`
+    window.location.href = `/signup?plan=${plan}`
     }
   }
 
@@ -311,7 +311,7 @@ The CreatorFlow Team`,
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Starter</h3>
               <p className="text-xs text-gray-400 mb-4">Remove limits</p>
-              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-400">/month</span></div>
+              <div className="text-4xl font-bold mb-6">$5<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>3 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited documents</span></li>
