@@ -18,6 +18,31 @@ const DEMO_PASSWORD = 'DemoAccount2025!'
  */
 export async function POST(request: NextRequest) {
   try {
+    // Fix database constraint first (in case it doesn't include 'free')
+    try {
+      const constraintNames = [
+        'users_subscription_tier_check',
+        'users_subscription_tier_check1',
+        'subscription_tier_check'
+      ]
+      for (const name of constraintNames) {
+        try {
+          await db.execute({ sql: `ALTER TABLE users DROP CONSTRAINT IF EXISTS ${name}` })
+        } catch (e: any) {
+          // Ignore errors
+        }
+      }
+      await db.execute({
+        sql: `ALTER TABLE users ADD CONSTRAINT users_subscription_tier_check 
+              CHECK(subscription_tier IN ('free', 'starter', 'growth', 'pro', 'business', 'agency'))`
+      })
+    } catch (constraintError: any) {
+      // Constraint might already be correct, continue
+      if (!constraintError.message?.includes('already exists')) {
+        console.log('Could not update constraint (may already be correct):', constraintError.message)
+      }
+    }
+
     // Check if demo user already exists
     let demoUser = await db.execute({
       sql: 'SELECT id, email FROM users WHERE email = ?',
