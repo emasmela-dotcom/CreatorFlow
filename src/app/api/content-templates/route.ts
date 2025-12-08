@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       })
 
       // Update storage usage
-      await updateStorageUsage(user.userId, contentBytes)
+      await updateStorageUsage(user.userId)
 
       return NextResponse.json({
         success: true,
