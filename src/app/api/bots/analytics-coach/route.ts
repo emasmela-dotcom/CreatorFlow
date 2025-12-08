@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Analytics Coach Bot - Provides personalized growth insights and strategies
@@ -257,6 +258,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Platform is required' }, { status: 400 })
     }
 
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
+    }
+
     const tier = await getUserPlanTier(user.userId)
     const metrics = await analyzeUserMetrics(user.userId, platform)
     const insights = await generateInsights(metrics, tier)
@@ -294,11 +306,18 @@ export async function POST(request: NextRequest) {
       growthScore
     }
 
+    // Log the AI call
+    await logAICall(user.userId, 'Analytics Coach', '/api/bots/analytics-coach')
+
     return NextResponse.json({
       success: true,
       analysis,
       metrics,
-      tier
+      tier,
+      usage: {
+        aiCallsUsed: limitCheck.current + 1,
+        aiCallsLimit: limitCheck.limit
+      }
     })
   } catch (error: any) {
     console.error('Analytics Coach Bot error:', error)

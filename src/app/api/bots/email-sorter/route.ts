@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Email Sorter Bot - Automatically categorize and prioritize emails
@@ -29,6 +30,17 @@ export async function POST(request: NextRequest) {
     const user = await verifyAuth(request)
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
     }
 
     // All tiers can use Email Sorter
@@ -255,6 +267,9 @@ export async function POST(request: NextRequest) {
     })
     console.log('Email Sorter: Email inserted successfully')
 
+    // Log the AI call
+    await logAICall(user.userId, 'Email Sorter', '/api/bots/email-sorter')
+
     return NextResponse.json({
       success: true,
       email: result.rows[0],
@@ -265,7 +280,11 @@ export async function POST(request: NextRequest) {
         isUrgent,
         sentiment
       },
-      tier
+      tier,
+      usage: {
+        aiCallsUsed: limitCheck.current + 1,
+        aiCallsLimit: limitCheck.limit
+      }
     })
   } catch (error: any) {
     console.error('Email Sorter Bot error:', error)

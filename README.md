@@ -21,6 +21,17 @@ A comprehensive SaaS platform for content creators to manage, schedule, and mone
 - **Authentication**: JWT with bcrypt password hashing
 - **Deployment**: Vercel
 
+## 🚀 Quick Start - Development URL
+
+**⚠️ IMPORTANT:** Always use `http://127.0.0.1:3000` (NOT `localhost:3000`)
+
+All pages:
+- Homepage: `http://127.0.0.1:3000/`
+- Signup: `http://127.0.0.1:3000/signup`
+- Signin: `http://127.0.0.1:3000/signin`
+- Create Post: `http://127.0.0.1:3000/create/`
+- Dashboard: `http://127.0.0.1:3000/dashboard`
+
 ## Getting Started
 
 ### Prerequisites
@@ -62,8 +73,8 @@ STRIPE_PRICE_AGENCY=price_...
 # JWT
 JWT_SECRET=your-random-secret-key
 
-# App URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+# App URL (use 127.0.0.1 instead of localhost)
+NEXT_PUBLIC_APP_URL=http://127.0.0.1:3000
 ```
 
 4. Initialize database
@@ -78,7 +89,7 @@ npm run dev
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the app.
+Visit `http://127.0.0.1:3000` to see the app.
 
 ## Project Structure
 

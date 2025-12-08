@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canUseStorage, updateStorageUsage } from '@/lib/usageTracking'
+import { getDocumentLimit, PlanType } from '@/lib/planLimits'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,6 +33,13 @@ export async function POST(request: NextRequest) {
     // Calculate word count
     const wordCount = content.trim().split(/\s+/).filter((word: string) => word.length > 0).length
 
+    // Get user's plan to check limits
+    const userResult = await db.execute({
+      sql: 'SELECT subscription_tier FROM users WHERE id = ?',
+      args: [user.userId]
+    })
+    const userPlan = (userResult.rows[0] as any)?.subscription_tier as PlanType | null
+
     if (id) {
       // Update existing document
       const result = await db.execute({
@@ -53,11 +62,44 @@ export async function POST(request: NextRequest) {
         ]
       })
 
+      // Update storage usage
+      await updateStorageUsage(user.userId)
+
       return NextResponse.json({
         success: true,
         document: result.rows[0]
       })
     } else {
+      // Check document limit for new documents
+      const docLimit = getDocumentLimit(userPlan)
+      if (docLimit !== -1) {
+        const currentDocs = await db.execute({
+          sql: 'SELECT COUNT(*) as count FROM documents WHERE user_id = ?',
+          args: [user.userId]
+        })
+        const currentCount = parseInt(currentDocs.rows[0]?.count || 0)
+        if (currentCount >= docLimit) {
+          return NextResponse.json({
+            error: `You've reached your document limit (${currentCount}/${docLimit}). Upgrade to continue.`,
+            current: currentCount,
+            limit: docLimit,
+            upgradeRequired: true
+          }, { status: 403 })
+        }
+      }
+
+      // Check storage limit
+      const contentBytes = Buffer.byteLength(title + content, 'utf8')
+      const storageCheck = await canUseStorage(user.userId, contentBytes)
+      if (!storageCheck.allowed) {
+        return NextResponse.json({
+          error: storageCheck.message || 'Storage limit exceeded',
+          currentMB: storageCheck.currentMB,
+          limitMB: storageCheck.limitMB,
+          upgradeRequired: true
+        }, { status: 403 })
+      }
+
       // Create new document
       const result = await db.execute({
         sql: `
@@ -76,6 +118,9 @@ export async function POST(request: NextRequest) {
           wordCount
         ]
       })
+
+      // Update storage usage
+      await updateStorageUsage(user.userId)
 
       return NextResponse.json({
         success: true,

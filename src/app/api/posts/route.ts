@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { enforceContentLock, hasActiveSubscription } from '@/lib/contentLockCheck'
 import { verifyAuth, isValidEmail, sanitizeContent } from '@/lib/auth'
+import { postToPlatform } from '@/lib/platformPosting'
 
 /**
  * Create a new post
@@ -16,26 +17,37 @@ export async function POST(request: NextRequest) {
 
     const userId = user.userId
 
-    // Check if user has active subscription
+    // Check user's subscription tier
+    const userResult = await db.execute({
+      sql: 'SELECT subscription_tier, trial_end_at FROM users WHERE id = ?',
+      args: [userId]
+    })
+
+    if (userResult.rows.length === 0) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const userData = userResult.rows[0] as any
+    const subscriptionTier = userData.subscription_tier
+
+    // FREE PLAN RESTRICTION: Free plan users cannot create posts
+    // Free plan is for learning tools only, not for posting
+    if (subscriptionTier === 'free') {
+      return NextResponse.json({ 
+        error: 'Post creation is not available on the free plan. The free plan is designed for learning and exploring CreatorFlow tools. Upgrade to a paid plan to create and publish posts.',
+        upgradeRequired: true,
+        plan: 'free'
+      }, { status: 403 })
+    }
+
+    // Check if user has active subscription (for paid plans)
     const hasSubscription = await hasActiveSubscription(userId)
     if (!hasSubscription) {
       // Check if user is in trial period
-      const userResult = await db.execute({
-        sql: 'SELECT trial_end_at FROM users WHERE id = ?',
-        args: [userId]
-      })
+      const trialEnd = userData.trial_end_at ? new Date(userData.trial_end_at) : null
+      const now = new Date()
 
-      if (userResult.rows.length > 0) {
-        const userData = userResult.rows[0] as any
-        const trialEnd = userData.trial_end_at ? new Date(userData.trial_end_at) : null
-        const now = new Date()
-
-        if (!trialEnd || now > trialEnd) {
-          return NextResponse.json({ 
-            error: 'Subscription required. Upgrade to a paid plan to create new content.' 
-          }, { status: 403 })
-        }
-      } else {
+      if (!trialEnd || now > trialEnd) {
         return NextResponse.json({ 
           error: 'Subscription required. Upgrade to a paid plan to create new content.' 
         }, { status: 403 })
@@ -71,10 +83,37 @@ export async function POST(request: NextRequest) {
     const postId = `post_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     const now = new Date().toISOString()
 
+    // If status is 'published' and not scheduled, try to post directly
+    let platformPostId: string | null = null
+    let postingError: string | null = null
+
+    if (status === 'published' && (!scheduled_at || new Date(scheduled_at) <= new Date())) {
+      try {
+        const postResult = await postToPlatform(userId, platform, {
+          content,
+          mediaUrls: media_urls || [],
+          scheduledAt: scheduled_at
+        })
+
+        if (postResult.success) {
+          platformPostId = postResult.platformPostId || null
+          status = 'published'
+        } else {
+          // If posting fails, save as draft and return error
+          status = 'draft'
+          postingError = postResult.error || 'Failed to post to platform'
+        }
+      } catch (error: any) {
+        // If posting fails, save as draft
+        status = 'draft'
+        postingError = error.message || 'Failed to post to platform'
+      }
+    }
+
     await db.execute({
       sql: `INSERT INTO content_posts 
-            (id, user_id, platform, content, media_urls, scheduled_at, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            (id, user_id, platform, content, media_urls, scheduled_at, status, platform_post_id, published_at, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         postId,
         userId,
@@ -83,15 +122,33 @@ export async function POST(request: NextRequest) {
         JSON.stringify(media_urls || []),
         scheduled_at || null,
         status,
+        platformPostId,
+        status === 'published' ? now : null,
         now,
         now
       ]
     })
 
+    if (postingError) {
+      return NextResponse.json({ 
+        success: false,
+        postId,
+        error: postingError,
+        message: 'Post saved as draft. Please connect your platform account or post manually.',
+        savedAsDraft: true
+      }, { status: 200 })
+    }
+
     return NextResponse.json({ 
       success: true,
       postId,
-      message: 'Post created successfully'
+      platformPostId,
+      status,
+      message: status === 'published' 
+        ? 'Post published successfully!' 
+        : status === 'scheduled'
+        ? 'Post scheduled successfully!'
+        : 'Post saved successfully'
     })
   } catch (error: any) {
     console.error('Create post error:', error)

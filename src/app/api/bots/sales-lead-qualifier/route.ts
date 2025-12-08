@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Sales Lead Qualifier Bot - Automatically qualify sales leads
@@ -29,6 +30,17 @@ export async function POST(request: NextRequest) {
     const user = await verifyAuth(request)
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
     }
 
     // All tiers can use Sales Lead Qualifier
@@ -157,6 +169,9 @@ export async function POST(request: NextRequest) {
       ]
     })
 
+    // Log the AI call
+    await logAICall(user.userId, 'Sales Lead Qualifier', '/api/bots/sales-lead-qualifier')
+
     return NextResponse.json({
       success: true,
       lead: result.rows[0],
@@ -165,7 +180,11 @@ export async function POST(request: NextRequest) {
         status: qualificationStatus,
         threshold
       },
-      tier
+      tier,
+      usage: {
+        aiCallsUsed: limitCheck.current + 1,
+        aiCallsLimit: limitCheck.limit
+      }
     })
   } catch (error: any) {
     console.error('Sales Lead Qualifier Bot error:', error)

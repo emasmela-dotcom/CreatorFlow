@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canUseStorage, updateStorageUsage, PlanType } from '@/lib/usageTracking'
+import { getHashtagSetLimit } from '@/lib/planLimits'
 
 /**
  * Hashtag Research Tool

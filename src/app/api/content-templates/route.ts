@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canUseStorage, updateStorageUsage, PlanType } from '@/lib/usageTracking'
+import { getTemplateLimit } from '@/lib/planLimits'
 
 /**
  * Content Templates Tool
@@ -26,6 +28,13 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
+    // Get user's plan
+    const userResult = await db.execute({
+      sql: 'SELECT subscription_tier FROM users WHERE id = ?',
+      args: [user.userId]
+    })
+    const userPlan = (userResult.rows[0] as any)?.subscription_tier as PlanType | null
+
     if (id) {
       // Update existing template
       const result = await db.execute({
@@ -40,11 +49,44 @@ export async function POST(request: NextRequest) {
                category || null, description || null, id, user.userId]
       })
 
+      // Update storage usage
+      await updateStorageUsage(user.userId)
+
       return NextResponse.json({
         success: true,
         template: result.rows[0]
       })
     } else {
+      // Check template limit for new templates
+      const templateLimit = getTemplateLimit(userPlan)
+      if (templateLimit !== -1) {
+        const currentTemplates = await db.execute({
+          sql: 'SELECT COUNT(*) as count FROM content_templates WHERE user_id = ?',
+          args: [user.userId]
+        })
+        const currentCount = parseInt(currentTemplates.rows[0]?.count || 0)
+        if (currentCount >= templateLimit) {
+          return NextResponse.json({
+            error: `You've reached your template limit (${currentCount}/${templateLimit}). Upgrade to continue.`,
+            current: currentCount,
+            limit: templateLimit,
+            upgradeRequired: true
+          }, { status: 403 })
+        }
+      }
+
+      // Check storage limit
+      const contentBytes = Buffer.byteLength(name + content + (description || ''), 'utf8')
+      const storageCheck = await canUseStorage(user.userId, contentBytes)
+      if (!storageCheck.allowed) {
+        return NextResponse.json({
+          error: storageCheck.message || 'Storage limit exceeded',
+          currentMB: storageCheck.currentMB,
+          limitMB: storageCheck.limitMB,
+          upgradeRequired: true
+        }, { status: 403 })
+      }
+
       // Create new template
       const result = await db.execute({
         sql: `
@@ -56,6 +98,9 @@ export async function POST(request: NextRequest) {
         args: [user.userId, name, platform || null, content, 
                variables || null, category || null, description || null]
       })
+
+      // Update storage usage
+      await updateStorageUsage(user.userId, contentBytes)
 
       return NextResponse.json({
         success: true,

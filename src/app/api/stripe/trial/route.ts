@@ -15,6 +15,7 @@ const getStripe = () => {
 
 // Price IDs from environment variables
 const PRICE_IDS: Record<string, string> = {
+  free: '', // Free plan doesn't need Stripe
   starter: process.env.STRIPE_PRICE_STARTER || '',
   growth: process.env.STRIPE_PRICE_GROWTH || '',
   pro: process.env.STRIPE_PRICE_PRO || '',
@@ -32,8 +33,27 @@ export async function POST(request: NextRequest) {
 
     const { planType } = await request.json()
 
-    if (!planType || !PRICE_IDS[planType]) {
-      return NextResponse.json({ error: 'Invalid plan type' }, { status: 400 })
+    if (!planType) {
+      return NextResponse.json({ error: 'Plan type is required' }, { status: 400 })
+    }
+
+    // Handle FREE plan - no Stripe checkout needed
+    if (planType === 'free') {
+      // Update user to free plan directly
+      const { db } = await import('@/lib/db')
+      await db.execute({
+        sql: 'UPDATE users SET subscription_tier = ? WHERE id = ?',
+        args: ['free', authUser.userId]
+      })
+      return NextResponse.json({ 
+        success: true,
+        message: 'Free plan activated',
+        redirect: '/dashboard'
+      })
+    }
+
+    if (!PRICE_IDS[planType] || !PRICE_IDS[planType]) {
+      return NextResponse.json({ error: 'Invalid plan type or price ID not configured' }, { status: 400 })
     }
 
     const priceId = PRICE_IDS[planType]

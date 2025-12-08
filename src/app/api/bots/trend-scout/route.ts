@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Trend Scout Bot - Identifies trending topics and opportunities
@@ -194,6 +195,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Platform is required' }, { status: 400 })
     }
 
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
+    }
+
     const tier = await getUserPlanTier(user.userId)
     const niche = await analyzeUserNiche(user.userId, platform)
     const trendingTopics = await getTrendingTopics(niche, tier)
@@ -225,11 +237,18 @@ export async function POST(request: NextRequest) {
       bestTimeToPost
     }
 
+    // Log the AI call
+    await logAICall(user.userId, 'Trend Scout', '/api/bots/trend-scout')
+
     return NextResponse.json({
       success: true,
       analysis,
       niche,
-      tier
+      tier,
+      usage: {
+        aiCallsUsed: limitCheck.current + 1,
+        aiCallsLimit: limitCheck.limit
+      }
     })
   } catch (error: any) {
     console.error('Trend Scout Bot error:', error)

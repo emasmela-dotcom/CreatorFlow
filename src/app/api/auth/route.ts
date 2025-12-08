@@ -54,6 +54,10 @@ export async function POST(request: NextRequest) {
         }, { status: 403 })
       }
 
+      // Get plan type from request (optional, defaults to 'starter' for backward compatibility)
+      const { planType } = body
+      const subscriptionTier = planType || 'starter'
+
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -61,8 +65,43 @@ export async function POST(request: NextRequest) {
         const userId = crypto.randomUUID()
         await db.execute({
           sql: 'INSERT INTO users (id, email, password_hash, subscription_tier, created_at) VALUES (?, ?, ?, ?, ?)',
-          args: [userId, email, hashedPassword, 'starter', new Date().toISOString()]
+          args: [userId, email, hashedPassword, subscriptionTier, new Date().toISOString()]
         })
+
+      // Create account snapshot (empty state) for potential restore
+      try {
+        // Ensure account_snapshots table exists
+        await db.execute({
+          sql: `
+            CREATE TABLE IF NOT EXISTS account_snapshots (
+              id SERIAL PRIMARY KEY,
+              user_id VARCHAR(255) NOT NULL,
+              snapshot_data JSONB NOT NULL,
+              created_at TIMESTAMP NOT NULL DEFAULT NOW()
+            )
+          `
+        })
+        await db.execute({
+          sql: `CREATE INDEX IF NOT EXISTS idx_account_snapshots_user_id ON account_snapshots(user_id)`
+        })
+
+        // Create initial empty snapshot
+        await db.execute({
+          sql: `
+            INSERT INTO account_snapshots (user_id, snapshot_data, created_at)
+            VALUES (?, ?, NOW())
+          `,
+          args: [userId, JSON.stringify({ 
+            empty: true, 
+            createdAt: new Date().toISOString(),
+            subscriptionTier: subscriptionTier,
+            email: email
+          })]
+        })
+      } catch (snapshotError) {
+        // Continue even if snapshot creation fails (non-critical)
+        console.log('Account snapshot creation skipped:', snapshotError)
+      }
 
       // Log signup attempt for abuse tracking
       const ipAddress = getClientIdentifier(request)

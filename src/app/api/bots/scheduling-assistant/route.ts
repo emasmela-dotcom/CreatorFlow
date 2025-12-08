@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Scheduling Assistant Bot - Smart scheduling recommendations
@@ -276,6 +277,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Platform is required' }, { status: 400 })
     }
 
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
+    }
+
     // Get user's plan tier
     const tier = await getUserPlanTier(user.userId)
     const performanceLevel = getBotPerformanceLevel(tier)
@@ -290,11 +302,18 @@ export async function POST(request: NextRequest) {
       recommendations = await getEnhancedScheduleRecommendations(platform, user.userId)
     }
 
+    // Log the AI call
+    await logAICall(user.userId, 'Scheduling Assistant', '/api/bots/scheduling-assistant')
+
     return NextResponse.json({
       success: true,
       recommendations,
       tier,
-      performanceLevel
+      performanceLevel,
+      usage: {
+        aiCallsUsed: limitCheck.current + 1,
+        aiCallsLimit: limitCheck.limit
+      }
     })
   } catch (error: any) {
     console.error('Scheduling Assistant Bot error:', error)

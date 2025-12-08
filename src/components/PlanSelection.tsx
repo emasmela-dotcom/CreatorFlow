@@ -79,7 +79,7 @@ const plans: Plan[] = [
   {
     id: 'business',
     name: 'Business',
-    price: 49,
+    price: 39,
     description: 'Professional - enhanced AI & team features',
     features: [
       'Unlimited social accounts',
@@ -94,7 +94,7 @@ const plans: Plan[] = [
   {
     id: 'agency',
     name: 'Agency',
-    price: 99,
+    price: 89,
     description: 'Enterprise power - unlimited scale',
     features: [
       'Unlimited everything',

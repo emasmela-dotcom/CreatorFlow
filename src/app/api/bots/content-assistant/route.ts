@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
+import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Content Assistant Bot - Real-time content analysis
@@ -256,6 +258,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Content and platform are required' }, { status: 400 })
     }
 
+    // Check AI call limit
+    const limitCheck = await canMakeAICall(user.userId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json({
+        error: limitCheck.message || 'AI call limit exceeded',
+        current: limitCheck.current,
+        limit: limitCheck.limit,
+        upgradeRequired: true
+      }, { status: 403 })
+    }
+
     // Get user's plan tier
     const tier = await getUserPlanTier(user.userId)
     const performanceLevel = getBotPerformanceLevel(tier)
@@ -272,11 +285,20 @@ export async function POST(request: NextRequest) {
       analysis = await analyzeContentAI(content, platform, hashtags || '', performanceLevel)
     }
 
+    // Log the AI call
+    await logAICall(user.userId, 'Content Assistant', '/api/bots/content-assistant')
+
     return NextResponse.json({
       success: true,
       analysis,
       tier,
-      performanceLevel
+      performanceLevel,
+      usage: {
+        aiCalls: {
+          current: limitCheck.current + 1,
+          limit: limitCheck.limit
+        }
+      }
     })
   } catch (error: any) {
     console.error('Content Assistant Bot error:', error)

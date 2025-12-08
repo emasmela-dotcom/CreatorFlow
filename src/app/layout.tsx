@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'CreatorFlow' }],
   creator: 'CreatorFlow',
   publisher: 'CreatorFlow',
+  manifest: '/manifest.json',
   robots: {
     index: true,
     follow: true,
@@ -41,6 +42,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'CreatorFlow',
+  },
 }
 
 export default function RootLayout({
@@ -51,6 +57,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#7C3AED" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="CreatorFlow" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
@@ -79,6 +92,21 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {children}
+        <Script id="service-worker-registration" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                  .then((registration) => {
+                    console.log('Service Worker registered:', registration.scope)
+                  })
+                  .catch((error) => {
+                    console.log('Service Worker registration failed:', error)
+                  })
+              })
+            }
+          `}
+        </Script>
       </body>
     </html>
   )

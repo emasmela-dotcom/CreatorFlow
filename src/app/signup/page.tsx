@@ -49,6 +49,7 @@ function SignupPageContent() {
           email,
           password,
           action: 'signup',
+          planType: selectedPlan, // Pass selected plan to API
         }),
       })
 
@@ -64,7 +65,37 @@ function SignupPageContent() {
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user))
 
-      // Move to payment step (Stripe checkout)
+      // Handle FREE plan - skip payment, activate directly
+      if (selectedPlan === 'free') {
+        try {
+          const freePlanResponse = await fetch('/api/stripe/trial', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              planType: 'free',
+            }),
+          })
+
+          const freePlanData = await freePlanResponse.json()
+          
+          if (freePlanResponse.ok) {
+            // Free plan activated, redirect to dashboard
+            router.push('/dashboard?plan=free&activated=true')
+            return
+          } else {
+            throw new Error(freePlanData.error || 'Failed to activate free plan')
+          }
+        } catch (err: any) {
+          setError(err.message || 'Failed to activate free plan')
+          setLoading(false)
+          return
+        }
+      }
+
+      // Move to payment step (Stripe checkout) for paid plans
       setStep('payment')
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
@@ -250,7 +281,7 @@ function SignupPageContent() {
           </div>
         )}
 
-        {step === 'payment' && selectedPlan && (
+        {step === 'payment' && selectedPlan && selectedPlan !== 'free' && (
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4">Complete Your Trial Setup</h2>
@@ -305,7 +336,13 @@ function SignupPageContent() {
                         throw new Error(checkoutData.error || 'Failed to create checkout session')
                       }
 
-                      // Redirect to Stripe checkout
+                      // Handle FREE plan - redirect to dashboard
+                      if (checkoutData.success && checkoutData.redirect) {
+                        router.push(checkoutData.redirect)
+                        return
+                      }
+
+                      // Redirect to Stripe checkout for paid plans
                       if (checkoutData.url) {
                         window.location.href = checkoutData.url
                       } else {

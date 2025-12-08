@@ -15,6 +15,7 @@ export default function CreatePost() {
   const [hashtags, setHashtags] = useState('')
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [token, setToken] = useState('')
+  const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const analysisRef = useRef<HTMLDivElement | null>(null)
   const [postInfo, setPostInfo] = useState<{
     monthlyLimit: number | null
@@ -67,6 +68,13 @@ export default function CreatePost() {
   const [isPublishing, setIsPublishing] = useState(false)
 
   const createPost = async (status: 'draft' | 'scheduled' | 'published') => {
+    // FREE PLAN RESTRICTION: Block post creation for free plan users
+    if (subscriptionTier === 'free') {
+      alert('Post creation is not available on the free plan. The free plan is designed for learning and exploring CreatorFlow tools. Upgrade to a paid plan to create and publish posts.')
+      router.push('/signup?plan=starter')
+      return
+    }
+
     if (!content.trim()) {
       alert('Please enter content for your post')
       return
@@ -226,6 +234,25 @@ export default function CreatePost() {
         }
       })
       .catch(err => console.error('Error fetching preferred platforms:', err))
+
+      // Fetch subscription tier
+      fetch('/api/subscription/manage', {
+        headers: {
+          'Authorization': `Bearer ${t}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Set subscription tier - if plan is null/undefined, default to 'free'
+        const tier = data.plan || 'free'
+        setSubscriptionTier(tier)
+        console.log('Subscription tier set to:', tier)
+      })
+      .catch(err => {
+        console.error('Error fetching subscription:', err)
+        // On error, default to free plan
+        setSubscriptionTier('free')
+      })
     }
   }, [])
 
@@ -243,24 +270,27 @@ export default function CreatePost() {
           <div className="flex items-center gap-3">
             <button
               onClick={handleSave}
-              disabled={isSaving || isScheduling || isPublishing}
+              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
               className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
             >
               <Save className="w-4 h-4" />
               {isSaving ? 'Saving...' : 'Save Draft'}
             </button>
             <button
               onClick={handleSchedule}
-              disabled={isSaving || isScheduling || isPublishing}
+              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
             >
               <Calendar className="w-4 h-4" />
               {isScheduling ? 'Scheduling...' : 'Schedule'}
             </button>
             <button
               onClick={handlePublish}
-              disabled={isSaving || isScheduling || isPublishing}
+              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
               className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
             >
               <Send className="w-4 h-4" />
               {isPublishing ? 'Publishing...' : 'Publish Now'}
@@ -273,6 +303,31 @@ export default function CreatePost() {
         {/* Main Content */}
         <main className="flex-1 p-6">
           <div className="max-w-4xl mx-auto space-y-6">
+            {/* FREE PLAN RESTRICTION BANNER */}
+            {subscriptionTier === 'free' && (
+              <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
+                <div className="flex items-start gap-4">
+                  <Sparkles className="w-8 h-8 text-purple-400 flex-shrink-0" />
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-purple-300 mb-2">Free Plan - Learning Mode</h3>
+                    <p className="text-gray-300 mb-4">
+                      The <strong className="text-white">free plan</strong> is designed for <strong className="text-purple-300">learning and exploring</strong> CreatorFlow tools. 
+                      You can use all AI bots, create content, and explore features, but <strong className="text-white">post creation and publishing are not available</strong> on the free plan.
+                    </p>
+                    <p className="text-sm text-gray-400 mb-4">
+                      Upgrade to a paid plan to unlock post creation, scheduling, and publishing capabilities.
+                    </p>
+                    <button
+                      onClick={() => router.push('/signup?plan=starter')}
+                      className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold transition-all"
+                    >
+                      Upgrade to Starter Plan →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Post Usage Warning - Low on Posts */}
             {postInfo && postInfo.remaining <= 5 && (
               <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border-2 border-yellow-500 rounded-xl p-4">

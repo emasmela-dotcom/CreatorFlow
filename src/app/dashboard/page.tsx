@@ -2,9 +2,17 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2 } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import NewBotsBanner from '@/components/NewBotsBanner'
+import HelpCenter from '@/components/HelpCenter'
+import HelpIcon from '@/components/HelpIcon'
+import PlatformConnections from '@/components/PlatformConnections'
+import SocialListening from '@/components/SocialListening'
+import TeamCollaboration from '@/components/TeamCollaboration'
+import AdvancedAnalytics from '@/components/AdvancedAnalytics'
+import GameChangerFeatures from '@/components/GameChangerFeatures'
+import FeedbackButton from '@/components/FeedbackButton'
 
 // Simple UI Components for Bots
 function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -2262,6 +2270,407 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
 // import SentimentTool from '@/components/ai/SentimentTool'
 import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
+// Content Calendar Component
+function CalendarView({ token }: { token: string }) {
+  const [events, setEvents] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadCalendarEvents()
+  }, [currentMonth])
+
+  const loadCalendarEvents = async () => {
+    try {
+      const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
+      const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0)
+      
+      const response = await fetch(`/api/calendar?startDate=${start.toISOString().split('T')[0]}&endDate=${end.toISOString().split('T')[0]}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const data = await response.json()
+      if (data.success) {
+        setEvents(data.events || [])
+      }
+    } catch (error) {
+      console.error('Failed to load calendar:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getDaysInMonth = () => {
+    const year = currentMonth.getFullYear()
+    const month = currentMonth.getMonth()
+    const firstDay = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+    const days = []
+    
+    // Add empty cells for days before month starts
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null)
+    }
+    
+    // Add days of month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i)
+    }
+    
+    return days
+  }
+
+  const getEventsForDate = (day: number | null) => {
+    if (!day) return []
+    const dateStr = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+    return events.filter(e => e.date === dateStr)
+  }
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Content Calendar</h2>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => setCurrentMonth(new Date())}
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+          >
+            Today
+          </button>
+          <button
+            onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+        <h3 className="text-xl font-semibold mb-4">
+          {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+        </h3>
+
+        {loading ? (
+          <div className="text-center py-12 text-gray-400">Loading calendar...</div>
+        ) : (
+          <div className="grid grid-cols-7 gap-2">
+            {dayNames.map(day => (
+              <div key={day} className="text-center font-semibold text-gray-400 py-2">
+                {day}
+              </div>
+            ))}
+            {getDaysInMonth().map((day, idx) => {
+              const dayEvents = getEventsForDate(day)
+              return (
+                <div
+                  key={idx}
+                  className={`min-h-[80px] p-2 border border-gray-700 rounded ${day ? 'bg-gray-900 hover:bg-gray-800 cursor-pointer' : 'bg-gray-800/50'}`}
+                  onClick={() => day && setSelectedDate(`${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`)}
+                >
+                  {day && (
+                    <>
+                      <div className="text-sm font-semibold mb-1">{day}</div>
+                      {dayEvents.slice(0, 2).map((event: any) => (
+                        <div key={event.id} className="text-xs bg-purple-600/30 text-purple-300 rounded px-1 mb-1 truncate">
+                          {event.platform}: {event.title}
+                        </div>
+                      ))}
+                      {dayEvents.length > 2 && (
+                        <div className="text-xs text-gray-400">+{dayEvents.length - 2} more</div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        {selectedDate && (
+          <div className="mt-6 p-4 bg-gray-900 rounded-lg">
+            <h4 className="font-semibold mb-3">Events on {new Date(selectedDate).toLocaleDateString()}</h4>
+            <div className="space-y-2">
+              {getEventsForDate(parseInt(selectedDate.split('-')[2])).map((event: any) => (
+                <div key={event.id} className="p-3 bg-gray-800 rounded border border-gray-700">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="font-semibold">{event.title}</div>
+                      <div className="text-sm text-gray-400">{event.platform} • {event.status}</div>
+                      {event.scheduledAt && (
+                        <div className="text-xs text-gray-500 mt-1">
+                          {new Date(event.scheduledAt).toLocaleTimeString()}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {getEventsForDate(parseInt(selectedDate.split('-')[2])).length === 0 && (
+                <div className="text-gray-400 text-center py-4">No events scheduled</div>
+              )}
+            </div>
+            <button
+              onClick={() => setSelectedDate(null)}
+              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm"
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Content Search Component
+function ContentSearch({ token }: { token: string }) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [showResults, setShowResults] = useState(false)
+
+  const handleSearch = async (searchQuery: string) => {
+    if (!searchQuery.trim()) {
+      setResults(null)
+      setShowResults(false)
+      return
+    }
+
+    setLoading(true)
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const data = await response.json()
+      if (data.success) {
+        setResults(data.results)
+        setShowResults(true)
+      }
+    } catch (error) {
+      console.error('Search failed:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="relative">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <input
+          type="text"
+          placeholder="Search content..."
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            handleSearch(e.target.value)
+          }}
+          onFocus={() => results && setShowResults(true)}
+          className="pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-64"
+        />
+      </div>
+
+      {showResults && results && (
+        <div className="absolute top-full mt-2 w-96 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+          <div className="p-4">
+            {results.total === 0 ? (
+              <div className="text-gray-400 text-center py-4">No results found</div>
+            ) : (
+              <>
+                {results.documents.length > 0 && (
+                  <div className="mb-4">
+                    <div className="text-xs font-semibold text-gray-400 mb-2">DOCUMENTS ({results.documents.length})</div>
+                    {results.documents.slice(0, 3).map((doc: any) => (
+                      <div key={doc.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
+                        <div className="font-semibold text-sm">{doc.title}</div>
+                        <div className="text-xs text-gray-400 truncate">{doc.content}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {results.templates.length > 0 && (
+                  <div className="mb-4">
+                    <div className="text-xs font-semibold text-gray-400 mb-2">TEMPLATES ({results.templates.length})</div>
+                    {results.templates.slice(0, 3).map((tpl: any) => (
+                      <div key={tpl.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
+                        <div className="font-semibold text-sm">{tpl.name}</div>
+                        <div className="text-xs text-gray-400">{tpl.platform}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {results.hashtagSets.length > 0 && (
+                  <div>
+                    <div className="text-xs font-semibold text-gray-400 mb-2">HASHTAG SETS ({results.hashtagSets.length})</div>
+                    {results.hashtagSets.slice(0, 3).map((set: any) => (
+                      <div key={set.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
+                        <div className="font-semibold text-sm">{set.name}</div>
+                        <div className="text-xs text-gray-400">{set.platform}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Performance Analytics Component
+function PerformanceAnalyticsView({ token }: { token: string }) {
+  const [analytics, setAnalytics] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [days, setDays] = useState(30)
+
+  useEffect(() => {
+    loadAnalytics()
+  }, [days])
+
+  const loadAnalytics = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(`/api/analytics/performance?days=${days}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const data = await response.json()
+      if (data.success) {
+        setAnalytics(data)
+      }
+    } catch (error) {
+      console.error('Failed to load analytics:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="text-center py-12 text-gray-400">Loading analytics...</div>
+  }
+
+  if (!analytics) {
+    return <div className="text-center py-12 text-gray-400">No analytics data available</div>
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Performance Analytics</h2>
+        <select
+          value={days}
+          onChange={(e) => setDays(parseInt(e.target.value))}
+          className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg"
+        >
+          <option value={7}>Last 7 days</option>
+          <option value={30}>Last 30 days</option>
+          <option value={90}>Last 90 days</option>
+        </select>
+      </div>
+
+      {/* Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Total Posts</p>
+              <p className="text-2xl font-bold">{analytics.overview.totalPosts}</p>
+            </div>
+            <FileText className="w-8 h-8 text-blue-400" />
+          </div>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Total Engagement</p>
+              <p className="text-2xl font-bold">{analytics.overview.totalEngagement.toLocaleString()}</p>
+            </div>
+            <Heart className="w-8 h-8 text-red-400" />
+          </div>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Avg Engagement</p>
+              <p className="text-2xl font-bold">{analytics.overview.avgEngagement}</p>
+            </div>
+            <TrendingUp className="w-8 h-8 text-green-400" />
+          </div>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Growth Rate</p>
+              <p className={`text-2xl font-bold ${analytics.overview.growthRate >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {analytics.overview.growthRate >= 0 ? '+' : ''}{analytics.overview.growthRate}%
+              </p>
+            </div>
+            {analytics.overview.growthRate >= 0 ? (
+              <TrendingUp className="w-8 h-8 text-green-400" />
+            ) : (
+              <TrendingDown className="w-8 h-8 text-red-400" />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Platform Breakdown */}
+      <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+        <h3 className="text-lg font-semibold mb-4">By Platform</h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {Object.entries(analytics.byPlatform.posts).map(([platform, count]: [string, any]) => (
+            <div key={platform} className="text-center">
+              <div className="text-2xl font-bold">{count}</div>
+              <div className="text-sm text-gray-400 capitalize">{platform}</div>
+              <div className="text-xs text-gray-500">
+                {analytics.byPlatform.engagement[platform] || 0} engagement
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Top Posts */}
+      {analytics.topPosts.length > 0 && (
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+          <h3 className="text-lg font-semibold mb-4">Top Performing Posts</h3>
+          <div className="space-y-3">
+            {analytics.topPosts.slice(0, 5).map((post: any, idx: number) => (
+              <div key={post.id} className="flex items-start justify-between p-4 bg-gray-900 rounded border border-gray-700">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-purple-400 font-bold">#{idx + 1}</span>
+                    <span className="text-sm text-gray-400 capitalize">{post.platform}</span>
+                  </div>
+                  <div className="text-sm text-gray-300 truncate">{post.content}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    {new Date(post.publishedAt).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="text-right ml-4">
+                  <div className="text-lg font-bold text-green-400">{post.engagement.toLocaleString()}</div>
+                  <div className="text-xs text-gray-400">engagement</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Dashboard() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
@@ -2286,6 +2695,8 @@ export default function Dashboard() {
   const [openAITool, setOpenAITool] = useState<string | null>(null)
   const [token, setToken] = useState<string>('')
   const [selectedBot, setSelectedBot] = useState<string | null>(null)
+  const [helpCenterOpen, setHelpCenterOpen] = useState(false)
+  const [userId, setUserId] = useState<string>('')
 
   useEffect(() => {
     // Get token from localStorage on client side
@@ -2293,9 +2704,23 @@ export default function Dashboard() {
       const storedToken = localStorage.getItem('token') || ''
       setToken(storedToken)
       
-      // Redirect to signin if no token
+      // Get user ID
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        try {
+          const userData = JSON.parse(storedUser)
+          setUserId(userData.id || userData.userId || '')
+        } catch (e) {
+          console.error('Failed to parse user data:', e)
+        }
+      }
+      
+      // Redirect to signin if no token (unless coming from demo)
       if (!storedToken) {
-        router.push('/signin')
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get('demo') !== 'true') {
+          router.push('/signin')
+        }
       }
     }
   }, [router])
@@ -2383,6 +2808,13 @@ export default function Dashboard() {
                 Content
               </button>
               <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('calendar')}
+              >
+                <Calendar className="w-4 h-4 inline mr-2" />
+                Calendar
+              </button>
+              <button 
                 className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
                 onClick={() => setActiveTab('analytics')}
               >
@@ -2408,17 +2840,38 @@ export default function Dashboard() {
                 <Brain className="w-4 h-4 inline mr-2" />
                 AI Bots
               </button>
+              <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('connections')}
+              >
+                <Link2 className="w-4 h-4 inline mr-2" />
+                Connections
+              </button>
+              <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('social-listening')}
+              >
+                <Search className="w-4 h-4 inline mr-2" />
+                Listening
+              </button>
+              <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('game-changers')}
+              >
+                <Sparkles className="w-4 h-4 inline mr-2" />
+                Game-Changers
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-            </div>
+            <ContentSearch token={token} />
+            <button
+              onClick={() => setHelpCenterOpen(true)}
+              className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors"
+              title="Help Center"
+            >
+              <HelpCircle className="w-6 h-6" />
+            </button>
             <Bell className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
             <Settings className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
             <button
@@ -2628,7 +3081,13 @@ export default function Dashboard() {
           {activeTab === 'content' && (
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Content Management</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-2xl font-bold">Content Management</h2>
+                  <HelpIcon 
+                    content="Manage all your content here: documents, templates, hashtag sets, and engagement. Use the tools below to research hashtags, create templates, and track engagement."
+                    title="Content Management"
+                  />
+                </div>
                 <button
                   onClick={() => router.push('/create')}
                   className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
@@ -2739,17 +3198,25 @@ export default function Dashboard() {
 
           {activeTab === 'analytics' && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="text-lg font-semibold mb-4">Performance Overview</h3>
-                <div className="h-64 flex items-center justify-center text-gray-400">
-                  <div className="text-center">
-                    <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-                    <p>Analytics charts will be displayed here</p>
-                    <p className="text-sm">Real-time data integration coming soon</p>
-                  </div>
-                </div>
-              </div>
+              <AdvancedAnalytics token={token} />
+            </div>
+          )}
+
+          {activeTab === 'connections' && (
+            <div className="space-y-6">
+              <PlatformConnections token={token} />
+            </div>
+          )}
+
+          {activeTab === 'social-listening' && (
+            <div className="space-y-6">
+              <SocialListening token={token} />
+            </div>
+          )}
+
+          {activeTab === 'game-changers' && (
+            <div className="space-y-6">
+              <GameChangerFeatures token={token} />
             </div>
           )}
 
@@ -2770,7 +3237,13 @@ export default function Dashboard() {
           {activeTab === 'bots' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold mb-2">AI Bots</h2>
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-2xl font-bold">AI Bots</h2>
+                  <HelpIcon 
+                    content="AI bots are free assistants that help you create better content. Click any bot to see what it does and how to use it. All bots are included in every plan!"
+                    title="AI Bots"
+                  />
+                </div>
                 <p className="text-gray-400">Free AI assistants to help you create better content</p>
               </div>
 
@@ -3349,6 +3822,102 @@ export default function Dashboard() {
                   'Organize and prioritize your audience interactions'
                 ],
                 example: 'POST /api/engagement-inbox\n{\n  "action": "add",\n  "platform": "instagram",\n  "type": "comment",\n  "content": "Great post!",\n  "author_name": "John Doe"\n}'
+              },
+              'content-assistant': {
+                title: 'Content Assistant Bot',
+                description: 'Real-time content analysis and optimization suggestions as you type your posts. Analyzes content quality, tone, brand consistency, and platform best practices.',
+                useCase: 'Perfect for all content creators who want to improve their post quality before publishing. Get instant feedback on length, hashtags, tone, and engagement potential.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Create Post page or use in dashboard',
+                  'Type or paste your content',
+                  'Select your platform (Instagram, Twitter, LinkedIn, etc.)',
+                  'Bot analyzes in real-time and provides a content score (0-100)',
+                  'Review suggestions: Green = Good, Yellow = Needs improvement, Red = Important fixes',
+                  'Follow actionable recommendations to improve your content',
+                  'Check word count, hashtag count, emoji usage, and platform-specific tips'
+                ],
+                example: 'POST /api/bots/content-assistant\n{\n  "content": "Your post content here",\n  "platform": "instagram"\n}'
+              },
+              'scheduling-assistant': {
+                title: 'Scheduling Assistant Bot',
+                description: 'AI-powered suggestions for optimal posting times based on your audience engagement patterns. Identifies best days and times to maximize engagement.',
+                useCase: 'Ideal for creators who want to maximize engagement by posting at the right times. Perfect for planning your content calendar around optimal posting windows.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Dashboard → AI Bots tab or Create Post page',
+                  'Select your platform',
+                  'View optimal times displayed by day and time slot with scores',
+                  'Click a suggested time to auto-fill your schedule',
+                  'Review recommendations: Best days of the week, peak engagement hours, platform-specific timing',
+                  'Use insights to plan your weekly posting schedule',
+                  'Bot learns from your historical engagement data'
+                ],
+                example: 'POST /api/bots/scheduling-assistant\n{\n  "platform": "instagram",\n  "timezone": "America/New_York"\n}'
+              },
+              'engagement-analyzer': {
+                title: 'Engagement Analyzer Bot',
+                description: 'Analyzes your past post performance to identify what content works best. Identifies trends, best performing content types, and optimal posting strategies.',
+                useCase: 'Essential for creators who want to understand their audience and improve content strategy. Perfect for data-driven content creators who want to replicate success.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Dashboard → AI Bots tab',
+                  'Select your platform',
+                  'View analysis of your recent posts: Average engagement rate, best performing posts, trends',
+                  'Review insights: Best days, times, hashtags, content types',
+                  'See recommendations for improving engagement',
+                  'Use insights to create better content that resonates with your audience',
+                  'Track performance patterns over time'
+                ],
+                example: 'POST /api/bots/engagement-analyzer\n{\n  "platform": "instagram",\n  "timeframe": "30days"\n}'
+              },
+              'trend-scout': {
+                title: 'Trend Scout Bot',
+                description: 'Identifies trending topics and viral opportunities in your niche. Monitors trending hashtags, emerging topics, and competitor content to help you stay current.',
+                useCase: 'Perfect for creators who want to stay current and jump on trending topics. Ideal for maximizing reach by creating timely, relevant content.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Dashboard → AI Bots tab',
+                  'Select your platform and niche',
+                  'View trending topics and hashtags with engagement data',
+                  'Review opportunities and recommendations',
+                  'See relevance scores for each trend',
+                  'Create content based on trending topics',
+                  'Check best time to post for trends to maximize visibility'
+                ],
+                example: 'POST /api/bots/trend-scout\n{\n  "platform": "instagram",\n  "niche": "fitness"\n}'
+              },
+              'content-curation': {
+                title: 'Content Curation Bot',
+                description: 'Suggests content ideas and identifies gaps in your content strategy. Analyzes your niche and provides personalized content recommendations.',
+                useCase: 'Great for creators struggling with "what to create next" or wanting to diversify content. Perfect for maintaining a consistent content calendar with fresh ideas.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Dashboard → AI Bots tab',
+                  'Select your platform',
+                  'View content ideas based on your niche and past content',
+                  'Review content gaps (what you\'re missing in your strategy)',
+                  'Get recommendations for next posts with descriptions and hashtags',
+                  'See engagement potential estimates for each idea',
+                  'Create content based on suggestions to fill gaps and diversify'
+                ],
+                example: 'POST /api/bots/content-curation\n{\n  "platform": "instagram",\n  "niche": "business"\n}'
+              },
+              'analytics-coach': {
+                title: 'Analytics Coach Bot',
+                description: 'Provides personalized growth insights and strategies based on your analytics. Explains metrics, suggests improvements, and predicts performance.',
+                useCase: 'Ideal for creators who want actionable growth strategies, not just data. Perfect for understanding what metrics matter and how to improve them.',
+                tier: 'All Plans',
+                howToUse: [
+                  'Navigate to Dashboard → AI Bots tab',
+                  'Select your platform',
+                  'View personalized insights: Growth metrics, trends, strategy recommendations',
+                  'Review growth score (0-100) and what it means',
+                  'See performance predictions based on current trends',
+                  'Get actionable recommendations for each growth area',
+                  'Implement suggested strategies and track improvements over time'
+                ],
+                example: 'POST /api/bots/analytics-coach\n{\n  "platform": "instagram",\n  "timeframe": "30days"\n}'
               }
             }
 
@@ -3486,6 +4055,12 @@ export default function Dashboard() {
           })()}
         </main>
       </div>
+
+      {/* Help Center Modal */}
+      <HelpCenter isOpen={helpCenterOpen} onClose={() => setHelpCenterOpen(false)} />
+
+      {/* Feedback Button */}
+      <FeedbackButton token={token} />
     </div>
   )
 }
