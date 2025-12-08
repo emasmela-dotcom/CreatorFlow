@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeAICall, logAICall } from '@/lib/usageTracking'
-import { canMakeAICall, logAICall } from '@/lib/usageTracking'
 
 /**
  * Content Assistant Bot - Real-time content analysis

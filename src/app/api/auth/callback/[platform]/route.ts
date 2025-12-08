@@ -17,8 +17,9 @@ interface TokenResponse {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { platform: string } }
+  { params }: { params: Promise<{ platform: string }> }
 ) {
+  const { platform } = await params
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const state = searchParams.get('state')
@@ -45,9 +46,9 @@ export async function GET(
       throw new Error('Invalid state parameter')
     }
 
-    const platform = params.platform.toLowerCase()
+    const platformLower = platform.toLowerCase()
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const redirectUri = `${baseUrl}/api/auth/callback/${platform}`
+    const redirectUri = `${baseUrl}/api/auth/callback/${platformLower}`
 
     // Exchange code for access token (platform-specific)
     const tokenResponse = await exchangeCodeForToken(platform, code, redirectUri)

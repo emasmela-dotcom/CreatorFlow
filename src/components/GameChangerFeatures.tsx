@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { 
-  TrendingUp, Mic, Sync, RefreshCw, DollarSign, 
+  TrendingUp, Mic, RefreshCw, DollarSign, 
   Bell, TestTube, List, Hash, Handshake,
-  Sparkles, CheckCircle, XCircle, AlertCircle
+  Sparkles, CheckCircle, XCircle, AlertCircle, ArrowLeftRight
 } from 'lucide-react'
 
 interface GameChangerFeaturesProps {
@@ -17,7 +17,7 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
   const features = [
     { id: 'performance-predictor', name: 'Performance Predictor', icon: TrendingUp, color: 'purple' },
     { id: 'brand-voice', name: 'Brand Voice', icon: Mic, color: 'blue' },
-    { id: 'cross-platform', name: 'Cross-Platform Sync', icon: Sync, color: 'green' },
+    { id: 'cross-platform', name: 'Cross-Platform Sync', icon: ArrowLeftRight, color: 'green' },
     { id: 'content-recycling', name: 'Content Recycling', icon: RefreshCw, color: 'orange' },
     { id: 'revenue-tracker', name: 'Revenue Tracker', icon: DollarSign, color: 'yellow' },
     { id: 'trend-alerts', name: 'Trend Alerts', icon: Bell, color: 'red' },
@@ -379,7 +379,7 @@ function CrossPlatformSyncUI({ token }: { token: string }) {
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
-        <Sync className="w-6 h-6 text-green-400" />
+        <ArrowLeftRight className="w-6 h-6 text-green-400" />
         Cross-Platform Sync
       </h3>
       <p className="text-gray-400">Post once, automatically adapts to all platforms</p>

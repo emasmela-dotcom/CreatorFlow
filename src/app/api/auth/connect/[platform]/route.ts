@@ -48,7 +48,7 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { platform: string } }
+  { params }: { params: Promise<{ platform: string }> }
 ) {
   try {
     const user = await verifyAuth(request)
@@ -56,7 +56,8 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const platform = params.platform.toLowerCase()
+    const { platform: platformParam } = await params
+    const platform = platformParam.toLowerCase()
     
     if (!PLATFORM_OAUTH_URLS[platform]) {
       return NextResponse.json({ 
