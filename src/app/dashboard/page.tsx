@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2 } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import NewBotsBanner from '@/components/NewBotsBanner'
 import HelpCenter from '@/components/HelpCenter'
