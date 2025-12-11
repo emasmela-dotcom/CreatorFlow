@@ -13,6 +13,10 @@ import TeamCollaboration from '@/components/TeamCollaboration'
 import AdvancedAnalytics from '@/components/AdvancedAnalytics'
 import GameChangerFeatures from '@/components/GameChangerFeatures'
 import FeedbackButton from '@/components/FeedbackButton'
+import WhosOn from '@/components/WhosOn'
+import CreatorChat from '@/components/CreatorChat'
+import MessageBoard from '@/components/MessageBoard'
+import ContentTypesSettings from '@/components/ContentTypesSettings'
 
 // Simple UI Components for Bots
 function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -2861,6 +2865,13 @@ export default function Dashboard() {
                 <Sparkles className="w-4 h-4 inline mr-2" />
                 Game-Changers
               </button>
+              <button 
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('community')}
+              >
+                <Users className="w-4 h-4 inline mr-2" />
+                Community
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -3220,6 +3231,47 @@ export default function Dashboard() {
             </div>
           )}
 
+          {activeTab === 'community' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1">
+                  <WhosOn token={token} />
+                </div>
+                <div className="lg:col-span-2">
+                  <div className="space-y-6">
+                    <CreatorChat token={token} />
+                    <MessageBoard token={token} />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6">
+                <ContentTypesSettings token={token} />
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'community' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1">
+                  <WhosOn token={token} />
+                </div>
+                <div className="lg:col-span-2">
+                  <ContentTypesSettings token={token} />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">Real-Time Chat</h3>
+                  <CreatorChat token={token} />
+                </div>
+                <div>
+                  <MessageBoard token={token} />
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'collaborations' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">Brand Collaborations</h2>
@@ -3257,7 +3309,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Expense Tracker Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Track and manage expenses</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3273,7 +3324,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Invoice Generator Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Create and manage invoices</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3289,7 +3339,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Email Sorter Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Automatically categorize emails</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3305,7 +3354,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Customer Service Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">AI-powered customer support</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3321,7 +3369,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Product Recommendation Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">AI product recommendations</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3337,7 +3384,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Sales Lead Qualifier Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Automatically qualify leads</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3353,7 +3399,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Website Chat Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Live chat widget for websites</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3369,7 +3414,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Content Writer Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">AI-powered content generation</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3385,7 +3429,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Meeting Scheduler Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Advanced meeting scheduling</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3401,7 +3444,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Social Media Manager Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Advanced social media management</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3417,7 +3459,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Content Repurposing Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Automatically repurpose content across platforms</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3433,7 +3474,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Content Gap Analyzer Bot</h3>
-                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Find content opportunities competitors miss</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3449,7 +3489,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Hashtag Research</h3>
-                    <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Find trending hashtags & save sets</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3465,7 +3504,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Content Templates</h3>
-                    <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Save & reuse post templates</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
@@ -3481,7 +3519,6 @@ export default function Dashboard() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-sm font-semibold">Engagement Inbox</h3>
-                    <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded">NEW</span>
                   </div>
                   <p className="text-xs text-gray-400 mb-2">Manage comments & messages</p>
                   <div className="bg-gray-700/50 rounded-lg p-2 flex-1 text-xs text-gray-400">
