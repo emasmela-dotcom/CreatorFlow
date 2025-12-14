@@ -33,8 +33,9 @@ REPOS=()
 for dir in "${PROJECT_DIRS[@]}"; do
     if [ -d "$dir" ]; then
         while IFS= read -r -d '' repo; do
-            REPOS+=("$repo")
-        done < <(find "$dir" -maxdepth 3 -type d -name ".git" -print0 2>/dev/null | sed 'z;s|/.git$||')
+            repo_path="${repo%/.git}"
+            REPOS+=("$repo_path")
+        done < <(find "$dir" -maxdepth 3 -type d -name ".git" -print0 2>/dev/null)
     fi
 done
 
