@@ -49,17 +49,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { customerId, productId, category, preferences, purchaseHistory } = body
 
-    // Get customer data
-    let customerData = null
-    if (customerId) {
-      const customerResult = await db.execute({
-        sql: 'SELECT * FROM product_customers WHERE id = ? AND user_id = ?',
-        args: [customerId, user.userId]
-      })
-      customerData = customerResult.rows[0]
-    }
-
-    // Ensure tables exist (fallback)
+    // Ensure tables exist FIRST (before any queries)
     try {
       await db.execute({ sql: `CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
@@ -72,6 +62,16 @@ export async function POST(request: NextRequest) {
         tags TEXT,
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )` })
+      await db.execute({ sql: `CREATE TABLE IF NOT EXISTS product_customers (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        customer_name VARCHAR(255) NOT NULL,
+        customer_email VARCHAR(255),
+        purchase_history TEXT,
+        preferences TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )` })
       await db.execute({ sql: `CREATE TABLE IF NOT EXISTS recommendations (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
@@ -82,7 +82,24 @@ export async function POST(request: NextRequest) {
         recommendation_score DECIMAL(5, 2),
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )` })
-    } catch (e) {}
+    } catch (e: any) {
+      console.error('Error creating product tables:', e.message)
+      // Continue anyway - tables might already exist
+    }
+
+    // Get customer data
+    let customerData = null
+    if (customerId) {
+      try {
+        const customerResult = await db.execute({
+          sql: 'SELECT * FROM product_customers WHERE id = ? AND user_id = ?',
+          args: [customerId, user.userId]
+        })
+        customerData = customerResult.rows[0]
+      } catch (e: any) {
+        console.log('Error fetching customer data (table may not exist yet):', e.message)
+      }
+    }
 
     // Get products
     let sqlQuery = 'SELECT * FROM products WHERE user_id = ?'

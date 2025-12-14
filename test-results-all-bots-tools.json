@@ -1,0 +1,171 @@
+{
+  "timestamp": "2025-12-11T02:32:40.100Z",
+  "baseUrl": "http://localhost:3000",
+  "tests": [
+    {
+      "name": "Authentication Setup",
+      "status": "pass",
+      "details": {
+        "message": "Using provided TEST_TOKEN"
+      },
+      "timestamp": "2025-12-11T02:32:40.111Z"
+    },
+    {
+      "name": "Content Assistant Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:41.080Z"
+    },
+    {
+      "name": "Scheduling Assistant Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:42.162Z"
+    },
+    {
+      "name": "Engagement Analyzer Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:42.983Z"
+    },
+    {
+      "name": "Trend Scout Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:43.856Z"
+    },
+    {
+      "name": "Content Curation Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:44.675Z"
+    },
+    {
+      "name": "Analytics Coach Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:45.499Z"
+    },
+    {
+      "name": "Content Writer Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:46.633Z"
+    },
+    {
+      "name": "Content Gap Analyzer Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:48.418Z"
+    },
+    {
+      "name": "Content Repurposing Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:49.502Z"
+    },
+    {
+      "name": "Expense Tracker Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:50.372Z"
+    },
+    {
+      "name": "Invoice Generator Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:53.052Z"
+    },
+    {
+      "name": "Email Sorter Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:54.562Z"
+    },
+    {
+      "name": "Customer Service Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:55.804Z"
+    },
+    {
+      "name": "Product Recommendation Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:56.923Z"
+    },
+    {
+      "name": "Sales Lead Qualifier Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:58.004Z"
+    },
+    {
+      "name": "Meeting Scheduler Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:58.856Z"
+    },
+    {
+      "name": "Social Media Manager Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:32:59.963Z"
+    },
+    {
+      "name": "Website Chat Bot",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:01.265Z"
+    },
+    {
+      "name": "Hashtag Research Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:01.439Z"
+    },
+    {
+      "name": "Content Templates Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:02.865Z"
+    },
+    {
+      "name": "Documents Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:04.289Z"
+    },
+    {
+      "name": "Content Calendar Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:04.441Z"
+    },
+    {
+      "name": "Content Library Search Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:04.534Z"
+    },
+    {
+      "name": "Performance Analytics Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:04.799Z"
+    },
+    {
+      "name": "Posts Tool",
+      "status": "pass",
+      "details": {},
+      "timestamp": "2025-12-11T02:33:05.361Z"
+    }
+  ],
+  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTI4ZTBlZC1kMGY4LTQ0YTMtOGUwNy03MGY2ODZhYTBkNzkiLCJlbWFpbCI6ImRlbW9AY3JlYXRvcmZsb3cuYWkiLCJ0eXBlIjoiYWNjZXNzIiwiaXNEZW1vIjp0cnVlLCJpYXQiOjE3NjU0MjAzNjAsImV4cCI6MTc2NjAyNTE2MH0.EYdjuZ-LCpaOA8LkXkf_23u9V1pK7acPvm0XCL1PjUo",
+  "summary": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0
+  }
+}

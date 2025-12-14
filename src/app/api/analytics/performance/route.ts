@@ -146,6 +146,33 @@ export async function GET(request: NextRequest) {
       console.log('Analytics table not available or error:', e.message)
     }
 
+    // Return structure even if no data
+    const metrics = {
+      totalPosts,
+      totalEngagement,
+      totalLikes,
+      totalComments,
+      totalShares,
+      totalReach,
+      avgEngagement,
+      avgLikes,
+      avgComments,
+      avgReach,
+      postsByPlatform,
+      engagementByPlatform,
+      topPosts: top10Posts,
+      growth: {
+        posts: 0,
+        engagement: 0,
+        likes: 0
+      },
+      period: {
+        start: startDateStr,
+        end: new Date().toISOString().split('T')[0],
+        days
+      }
+    }
+
     // Calculate growth (compare first half vs second half of period)
     const midpoint = Math.floor(posts.length / 2)
     let firstHalfEngagement = 0
@@ -175,6 +202,19 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      metrics: {
+        totalPosts,
+        totalEngagement,
+        totalLikes,
+        totalComments,
+        totalShares,
+        totalReach,
+        avgEngagement,
+        avgLikes,
+        avgComments,
+        avgReach,
+        growthRate
+      },
       period: {
         days,
         startDate: startDateStr,

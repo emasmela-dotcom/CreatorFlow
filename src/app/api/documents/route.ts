@@ -21,6 +21,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // ENSURE TABLE EXISTS FIRST - Before any other operations
+    try {
+      await db.execute({ sql: `DROP TABLE IF EXISTS documents CASCADE` })
+      await db.execute({ sql: `CREATE TABLE documents (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        category VARCHAR(100),
+        tags TEXT,
+        is_pinned BOOLEAN DEFAULT FALSE,
+        word_count INTEGER DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )` })
+    } catch (e: any) {
+      // If drop fails, try creating anyway
+      try {
+        await db.execute({ sql: `CREATE TABLE IF NOT EXISTS documents (
+          id SERIAL PRIMARY KEY,
+          user_id VARCHAR(255) NOT NULL,
+          title VARCHAR(255) NOT NULL,
+          content TEXT NOT NULL,
+          category VARCHAR(100),
+          tags TEXT,
+          is_pinned BOOLEAN DEFAULT FALSE,
+          word_count INTEGER DEFAULT 0,
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+        )` })
+      } catch (e2: any) {
+        console.error('Failed to create documents table:', e2.message)
+      }
+    }
+
     const body = await request.json()
     const { id, title, content, category, tags, is_pinned } = body
 
@@ -99,6 +134,7 @@ export async function POST(request: NextRequest) {
           upgradeRequired: true
         }, { status: 403 })
       }
+
 
       // Create new document
       const result = await db.execute({

@@ -227,6 +227,7 @@ export async function initDatabase() {
         preferred_platforms TEXT,
         monthly_post_limit INTEGER,
         additional_posts_purchased INTEGER DEFAULT 0,
+        content_types TEXT,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
@@ -245,8 +246,10 @@ export async function initDatabase() {
       { name: 'preferred_platforms', sql: `ALTER TABLE users ADD COLUMN preferred_platforms TEXT` },
       { name: 'monthly_post_limit', sql: `ALTER TABLE users ADD COLUMN monthly_post_limit INTEGER` },
       { name: 'additional_posts_purchased', sql: `ALTER TABLE users ADD COLUMN additional_posts_purchased INTEGER DEFAULT 0` },
+      { name: 'content_types', sql: `ALTER TABLE users ADD COLUMN content_types TEXT DEFAULT '[]'` },
       { name: 'created_at', sql: `ALTER TABLE users ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT NOW()` },
-      { name: 'updated_at', sql: `ALTER TABLE users ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW()` }
+      { name: 'updated_at', sql: `ALTER TABLE users ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW()` },
+      { name: 'content_types', sql: `ALTER TABLE users ADD COLUMN content_types TEXT` }
     ]
     
     // Update subscription_tier constraint to include 'free' if needed
@@ -624,29 +627,17 @@ export async function initDatabase() {
     `
     })
 
-    // Content Templates table
+    // Content Templates table - Force recreate to ensure user_id column
     console.log('Creating content_templates table...')
-    // First, try to drop the table if it exists without user_id (migration fix)
     try {
-      // Check if table exists and if user_id column exists
-      const checkResult = await db.execute({
-        sql: `SELECT column_name FROM information_schema.columns 
-              WHERE table_name = 'content_templates' AND column_name = 'user_id'`
-      })
-      
-      if (checkResult.rows.length === 0) {
-        // Table exists but user_id column is missing - drop and recreate
-        console.log('content_templates table exists but missing user_id column, recreating...')
-        await db.execute({ sql: `DROP TABLE IF EXISTS content_templates CASCADE` })
-      }
-    } catch (e) {
-      // Table might not exist, that's fine
-      console.log('Checking content_templates table structure...')
+      await db.execute({ sql: `DROP TABLE IF EXISTS content_templates CASCADE` })
+    } catch (e: any) {
+      console.log('Note: Could not drop content_templates:', e.message)
     }
     
     await db.execute({
       sql: `
-      CREATE TABLE IF NOT EXISTS content_templates (
+      CREATE TABLE content_templates (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
@@ -660,22 +651,7 @@ export async function initDatabase() {
       )
     `
     })
-    
-    // Ensure user_id column exists (migration safety)
-    try {
-      await db.execute({
-        sql: `ALTER TABLE content_templates ADD COLUMN IF NOT EXISTS user_id VARCHAR(255) NOT NULL DEFAULT ''`
-      })
-      // Remove default after adding
-      await db.execute({
-        sql: `ALTER TABLE content_templates ALTER COLUMN user_id DROP DEFAULT`
-      })
-    } catch (e: any) {
-      // Column might already exist, that's fine
-      if (!e.message?.includes('already exists') && !e.message?.includes('duplicate')) {
-        console.log('Note: Could not add user_id column (may already exist):', e.message)
-      }
-    }
+    console.log('✅ content_templates table created with user_id column')
 
     // Engagement Inbox table
     console.log('Creating engagement_inbox table...')
@@ -700,9 +676,17 @@ export async function initDatabase() {
 
     // Documents/Notes table - Built-in document storage
     console.log('Creating documents table...')
+    try {
+      // Drop table if it exists (to ensure clean creation)
+      await db.execute({ sql: `DROP TABLE IF EXISTS documents CASCADE` })
+      console.log('Dropped existing documents table (if any)')
+    } catch (e: any) {
+      console.log('Note: Could not drop documents (may not exist):', e.message)
+    }
+    
     await db.execute({
       sql: `
-      CREATE TABLE IF NOT EXISTS documents (
+      CREATE TABLE documents (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
         title VARCHAR(255) NOT NULL,
@@ -716,6 +700,7 @@ export async function initDatabase() {
       )
     `
     })
+    console.log('✅ documents table created')
     
     // Create index for faster document searches
     await db.execute({
@@ -987,6 +972,21 @@ export async function initDatabase() {
         image_url TEXT,
         tags TEXT,
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+    
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS product_customers (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        customer_name VARCHAR(255) NOT NULL,
+        customer_email VARCHAR(255),
+        purchase_history TEXT,
+        preferences TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `
     })
@@ -1404,6 +1404,134 @@ export async function initDatabase() {
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_user_feedback_status ON user_feedback(status)` })
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_user_feedback_type ON user_feedback(feedback_type)` })
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_user_feedback_created ON user_feedback(created_at)` })
+
+    // ===== CREATOR COMMUNITY FEATURES =====
+    console.log('Creating creator community features tables...')
+
+    // Who's On - Active users tracking
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS active_users (
+          id SERIAL PRIMARY KEY,
+          user_id VARCHAR(255) NOT NULL UNIQUE,
+          last_active_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          status VARCHAR(50) DEFAULT 'online',
+          is_visible BOOLEAN DEFAULT TRUE,
+          updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_active_users_last_active ON active_users(last_active_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_active_users_visible ON active_users(is_visible, last_active_at)` })
+
+    // Chat Channels
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS chat_channels (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          description TEXT,
+          channel_type VARCHAR(50) DEFAULT 'public' CHECK(channel_type IN ('public', 'private', 'direct')),
+          created_by VARCHAR(255),
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          is_active BOOLEAN DEFAULT TRUE
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_chat_channels_type ON chat_channels(channel_type, is_active)` })
+
+    // Chat Messages
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS chat_messages (
+          id SERIAL PRIMARY KEY,
+          channel_id INTEGER NOT NULL,
+          user_id VARCHAR(255) NOT NULL,
+          message TEXT NOT NULL,
+          message_type VARCHAR(50) DEFAULT 'text' CHECK(message_type IN ('text', 'system', 'announcement')),
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          edited_at TIMESTAMP,
+          deleted_at TIMESTAMP
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_chat_messages_channel ON chat_messages(channel_id, created_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_chat_messages_user ON chat_messages(user_id)` })
+
+    // Message Board Categories
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS message_board_categories (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          description TEXT,
+          icon VARCHAR(50),
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          is_active BOOLEAN DEFAULT TRUE
+        )
+      `
+    })
+
+    // Message Board Posts
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS message_board_posts (
+          id SERIAL PRIMARY KEY,
+          category_id INTEGER,
+          user_id VARCHAR(255) NOT NULL,
+          title VARCHAR(500) NOT NULL,
+          content TEXT NOT NULL,
+          is_pinned BOOLEAN DEFAULT FALSE,
+          is_locked BOOLEAN DEFAULT FALSE,
+          view_count INTEGER DEFAULT 0,
+          reply_count INTEGER DEFAULT 0,
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          last_reply_at TIMESTAMP
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_posts_category ON message_board_posts(category_id, created_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_posts_user ON message_board_posts(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_posts_pinned ON message_board_posts(is_pinned, created_at)` })
+
+    // Message Board Replies
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS message_board_replies (
+          id SERIAL PRIMARY KEY,
+          post_id INTEGER NOT NULL,
+          user_id VARCHAR(255) NOT NULL,
+          content TEXT NOT NULL,
+          parent_reply_id INTEGER,
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          edited_at TIMESTAMP,
+          deleted_at TIMESTAMP
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_replies_post ON message_board_replies(post_id, created_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_replies_user ON message_board_replies(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_message_board_replies_parent ON message_board_replies(parent_reply_id)` })
+
+    // Post Reactions (likes, etc.)
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS post_reactions (
+          id SERIAL PRIMARY KEY,
+          post_id INTEGER,
+          reply_id INTEGER,
+          user_id VARCHAR(255) NOT NULL,
+          reaction_type VARCHAR(50) DEFAULT 'like' CHECK(reaction_type IN ('like', 'love', 'helpful', 'insightful')),
+          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+          UNIQUE(user_id, post_id, reaction_type),
+          UNIQUE(user_id, reply_id, reaction_type)
+        )
+      `
+    })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_post_reactions_post ON post_reactions(post_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_post_reactions_reply ON post_reactions(reply_id)` })
 
     console.log('✅ Database initialized successfully - all tables created')
   } catch (error: any) {
