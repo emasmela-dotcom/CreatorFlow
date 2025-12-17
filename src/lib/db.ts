@@ -959,6 +959,103 @@ export async function initDatabase() {
     `
     })
 
+    // SEO Optimizer Bot tables
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS seo_analyses (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        url TEXT,
+        title TEXT NOT NULL,
+        primary_keyword VARCHAR(255) NOT NULL,
+        seo_score INTEGER NOT NULL,
+        analysis JSONB NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    // Brand Deal Negotiation Bot tables
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS brand_deal_analyses (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        brand_name VARCHAR(255) NOT NULL,
+        proposed_rate DECIMAL(10, 2) NOT NULL,
+        suggested_rate DECIMAL(10, 2),
+        deal_score INTEGER NOT NULL,
+        status VARCHAR(50) NOT NULL,
+        analysis JSONB NOT NULL,
+        content_id VARCHAR(255),
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    // Content Performance Attribution Bot tables
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS content_attributions (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        content_id VARCHAR(255) NOT NULL,
+        total_revenue DECIMAL(10, 2) NOT NULL,
+        attribution_data JSONB NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS affiliate_tracking (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        content_id VARCHAR(255),
+        link_url TEXT NOT NULL,
+        clicks INTEGER DEFAULT 0,
+        conversions INTEGER DEFAULT 0,
+        revenue DECIMAL(10, 2) DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS product_sales (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        content_id VARCHAR(255),
+        product_name VARCHAR(255) NOT NULL,
+        quantity INTEGER DEFAULT 0,
+        revenue DECIMAL(10, 2) DEFAULT 0,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      )
+    `
+    })
+
+    // Tax Assistant Bot tables
+    await db.execute({
+      sql: `
+      CREATE TABLE IF NOT EXISTS tax_analyses (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        tax_year INTEGER NOT NULL,
+        total_income DECIMAL(10, 2) NOT NULL,
+        total_expenses DECIMAL(10, 2) NOT NULL,
+        estimated_tax DECIMAL(10, 2) NOT NULL,
+        analysis_data JSONB NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        UNIQUE(user_id, tax_year)
+      )
+    `
+    })
+
     // Product Recommendation Bot tables
     await db.execute({
       sql: `
@@ -1056,6 +1153,18 @@ export async function initDatabase() {
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_sales_leads_user_id ON sales_leads(user_id)` })
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_website_chat_conversations_user_id ON website_chat_conversations(user_id)` })
     await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_website_chat_messages_session_id ON website_chat_messages(session_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_seo_analyses_user_id ON seo_analyses(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_seo_analyses_created_at ON seo_analyses(created_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_brand_deal_analyses_user_id ON brand_deal_analyses(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_brand_deal_analyses_created_at ON brand_deal_analyses(created_at)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_content_attributions_user_id ON content_attributions(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_content_attributions_content_id ON content_attributions(content_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_affiliate_tracking_user_id ON affiliate_tracking(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_affiliate_tracking_content_id ON affiliate_tracking(content_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_product_sales_user_id ON product_sales(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_product_sales_content_id ON product_sales(content_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_tax_analyses_user_id ON tax_analyses(user_id)` })
+    await db.execute({ sql: `CREATE INDEX IF NOT EXISTS idx_tax_analyses_tax_year ON tax_analyses(tax_year)` })
 
     // Usage tracking tables
     await db.execute({
