@@ -193,7 +193,10 @@ function calculateAttribution(
   revenue: {
     affiliateRevenue: number
     brandDealRevenue: number
-    productSales: number
+    productSalesRevenue: number
+    affiliateLinks: Array<{ link: string; clicks: number; conversions: number; revenue: number }>
+    brandDeals: Array<{ brandName: string; rate: number; status: string }>
+    productSales: Array<{ productName: string; sales: number; revenue: number }>
   },
   engagement: {
     likes: number
