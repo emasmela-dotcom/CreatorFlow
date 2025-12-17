@@ -80,7 +80,7 @@ async function getContentRevenue(
 ): Promise<{
   affiliateRevenue: number
   brandDealRevenue: number
-  productSales: number
+  productSalesRevenue: number
   affiliateLinks: Array<{ link: string; clicks: number; conversions: number; revenue: number }>
   brandDeals: Array<{ brandName: string; rate: number; status: string }>
   productSales: Array<{ productName: string; sales: number; revenue: number }>
@@ -171,16 +171,16 @@ async function getContentRevenue(
     return {
       affiliateRevenue,
       brandDealRevenue,
-      productSales: productSalesRevenue,
+      productSalesRevenue,
       affiliateLinks,
       brandDeals,
-      productSales: productSales
+      productSales
     }
   } catch (error) {
     return {
       affiliateRevenue: 0,
       brandDealRevenue: 0,
-      productSales: 0,
+      productSalesRevenue: 0,
       affiliateLinks: [],
       brandDeals: [],
       productSales: []
@@ -202,7 +202,7 @@ function calculateAttribution(
     views: number
   }
 ): ContentAttribution {
-  const totalRevenue = revenue.affiliateRevenue + revenue.brandDealRevenue + revenue.productSales
+  const totalRevenue = revenue.affiliateRevenue + revenue.brandDealRevenue + revenue.productSalesRevenue
   const totalEngagement = engagement.likes + engagement.comments + engagement.shares
   const engagementRate = engagement.views > 0 ? (totalEngagement / engagement.views) * 100 : 0
   
@@ -258,7 +258,7 @@ function calculateAttribution(
         revenuePerEngagement: Math.round(revenuePerEngagement * 100) / 100,
         affiliateRevenue: Math.round(revenue.affiliateRevenue * 100) / 100,
         brandDealRevenue: Math.round(revenue.brandDealRevenue * 100) / 100,
-        productSales: Math.round(revenue.productSales * 100) / 100
+        productSales: Math.round(revenue.productSalesRevenue * 100) / 100
       },
       roi: {
         timeSpent,

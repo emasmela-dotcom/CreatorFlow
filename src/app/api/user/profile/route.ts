@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
-import { getUserProfile, updateContentTypes, CONTENT_TYPES } from '@/lib/userProfile'
+import { getUserProfileTooltip, updateUserContentTypes, getUserContentTypes, CONTENT_TYPES } from '@/lib/userProfile'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId') || user.userId
 
-    const profile = await getUserProfile(userId)
+    const profile = await getUserProfileTooltip(userId)
 
     return NextResponse.json({
       success: true,
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await updateContentTypes(user.userId, contentTypes)
+    await updateUserContentTypes(user.userId, contentTypes)
 
     return NextResponse.json({
       success: true,
