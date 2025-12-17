@@ -20,9 +20,9 @@ export async function POST(request: NextRequest) {
     }
 
     // ENSURE TABLE EXISTS FIRST - Before any other operations
+    // Only create if it doesn't exist - NEVER drop existing tables!
     try {
-      await db.execute({ sql: `DROP TABLE IF EXISTS content_templates CASCADE` })
-      await db.execute({ sql: `CREATE TABLE content_templates (
+      await db.execute({ sql: `CREATE TABLE IF NOT EXISTS content_templates (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
@@ -34,24 +34,16 @@ export async function POST(request: NextRequest) {
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )` })
-    } catch (e: any) {
-      // If drop fails, try creating anyway
+      
+      // Check if user_id column exists, if not add it
       try {
-        await db.execute({ sql: `CREATE TABLE IF NOT EXISTS content_templates (
-          id SERIAL PRIMARY KEY,
-          user_id VARCHAR(255) NOT NULL,
-          name VARCHAR(255) NOT NULL,
-          platform VARCHAR(50),
-          content TEXT NOT NULL,
-          variables TEXT,
-          category VARCHAR(100),
-          description TEXT,
-          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-          updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-        )` })
-      } catch (e2: any) {
-        console.error('Failed to create content_templates table:', e2.message)
+        await db.execute({ sql: `ALTER TABLE content_templates ADD COLUMN IF NOT EXISTS user_id VARCHAR(255)` })
+      } catch (e: any) {
+        // Column might already exist, ignore error
       }
+    } catch (e: any) {
+      console.error('Failed to create content_templates table:', e.message)
+      // Continue anyway - table might already exist
     }
 
     const body = await request.json()

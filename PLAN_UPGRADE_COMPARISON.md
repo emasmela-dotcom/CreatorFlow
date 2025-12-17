@@ -447,3 +447,4 @@ This document shows exactly what changes when you upgrade from one plan to the n
 **Last Updated:** December 8, 2025  
 **Purpose:** Clear comparison of what each plan upgrade unlocks
 
+

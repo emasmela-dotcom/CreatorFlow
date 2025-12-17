@@ -130,3 +130,4 @@ Stripe supports **manual payouts** where funds stay in your Stripe account until
 
 **Want me to help you set this up, or do you already have it configured?**
 
+

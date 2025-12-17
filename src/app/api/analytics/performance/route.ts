@@ -146,7 +146,34 @@ export async function GET(request: NextRequest) {
       console.log('Analytics table not available or error:', e.message)
     }
 
-    // Return structure even if no data
+    // Calculate growth (compare first half vs second half of period)
+    const midpoint = Math.floor(posts.length / 2)
+    let firstHalfEngagement = 0
+    let secondHalfEngagement = 0
+
+    posts.slice(0, midpoint).forEach((post: any) => {
+      try {
+        const postMetrics = typeof post.engagement_metrics === 'string' 
+          ? JSON.parse(post.engagement_metrics || '{}') 
+          : post.engagement_metrics || {}
+        firstHalfEngagement += parseInt(postMetrics.likes || 0) + parseInt(postMetrics.comments || 0) + parseInt(postMetrics.shares || 0)
+      } catch (e) {}
+    })
+
+    posts.slice(midpoint).forEach((post: any) => {
+      try {
+        const postMetrics = typeof post.engagement_metrics === 'string' 
+          ? JSON.parse(post.engagement_metrics || '{}') 
+          : post.engagement_metrics || {}
+        secondHalfEngagement += parseInt(postMetrics.likes || 0) + parseInt(postMetrics.comments || 0) + parseInt(postMetrics.shares || 0)
+      } catch (e) {}
+    })
+
+    const growthRate = firstHalfEngagement > 0 
+      ? Math.round(((secondHalfEngagement - firstHalfEngagement) / firstHalfEngagement) * 100) 
+      : 0
+
+    // Build metrics object with all data including growth
     const metrics = {
       totalPosts,
       totalEngagement,
@@ -163,7 +190,7 @@ export async function GET(request: NextRequest) {
       topPosts: top10Posts,
       growth: {
         posts: 0,
-        engagement: 0,
+        engagement: growthRate,
         likes: 0
       },
       period: {
@@ -173,71 +200,32 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Calculate growth (compare first half vs second half of period)
-    const midpoint = Math.floor(posts.length / 2)
-    let firstHalfEngagement = 0
-    let secondHalfEngagement = 0
-
-    posts.slice(0, midpoint).forEach((post: any) => {
-      try {
-        const metrics = typeof post.engagement_metrics === 'string' 
-          ? JSON.parse(post.engagement_metrics || '{}') 
-          : post.engagement_metrics || {}
-        firstHalfEngagement += parseInt(metrics.likes || 0) + parseInt(metrics.comments || 0) + parseInt(metrics.shares || 0)
-      } catch (e) {}
-    })
-
-    posts.slice(midpoint).forEach((post: any) => {
-      try {
-        const metrics = typeof post.engagement_metrics === 'string' 
-          ? JSON.parse(post.engagement_metrics || '{}') 
-          : post.engagement_metrics || {}
-        secondHalfEngagement += parseInt(metrics.likes || 0) + parseInt(metrics.comments || 0) + parseInt(metrics.shares || 0)
-      } catch (e) {}
-    })
-
-    const growthRate = firstHalfEngagement > 0 
-      ? Math.round(((secondHalfEngagement - firstHalfEngagement) / firstHalfEngagement) * 100) 
-      : 0
-
     return NextResponse.json({
       success: true,
-      metrics: {
-        totalPosts,
-        totalEngagement,
-        totalLikes,
-        totalComments,
-        totalShares,
-        totalReach,
-        avgEngagement,
-        avgLikes,
-        avgComments,
-        avgReach,
-        growthRate
-      },
+      metrics,
       period: {
-        days,
-        startDate: startDateStr,
-        endDate: new Date().toISOString().split('T')[0]
+        days: metrics.period.days,
+        startDate: metrics.period.start,
+        endDate: metrics.period.end
       },
       overview: {
-        totalPosts,
-        totalEngagement,
-        totalLikes,
-        totalComments,
-        totalShares,
-        totalReach,
-        avgEngagement,
-        avgLikes,
-        avgComments,
-        avgReach,
+        totalPosts: metrics.totalPosts,
+        totalEngagement: metrics.totalEngagement,
+        totalLikes: metrics.totalLikes,
+        totalComments: metrics.totalComments,
+        totalShares: metrics.totalShares,
+        totalReach: metrics.totalReach,
+        avgEngagement: metrics.avgEngagement,
+        avgLikes: metrics.avgLikes,
+        avgComments: metrics.avgComments,
+        avgReach: metrics.avgReach,
         growthRate
       },
       byPlatform: {
-        posts: postsByPlatform,
-        engagement: engagementByPlatform
+        posts: metrics.postsByPlatform,
+        engagement: metrics.engagementByPlatform
       },
-      topPosts: top10Posts,
+      topPosts: metrics.topPosts,
       analyticsData: analyticsData.slice(0, 100) // Limit to prevent large responses
     })
   } catch (error: any) {

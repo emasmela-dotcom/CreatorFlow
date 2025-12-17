@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
     }
 
     // ENSURE TABLE EXISTS FIRST - Before any other operations
+    // Only create if it doesn't exist - NEVER drop existing tables!
     try {
-      await db.execute({ sql: `DROP TABLE IF EXISTS documents CASCADE` })
-      await db.execute({ sql: `CREATE TABLE documents (
+      await db.execute({ sql: `CREATE TABLE IF NOT EXISTS documents (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
         title VARCHAR(255) NOT NULL,
@@ -36,24 +36,16 @@ export async function POST(request: NextRequest) {
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )` })
-    } catch (e: any) {
-      // If drop fails, try creating anyway
+      
+      // Check if user_id column exists, if not add it
       try {
-        await db.execute({ sql: `CREATE TABLE IF NOT EXISTS documents (
-          id SERIAL PRIMARY KEY,
-          user_id VARCHAR(255) NOT NULL,
-          title VARCHAR(255) NOT NULL,
-          content TEXT NOT NULL,
-          category VARCHAR(100),
-          tags TEXT,
-          is_pinned BOOLEAN DEFAULT FALSE,
-          word_count INTEGER DEFAULT 0,
-          created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-          updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-        )` })
-      } catch (e2: any) {
-        console.error('Failed to create documents table:', e2.message)
+        await db.execute({ sql: `ALTER TABLE documents ADD COLUMN IF NOT EXISTS user_id VARCHAR(255)` })
+      } catch (e: any) {
+        // Column might already exist, ignore error
       }
+    } catch (e: any) {
+      console.error('Failed to create documents table:', e.message)
+      // Continue anyway - table might already exist
     }
 
     const body = await request.json()

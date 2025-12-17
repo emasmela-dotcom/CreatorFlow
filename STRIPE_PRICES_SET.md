@@ -1,4 +1,4 @@
-# Stripe Prices - What You've Set
+˜# Stripe Prices - What You've Set
 
 ## ✅ Prices in Your Stripe Dashboard
 
@@ -61,4 +61,5 @@ Based on your Stripe dashboard:
 **4 out of 5 prices match perfectly!**
 
 Only Agency plan needs alignment. Which price do you want for Agency: $69 or $89?
+
 
