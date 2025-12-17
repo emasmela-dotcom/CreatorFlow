@@ -330,7 +330,7 @@ export async function getReplies(postId: number): Promise<MessageBoardReply[]> {
       reactionsResult.rows.forEach((r: any) => {
         reactions[r.reaction_type] = parseInt(r.count || 0)
       })
-      reply.reactions = reactions
+      (reply as any).reactions = reactions
     }
 
     return replies

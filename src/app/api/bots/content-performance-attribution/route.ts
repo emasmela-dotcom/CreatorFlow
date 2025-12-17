@@ -224,7 +224,7 @@ function calculateAttribution(
   const insights = {
     topPerformer: engagementRate > 5 && totalRevenue > 100,
     revenueDriver: totalRevenue > 50,
-    recommendations: []
+    recommendations: [] as string[]
   }
   
   if (revenuePerView < 0.01 && engagement.views > 1000) {
