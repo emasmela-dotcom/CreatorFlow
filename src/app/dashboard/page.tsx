@@ -2790,7 +2790,7 @@ export default function Dashboard() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white w-full overflow-x-hidden">
+    <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
@@ -2798,7 +2798,7 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
               CreatorFlow
             </h1>
-            <div className="hidden md:flex flex-wrap items-center gap-4">
+            <div className="hidden md:flex items-center gap-6">
               <button 
                 className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
                 onClick={() => setActiveTab('overview')}
@@ -2866,11 +2866,11 @@ export default function Dashboard() {
                 Game-Changers
               </button>
               <button 
-                className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
                 onClick={() => setActiveTab('community')}
               >
                 <Users className="w-4 h-4 inline mr-2" />
-                Who's On / Community
+                Community
               </button>
             </div>
           </div>
@@ -2902,7 +2902,7 @@ export default function Dashboard() {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6 overflow-y-auto">
+        <aside className="w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6">
           <div className="space-y-6">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg">
               <h3 className="font-semibold mb-2">Quick Stats</h3>
@@ -2958,16 +2958,11 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-
-            {/* Who's On - Always Visible */}
-            <div className="mt-6">
-              <WhosOn token={token} />
-            </div>
           </div>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 bg-gray-900 min-w-0 overflow-x-hidden">
+        <main className="flex-1 p-6">
           <NewBotsBanner />
           <TrialStatusBanner />
           

@@ -327,12 +327,10 @@ export async function getReplies(postId: number): Promise<MessageBoardReply[]> {
       })
 
       const reactions: any = { like: 0, love: 0, helpful: 0, insightful: 0 }
-      if (Array.isArray(reactionsResult.rows)) {
-        reactionsResult.rows.forEach((r: any) => {
-          reactions[r.reaction_type] = parseInt(r.count || 0)
-        })
-      }
-      (reply as any).reactions = reactions
+      reactionsResult.rows.forEach((r: any) => {
+        reactions[r.reaction_type] = parseInt(r.count || 0)
+      })
+      reply.reactions = reactions
     }
 
     return replies
