@@ -11,13 +11,37 @@ export default function HomePage() {
 
   const handlePricingClick = async (plan: 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
     trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'free' ? 0 : plan === 'starter' ? 5 : plan === 'growth' ? 9 : plan === 'pro' ? 19 : plan === 'business' ? 39 : 89)
+    trackConversionEvent('pricing_click', plan === 'free' ? 0 : plan === 'starter' ? 9 : plan === 'growth' ? 19 : plan === 'pro' ? 49 : plan === 'business' ? 79 : 149)
     
     // Redirect to signup with plan parameter
     if (plan === 'free') {
       window.location.href = `/signup`
     } else {
     window.location.href = `/signup?plan=${plan}`
+    }
+  }
+
+  const handleBuyCredits = async (bundle: 'starter' | 'popular' | 'power') => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+    if (!token) {
+      window.location.href = '/signin?redirect=' + encodeURIComponent('/#credits')
+      return
+    }
+    try {
+      const res = await fetch('/api/user/purchase-credits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ bundle }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to start checkout')
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert(data.error || 'Could not open checkout')
+      }
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : 'Something went wrong')
     }
   }
 
@@ -50,7 +74,7 @@ Login to your dashboard: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creat
 
 Best regards,
 The CreatorFlow365 Team`,
-        from: 'CreatorFlow365 Team <noreply@creatorflow365.com>'
+        from: 'CreatorFlow365 Team <support@creatorflow365.com>'
       };
 
       // Send notification to you
@@ -58,7 +82,7 @@ The CreatorFlow365 Team`,
         to: 'partners.clearhub@gmail.com',
         subject: 'New CreatorFlow365 Signup!',
         message: `New CreatorFlow365 signup: ${email} at ${new Date().toLocaleString()}`,
-        from: 'CreatorFlow365 Signup <noreply@creatorflow365.com>'
+        from: 'CreatorFlow365 Signup <support@creatorflow365.com>'
       };
 
       // Send email using a working service that requires no setup
@@ -320,7 +344,7 @@ The CreatorFlow365 Team`,
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Starter</h3>
               <p className="text-xs text-gray-400 mb-4">Remove limits</p>
-              <div className="text-4xl font-bold mb-6">$5<span className="text-lg text-gray-400">/month</span></div>
+              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>3 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited documents</span></li>
@@ -338,9 +362,9 @@ The CreatorFlow365 Team`,
               </button>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-2">Growth</h3>
-              <p className="text-xs text-gray-400 mb-4">Actually helpful</p>
-              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-400">/month</span></div>
+              <h3 className="text-2xl font-bold mb-2">Essential</h3>
+              <p className="text-xs text-gray-400 mb-4">For creators building their workflow</p>
+              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>5 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
@@ -360,9 +384,9 @@ The CreatorFlow365 Team`,
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
-              <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <p className="text-xs text-gray-400 mb-4">Time saver</p>
-              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
+              <h3 className="text-2xl font-bold mb-2">Creator</h3>
+              <p className="text-xs text-gray-400 mb-4">For serious creators who want everything</p>
+              <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>10 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited AI calls</span></li>
@@ -380,9 +404,9 @@ The CreatorFlow365 Team`,
               </button>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-2">Business</h3>
-              <p className="text-xs text-gray-400 mb-4">Professional</p>
-              <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-gray-400">/month</span></div>
+              <h3 className="text-2xl font-bold mb-2">Professional</h3>
+              <p className="text-xs text-gray-400 mb-4">Complete toolkit for professional creators</p>
+              <div className="text-4xl font-bold mb-6">$79<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
@@ -401,11 +425,11 @@ The CreatorFlow365 Team`,
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
-                Enterprise Power
+                Teams &amp; agencies
               </div>
-              <h3 className="text-2xl font-bold mb-2">Agency</h3>
-              <p className="text-xs text-gray-400 mb-4">Unlimited scale</p>
-              <div className="text-4xl font-bold mb-6">$89<span className="text-lg text-gray-400">/month</span></div>
+              <h3 className="text-2xl font-bold mb-2">Business</h3>
+              <p className="text-xs text-gray-400 mb-4">For teams and agencies</p>
+              <div className="text-4xl font-bold mb-6">$149<span className="text-lg text-gray-400">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
@@ -495,6 +519,61 @@ The CreatorFlow365 Team`,
                 All purchased posts roll over forever and never expire
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Credit Bundles Section - agreed site pricing */}
+      <section id="credits" className="py-20 px-6 bg-gray-900/40">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Star className="w-8 h-8 text-white" />
+              <h2 className="text-3xl font-bold text-white">Credit Bundles</h2>
+            </div>
+            <p className="text-gray-300 text-lg mb-2">All plans include <strong className="text-white">25 free credits</strong> for your first month as a gift to try premium tools.</p>
+            <p className="text-gray-400 text-sm mb-4">Lower plans: Premium tools cost credits per use. Higher plans: Premium tools included in your plan have unlimited use (no credits needed). Purchase additional credits to unlock more premium tool uses. Purchased credits roll over month to month.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 text-center">
+                <h3 className="text-xl font-bold text-white mb-2">Starter Bundle</h3>
+                <div className="text-3xl font-bold text-white mb-1">$5</div>
+                <div className="text-sm text-gray-400 mb-3">50 credits · $0.10/credit</div>
+                <p className="text-xs text-gray-400 mb-4">Perfect for trying premium tools</p>
+                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 5 uses of Viral Predictor</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 10 uses of Brand Kit Manager</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 6 uses of Advanced Analytics</li>
+                </ul>
+                <button onClick={() => handleBuyCredits('starter')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
+              </div>
+              <div className="bg-gray-800/50 border-2 border-white rounded-xl p-6 text-center relative">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-0.5 rounded-full text-xs font-semibold">Most Popular</div>
+                <h3 className="text-xl font-bold text-white mb-2">Popular Bundle</h3>
+                <div className="text-3xl font-bold text-white mb-1">$10</div>
+                <div className="text-sm text-gray-400 mb-3">100 credits · $0.10/credit</div>
+                <p className="text-xs text-gray-400 mb-4">Best value for regular users</p>
+                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 10 uses of Viral Predictor</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 20 uses of Brand Kit Manager</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 12 uses of Advanced Analytics</li>
+                </ul>
+                <button onClick={() => handleBuyCredits('popular')} className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg font-medium transition-colors">Buy credits</button>
+              </div>
+              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 text-center">
+                <h3 className="text-xl font-bold text-white mb-2">Power Bundle</h3>
+                <div className="text-3xl font-bold text-white mb-1">$20</div>
+                <div className="text-sm text-green-400 mb-1">Save $5 (20% off)</div>
+                <div className="text-sm text-gray-400 mb-3">250 credits · $0.08/credit</div>
+                <p className="text-xs text-gray-400 mb-4">Best for power users</p>
+                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 25 uses of Viral Predictor</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 50 uses of Brand Kit Manager</li>
+                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 31 uses of Advanced Analytics</li>
+                </ul>
+                <button onClick={() => handleBuyCredits('power')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
+              </div>
+            </div>
+            <p className="text-sm text-gray-400 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
           </div>
         </div>
       </section>

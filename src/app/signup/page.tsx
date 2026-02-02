@@ -10,7 +10,10 @@ const VALID_PLANS: PlanType[] = ['free', 'starter', 'growth', 'pro', 'business',
 function normalizePlan(plan: string | null): PlanType | null {
   if (!plan) return null
   const p = plan.toLowerCase()
-  if (p === 'professional') return 'pro'
+  if (p === 'essential') return 'growth'
+  if (p === 'creator') return 'pro'
+  if (p === 'professional') return 'business'
+  if (p === 'business') return 'agency'
   return VALID_PLANS.includes(p as PlanType) ? (p as PlanType) : null
 }
 

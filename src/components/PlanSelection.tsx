@@ -34,7 +34,7 @@ const plans: Plan[] = [
   {
     id: 'starter',
     name: 'Starter',
-    price: 5,
+    price: 9,
     description: 'Remove limits - unlock full potential',
     features: [
       '3 social accounts',
@@ -48,9 +48,9 @@ const plans: Plan[] = [
   },
   {
     id: 'growth',
-    name: 'Growth',
+    name: 'Essential',
     price: 19,
-    description: 'Actually helpful - AI assistance included',
+    description: 'For creators building their workflow',
     features: [
       '5 social accounts',
       'Unlimited everything',
@@ -62,9 +62,9 @@ const plans: Plan[] = [
   },
   {
     id: 'pro',
-    name: 'Pro',
-    price: 29,
-    description: 'Time saver - full AI bot suite',
+    name: 'Creator',
+    price: 49,
+    description: 'For serious creators who want everything',
     popular: true,
     features: [
       '10 social accounts',
@@ -78,9 +78,9 @@ const plans: Plan[] = [
   },
   {
     id: 'business',
-    name: 'Business',
-    price: 39,
-    description: 'Professional - enhanced AI & team features',
+    name: 'Professional',
+    price: 79,
+    description: 'Complete toolkit for professional creators',
     features: [
       'Unlimited social accounts',
       'Maximum AI performance',
@@ -93,9 +93,9 @@ const plans: Plan[] = [
   },
   {
     id: 'agency',
-    name: 'Agency',
-    price: 89,
-    description: 'Enterprise power - unlimited scale',
+    name: 'Business',
+    price: 149,
+    description: 'For teams and agencies',
     features: [
       'Unlimited everything',
       'Maximum AI bot performance',

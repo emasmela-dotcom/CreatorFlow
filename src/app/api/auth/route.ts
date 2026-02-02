@@ -6,11 +6,15 @@ import bcrypt from 'bcryptjs'
 import { checkAbusePrevention, logSignupAttempt, getClientIdentifier, getDeviceFingerprint } from '@/lib/abusePrevention'
 
 // Lazy initialize Resend to avoid errors when API key is missing
+const DEFAULT_FROM = 'CreatorFlow365 <support@creatorflow365.com>'
 function getResend() {
   if (!process.env.RESEND_API_KEY) {
     return null
   }
   return new Resend(process.env.RESEND_API_KEY)
+}
+function getFromEmail() {
+  return process.env.RESEND_FROM_EMAIL || DEFAULT_FROM
 }
 
 export async function POST(request: NextRequest) {
@@ -109,19 +113,26 @@ export async function POST(request: NextRequest) {
       const deviceFingerprint = getDeviceFingerprint(request)
       await logSignupAttempt(userId, email, ipAddress, deviceFingerprint)
 
-      // Send welcome email (optional)
+      // Send welcome email (optional – set RESEND_API_KEY in Vercel)
       try {
         const resend = getResend()
         if (resend) {
+          const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
           await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: getFromEmail(),
             to: email,
-            subject: 'Welcome to CreatorFlow!',
-            html: '<p>Welcome to CreatorFlow! Your account has been created successfully.</p>'
-          });
+            subject: 'Welcome to CreatorFlow365',
+            html: `
+              <p>Hi,</p>
+              <p>Your CreatorFlow365 account is set up. You can sign in and start your free trial here:</p>
+              <p><a href="${appUrl}/signin">Sign in to CreatorFlow365</a></p>
+              <p>If you didn't create an account, you can ignore this email.</p>
+              <p>— CreatorFlow365</p>
+            `
+          })
         }
       } catch (emailError) {
-        console.error('Error sending welcome email:', emailError);
+        console.error('Error sending welcome email:', emailError)
       }
 
       const token = generateToken(userId, email)

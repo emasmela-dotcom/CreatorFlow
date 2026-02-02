@@ -8,19 +8,31 @@ import type { PlanType } from '@/components/PlanSelection'
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
   starter: 'Starter',
-  growth: 'Growth',
-  pro: 'Professional',
+  growth: 'Essential',
+  essential: 'Essential',
+  pro: 'Creator',
+  creator: 'Creator',
+  business: 'Professional',
   professional: 'Professional',
-  business: 'Business',
-  agency: 'Agency',
+  agency: 'Business',
+}
+
+function planParamToId(plan: string): PlanType {
+  const p = plan.toLowerCase()
+  if (p === 'essential') return 'growth'
+  if (p === 'creator') return 'pro'
+  if (p === 'professional') return 'business'
+  if (p === 'business') return 'agency'
+  if (['free', 'starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
+  return 'pro'
 }
 
 export default function SelectPlanPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const planParam = (searchParams.get('plan') || 'pro').toLowerCase()
-  const planId: PlanType = planParam === 'professional' ? 'pro' : (planParam as PlanType)
-  const planName = PLAN_NAMES[planParam] || PLAN_NAMES[planId] || 'Professional'
+  const planId = planParamToId(planParam)
+  const planName = PLAN_NAMES[planId] || PLAN_NAMES[planParam] || 'Creator'
 
   const [understood, setUnderstood] = useState(false)
 
