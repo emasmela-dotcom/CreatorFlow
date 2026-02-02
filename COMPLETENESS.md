@@ -15,6 +15,6 @@
 
 - **URL:** https://www.creatorflow365.com  
 - **Deploy:** Vercel, `main` branch.  
-- **Env:** `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_BASE_URL`, `DATABASE_URL` (or `NEON_DATABASE_URL`), Stripe keys.
+- **Env:** `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_BASE_URL`, `DATABASE_URL` (or `NEON_DATABASE_URL`), Stripe keys, **`RESEND_API_KEY`** (email). See **EMAIL_SETUP.md** for email setup.
 
 This file satisfies the Vercel “Add COMPLETENESS.md summary” requirement.
