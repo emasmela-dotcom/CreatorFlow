@@ -44,19 +44,45 @@ export async function POST(request: NextRequest) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session
         const userId = session.metadata?.userId
-        const planType = session.metadata?.planType
+        const type = session.metadata?.type
 
+        // One-time payment: additional posts or credit bundle
+        if (session.mode === 'payment' && userId && type) {
+          if (type === 'additional_posts') {
+            const quantity = parseInt(session.metadata?.quantity || '0', 10)
+            if (quantity > 0) {
+              await db.execute({
+                sql: `UPDATE users SET additional_posts_purchased = COALESCE(additional_posts_purchased, 0) + ? WHERE id = ?`,
+                args: [quantity, userId]
+              })
+              console.log(`✅ Added ${quantity} posts for user ${userId}`)
+            }
+          } else if (type === 'credit_bundle') {
+            const credits = parseInt(session.metadata?.credits || '0', 10)
+            if (credits > 0) {
+              await db.execute({
+                sql: `UPDATE users SET credits_balance = COALESCE(credits_balance, 0) + ? WHERE id = ?`,
+                args: [credits, userId]
+              })
+              console.log(`✅ Added ${credits} credits for user ${userId}`)
+            }
+          }
+          break
+        }
+
+        // Subscription checkout
+        const planType = session.metadata?.planType
         if (!userId || !planType) {
           console.error('Missing userId or planType in checkout session metadata')
           break
         }
 
-        // Update user subscription and trial info
         const stripe = getStripe()
-        const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
-        const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null
+        const subscriptionId = session.subscription as string | null
+        if (!subscriptionId) break
 
-        // Get post limit for this plan
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+        const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null
         const postLimit = getPostLimit(planType as any)
 
         await db.execute({

@@ -168,6 +168,7 @@ export interface User {
   preferred_platforms: string | null // JSON array of preferred platforms for content creation ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube']
   monthly_post_limit: number | null
   additional_posts_purchased: number | null
+  credits_balance: number | null
   created_at: string
   updated_at: string
 }
@@ -227,6 +228,7 @@ export async function initDatabase() {
         preferred_platforms TEXT,
         monthly_post_limit INTEGER,
         additional_posts_purchased INTEGER DEFAULT 0,
+        credits_balance INTEGER DEFAULT 0,
         content_types TEXT,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
@@ -246,6 +248,7 @@ export async function initDatabase() {
       { name: 'preferred_platforms', sql: `ALTER TABLE users ADD COLUMN preferred_platforms TEXT` },
       { name: 'monthly_post_limit', sql: `ALTER TABLE users ADD COLUMN monthly_post_limit INTEGER` },
       { name: 'additional_posts_purchased', sql: `ALTER TABLE users ADD COLUMN additional_posts_purchased INTEGER DEFAULT 0` },
+      { name: 'credits_balance', sql: `ALTER TABLE users ADD COLUMN credits_balance INTEGER DEFAULT 0` },
       { name: 'content_types', sql: `ALTER TABLE users ADD COLUMN content_types TEXT DEFAULT '[]'` },
       { name: 'created_at', sql: `ALTER TABLE users ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT NOW()` },
       { name: 'updated_at', sql: `ALTER TABLE users ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW()` },
