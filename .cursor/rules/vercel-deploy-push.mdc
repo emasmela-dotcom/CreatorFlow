@@ -1,0 +1,14 @@
+---
+description: Whenever Vercel deployment needs to be made, push to git
+alwaysApply: true
+---
+
+# Vercel Deployment = Push to Git
+
+Whenever a Vercel deployment is needed (so the live site at creatorflow365.com or the project’s Vercel URL gets the latest code):
+
+1. **Commit first** – Ensure all relevant changes are committed with a clear message (see save-after-accomplishments rule).
+2. **Push to git** – Run `git push origin main` (or the current branch). Vercel is connected to the repo and deploys on push.
+3. **Do not** – Tell the user to “deploy to Vercel” or “push to trigger deploy” without actually running the push. Run the push so the deployment happens.
+
+If the user asks how to deploy or says deployment is needed, run the push after commits are in place (and create commits if there are uncommitted changes).
