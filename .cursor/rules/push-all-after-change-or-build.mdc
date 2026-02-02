@@ -1,0 +1,15 @@
+---
+description: After any change or build, commit and push everything that needs it
+alwaysApply: true
+---
+
+# Push Everything After Change or Build
+
+After making code changes or after a build (fixes, features, or deployment-related work):
+
+1. **Include all related changes** – Commit every modified or new file that is part of the work. Do not leave uncommitted changes behind when they belong with the change or build.
+2. **Check git status** – Run `git status` and add any files that should go with the accomplishment (new files, modified files, deleted files).
+3. **Commit with a clear message** – One commit per logical accomplishment; message summarizes what was done.
+4. **Push** – Run `git push origin main` (or the current branch) so the remote has the full set of changes and deploys (e.g. Vercel) run on the complete state.
+
+If you fixed a build or deployment, ensure all related code changes from that effort are committed and pushed together—not only the one or two files from the latest edit.
