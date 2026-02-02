@@ -35,8 +35,8 @@ export default function HomePage() {
       // Send email using a simple service
       const emailData = {
         to: email,
-        subject: 'Welcome to CreatorFlow - Your Free Trial is Ready!',
-        message: `Welcome to CreatorFlow! Your 14-day free trial is now active.
+        subject: 'Welcome to CreatorFlow365 - Your Free Trial is Ready!',
+        message: `Welcome to CreatorFlow365! Your 14-day free trial is now active.
 
 Here's what you get:
 ✅ Advanced Analytics Dashboard
@@ -49,15 +49,15 @@ Here's what you get:
 Login to your dashboard: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/dashboard
 
 Best regards,
-The CreatorFlow Team`,
+The CreatorFlow365 Team`,
         from: 'CreatorFlow365 Team <noreply@creatorflow365.com>'
       };
 
       // Send notification to you
       const notificationData = {
         to: 'partners.clearhub@gmail.com',
-        subject: 'New CreatorFlow Signup!',
-        message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`,
+        subject: 'New CreatorFlow365 Signup!',
+        message: `New CreatorFlow365 signup: ${email} at ${new Date().toLocaleString()}`,
         from: 'CreatorFlow365 Signup <noreply@creatorflow365.com>'
       };
 
@@ -71,10 +71,10 @@ The CreatorFlow Team`,
           },
           body: JSON.stringify({
             access_key: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', // This is a demo key
-            name: 'CreatorFlow Signup',
+            name: 'CreatorFlow365 Signup',
             email: 'partners.clearhub@gmail.com',
-            subject: 'New CreatorFlow Signup!',
-            message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`
+            subject: 'New CreatorFlow365 Signup!',
+            message: `New CreatorFlow365 signup: ${email} at ${new Date().toLocaleString()}`
           })
         });
 
@@ -87,7 +87,7 @@ The CreatorFlow Team`,
           body: JSON.stringify({
             email: email,
             message: emailData.message,
-            subject: 'Welcome to CreatorFlow - Your Free Trial is Ready!'
+            subject: 'Welcome to CreatorFlow365 - Your Free Trial is Ready!'
           })
         });
 
@@ -119,7 +119,7 @@ The CreatorFlow Team`,
       <header className="absolute top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-white">
-            CreatorFlow
+            CreatorFlow365
           </h1>
           <div className="flex items-center gap-4">
             <button
@@ -162,7 +162,7 @@ The CreatorFlow Team`,
         <div className="absolute inset-0 bg-gray-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
-            CreatorFlow
+            CreatorFlow365
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
             The all-in-one platform for content creators to manage, schedule, and monetize their content
@@ -196,7 +196,7 @@ The CreatorFlow Team`,
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Keep your changes when you subscribe</p>
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
-              <strong className="text-white">How it works:</strong> Create and manage all your content within CreatorFlow, then simply copy and paste to your social media platforms. We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube.
+              <strong className="text-white">How it works:</strong> Create and manage all your content within CreatorFlow365, then simply copy and paste to your social media platforms. We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube.
             </p>
           </div>
         </div>
@@ -540,7 +540,7 @@ The CreatorFlow Team`,
               <div className="bg-gray-800/50 border-2 border-white rounded-lg p-5 mt-6">
                 <p className="text-xs font-bold text-white uppercase tracking-wide mb-2">Our Commitment</p>
                 <p className="text-white">
-                  CreatorFlow believes in creator-first ownership. Once you become a paying member, all content you create 
+                  CreatorFlow365 believes in creator-first ownership. Once you become a paying member, all content you create 
                   through our platform is immediately and permanently yours. We compete on quality, not restrictions.
                 </p>
               </div>
@@ -575,7 +575,7 @@ The CreatorFlow Team`,
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-800">
         <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-4">CreatorFlow</h3>
+          <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>

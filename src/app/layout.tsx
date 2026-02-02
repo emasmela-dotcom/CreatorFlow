@@ -7,12 +7,12 @@ import { GA_TRACKING_ID } from '@/lib/analytics'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'CreatorFlow - The Ultimate Content Creator Platform',
-  description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue with our all-in-one platform. 15-day free trial available.',
-  keywords: 'content creator, social media management, analytics, brand collaborations, creator tools, Instagram scheduler, Twitter scheduler, LinkedIn scheduler, YouTube scheduler',
-  authors: [{ name: 'CreatorFlow' }],
-  creator: 'CreatorFlow',
-  publisher: 'CreatorFlow',
+  title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
+  description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 15-day free trial. Store, organize, and manage your content in your personal cloud library.',
+  keywords: 'content creator, social media management, creator tools, micro-saas, analytics, Instagram scheduler, Twitter scheduler, LinkedIn scheduler, YouTube scheduler, content library',
+  authors: [{ name: 'CreatorFlow365' }],
+  creator: 'CreatorFlow365',
+  publisher: 'CreatorFlow365',
   manifest: '/manifest.json',
   robots: {
     index: true,
@@ -26,18 +26,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow - The Ultimate Content Creator Platform',
-    description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue.',
+    title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
+    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 15-day free trial.',
     type: 'website',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
-    siteName: 'CreatorFlow',
+    siteName: 'CreatorFlow365',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow - The Ultimate Content Creator Platform',
-    description: 'Scale your content creation business with CreatorFlow.',
-    creator: '@creatorflow',
+    title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
+    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place.',
+    creator: '@creatorflow365',
   },
   alternates: {
     canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'CreatorFlow',
+    title: 'CreatorFlow365',
   },
 }
 

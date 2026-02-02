@@ -1,5 +1,5 @@
 ---
-description: Save and commit automatically after completing accomplishments
+description: Save, commit, and push after completing accomplishments
 alwaysApply: true
 ---
 
@@ -10,3 +10,4 @@ After completing meaningful work (new features, fixes, refactors, or multi-step 
 1. **Ensure files are saved** – Edits are written to disk.
 2. **Commit on your own** – Run a git commit with a short message that summarizes what was done (e.g. "Add select-plan page, point buttons to signup" or "Fix production URL defaults to creatorflow365.com").
 3. **One commit per accomplishment** – One logical change per commit; message clear and concise.
+4. **Push after commit** – Run `git push origin main` (or the current branch) so the work is on the remote and deploys can run.
