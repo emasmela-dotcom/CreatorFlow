@@ -5,7 +5,7 @@
  * Initializes the new database tables (hashtag_sets, content_templates, engagement_inbox)
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-live.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 async function runMigration() {
   console.log('🚀 Running database migration...')

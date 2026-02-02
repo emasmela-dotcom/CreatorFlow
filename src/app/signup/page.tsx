@@ -6,10 +6,18 @@ import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
 
+const VALID_PLANS: PlanType[] = ['free', 'starter', 'growth', 'pro', 'business', 'agency']
+function normalizePlan(plan: string | null): PlanType | null {
+  if (!plan) return null
+  const p = plan.toLowerCase()
+  if (p === 'professional') return 'pro'
+  return VALID_PLANS.includes(p as PlanType) ? (p as PlanType) : null
+}
+
 function SignupPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const preSelectedPlan = searchParams.get('plan') as PlanType | null
+  const preSelectedPlan = normalizePlan(searchParams.get('plan'))
 
   const [step, setStep] = useState<'plan' | 'account' | 'payment'>(preSelectedPlan ? 'account' : 'plan')
   const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(preSelectedPlan)
@@ -258,13 +266,23 @@ function SignupPageContent() {
               </div>
 
               <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => setStep('plan')}
-                  className="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors"
-                >
-                  Back
-                </button>
+                {!preSelectedPlan ? (
+                  <button
+                    type="button"
+                    onClick={() => setStep('plan')}
+                    className="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors"
+                  >
+                    Back
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/select-plan?plan=${selectedPlan}`)}
+                    className="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors"
+                  >
+                    Back
+                  </button>
+                )}
                 <button
                   type="submit"
                   disabled={loading || !selectedPlan}
@@ -332,6 +350,11 @@ function SignupPageContent() {
 
                       const checkoutData = await checkoutResponse.json()
 
+                      if (checkoutResponse.status === 401) {
+                        setError('Your session expired. Please sign in or create an account again, then come back to complete checkout.')
+                        setLoading(false)
+                        return
+                      }
                       if (!checkoutResponse.ok) {
                         throw new Error(checkoutData.error || 'Failed to create checkout session')
                       }
@@ -361,8 +384,14 @@ function SignupPageContent() {
                 </button>
 
                 {error && (
-                  <div className="mt-4 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm">
-                    {error}
+                  <div className="mt-4 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm space-y-2">
+                    <p>{error}</p>
+                    {(error.includes('session expired') || error.includes('Unauthorized')) && (
+                      <div className="flex gap-3 mt-2">
+                        <button type="button" onClick={() => router.push('/signin')} className="text-sm underline hover:no-underline text-white">Sign in</button>
+                        <button type="button" onClick={() => router.push('/signup')} className="text-sm underline hover:no-underline text-white">Start over (create account)</button>
+                      </div>
+                    )}
                   </div>
                 )}
 

@@ -46,11 +46,11 @@ Here's what you get:
 ✅ Hashtag Research
 ✅ Performance Insights
 
-Login to your dashboard: ${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai'}/dashboard
+Login to your dashboard: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/dashboard
 
 Best regards,
 The CreatorFlow Team`,
-        from: 'CreatorFlow Team <noreply@creatorflow.com>'
+        from: 'CreatorFlow365 Team <noreply@creatorflow365.com>'
       };
 
       // Send notification to you
@@ -58,7 +58,7 @@ The CreatorFlow Team`,
         to: 'partners.clearhub@gmail.com',
         subject: 'New CreatorFlow Signup!',
         message: `New CreatorFlow signup: ${email} at ${new Date().toLocaleString()}`,
-        from: 'CreatorFlow Signup <noreply@creatorflow.com>'
+        from: 'CreatorFlow365 Signup <noreply@creatorflow365.com>'
       };
 
       // Send email using a working service that requires no setup

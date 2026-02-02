@@ -8,7 +8,7 @@
 const https = require('https');
 const http = require('http');
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-live.vercel.app';
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com';
 const MAX_ATTEMPTS = 30; // 5 minutes total
 const DELAY_BETWEEN_ATTEMPTS = 10000; // 10 seconds
 

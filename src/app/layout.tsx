@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'CreatorFlow - The Ultimate Content Creator Platform',
     description: 'Scale your content creation business with CreatorFlow. Manage all your social media accounts, track analytics, and grow your revenue.',
     type: 'website',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
     siteName: 'CreatorFlow',
     locale: 'en_US',
   },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     creator: '@creatorflow',
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow.ai',
+    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
   },
   appleWebApp: {
     capable: true,

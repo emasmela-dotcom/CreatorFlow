@@ -108,8 +108,8 @@ export async function POST(request: NextRequest) {
           planType: planType,
         },
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/dashboard?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-iota.vercel.app'}/signup?canceled=true`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/dashboard?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/signup?canceled=true`,
       metadata: {
         userId: user.id,
         planType: planType,

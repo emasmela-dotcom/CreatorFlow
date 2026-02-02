@@ -5,7 +5,7 @@
  * Actually tests tool functionality, not just endpoint existence
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-iota.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 // Test results storage
 const results = {

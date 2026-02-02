@@ -6,13 +6,13 @@
  *   node scripts/setup-production-db.js
  * 
  * Or set BASE_URL:
- *   BASE_URL=https://creatorflow-live.vercel.app node scripts/setup-production-db.js
+ *   BASE_URL=https://www.creatorflow365.com node scripts/setup-production-db.js
  */
 
 const https = require('https');
 const http = require('http');
 
-const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://creatorflow-live.vercel.app';
+const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com';
 
 async function makeRequest(url, options = {}) {
   return new Promise((resolve, reject) => {

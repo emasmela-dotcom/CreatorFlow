@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
 
       // Get plan type from request (optional, defaults to 'starter' for backward compatibility)
       const { planType } = body
-      const subscriptionTier = planType || 'starter'
+      const rawTier = (planType || 'starter').toLowerCase()
+      const subscriptionTier = rawTier === 'professional' ? 'pro' : rawTier
 
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10)

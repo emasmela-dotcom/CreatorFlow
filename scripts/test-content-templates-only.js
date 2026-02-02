@@ -5,7 +5,7 @@
  * This will verify the table schema is correct
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-iota.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 async function testContentTemplates() {
   console.log('🧪 Testing Content Templates API...')

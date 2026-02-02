@@ -8,7 +8,7 @@
  * 3. Copy/paste to Documents feature
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-iota.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 const results = {
   timestamp: new Date().toISOString(),

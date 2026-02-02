@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
  * Creates or retrieves a demo account for exploring the site
  */
 
-const DEMO_EMAIL = 'demo@creatorflow.ai'
+const DEMO_EMAIL = 'demo@creatorflow365.com'
 const DEMO_PASSWORD = 'DemoAccount2025!'
 
 /**

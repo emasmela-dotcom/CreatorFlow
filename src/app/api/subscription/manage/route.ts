@@ -155,7 +155,7 @@ export async function DELETE(request: NextRequest) {
 
     // Trigger restore process
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/restore`, {
+      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/api/restore`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

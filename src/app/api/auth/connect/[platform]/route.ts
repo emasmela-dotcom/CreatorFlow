@@ -65,7 +65,7 @@ export async function GET(
       }, { status: 400 })
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
     const redirectUri = `${baseUrl}/api/auth/callback/${platform}`
     const state = Buffer.from(JSON.stringify({ userId: user.userId })).toString('base64')
 

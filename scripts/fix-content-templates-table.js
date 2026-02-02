@@ -4,7 +4,7 @@
  * Fix content_templates table - ensure user_id column exists
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-iota.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 async function fixTable() {
   console.log('🔧 Fixing content_templates table...')

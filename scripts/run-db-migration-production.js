@@ -5,7 +5,7 @@
  * Creates all missing tables
  */
 
-const BASE_URL = process.env.BASE_URL || 'https://creatorflow-iota.vercel.app'
+const BASE_URL = process.env.BASE_URL || 'https://www.creatorflow365.com'
 
 async function runMigration() {
   console.log('🚀 Running database migration on production...')

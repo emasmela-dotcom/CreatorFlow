@@ -1,0 +1,12 @@
+---
+description: Save and commit automatically after completing accomplishments
+alwaysApply: true
+---
+
+# Save After Accomplishments
+
+After completing meaningful work (new features, fixes, refactors, or multi-step tasks):
+
+1. **Ensure files are saved** – Edits are written to disk.
+2. **Commit on your own** – Run a git commit with a short message that summarizes what was done (e.g. "Add select-plan page, point buttons to signup" or "Fix production URL defaults to creatorflow365.com").
+3. **One commit per accomplishment** – One logical change per commit; message clear and concise.

@@ -6,7 +6,7 @@
 
 ### Production:
 ```
-https://creatorflow.ai/demo
+https://www.creatorflow365.com/demo
 ```
 
 ### Local Development:
@@ -52,7 +52,7 @@ The demo link is also visible on the homepage - click **"Try Demo (No Signup)"**
 
 ## Demo Account Details
 
-- **Email:** `demo@creatorflow.ai`
+- **Email:** `demo@creatorflow365.com`
 - **Plan:** Free
 - **Pre-populated:** Yes (sample content included)
 - **Persistent:** Yes (same demo account for all visitors)
@@ -63,7 +63,7 @@ The demo link is also visible on the homepage - click **"Try Demo (No Signup)"**
 
 **Just share this link:**
 ```
-https://creatorflow.ai/demo
+https://www.creatorflow365.com/demo
 ```
 
 **They click it → Automatically logged in → Can explore everything!**

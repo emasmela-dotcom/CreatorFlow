@@ -27,13 +27,13 @@ export async function GET(
 
   if (error) {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/dashboard?error=oauth_cancelled`
+      `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'}/dashboard?error=oauth_cancelled`
     )
   }
 
   if (!code || !state) {
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/dashboard?error=oauth_failed`
+      `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'}/dashboard?error=oauth_failed`
     )
   }
 
@@ -47,7 +47,7 @@ export async function GET(
     }
 
     const platformLower = platform.toLowerCase()
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
     const redirectUri = `${baseUrl}/api/auth/callback/${platformLower}`
 
     // Exchange code for access token (platform-specific)
@@ -101,7 +101,7 @@ export async function GET(
   } catch (error: any) {
     console.error('OAuth callback error:', error)
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/dashboard?error=oauth_failed&message=${encodeURIComponent(error.message)}`
+      `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'}/dashboard?error=oauth_failed&message=${encodeURIComponent(error.message)}`
     )
   }
 }
