@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import type { PlanType } from '@/components/PlanSelection'
 
@@ -27,7 +27,7 @@ function planParamToId(plan: string): PlanType {
   return 'pro'
 }
 
-export default function SelectPlanPage() {
+function SelectPlanContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const planParam = (searchParams.get('plan') || 'pro').toLowerCase()
@@ -106,5 +106,17 @@ export default function SelectPlanPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function SelectPlanPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <span className="text-gray-400">Loading...</span>
+      </div>
+    }>
+      <SelectPlanContent />
+    </Suspense>
   )
 }
