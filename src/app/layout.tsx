@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Script from 'next/script'
 import { GA_TRACKING_ID } from '@/lib/analytics'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
@@ -90,7 +87,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className={inter.className}>
+      <body>
         {children}
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`
