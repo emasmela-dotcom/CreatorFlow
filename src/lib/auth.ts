@@ -9,19 +9,12 @@ import { db } from './db'
 
 const JWT_SECRET = process.env.JWT_SECRET
 
-// ENFORCE STRONG JWT SECRET
-if (!JWT_SECRET) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('JWT_SECRET environment variable is required in production!')
-  }
+// Log warnings only at module load; do not throw so the build can complete.
+// JWT_SECRET is enforced at runtime in verifyAuth/createToken when NODE_ENV === 'production'.
+if (!JWT_SECRET && process.env.NODE_ENV !== 'production') {
   console.warn('⚠️  JWT_SECRET not set - using fallback (NOT SECURE FOR PRODUCTION)')
 }
-
-// Validate JWT secret strength
-if (JWT_SECRET && (JWT_SECRET === 'your-secret-key-change-in-production' || JWT_SECRET.length < 32)) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('JWT_SECRET must be at least 32 characters long and not use the default value!')
-  }
+if (JWT_SECRET && (JWT_SECRET === 'your-secret-key-change-in-production' || JWT_SECRET.length < 32) && process.env.NODE_ENV !== 'production') {
   console.warn('⚠️  JWT_SECRET is too weak or using default value')
 }
 
