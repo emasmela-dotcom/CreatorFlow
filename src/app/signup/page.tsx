@@ -6,7 +6,7 @@ import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
 
-const VALID_PLANS: PlanType[] = ['free', 'starter', 'growth', 'pro', 'business', 'agency']
+const VALID_PLANS: PlanType[] = ['starter', 'growth', 'pro', 'business', 'agency']
 function normalizePlan(plan: string | null): PlanType | null {
   if (!plan) return null
   const p = plan.toLowerCase()
@@ -75,36 +75,6 @@ function SignupPageContent() {
       // Store token for next step
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user))
-
-      // Handle FREE plan - skip payment, activate directly
-      if (selectedPlan === 'free') {
-        try {
-          const freePlanResponse = await fetch('/api/stripe/trial', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              planType: 'free',
-            }),
-          })
-
-          const freePlanData = await freePlanResponse.json()
-          
-          if (freePlanResponse.ok) {
-            // Free plan activated, redirect to dashboard
-            router.push('/dashboard?plan=free&activated=true')
-            return
-          } else {
-            throw new Error(freePlanData.error || 'Failed to activate free plan')
-          }
-        } catch (err: any) {
-          setError(err.message || 'Failed to activate free plan')
-          setLoading(false)
-          return
-        }
-      }
 
       // Move to payment step (Stripe checkout) for paid plans
       setStep('payment')
@@ -302,7 +272,7 @@ function SignupPageContent() {
           </div>
         )}
 
-        {step === 'payment' && selectedPlan && selectedPlan !== 'free' && (
+        {step === 'payment' && selectedPlan && (
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4">Complete Your Trial Setup</h2>

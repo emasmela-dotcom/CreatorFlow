@@ -23,7 +23,8 @@ function planParamToId(plan: string): PlanType {
   if (p === 'creator') return 'pro'
   if (p === 'professional') return 'business'
   if (p === 'business') return 'agency'
-  if (['free', 'starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
+  if (p === 'free') return 'starter' // free plan removed; redirect to starter
+  if (['starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
   return 'pro'
 }
 

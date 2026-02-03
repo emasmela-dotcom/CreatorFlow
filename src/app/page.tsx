@@ -9,16 +9,10 @@ export default function HomePage() {
   const [email, setEmail] = useState('')
   const { trackEvent, trackConversionEvent } = useAnalytics()
 
-  const handlePricingClick = async (plan: 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
+  const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
     trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'free' ? 0 : plan === 'starter' ? 9 : plan === 'growth' ? 19 : plan === 'pro' ? 49 : plan === 'business' ? 79 : 149)
-    
-    // Redirect to signup with plan parameter
-    if (plan === 'free') {
-      window.location.href = `/signup`
-    } else {
+    trackConversionEvent('pricing_click', plan === 'starter' ? 9 : plan === 'growth' ? 19 : plan === 'pro' ? 49 : plan === 'business' ? 79 : 149)
     window.location.href = `/signup?plan=${plan}`
-    }
   }
 
   const handleBuyCredits = async (bundle: 'starter' | 'popular' | 'power') => {
@@ -320,27 +314,6 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
           <div className="flex flex-wrap justify-center gap-6">
-            <div className="bg-gray-800/50 p-8 rounded-xl border border-green-500/30 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-              <h3 className="text-2xl font-bold mb-2">Free</h3>
-              <p className="text-xs text-gray-400 mb-4">Perfect for getting started</p>
-              <div className="text-4xl font-bold mb-6">$0<span className="text-lg text-gray-400">/month</span></div>
-              <p className="text-sm text-green-400 mb-4 font-semibold">Forever free</p>
-              <ul className="space-y-2 mb-8 text-sm">
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>1 social account</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>All core tools</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>10 documents</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>5 hashtag sets</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>3 content templates</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>50 AI calls/month</span></li>
-                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Community support</span></li>
-              </ul>
-              <button 
-                onClick={() => handlePricingClick('free')}
-                className="w-full py-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors font-semibold"
-              >
-                Get Started Free
-              </button>
-            </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Starter</h3>
               <p className="text-xs text-gray-400 mb-4">Remove limits</p>

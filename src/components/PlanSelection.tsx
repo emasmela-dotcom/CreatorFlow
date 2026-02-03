@@ -16,22 +16,6 @@ export interface Plan {
 
 const plans: Plan[] = [
   {
-    id: 'free',
-    name: 'Free',
-    price: 0,
-    description: 'Perfect for getting started - all core tools',
-    features: [
-      '1 social account',
-      'All core tools (Hashtag Research, Templates, Engagement Inbox)',
-      '10 documents',
-      '5 hashtag sets',
-      '3 content templates',
-      '50 AI bot calls per month',
-      'Basic AI features',
-      'Community support'
-    ]
-  },
-  {
     id: 'starter',
     name: 'Starter',
     price: 9,
