@@ -199,22 +199,25 @@ export async function checkAbusePrevention(
     }
   }
   
-  // 2. Rate limit signups from same IP (max 3 per hour)
-  const rateLimit = checkRateLimit(ipAddress, {
-    maxRequests: 3,
-    windowMs: 60 * 60 * 1000, // 1 hour
-    identifier: 'signup'
-  })
-  
-  if (!rateLimit.allowed) {
-    return {
-      allowed: false,
-      reason: 'Too many signup attempts from this IP. Please try again later.'
+  // 2. Rate limit signups from same IP (max 3 per hour) — skip in Preview/staging for testing
+  const isPreview = process.env.VERCEL_ENV === 'preview'
+  const skipRateLimit = isPreview || process.env.DISABLE_SIGNUP_RATE_LIMIT === 'true'
+  if (!skipRateLimit) {
+    const rateLimit = checkRateLimit(ipAddress, {
+      maxRequests: 3,
+      windowMs: 60 * 60 * 1000, // 1 hour
+      identifier: 'signup'
+    })
+    if (!rateLimit.allowed) {
+      return {
+        allowed: false,
+        reason: 'Too many signup attempts from this IP. Please try again later.'
+      }
     }
   }
-  
-  // 3. Check IP account limit
-  const ipCheck = await checkIPAccountLimit(ipAddress, 3)
+
+  // 3. Check IP account limit — skip in Preview for testing
+  const ipCheck = skipRateLimit ? { allowed: true, count: 0 } : await checkIPAccountLimit(ipAddress, 3)
   if (!ipCheck.allowed) {
     return {
       allowed: false,
@@ -222,21 +225,25 @@ export async function checkAbusePrevention(
     }
   }
   
-  // 4. Check email domain limit
-  const domainCheck = await checkEmailDomainLimit(email, 2)
-  if (!domainCheck.allowed) {
-    return {
-      allowed: false,
-      reason: `Maximum of 2 accounts per email domain. This domain already has ${domainCheck.count} account(s).`
+  // 4. Check email domain limit — skip in Preview for testing
+  if (!skipRateLimit) {
+    const domainCheck = await checkEmailDomainLimit(email, 2)
+    if (!domainCheck.allowed) {
+      return {
+        allowed: false,
+        reason: `Maximum of 2 accounts per email domain. This domain already has ${domainCheck.count} account(s).`
+      }
     }
   }
-  
-  // 5. Check device fingerprint limit
-  const deviceCheck = await checkDeviceLimit(deviceFingerprint, 2)
-  if (!deviceCheck.allowed) {
-    return {
-      allowed: false,
-      reason: 'Maximum of 2 accounts per device. Please use a different device or contact support.'
+
+  // 5. Check device fingerprint limit — skip in Preview for testing
+  if (!skipRateLimit) {
+    const deviceCheck = await checkDeviceLimit(deviceFingerprint, 2)
+    if (!deviceCheck.allowed) {
+      return {
+        allowed: false,
+        reason: 'Maximum of 2 accounts per device. Please use a different device or contact support.'
+      }
     }
   }
   

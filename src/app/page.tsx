@@ -156,7 +156,7 @@ The CreatorFlow365 Team`,
               onClick={() => window.location.href = '/signup'}
               className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all"
             >
-              Get Started
+              Sign up
             </button>
           </div>
         </div>
