@@ -1,0 +1,14 @@
+---
+description: Give the exact thing to run (SQL, command, code)—no long instructions
+alwaysApply: true
+---
+
+# Keep It Simple: Give the Exact Thing to Run
+
+When the user needs to run something (SQL, a terminal command, or code):
+
+1. **Lead with the runnable thing** – Put the full SQL, command, or code in the response so they can copy and run it. Do not only say "open file X" or "run the script in folder Y."
+2. **Skip long step-by-step** – Avoid multi-paragraph "first go here, then click that, then copy from…" unless they asked for a walkthrough. Prefer: paste this → run.
+3. **One block, one action** – One code block (or one clear command) that does the job. If they need to run it in a specific place (e.g. Neon SQL Editor), one short line is enough: "Run this in Neon SQL Editor" then the SQL.
+
+Exception: If they explicitly ask for a walkthrough or explanation, give it.
