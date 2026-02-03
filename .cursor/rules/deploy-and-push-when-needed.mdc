@@ -1,0 +1,15 @@
+---
+description: Deploy and push to git when deployment or delivery is needed
+alwaysApply: true
+---
+
+# Deploy and Push When Needed
+
+When deployment or push is needed:
+
+1. **When it’s needed** – User asks to deploy, redeploy, or push; or you finish meaningful work (fixes, features, config) that should go live or be on the remote.
+2. **Commit first** – Stage all related changes and commit with a clear message (one commit per logical change).
+3. **Push** – Run `git push origin <current-branch>` (e.g. `main` or `staging`). Do not only suggest it; run the push so the deploy happens.
+4. **Branch** – Push the branch you’re on so the right environment updates (e.g. `main` → production, `staging` → preview).
+
+If there are uncommitted changes that belong to the work, include them in the commit before pushing.
