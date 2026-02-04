@@ -6,18 +6,18 @@ Use this to clean up final details before heavy marketing.
 
 ## 1. Stripe & Payments
 
-- [ ] Stripe products and prices match the site
-  - [ ] Starter plan – price and interval correct
-  - [ ] Essential plan – price and interval correct
-  - [ ] Creator plan – price and interval correct
-  - [ ] Professional plan – price and interval correct
-  - [ ] Business plan – price and interval correct
-- [ ] Vercel env vars use the correct live price IDs
-  - [ ] `STRIPE_PRICE_STARTER`
-  - [ ] `STRIPE_PRICE_GROWTH`
-  - [ ] `STRIPE_PRICE_PRO`
-  - [ ] `STRIPE_PRICE_BUSINESS`
-  - [ ] `STRIPE_PRICE_AGENCY`
+- [x] Stripe products and prices match the site
+  - [x] Starter plan – price and interval correct
+  - [x] Essential plan – price and interval correct
+  - [x] Creator plan – price and interval correct
+  - [x] Professional plan – price and interval correct
+  - [x] Business plan – price and interval correct
+- [x] Vercel env vars use the correct live price IDs
+  - [x] `STRIPE_PRICE_STARTER`
+  - [x] `STRIPE_PRICE_GROWTH`
+  - [x] `STRIPE_PRICE_PRO`
+  - [x] `STRIPE_PRICE_BUSINESS`
+  - [x] `STRIPE_PRICE_AGENCY`
 - [x] Stripe keys and webhook secret are live and current
   - [x] `STRIPE_SECRET_KEY`
   - [x] `STRIPE_WEBHOOK_SECRET`
