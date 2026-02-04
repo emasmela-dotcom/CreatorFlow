@@ -54,10 +54,9 @@ const plans: Plan[] = [
       '10 social accounts',
       'Unlimited AI bot calls',
       'Premium AI features',
-      'Advanced analytics with insights',
-      'Team collaboration (3 members)',
-      'API access',
-      'Priority support (12hr response)'
+      'Analytics with clear insights',
+      'Team collaboration (up to 3)',
+      'API access & priority support'
     ]
   },
   {
@@ -67,11 +66,10 @@ const plans: Plan[] = [
     description: 'Complete toolkit for professional creators',
     features: [
       'Unlimited social accounts',
-      'Maximum AI performance',
-      'Premium analytics with predictions',
-      'Team collaboration (10 members)',
+      'Fastest AI performance',
+      'Advanced analytics & reporting',
+      'Team collaboration (up to 10)',
       'White-label options',
-      'Advanced API access',
       'Priority support (6hr response)'
     ]
   },
@@ -82,10 +80,10 @@ const plans: Plan[] = [
     description: 'For teams and agencies',
     features: [
       'Unlimited everything',
-      'Maximum AI bot performance',
-      'Enterprise analytics & custom reporting',
+      'Maximum AI performance',
+      'Enterprise analytics & custom reports',
       'Full white-label',
-      'Unlimited team collaboration',
+      'Unlimited team members',
       'Custom integrations & API access',
       'Dedicated account manager',
       'Priority support (2hr response)'
