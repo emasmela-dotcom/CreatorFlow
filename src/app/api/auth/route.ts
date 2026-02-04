@@ -66,11 +66,20 @@ export async function POST(request: NextRequest) {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10)
 
-        // Create user with UUID
+      // Trial without Stripe: 15 days from signup; user adds payment when ready to keep content
+      const now = new Date()
+      const trialEnd = new Date(now)
+      trialEnd.setDate(trialEnd.getDate() + 15)
+      const trialStartedAt = now.toISOString()
+      const trialEndAt = trialEnd.toISOString()
+      const trialPlan = subscriptionTier
+
+        // Create user with UUID and trial (no payment yet)
         const userId = crypto.randomUUID()
         await db.execute({
-          sql: 'INSERT INTO users (id, email, password_hash, subscription_tier, created_at) VALUES (?, ?, ?, ?, ?)',
-          args: [userId, email, hashedPassword, subscriptionTier, new Date().toISOString()]
+          sql: `INSERT INTO users (id, email, password_hash, subscription_tier, created_at, trial_started_at, trial_end_at, trial_plan)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          args: [userId, email, hashedPassword, subscriptionTier, now.toISOString(), trialStartedAt, trialEndAt, trialPlan]
         })
 
       // Create account snapshot (empty state) for potential restore

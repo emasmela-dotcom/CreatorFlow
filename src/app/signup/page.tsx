@@ -19,19 +19,19 @@ function normalizePlan(plan: string | null): PlanType | null {
 
 function SignupPageContent() {
   const router = useRouter()
-  const [step, setStep] = useState<'plan' | 'account' | 'payment'>('plan')
+  // Sign up = create account first; plan is optional (user chooses after: surf site, pick plan, etc.)
+  const [step, setStep] = useState<'plan' | 'account' | 'payment'>('account')
   const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(null)
   const [planFromUrlApplied, setPlanFromUrlApplied] = useState(false)
   const [hadPlanInUrl, setHadPlanInUrl] = useState(false)
 
-  // Read ?plan= from URL after mount so the page can be statically generated (avoids useSearchParams)
+  // If ?plan= in URL, pre-fill plan (e.g. from pricing page) but still show account first
   useEffect(() => {
     if (planFromUrlApplied || typeof window === 'undefined') return
     const params = new URLSearchParams(window.location.search)
     const plan = normalizePlan(params.get('plan'))
     if (plan) {
       setSelectedPlan(plan)
-      setStep('account')
       setHadPlanInUrl(true)
     }
     setPlanFromUrlApplied(true)
@@ -94,8 +94,8 @@ function SignupPageContent() {
         localStorage.setItem('user', JSON.stringify(user))
       }
 
-      // Land in dashboard and use trial; subscribe to keep content when ready (from dashboard)
-      router.push('/dashboard')
+      // Land in dashboard with "What's next?" options (surf site, pick plan, etc.)
+      router.push('/dashboard?new=1')
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
