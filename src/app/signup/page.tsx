@@ -52,17 +52,12 @@ function SignupPageContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!selectedPlan) {
-      setError('Please select a plan')
-      return
-    }
 
     setLoading(true)
     setError('')
 
     try {
-      // Step 1: Create user account
+      // Create account; plan optional (defaults to starter). User can pick plan later from dashboard/pricing.
       const signupResponse = await fetch('/api/auth', {
         method: 'POST',
         headers: {
@@ -72,7 +67,7 @@ function SignupPageContent() {
           email,
           password,
           action: 'signup',
-          planType: selectedPlan, // Pass selected plan to API
+          planType: selectedPlan || 'starter',
         }),
       })
 
@@ -123,23 +118,14 @@ function SignupPageContent() {
       </header>
 
       <div className="max-w-6xl mx-auto px-6 py-12">
-        {/* Progress Indicator */}
+        {/* Progress: Create Account → Payment (plan is optional, from dashboard/pricing) */}
         <div className="flex items-center justify-center mb-12">
           <div className="flex items-center gap-4">
-            <div className={`flex items-center ${step === 'plan' ? 'text-purple-400' : step === 'account' || step === 'payment' ? 'text-green-400' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
-                step === 'plan' ? 'border-purple-400 bg-purple-400/10' : step === 'account' || step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
-              }`}>
-                {step !== 'plan' ? '✓' : '1'}
-              </div>
-              <span className="ml-2 font-medium">Select Plan</span>
-            </div>
-            <div className="w-16 h-0.5 bg-gray-700" />
             <div className={`flex items-center ${step === 'account' ? 'text-purple-400' : step === 'payment' ? 'text-green-400' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'account' ? 'border-purple-400 bg-purple-400/10' : step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
-                {step === 'payment' ? '✓' : '2'}
+                {step === 'payment' ? '✓' : '1'}
               </div>
               <span className="ml-2 font-medium">Create Account</span>
             </div>
@@ -148,7 +134,7 @@ function SignupPageContent() {
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'payment' ? 'border-purple-400 bg-purple-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
-                3
+                2
               </div>
               <span className="ml-2 font-medium">Payment</span>
             </div>
@@ -282,7 +268,7 @@ function SignupPageContent() {
                 )}
                 <button
                   type="submit"
-                  disabled={loading || !selectedPlan}
+                  disabled={loading}
                   className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Creating Account...' : 'Start Free Trial'}
