@@ -1,0 +1,12 @@
+---
+description: Keep things as simple as possible while still functioning.
+alwaysApply: true
+---
+
+# Keep It Simple
+
+- **Prefer the simplest solution that works.** Avoid extra abstraction, optional features, or clever code when a straightforward approach does the job.
+- **No unnecessary styling or markup.** Don't add HTML/CSS to markdown (e.g. colored spans in checklists) unless the user explicitly asks. Plain markdown, plain text, plain structure.
+- **One clear way.** Prefer one obvious way to do something over multiple options. Fewer files, fewer branches, fewer configs when one will do.
+- **Still functioning.** Simplicity does not mean broken or incomplete. The result must work and meet the stated goal; just don't overbuild.
+- **When in doubt, strip it out.** If something can be removed without breaking the product or the ask, remove it.
