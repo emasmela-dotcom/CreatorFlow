@@ -72,9 +72,15 @@ function SignupPageContent() {
 
       const { user, token } = signupData
 
-      // Store token for next step
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
+      if (!token) {
+        throw new Error('Account created but no session token was returned. Please sign in with your email and password, then try checkout again.')
+      }
+
+      // Store token for next step (must persist so payment step can use it)
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('token', token)
+        localStorage.setItem('user', JSON.stringify(user))
+      }
 
       // Move to payment step (Stripe checkout) for paid plans
       setStep('payment')
@@ -324,7 +330,7 @@ function SignupPageContent() {
                       const checkoutData = await checkoutResponse.json()
 
                       if (checkoutResponse.status === 401) {
-                        setError('Your session expired. Please sign in or create an account again, then come back to complete checkout.')
+                        setError('Your session expired or your account isn’t in this environment yet. Sign in with the same email you used, then try “Proceed to Secure Checkout” again. If you just created the account, wait a moment and try again.')
                         setLoading(false)
                         return
                       }
