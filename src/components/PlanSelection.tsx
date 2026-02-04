@@ -5,6 +5,16 @@ import { Star, Check } from 'lucide-react'
 
 export type PlanType = 'free' | 'starter' | 'growth' | 'pro' | 'business' | 'agency'
 
+// Creator-themed images (Unsplash) to fill space when columns are equal height
+const PLAN_IMAGES: Record<PlanType, string> = {
+  free: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=240&fit=crop',
+  starter: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=240&fit=crop',
+  growth: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=240&fit=crop',
+  pro: 'https://images.unsplash.com/photo-1545235617-7a424c1a60cc?w=400&h=240&fit=crop',
+  business: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=240&fit=crop',
+  agency: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=240&fit=crop',
+}
+
 export interface Plan {
   id: PlanType
   name: string
@@ -99,7 +109,7 @@ interface PlanSelectionProps {
 
 export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: PlanSelectionProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 items-start">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
       {plans.map((plan) => {
         const isSelected = selectedPlan === plan.id
         const isPopular = plan.popular
@@ -109,7 +119,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             key={plan.id}
             onClick={() => !disabled && onSelectPlan(plan.id)}
             className={`
-              relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden
+              relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
               ${isSelected 
                 ? 'border-white bg-white/10' 
                 : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
@@ -156,6 +166,15 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
                 </li>
               ))}
             </ul>
+
+            {/* Creator imagery fills empty space when columns are equal height */}
+            <div className="flex-1 min-h-[140px] mt-4 rounded-lg overflow-hidden bg-gray-700/50 flex items-center justify-center">
+              <img
+                src={PLAN_IMAGES[plan.id]}
+                alt="Content creator"
+                className="w-full h-full object-cover min-h-[140px]"
+              />
+            </div>
 
             <button
               onClick={(e) => {
