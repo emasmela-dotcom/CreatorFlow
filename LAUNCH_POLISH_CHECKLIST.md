@@ -1,0 +1,121 @@
+## CreatorFlow – Pre‑Launch Polish Checklist
+
+Use this to clean up final details before heavy marketing.
+
+---
+
+## 1. Stripe & Payments
+
+- [ ] Stripe products and prices match the site
+  - [ ] Starter plan – price and interval correct
+  - [ ] Essential plan – price and interval correct
+  - [ ] Creator plan – price and interval correct
+  - [ ] Professional plan – price and interval correct
+  - [ ] Business plan – price and interval correct
+- [ ] Vercel env vars use the correct live price IDs
+  - [ ] `STRIPE_PRICE_STARTER`
+  - [ ] `STRIPE_PRICE_GROWTH`
+  - [ ] `STRIPE_PRICE_PRO`
+  - [ ] `STRIPE_PRICE_BUSINESS`
+  - [ ] `STRIPE_PRICE_AGENCY`
+- [ ] Stripe keys and webhook secret are live and current
+  - [ ] `STRIPE_SECRET_KEY`
+  - [ ] `STRIPE_WEBHOOK_SECRET`
+
+---
+
+## 2. Stripe Webhook (Production)
+
+- [ ] Webhook endpoint set in Stripe Dashboard  
+      `https://www.creatorflow365.com/api/stripe/webhook`
+- [ ] Events configured:
+  - [ ] `checkout.session.completed`
+  - [ ] `customer.subscription.created`
+  - [ ] `customer.subscription.updated`
+  - [ ] `invoice.payment_failed`
+- [ ] Webhook signing secret copied into Vercel (`STRIPE_WEBHOOK_SECRET`)
+- [ ] App redeployed after any changes to webhook or env vars
+
+---
+
+## 3. Manual Testing / QA
+
+### Auth & Onboarding
+
+- [ ] Sign up new user
+- [ ] Log out / log in again
+- [ ] Password reset (if applicable)
+
+### Plans & Subscriptions
+
+- [ ] From pricing page, pick each plan at least once
+- [ ] Complete Stripe checkout successfully
+- [ ] Trial activates correctly for new subscriptions
+- [ ] Subscription status looks correct in app (and in Stripe)
+
+### Credit Bundles
+
+- [ ] Purchase $5 bundle and verify credits increase
+- [ ] Purchase $10 bundle and verify credits increase
+- [ ] Purchase $20 bundle and verify credits increase
+- [ ] Confirm Stripe shows correct charges
+- [ ] Confirm webhook events received and processed (no errors)
+
+### Cross‑Browser & Devices
+
+- [ ] Core flows tested in Chrome
+- [ ] Core flows tested in Safari
+- [ ] Core flows tested in Firefox
+- [ ] Core flows tested on phone
+- [ ] Core flows tested on tablet
+
+### Console & Logs
+
+- [ ] Check browser console on key flows (no unexpected errors)
+- [ ] Check Vercel logs for:
+  - [ ] Auth routes
+  - [ ] Stripe checkout/session endpoints
+  - [ ] Stripe webhook handler
+- [ ] Fix or note any recurring errors/warnings
+
+---
+
+## 4. UX & Content Polish
+
+- [ ] Privacy page (`/privacy`) created and linked in footer
+- [ ] Terms of Service page (`/terms`) created and linked in footer
+- [ ] 404 / not‑found page looks on‑brand and helpful
+- [ ] Error page copy is clear and non‑scary
+- [ ] Support / contact path obvious (e.g. footer link)
+- [ ] `support@` email forwarding (ImprovMX) tested
+
+---
+
+## 5. Analytics & Monitoring
+
+- [ ] Confirm Google / Vercel analytics are recording real traffic
+- [ ] At least one real session shows up in analytics
+- [ ] Error monitoring plan in place:
+  - [ ] Either Sentry/LogRocket or regular Vercel log checks
+  - [ ] Stripe webhook errors monitored in Stripe Dashboard
+
+---
+
+## 6. Light SEO & Share Cards
+
+- [ ] Title and description feel accurate for target creators
+- [ ] Open Graph / Twitter card preview looks good when sharing URL
+- [ ] `robots.txt` and sitemap look sane (no accidental blocking)
+
+---
+
+## 7. Launch Day Quick Pass
+
+- [ ] Verify production URL is correct and fast
+- [ ] Run one full “first‑time user” journey:
+  - [ ] Hit homepage
+  - [ ] Understand the value proposition
+  - [ ] Sign up, choose plan, go through checkout
+  - [ ] Land in dashboard and know what to do next
+- [ ] Check for any last‑minute layout or copy issues
+
