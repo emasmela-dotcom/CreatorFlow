@@ -115,7 +115,7 @@ Use this to clean up final details before heavy marketing.
 ## 7. Launch Day Quick Pass
 
 - [ ] Verify production URL is correct and fast
-- [ ] Run one full “first‑time user” journey:
+- [ ] Run one full "first‑time user" journey:
   - [ ] Hit homepage
   - [ ] Understand the value proposition
   - [ ] Sign up, choose plan, go through checkout
