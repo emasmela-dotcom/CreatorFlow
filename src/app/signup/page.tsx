@@ -169,7 +169,7 @@ function SignupPageContent() {
                 If you decide to keep going on a paid plan, your account keeps all the content you created during the trial.
               </p>
               <p className="text-sm text-white/90 mt-3 font-medium">
-                Subscribe after trial to keep the content you’ve created or changed with our tools—no payment required to start.
+                Your work here is yours. Subscribe after trial to keep what you've created or changed—no payment required to start—and keep access to more tools than the competition.
               </p>
             </div>
 
@@ -301,8 +301,7 @@ function SignupPageContent() {
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4">Keep Your Plan After the Trial</h2>
               <p className="text-lg text-gray-400">
-                Your free trial is active. Add a payment method after trial to keep the content you’ve created or changed with our tools and keep using them to grow your content brand.
-              </p>
+                Your free trial is active. Everything you've created or changed here stays with you when you subscribe. Without a subscription, that work won't be available—subscribe to keep it and to keep using far more tools than most creator platforms.              </p>
             </div>
 
             {/* Trial Terms Display */}
