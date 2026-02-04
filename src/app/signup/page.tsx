@@ -88,14 +88,14 @@ function SignupPageContent() {
         throw new Error('Account created but no session token was returned. Please sign in with your email and password, then try checkout again.')
       }
 
-      // Store token for next step (must persist so payment step can use it)
+      // Store token and user; trial starts now—no payment yet
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
       }
 
-      // Move to payment step (Stripe checkout) for paid plans
-      setStep('payment')
+      // Land in dashboard and use trial; subscribe to keep content when ready (from dashboard)
+      router.push('/dashboard')
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
@@ -167,6 +167,9 @@ function SignupPageContent() {
               </p>
               <p className="text-xs text-gray-400 mt-1">
                 If you decide to keep going on a paid plan, your account keeps all the content you created during the trial.
+              </p>
+              <p className="text-sm text-white/90 mt-3 font-medium">
+                Subscribe to keep your content after trial—no payment required to start.
               </p>
             </div>
 
