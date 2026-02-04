@@ -169,7 +169,7 @@ function SignupPageContent() {
                 If you decide to keep going on a paid plan, your account keeps all the content you created during the trial.
               </p>
               <p className="text-sm text-white/90 mt-3 font-medium">
-                Subscribe to keep your content after trial—no payment required to start.
+                Subscribe after trial to keep the content you’ve created or changed with our tools—no payment required to start.
               </p>
             </div>
 
@@ -301,7 +301,7 @@ function SignupPageContent() {
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4">Keep Your Plan After the Trial</h2>
               <p className="text-lg text-gray-400">
-                Your free trial is active. Add a payment method after trial to keep your content and keep using tools to grow your content brand.
+                Your free trial is active. Add a payment method after trial to keep the content you’ve created or changed with our tools and keep using them to grow your content brand.
               </p>
             </div>
 
