@@ -2435,103 +2435,6 @@ function CalendarView({ token }: { token: string }) {
   )
 }
 
-// Content Search Component
-function ContentSearch({ token }: { token: string }) {
-  const [query, setQuery] = useState('')
-  const [results, setResults] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
-  const [showResults, setShowResults] = useState(false)
-
-  const handleSearch = async (searchQuery: string) => {
-    if (!searchQuery.trim()) {
-      setResults(null)
-      setShowResults(false)
-      return
-    }
-
-    setLoading(true)
-    try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      const data = await response.json()
-      if (data.success) {
-        setResults(data.results)
-        setShowResults(true)
-      }
-    } catch (error) {
-      console.error('Search failed:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div className="relative">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-        <input
-          type="text"
-          placeholder="Search content..."
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value)
-            handleSearch(e.target.value)
-          }}
-          onFocus={() => results && setShowResults(true)}
-          className="pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-64"
-        />
-      </div>
-
-      {showResults && results && (
-        <div className="absolute top-full mt-2 w-96 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-          <div className="p-4">
-            {results.total === 0 ? (
-              <div className="text-gray-400 text-center py-4">No results found</div>
-            ) : (
-              <>
-                {results.documents.length > 0 && (
-                  <div className="mb-4">
-                    <div className="text-xs font-semibold text-gray-400 mb-2">DOCUMENTS ({results.documents.length})</div>
-                    {results.documents.slice(0, 3).map((doc: any) => (
-                      <div key={doc.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
-                        <div className="font-semibold text-sm">{doc.title}</div>
-                        <div className="text-xs text-gray-400 truncate">{doc.content}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {results.templates.length > 0 && (
-                  <div className="mb-4">
-                    <div className="text-xs font-semibold text-gray-400 mb-2">TEMPLATES ({results.templates.length})</div>
-                    {results.templates.slice(0, 3).map((tpl: any) => (
-                      <div key={tpl.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
-                        <div className="font-semibold text-sm">{tpl.name}</div>
-                        <div className="text-xs text-gray-400">{tpl.platform}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {results.hashtagSets.length > 0 && (
-                  <div>
-                    <div className="text-xs font-semibold text-gray-400 mb-2">HASHTAG SETS ({results.hashtagSets.length})</div>
-                    {results.hashtagSets.slice(0, 3).map((set: any) => (
-                      <div key={set.id} className="p-2 hover:bg-gray-700 rounded cursor-pointer mb-1">
-                        <div className="font-semibold text-sm">{set.name}</div>
-                        <div className="text-xs text-gray-400">{set.platform}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
 // Performance Analytics Component
 function PerformanceAnalyticsView({ token }: { token: string }) {
   const [analytics, setAnalytics] = useState<any>(null)
@@ -2867,7 +2770,6 @@ export default function Dashboard() {
             </nav>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-            <ContentSearch token={token} />
             <button
               onClick={() => setHelpCenterOpen(true)}
               className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors"
