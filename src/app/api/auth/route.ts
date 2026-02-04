@@ -30,8 +30,11 @@ export async function POST(request: NextRequest) {
       })
     }
     
-    const { email, password, action } = body
-    
+    const rawEmail = typeof body.email === 'string' ? body.email.trim() : ''
+    const password = typeof body.password === 'string' ? body.password.trim() : ''
+    const { action } = body
+    const email = rawEmail.toLowerCase()
+
     if (!email || !password || !action) {
       return NextResponse.json({ error: 'Email, password, and action are required' }, { 
         status: 400,
@@ -40,9 +43,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'signup') {
-        // Check if user exists
+        // Check if user exists (case-insensitive)
         const existingUser = await db.execute({
-          sql: 'SELECT id FROM users WHERE email = ?',
+          sql: 'SELECT id FROM users WHERE LOWER(TRIM(email)) = ?',
           args: [email]
         })
 
@@ -170,7 +173,7 @@ export async function POST(request: NextRequest) {
         let userResult
         try {
           userResult = await db.execute({
-            sql: 'SELECT id, email, password_hash FROM users WHERE email = ?',
+            sql: 'SELECT id, email, password_hash FROM users WHERE LOWER(TRIM(email)) = ?',
             args: [email]
           })
         } catch (dbQueryError: any) {
