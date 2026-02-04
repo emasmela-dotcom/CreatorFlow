@@ -115,25 +115,25 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
         const isPopular = plan.popular
 
         return (
-          <div
-            key={plan.id}
-            onClick={() => !disabled && onSelectPlan(plan.id)}
-            className={`
-              relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
-              ${isSelected 
-                ? 'border-white bg-white/10' 
-                : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
-              }
-              ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-              ${isPopular && !isSelected ? 'ring-2 ring-gray-500/20' : ''}
-            `}
-          >
+          <div key={plan.id} className="relative">
+            {/* Badge outside card border, just above */}
             {isPopular && (
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-max max-w-[calc(100%-1rem)] bg-white text-black px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap text-center shadow-md">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-max max-w-[calc(100%-1rem)] bg-white text-black px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap text-center shadow-md">
                 Most Popular
               </div>
             )}
-
+            <div
+              onClick={() => !disabled && onSelectPlan(plan.id)}
+              className={`
+                relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
+                ${isSelected 
+                  ? 'border-white bg-white/10' 
+                  : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+                }
+                ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ${isPopular && !isSelected ? 'ring-2 ring-gray-500/20' : ''}
+              `}
+            >
             <div className="flex items-start justify-between gap-2 mb-4 min-w-0">
               <div className="min-w-0 flex-1">
                 <h3 className="text-xl font-bold mb-1 break-words">{plan.name}</h3>
@@ -193,6 +193,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             >
               {isSelected ? 'Selected' : 'Select Plan'}
             </button>
+            </div>
           </div>
         )
       })}
