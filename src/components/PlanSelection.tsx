@@ -99,7 +99,7 @@ interface PlanSelectionProps {
 
 export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: PlanSelectionProps) {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
       {plans.map((plan) => {
         const isSelected = selectedPlan === plan.id
         const isPopular = plan.popular
@@ -109,7 +109,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             key={plan.id}
             onClick={() => !disabled && onSelectPlan(plan.id)}
             className={`
-              relative p-6 rounded-xl border-2 transition-all cursor-pointer
+              relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden
               ${isSelected 
                 ? 'border-white bg-white/10' 
                 : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
@@ -119,40 +119,40 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             `}
           >
             {isPopular && (
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
                 Most Popular
               </div>
             )}
 
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-                <p className="text-sm text-gray-400">{plan.description}</p>
+            <div className="flex items-start justify-between gap-2 mb-4 min-w-0">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-bold mb-1 break-words">{plan.name}</h3>
+                <p className="text-sm text-gray-400 break-words">{plan.description}</p>
               </div>
               {isSelected && (
-                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center flex-shrink-0">
                   <Check className="w-4 h-4 text-black" />
                 </div>
               )}
             </div>
 
-            <div className="mb-6">
-              <div className="flex items-baseline">
-                <span className="text-4xl font-bold">${plan.price}</span>
-                <span className="text-lg text-gray-400 ml-2">/month</span>
+            <div className="mb-6 min-w-0">
+              <div className="flex items-baseline flex-wrap gap-x-1">
+                <span className="text-3xl font-bold">${plan.price}</span>
+                <span className="text-base text-gray-400">/month</span>
               </div>
               {plan.price === 0 ? (
                 <p className="text-sm text-green-400 mt-1 font-semibold">Forever free</p>
               ) : (
-                <p className="text-sm text-gray-300 mt-1">14-day free trial</p>
+                <p className="text-sm text-gray-300 mt-1 break-words">14-day free trial</p>
               )}
             </div>
 
-            <ul className="space-y-3">
+            <ul className="space-y-3 min-w-0">
               {plan.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
+                <li key={index} className="flex items-start gap-3 min-w-0">
                   <Star className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-gray-300">{feature}</span>
+                  <span className="text-sm text-gray-300 break-words">{feature}</span>
                 </li>
               ))}
             </ul>
