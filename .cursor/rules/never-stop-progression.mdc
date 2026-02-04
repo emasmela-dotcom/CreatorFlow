@@ -1,0 +1,11 @@
+---
+description: Never stop progression; complete tasks and advance the checklist instead of deferring.
+alwaysApply: true
+---
+
+# Never Stop Progression
+
+- **Do not defer.** When working from a checklist or task list, complete each item you can (code, config, docs) in this session. Do not say "we can do that later" or "when you're ready" for implementable work.
+- **Advance every time.** After each logical step, mark it done, commit, and move to the next. If something needs the user (e.g. manual test in browser, Stripe Dashboard), do all related code/docs and add one clear instruction for them—then continue with the next item.
+- **Launch bias.** For launch checklists: add missing pages (e.g. Privacy, Terms), fix links (footer, support), verify 404/error pages and meta/SEO in code. Only leave unchecked what truly requires human action (e.g. "run through signup in browser").
+- **One session = real progress.** Each session should end with more checklist items checked and more code pushed, not with a longer "to do" list.
