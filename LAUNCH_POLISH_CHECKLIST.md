@@ -82,6 +82,9 @@ Use this to clean up final details before heavy marketing.
 
 ## 4. UX & Content Polish
 
+- [x] Signup/trial copy updated (no card required, content retention, upgrade/downgrade rules)
+- [x] Trial terms & payment step copy aligned with no-card trial and snapshot/restore
+- [x] Plan card copy tightened (Professional, Business); AI Bots removed from dashboard, nav, help & feedback
 - [ ] Privacy page (`/privacy`) created and linked in footer
 - [ ] Terms of Service page (`/terms`) created and linked in footer
 - [ ] 404 / not‑found page looks on‑brand and helpful
