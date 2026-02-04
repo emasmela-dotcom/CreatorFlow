@@ -284,9 +284,9 @@ function SignupPageContent() {
         {step === 'payment' && selectedPlan && (
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4">Complete Your Trial Setup</h2>
+              <h2 className="text-4xl font-bold mb-4">Keep Your Plan After the Trial</h2>
               <p className="text-lg text-gray-400">
-                Add your payment method to start your free trial
+                Your free trial is active. Add a payment method any time you’re ready to continue on a paid plan.
               </p>
             </div>
 
@@ -301,9 +301,9 @@ function SignupPageContent() {
             {/* Payment Button */}
             <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold mb-2">Ready to Start Your Trial?</h3>
+                <h3 className="text-xl font-semibold mb-2">Ready to Become a Paying Member?</h3>
                 <p className="text-gray-400 mb-6">
-                  You'll be redirected to secure Stripe checkout to add your payment method.
+                  When you’re ready, you’ll be redirected to secure Stripe checkout to add your payment method. 
                   Your card will not be charged until after your 15-day trial ends.
                 </p>
                 

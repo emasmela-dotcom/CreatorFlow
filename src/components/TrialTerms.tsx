@@ -113,13 +113,14 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
+        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+          <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
             <Check className="w-5 h-5" />
-            Credit Card Required
+            No Credit Card Required to Start
           </h4>
           <p className="text-sm text-gray-300">
-            A credit card is required to start your free trial. Your card will <strong className="text-white">NOT</strong> be charged during the trial period.
+            Start your free trial of the <strong className="text-white">{planName}</strong> plan with full access and no credit card required. 
+            You only add a payment method later if you decide to keep your plan after the trial.
           </p>
         </div>
 
@@ -149,7 +150,8 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             </div>
           )}
           <p className="text-sm text-gray-300 mt-3">
-            After trial ends, you'll be charged <strong>${planPrice}/month</strong> if you continue.
+            After your {trialDays}-day trial, you can keep your plan for <strong>${planPrice}/month</strong>. 
+            You can upgrade to a higher plan at any time, but you can't downgrade below the plan you trialed.
           </p>
         </div>
 
@@ -159,13 +161,13 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
             <h5 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
               <Check className="w-5 h-5" />
-              If You Continue (Become Paying Member):
+              If You Continue With a Paid Plan:
             </h5>
             <ul className="text-sm text-gray-300 space-y-1 ml-7">
-              <li>• Your subscription will automatically continue</li>
-              <li>• You'll be charged ${planPrice}/month</li>
-              <li>• <strong className="text-green-400">All changes made during trial are kept</strong></li>
-              <li>• Full access to your selected plan continues</li>
+              <li>• You confirm your plan and add a payment method</li>
+              <li>• You'll be charged ${planPrice}/month (or more if you upgrade)</li>
+              <li>• <strong className="text-green-400">All content and changes made during your trial are kept</strong></li>
+              <li>• Ongoing access to at least the plan you trialed (upgrades allowed, downgrades below this plan are not)</li>
             </ul>
           </div>
 
@@ -175,11 +177,11 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
               If You Don't Continue:
             </h5>
             <ul className="text-sm text-gray-300 space-y-1 ml-7">
-              <li>• Your subscription will not be charged</li>
-              <li>• Access to paid features will stop</li>
-              <li>• <strong className="text-blue-400">All your content remains yours - nothing is deleted</strong></li>
-              <li>• You keep all posts, content, and analytics you created during the trial</li>
-              <li>• Your original snapshot is saved if you ever want to revert (optional)</li>
+              <li>• You won't be charged and no subscription starts</li>
+              <li>• Access to trial-only features will stop</li>
+              <li>• We keep a snapshot of everything you created during the trial</li>
+              <li>• Your account view is restored to how it looked before the trial began</li>
+              <li>• If you later subscribe, your trial content is unlocked and kept with your paid account</li>
             </ul>
           </div>
 
@@ -192,29 +194,24 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
               <div className="bg-white/5 rounded p-3 border border-indigo-500/30">
                 <p className="text-sm font-semibold text-indigo-300 mb-2">✓ If you continue with a paid plan:</p>
                 <p className="text-sm text-gray-200">
-                  All changes made to your social media accounts during the trial period will be kept. 
-                  This includes all posts, content modifications, scheduled content, and analytics data created during your trial.
-                  <strong className="text-indigo-300"> All content is immediately yours.</strong>
+                  All posts, content changes, schedules, and analytics from your trial stay with you. 
+                  When you subscribe, we simply keep everything unlocked under your paid plan.
                 </p>
               </div>
               <div className="bg-blue-500/10 rounded p-3 border border-blue-500/30">
-                <p className="text-sm font-semibold text-blue-300 mb-2">✓ If you cancel after trial:</p>
+                <p className="text-sm font-semibold text-blue-300 mb-2">✓ If you don’t continue right away:</p>
                 <p className="text-sm text-gray-200">
-                  <strong className="text-blue-300">All your content stays with you forever.</strong> Everything you created 
-                  during the trial period remains yours and is permanently saved. However, to edit, export, or use this content 
-                  after canceling, you'll need an active subscription. Content created during trial becomes <strong className="text-blue-400">read-only</strong> 
-                  (you can view it but cannot modify it) until you upgrade to a paid plan. We save a snapshot of your original 
-                  state before the trial, which you can use to revert at any time if you choose, but this is completely optional.
+                  We keep a secure snapshot of everything you created during the trial. Your live workspace goes back to its 
+                  pre‑trial view (no lock‑in, no surprises). If you decide to subscribe later, we reconnect that trial content 
+                  to your paid account so you can pick up where you left off.
                 </p>
               </div>
               <div className="bg-indigo-600/20 rounded p-3 border border-indigo-400">
                 <p className="text-xs font-bold text-indigo-200 uppercase tracking-wide mb-1">Our Commitment</p>
                 <p className="text-sm text-white">
-                  CreatorFlow believes in creator-first ownership. <strong className="text-indigo-300">All content you create 
-                  through our platform is immediately and permanently yours, whether you stay or go.</strong> We compete on quality, 
-                  not lock-in. Your content is never deleted. If you cancel, your trial content becomes read-only until you upgrade 
-                  - you can view it anytime, but editing requires an active subscription. Before you start, we'll take a snapshot 
-                  of your original state so you can revert if you ever want to, but this is completely optional.
+                  CreatorFlow is creator‑first. We never use trials to trap you or delete your work. We take a snapshot before 
+                  your trial starts, give you full access to the plan you chose, and let you decide later: continue on a paid plan 
+                  (and keep everything), or revert to your pre‑trial state and upgrade only if and when it makes sense for you.
                 </p>
               </div>
             </div>
@@ -223,16 +220,13 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
 
         <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
           <p className="text-xs text-gray-400 leading-relaxed mb-2">
-            By proceeding, you agree that CreatorFlow will create a snapshot of your current project state before the trial begins. 
-            This snapshot will be saved so you can optionally revert to your original state at any time if you choose. 
-            <strong className="text-white"> All content you create during the trial remains yours forever, whether you continue or not.</strong>
+            By proceeding, you agree that CreatorFlow will create a secure snapshot of your current project state before the trial begins. 
+            This lets us restore your account to its pre‑trial view if you decide not to continue, while safely keeping anything you created 
+            during the trial available to reconnect if you later upgrade.
           </p>
           <p className="text-xs text-indigo-300/80 leading-relaxed mb-2">
-            <strong>Content Ownership Commitment:</strong> CreatorFlow commits to creator-first ownership. <strong className="text-indigo-200">All content you create 
-            through our platform is immediately and permanently yours - no exceptions.</strong> Whether you continue with a paid plan or cancel after the trial, 
-            everything you created (posts, content modifications, scheduled content, analytics) stays with you forever. If you cancel, trial content becomes 
-            read-only (view-only, no editing or exporting) until you upgrade to unlock it. We compete on quality, not lock-in. The original snapshot is available 
-            if you want to revert, but this is completely optional.
+            <strong>Content Ownership Commitment:</strong> We compete on quality, not lock‑in. We never silently delete your work or hide it behind fine print. 
+            Trial content is preserved, your pre‑trial state is protected, and you choose when (or if) to turn your trial into a paid subscription.
           </p>
           <p className="text-xs text-yellow-300/80 leading-relaxed">
             <strong>Important:</strong> Your selected social accounts (Facebook, Twitter, Instagram, etc.) will be locked in and cannot be changed each month. 
