@@ -45,14 +45,35 @@ export async function GET(request: NextRequest) {
 
     const allTablesExist = Object.values(tableStatus).every(exists => exists)
 
+    // Which DB is the app using? (host only, for verification)
+    let dbHostRedacted: string | null = null
+    try {
+      const u = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || ''
+      const match = u.match(/@([^/]+)\//)
+      if (match) dbHostRedacted = match[1] // e.g. ep-dry-waterfall-ahwpqcaw-pooler.c-3.us-east-1.aws.neon.tech
+    } catch (_) {}
+
+    // Does users table have subscription_tier? (required for signup)
+    let usersHasSubscriptionTier = false
+    if (tableStatus['users']) {
+      try {
+        await db.execute({ sql: 'SELECT subscription_tier FROM users LIMIT 1' })
+        usersHasSubscriptionTier = true
+      } catch (_) {
+        // column missing
+      }
+    }
+
     return NextResponse.json({
       status: 'healthy',
       connected: true,
       database: {
         currentTime: testResult.rows[0]?.current_time,
-        postgresVersion: testResult.rows[0]?.postgres_version?.substring(0, 50)
+        postgresVersion: testResult.rows[0]?.postgres_version?.substring(0, 50),
+        dbHostRedacted: dbHostRedacted || undefined
       },
       tables: tableStatus,
+      usersHasSubscriptionTier,
       tableErrors: Object.keys(tableErrors).length > 0 ? tableErrors : undefined,
       allTablesExist,
       message: allTablesExist 
