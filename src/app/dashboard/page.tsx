@@ -2792,12 +2792,12 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+        <div className="flex items-center justify-between gap-4 min-h-[3rem]">
+          <div className="flex items-center gap-4 min-w-0 flex-1 overflow-hidden">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent flex-shrink-0">
               CreatorFlow
             </h1>
-            <div className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-4 overflow-x-auto min-w-0 flex-1 py-1" style={{ scrollbarWidth: 'thin' }}>
               <button 
                 className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
                 onClick={() => setActiveTab('overview')}
@@ -2864,9 +2864,9 @@ export default function Dashboard() {
                 <Users className="w-4 h-4 inline mr-2" />
                 Community
               </button>
-            </div>
+            </nav>
           </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
             <ContentSearch token={token} />
             <button
               onClick={() => setHelpCenterOpen(true)}
