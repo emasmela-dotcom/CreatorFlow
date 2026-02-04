@@ -1,11 +1,10 @@
 // Service Worker for CreatorFlow PWA
-const CACHE_NAME = 'creatorflow-v1'
+const CACHE_NAME = 'creatorflow-v2'
+// Do not cache auth pages (signup, signin) - they must always hit network to avoid ERR_FAILED / stale doc
 const urlsToCache = [
   '/',
   '/dashboard',
   '/create',
-  '/signin',
-  '/signup',
   '/manifest.json'
 ]
 
@@ -20,14 +19,16 @@ self.addEventListener('install', (event) => {
   )
 })
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - navigation (full page) always tries network first to avoid cached failure for /signup etc.
 self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    )
+    return
+  }
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request)
-      })
+    caches.match(event.request).then((response) => response || fetch(event.request))
   )
 })
 
