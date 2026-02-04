@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Hash new password
-      const hashedPassword = await bcrypt.hash(newPassword, 10)
+      const hashedPassword = await bcrypt.hash(newPass, 10)
 
       // Update password by user id (reliable regardless of email casing in DB)
       await db.execute({
@@ -63,8 +63,11 @@ export async function POST(request: NextRequest) {
         args: [hashedPassword, user.id]
       })
 
+      // Brief delay so primary write propagates before user hits sign-in (avoids replica lag)
+      await new Promise((r) => setTimeout(r, 1500))
+
       return NextResponse.json({ 
-        message: 'Password reset successfully!' 
+        message: 'Password reset successfully! You can sign in with your new password.' 
       })
     }
 

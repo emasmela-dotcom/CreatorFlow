@@ -196,8 +196,9 @@ export async function POST(request: NextRequest) {
         }
 
         const user = userResult.rows[0] as any
-        const hash = user?.password_hash ?? user?.password
-        if (!user || !hash) {
+        // Support object row (password_hash) or array row (index 2)
+        const hash = user?.password_hash ?? user?.password ?? (Array.isArray(user) ? user[2] : undefined)
+        if (!user || !hash || typeof hash !== 'string') {
           return NextResponse.json({ error: 'Invalid email or password' }, { 
             status: 400,
             headers: { 'Content-Type': 'application/json' }
