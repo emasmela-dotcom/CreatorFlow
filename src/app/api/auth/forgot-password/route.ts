@@ -16,18 +16,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    // Check if user exists
+    const emailNorm = email.trim().toLowerCase()
+    if (!emailNorm) {
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    }
+
+    // Check if user exists (case-insensitive)
     const userResult = await db.execute({
-      sql: 'SELECT id, email FROM users WHERE email = ?',
-      args: [email]
+      sql: 'SELECT id, email FROM users WHERE LOWER(TRIM(email)) = ?',
+      args: [emailNorm]
     })
 
     if (userResult.rows.length === 0) {
-      // Don't reveal if user exists for security
       return NextResponse.json({ 
         message: 'If an account exists with this email, a password reset link has been sent.' 
       })
     }
+    const user = userResult.rows[0] as { id: string; email: string }
 
     if (action === 'request') {
       // In production, send email with reset token
@@ -52,10 +57,10 @@ export async function POST(request: NextRequest) {
       // Hash new password
       const hashedPassword = await bcrypt.hash(newPassword, 10)
 
-      // Update password
+      // Update password by user id (reliable regardless of email casing in DB)
       await db.execute({
-        sql: 'UPDATE users SET password_hash = ? WHERE email = ?',
-        args: [hashedPassword, email]
+        sql: 'UPDATE users SET password_hash = ? WHERE id = ?',
+        args: [hashedPassword, user.id]
       })
 
       return NextResponse.json({ 

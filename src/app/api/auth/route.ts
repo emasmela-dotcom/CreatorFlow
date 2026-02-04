@@ -196,8 +196,8 @@ export async function POST(request: NextRequest) {
         }
 
         const user = userResult.rows[0] as any
-
-        if (!user || !user.password_hash) {
+        const hash = user?.password_hash ?? user?.password
+        if (!user || !hash) {
           return NextResponse.json({ error: 'Invalid email or password' }, { 
             status: 400,
             headers: { 'Content-Type': 'application/json' }
@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Verify password
-        const isValid = await bcrypt.compare(password, user.password_hash)
+        const isValid = await bcrypt.compare(password, hash)
         if (!isValid) {
           return NextResponse.json({ error: 'Invalid email or password' }, { 
             status: 400,
