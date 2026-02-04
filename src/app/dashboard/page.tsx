@@ -2693,83 +2693,13 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between gap-4 min-h-[3rem]">
-          <div className="flex items-center gap-4 min-w-0 flex-1 overflow-hidden">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent flex-shrink-0">
-              CreatorFlow
-            </h1>
-            <nav className="hidden md:flex items-center gap-4 overflow-x-auto min-w-0 flex-1 py-1" style={{ scrollbarWidth: 'thin' }}>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('overview')}
-              >
-                Overview
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('content')}
-              >
-                Content
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('calendar')}
-              >
-                <Calendar className="w-4 h-4 inline mr-2" />
-                Calendar
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('analytics')}
-              >
-                Analytics
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'collaborations' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('collaborations')}
-              >
-                Collaborations
-              </button>
-<button
-                className="px-4 py-2 rounded-lg transition-colors hover:bg-gray-700"
-                onClick={() => router.push('/documents')}
-              >
-                <FileText className="w-4 h-4 inline mr-2" />
-                Documents
-              </button>
-              <button
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('connections')}
-              >
-                <Link2 className="w-4 h-4 inline mr-2" />
-                Connections
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('social-listening')}
-              >
-                <Search className="w-4 h-4 inline mr-2" />
-                Listening
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('game-changers')}
-              >
-                <Sparkles className="w-4 h-4 inline mr-2" />
-                Game-Changers
-              </button>
-              <button 
-                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
-                onClick={() => setActiveTab('community')}
-              >
-                <Users className="w-4 h-4 inline mr-2" />
-                Community
-              </button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+      {/* Header: CreatorFlow + controls, then nav topics in 2 rows */}
+      <header className="bg-gray-800 border-b border-gray-700 px-6 py-3">
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+            CreatorFlow
+          </h1>
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setHelpCenterOpen(true)}
               className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors"
@@ -2793,6 +2723,22 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
+        <nav className="hidden md:flex flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5" />Calendar</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'collaborations' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-4 h-4 inline mr-1.5" />Documents</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-4 h-4 inline mr-1.5" />Connections</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-4 h-4 inline mr-1.5" />Listening</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-4 h-4 inline mr-1.5" />Game-Changers</button>
+            <button className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-4 h-4 inline mr-1.5" />Community</button>
+          </div>
+        </nav>
       </header>
 
       <div className="flex">
