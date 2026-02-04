@@ -1,16 +1,16 @@
 ---
-description: After updating project_status.md, commit and push to git right after (double-save)
+description: Whenever project_status.md is run or updated, push to git
 globs: "**/project_status.md"
-alwaysApply: false
+alwaysApply: true
 ---
 
-# Project Status – Push After Update
+# Project Status – Push to Git When Run or Updated
 
-Whenever **project_status.md** is updated or saved:
+Whenever **project_status.md** is run, updated, or saved:
 
-1. **Commit** – Stage the file, commit with a clear message (e.g. "Update project_status.md" or a short summary of what changed).
-2. **Push** – Run `git push origin main` (or the current branch) immediately after the commit so the status is double-saved on the remote.
+1. **Commit** – Stage `project_status.md`, commit with a clear message (e.g. "Update project_status.md" or a short summary of what changed).
+2. **Push** – Run `git push origin main` (or the current branch) right after the commit. Do not skip the push.
 
-**If the file is ignored by .gitignore:** Use `git add -f project_status.md` so it is tracked, then commit and push. Do not skip the push.
+**If the file is ignored:** Use `git add -f project_status.md` so it is tracked, then commit and push.
 
-This applies when you or the user run, generate, or edit project status (e.g. "project status", "update project_status", or edits to `project_status.md`).
+Applies when the user or the agent runs, generates, or edits project status (e.g. "run project status", "update project_status", or any edit to `project_status.md`).
