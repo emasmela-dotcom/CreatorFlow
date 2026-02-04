@@ -32,7 +32,11 @@ export async function POST(request: NextRequest) {
         message: 'If an account exists with this email, a password reset link has been sent.' 
       })
     }
-    const user = userResult.rows[0] as { id: string; email: string }
+    const row = userResult.rows[0] as Record<string, unknown>
+    const userId = (row?.id ?? row?.ID) as string
+    if (!userId) {
+      return NextResponse.json({ error: 'User record invalid' }, { status: 500 })
+    }
 
     if (action === 'request') {
       // In production, send email with reset token
@@ -44,30 +48,28 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'reset') {
-      if (!newPassword) {
+      const newPasswordTrimmed = typeof newPassword === 'string' ? newPassword.trim() : ''
+      if (!newPasswordTrimmed) {
         return NextResponse.json({ error: 'New password is required' }, { status: 400 })
       }
 
-      if (!isStrongPassword(newPassword)) {
+      if (!isStrongPassword(newPasswordTrimmed)) {
         return NextResponse.json({ 
           error: 'Password must be at least 8 characters with uppercase, lowercase, and number' 
         }, { status: 400 })
       }
 
-      // Hash new password
-      const hashedPassword = await bcrypt.hash(newPass, 10)
+      // Hash new password (trimmed so signin trim matches)
+      const hashedPassword = await bcrypt.hash(newPasswordTrimmed, 10)
 
       // Update password by user id (reliable regardless of email casing in DB)
       await db.execute({
         sql: 'UPDATE users SET password_hash = ? WHERE id = ?',
-        args: [hashedPassword, user.id]
+        args: [hashedPassword, userId]
       })
 
-      // Brief delay so primary write propagates before user hits sign-in (avoids replica lag)
-      await new Promise((r) => setTimeout(r, 1500))
-
       return NextResponse.json({ 
-        message: 'Password reset successfully! You can sign in with your new password.' 
+        message: 'Password reset successfully!' 
       })
     }
 
