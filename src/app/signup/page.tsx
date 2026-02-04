@@ -22,6 +22,7 @@ function SignupPageContent() {
   const [step, setStep] = useState<'plan' | 'account' | 'payment'>('plan')
   const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(null)
   const [planFromUrlApplied, setPlanFromUrlApplied] = useState(false)
+  const [hadPlanInUrl, setHadPlanInUrl] = useState(false)
 
   // Read ?plan= from URL after mount so the page can be statically generated (avoids useSearchParams)
   useEffect(() => {
@@ -31,6 +32,7 @@ function SignupPageContent() {
     if (plan) {
       setSelectedPlan(plan)
       setStep('account')
+      setHadPlanInUrl(true)
     }
     setPlanFromUrlApplied(true)
   }, [planFromUrlApplied])
@@ -258,7 +260,7 @@ function SignupPageContent() {
               </div>
 
               <div className="flex gap-4">
-                {!preSelectedPlan ? (
+                {!hadPlanInUrl ? (
                   <button
                     type="button"
                     onClick={() => setStep('plan')}
