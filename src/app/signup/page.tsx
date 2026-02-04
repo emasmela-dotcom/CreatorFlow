@@ -301,7 +301,7 @@ function SignupPageContent() {
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4">Keep Your Plan After the Trial</h2>
               <p className="text-lg text-gray-400">
-                Your free trial is active. Add a payment method after trial completes to keep your changed content and continue with tools to grow your content brand.
+                Your free trial is active. Add a payment method after trial to keep your content and keep using tools to grow your content brand.
               </p>
             </div>
 
