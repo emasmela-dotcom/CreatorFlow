@@ -21,33 +21,12 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
           a: 'Go to the Create Post page, select your platform, type your content, and use the AI Content Assistant to optimize it before posting.'
         },
         {
-          q: 'What are AI bots and how do I use them?',
-          a: 'AI bots are free assistants that help you create better content. Click on any bot in the Dashboard → AI Bots tab to see what it does and how to use it.'
+          q: 'Where do I get help with content and scheduling?',
+          a: 'Use the Create Post page for content creation and the Dashboard → Content and Calendar tabs for scheduling and organization.'
         },
         {
           q: 'How do I save content for later?',
           a: 'Use the Documents feature to save drafts, ideas, and notes. You can also use Content Templates to save reusable post formats.'
-        }
-      ]
-    },
-    {
-      category: 'AI Bots',
-      questions: [
-        {
-          q: 'Are AI bots really free?',
-          a: 'Yes! All AI bots are included in every plan. Performance improves with higher plan tiers, but all bots are available to everyone.'
-        },
-        {
-          q: 'What does "AI call limit" mean?',
-          a: 'Each time you use an AI bot (like Content Assistant or Scheduling Bot), it counts as one AI call. Free plan gets 50 calls/month, Starter gets 500, and Pro+ gets unlimited.'
-        },
-        {
-          q: 'Can bots post to social media for me?',
-          a: 'No, bots provide suggestions only. You review and approve all suggestions, then post manually to comply with platform Terms of Service.'
-        },
-        {
-          q: 'Which bot should I use first?',
-          a: 'Start with Content Assistant (analyzes your posts) and Scheduling Assistant (finds best posting times). These are the most commonly used.'
         }
       ]
     },
@@ -122,12 +101,12 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
           a: 'If you\'ve connected your platform account, posts should post automatically when you click "Post Now" or when scheduled time arrives. If not working, check your platform connection status and ensure tokens haven\'t expired.'
         },
         {
-          q: 'The AI bot isn\'t giving suggestions. What\'s wrong?',
-          a: 'Make sure you\'ve entered content and selected a platform. Some bots need specific information to work. Check the bot\'s documentation for requirements.'
+          q: 'Content or scheduling suggestions aren\'t showing. What\'s wrong?',
+          a: 'Make sure you\'ve entered content and selected a platform on the Create Post page. Some tools need specific information to work.'
         },
         {
           q: 'I can\'t find a feature. Where is it?',
-          a: 'Use the search bar in the dashboard header to search across all your content. Most features are in Dashboard → Content tab or Dashboard → AI Bots tab.'
+          a: 'Use the search bar in the dashboard header to search across all your content. Most features are in Dashboard → Content tab or the Create Post page.'
         },
         {
           q: 'How do I contact support?',

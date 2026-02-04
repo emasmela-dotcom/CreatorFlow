@@ -48,7 +48,6 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
 
   const categories = [
     'General',
-    'AI Bots',
     'Content Creation',
     'Analytics',
     'Scheduling',
