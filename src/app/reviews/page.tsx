@@ -244,9 +244,9 @@ export default function ReviewsPage() {
           <div className="flex justify-center gap-6 text-sm text-gray-500">
             <a href="/" className="hover:text-white transition-colors">Home</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Support</a>
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Support</a>
           </div>
         </div>
       </footer>

@@ -6,5 +6,5 @@ Disallow: /create
 Disallow: /signup
 Disallow: /signin
 
-Sitemap: https://creatorflow.ai/sitemap.xml
+Sitemap: https://www.creatorflow365.com/sitemap.xml
 

@@ -631,10 +631,10 @@ The CreatorFlow365 Team`,
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Support</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Support</a>
+            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Contact</a>
           </div>
         </div>
       </footer>
