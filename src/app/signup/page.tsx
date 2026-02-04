@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
@@ -19,11 +19,21 @@ function normalizePlan(plan: string | null): PlanType | null {
 
 function SignupPageContent() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const preSelectedPlan = normalizePlan(searchParams.get('plan'))
+  const [step, setStep] = useState<'plan' | 'account' | 'payment'>('plan')
+  const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(null)
+  const [planFromUrlApplied, setPlanFromUrlApplied] = useState(false)
 
-  const [step, setStep] = useState<'plan' | 'account' | 'payment'>(preSelectedPlan ? 'account' : 'plan')
-  const [selectedPlan, setSelectedPlan] = useState<PlanType | null>(preSelectedPlan)
+  // Read ?plan= from URL after mount so the page can be statically generated (avoids useSearchParams)
+  useEffect(() => {
+    if (planFromUrlApplied || typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const plan = normalizePlan(params.get('plan'))
+    if (plan) {
+      setSelectedPlan(plan)
+      setStep('account')
+    }
+    setPlanFromUrlApplied(true)
+  }, [planFromUrlApplied])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -393,14 +403,6 @@ function SignupPageContent() {
 }
 
 export default function SignupPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
-      </div>
-    }>
-      <SignupPageContent />
-    </Suspense>
-  )
+  return <SignupPageContent />
 }
 
