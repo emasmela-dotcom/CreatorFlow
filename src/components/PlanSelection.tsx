@@ -129,7 +129,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             `}
           >
             {isPopular && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-max max-w-[calc(100%-1rem)] bg-white text-black px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap text-center">
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-max max-w-[calc(100%-1rem)] bg-white text-black px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap text-center shadow-md">
                 Most Popular
               </div>
             )}
