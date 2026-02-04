@@ -2866,7 +2866,7 @@ export default function Dashboard() {
               </button>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <ContentSearch token={token} />
             <button
               onClick={() => setHelpCenterOpen(true)}
@@ -2883,9 +2883,10 @@ export default function Dashboard() {
                 localStorage.removeItem('user')
                 router.push('/signin')
               }}
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap"
+              title="Sign out"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-4 h-4 flex-shrink-0" />
               <span>Sign Out</span>
             </button>
           </div>
@@ -2950,6 +2951,18 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+
+            <button
+              onClick={() => {
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                router.push('/signin')
+              }}
+              className="w-full flex items-center justify-center gap-2 p-3 mt-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
           </div>
         </aside>
 
