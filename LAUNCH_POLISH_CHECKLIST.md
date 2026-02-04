@@ -18,23 +18,23 @@ Use this to clean up final details before heavy marketing.
   - [ ] `STRIPE_PRICE_PRO`
   - [ ] `STRIPE_PRICE_BUSINESS`
   - [ ] `STRIPE_PRICE_AGENCY`
-- [ ] Stripe keys and webhook secret are live and current
-  - [ ] `STRIPE_SECRET_KEY`
-  - [ ] `STRIPE_WEBHOOK_SECRET`
+- [x] Stripe keys and webhook secret are live and current
+  - [x] `STRIPE_SECRET_KEY`
+  - [x] `STRIPE_WEBHOOK_SECRET`
 
 ---
 
 ## 2. Stripe Webhook (Production)
 
-- [ ] Webhook endpoint set in Stripe Dashboard  
+- [x] Webhook endpoint set in Stripe Dashboard  
       `https://www.creatorflow365.com/api/stripe/webhook`
-- [ ] Events configured:
-  - [ ] `checkout.session.completed`
-  - [ ] `customer.subscription.created`
-  - [ ] `customer.subscription.updated`
-  - [ ] `invoice.payment_failed`
-- [ ] Webhook signing secret copied into Vercel (`STRIPE_WEBHOOK_SECRET`)
-- [ ] App redeployed after any changes to webhook or env vars
+- [x] Events configured:
+  - [x] `checkout.session.completed`
+  - [x] `customer.subscription.created`
+  - [x] `customer.subscription.updated`
+  - [x] `invoice.payment_failed`
+- [x] Webhook signing secret copied into Vercel (`STRIPE_WEBHOOK_SECRET`)
+- [x] App redeployed after any changes to webhook or env vars
 
 ---
 
