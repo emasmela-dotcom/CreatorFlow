@@ -150,8 +150,11 @@ function SignupPageContent() {
               <p className="text-xl text-gray-400">
                 Start your free trial with half a month (15 days) of any plan.
               </p>
-              <p className="text-sm text-yellow-400 mt-2">
-                ⚠️ Credit card required to start trial (no charge until trial ends)
+              <p className="text-sm text-green-400 mt-2">
+                ✅ No credit card required to start your trial.
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                If you decide to keep going on a paid plan, your account keeps all the content you created during the trial.
               </p>
             </div>
 
