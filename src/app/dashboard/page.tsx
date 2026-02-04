@@ -2963,7 +2963,8 @@ export default function Dashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
-          <NewBotsBanner />
+          {/* Temporarily hide AI Bots marketing banner */}
+          {/* <NewBotsBanner /> */}
           <TrialStatusBanner />
           
           {activeTab === 'overview' && (
