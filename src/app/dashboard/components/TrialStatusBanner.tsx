@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Clock, CheckCircle } from 'lucide-react'
+import { Clock, CheckCircle, CreditCard } from 'lucide-react'
 import TrialEndNotification from '@/components/TrialEndNotification'
 
 export default function TrialStatusBanner() {
   const [subscriptionData, setSubscriptionData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   useEffect(() => {
     fetchSubscriptionStatus()
@@ -34,10 +35,38 @@ export default function TrialStatusBanner() {
     }
   }
 
+  /** When no Stripe yet: start checkout to subscribe and keep content. When already subscribed: refresh. */
   const handleContinue = async () => {
-    // Subscription continues automatically via Stripe
-    // Just refresh status
-    await fetchSubscriptionStatus()
+    const token = localStorage.getItem('token')
+    if (!token) return
+    if (subscriptionData?.subscription) {
+      await fetchSubscriptionStatus()
+      return
+    }
+    setCheckoutLoading(true)
+    try {
+      const planType = subscriptionData?.trialPlan || subscriptionData?.plan || 'starter'
+      const res = await fetch('/api/stripe/trial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ planType }),
+      })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        window.location.href = data.url
+        return
+      }
+      if (res.ok && data.success && data.redirect) {
+        window.location.href = data.redirect
+        return
+      }
+      await fetchSubscriptionStatus()
+    } catch (e) {
+      console.error('Checkout error:', e)
+      await fetchSubscriptionStatus()
+    } finally {
+      setCheckoutLoading(false)
+    }
   }
 
   const handleCancel = async () => {
@@ -77,22 +106,28 @@ export default function TrialStatusBanner() {
 
       {subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && subscriptionData.daysRemaining > 3 && (
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-blue-400" />
+              <Clock className="w-5 h-5 text-blue-400 flex-shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-blue-400">Free Trial Active</p>
                 <p className="text-xs text-gray-300">
                   {subscriptionData.daysRemaining} {subscriptionData.daysRemaining === 1 ? 'day' : 'days'} remaining
+                  {subscriptionData.trialPlan || subscriptionData.plan ? ` • ${String(subscriptionData.trialPlan || subscriptionData.plan).charAt(0).toUpperCase() + String(subscriptionData.trialPlan || subscriptionData.plan).slice(1)} plan` : ''}
                 </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-400">Trial Plan:</p>
-              <p className="text-sm font-semibold text-white capitalize">
-                {subscriptionData.trialPlan || subscriptionData.plan}
-              </p>
-            </div>
+            {!subscriptionData.subscription && (
+              <button
+                type="button"
+                onClick={handleContinue}
+                disabled={checkoutLoading}
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-semibold text-sm hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <CreditCard className="w-4 h-4" />
+                {checkoutLoading ? 'Redirecting...' : 'Subscribe to keep your content after trial'}
+              </button>
+            )}
           </div>
         </div>
       )}
