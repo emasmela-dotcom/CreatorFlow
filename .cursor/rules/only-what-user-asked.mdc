@@ -1,0 +1,8 @@
+---
+description: Only do what the user asked; don't add extra.
+alwaysApply: true
+---
+
+# Only What User Asked
+
+Do exactly what the user asked. Don't add extra bullets, steps, rules, or features unless they ask.
