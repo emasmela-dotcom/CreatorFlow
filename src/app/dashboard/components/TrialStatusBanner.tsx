@@ -125,7 +125,7 @@ export default function TrialStatusBanner() {
                 className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-semibold text-sm hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <CreditCard className="w-4 h-4" />
-                {checkoutLoading ? 'Redirecting...' : 'Keep what you've built—subscribe to save your work and keep your tools'}
+                {checkoutLoading ? 'Redirecting...' : "Keep what you've built—subscribe to save your work and keep your tools"}
               </button>
             )}
           </div>

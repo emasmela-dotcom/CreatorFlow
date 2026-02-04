@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Bot } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import NewBotsBanner from '@/components/NewBotsBanner'
 import HelpCenter from '@/components/HelpCenter'
@@ -2830,12 +2830,19 @@ export default function Dashboard() {
               >
                 Collaborations
               </button>
-              <button 
+<button
                 className="px-4 py-2 rounded-lg transition-colors hover:bg-gray-700"
                 onClick={() => router.push('/documents')}
               >
                 <FileText className="w-4 h-4 inline mr-2" />
                 Documents
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'ai-tools' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
+                onClick={() => setActiveTab('ai-tools')}
+              >
+                <Bot className="w-4 h-4 inline mr-2" />
+                AI Tools
               </button>
               <button
                 className={`px-4 py-2 rounded-lg transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`}
@@ -2956,8 +2963,7 @@ export default function Dashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
-          {/* Temporarily hide AI Bots marketing banner */}
-          {/* <NewBotsBanner /> */}
+          <NewBotsBanner />
           <TrialStatusBanner />
           
           {activeTab === 'overview' && (
@@ -3198,6 +3204,53 @@ export default function Dashboard() {
                   ))}
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === 'ai-tools' && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <h2 className="text-2xl font-bold">AI Tools</h2>
+                <HelpIcon
+                  content="All 18+ AI tools are included in your plan. Click any tool to open it and get started."
+                  title="AI Tools"
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {[
+                  { id: 'expense-tracker', label: 'Expense Tracker' },
+                  { id: 'invoice-generator', label: 'Invoice Generator' },
+                  { id: 'email-sorter', label: 'Email Sorter' },
+                  { id: 'customer-service', label: 'Customer Service' },
+                  { id: 'product-recommendation', label: 'Product Recommendation' },
+                  { id: 'sales-lead-qualifier', label: 'Sales Lead Qualifier' },
+                  { id: 'website-chat', label: 'Website Chat' },
+                  { id: 'content-writer', label: 'Content Writer' },
+                  { id: 'meeting-scheduler', label: 'Meeting Scheduler' },
+                  { id: 'social-media-manager', label: 'Social Media Manager' },
+                  { id: 'content-repurposing', label: 'Content Repurposing' },
+                  { id: 'content-gap-analyzer', label: 'Content Gap Analyzer' },
+                  { id: 'hashtag-research', label: 'Hashtag Research' },
+                  { id: 'content-templates', label: 'Content Templates' },
+                  { id: 'engagement-inbox', label: 'Engagement Inbox' },
+                  { id: 'content-assistant', label: 'Content Assistant' },
+                  { id: 'scheduling-assistant', label: 'Scheduling Assistant' },
+                  { id: 'engagement-analyzer', label: 'Engagement Analyzer' },
+                  { id: 'trend-scout', label: 'Trend Scout' },
+                  { id: 'content-curation', label: 'Content Curation' },
+                  { id: 'analytics-coach', label: 'Analytics Coach' },
+                ].map(({ id, label }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setSelectedBot(id)}
+                    className="flex items-center gap-3 p-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-purple-500/50 rounded-lg text-left transition-colors"
+                  >
+                    <Bot className="w-6 h-6 text-purple-400 flex-shrink-0" />
+                    <span className="font-medium text-white">{label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
