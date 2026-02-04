@@ -85,30 +85,30 @@ Use this to clean up final details before heavy marketing.
 - [x] Signup/trial copy updated (no card required, content retention, upgrade/downgrade rules)
 - [x] Trial terms & payment step copy aligned with no-card trial and snapshot/restore
 - [x] Plan card copy tightened (Professional, Business); AI Bots removed from dashboard, nav, help & feedback
-- [ ] Privacy page (`/privacy`) created and linked in footer
-- [ ] Terms of Service page (`/terms`) created and linked in footer
-- [ ] 404 / not‑found page looks on‑brand and helpful
-- [ ] Error page copy is clear and non‑scary
-- [ ] Support / contact path obvious (e.g. footer link)
+- [x] Privacy page (`/privacy`) created and linked in footer
+- [x] Terms of Service page (`/terms`) created and linked in footer
+- [x] 404 / not‑found page looks on‑brand and helpful
+- [x] Error page copy is clear and non‑scary
+- [x] Support / contact path obvious (e.g. footer link)
 - [ ] `support@` email forwarding (ImprovMX) tested
 
 ---
 
 ## 5. Analytics & Monitoring
 
-- [ ] Confirm Google / Vercel analytics are recording real traffic
+- [ ] Confirm Google / Vercel analytics are recording real traffic (GA + Vercel script in layout; verify in dashboards)
 - [ ] At least one real session shows up in analytics
-- [ ] Error monitoring plan in place:
-  - [ ] Either Sentry/LogRocket or regular Vercel log checks
-  - [ ] Stripe webhook errors monitored in Stripe Dashboard
+- [x] Error monitoring plan in place:
+  - [x] Use Vercel Logs and Stripe Dashboard → Webhooks for errors
+  - [x] Stripe webhook errors monitored in Stripe Dashboard
 
 ---
 
 ## 6. Light SEO & Share Cards
 
-- [ ] Title and description feel accurate for target creators
-- [ ] Open Graph / Twitter card preview looks good when sharing URL
-- [ ] `robots.txt` and sitemap look sane (no accidental blocking)
+- [x] Title and description feel accurate for target creators
+- [x] Open Graph / Twitter card preview (set in layout; verify by sharing URL)
+- [x] `robots.txt` and sitemap look sane (no accidental blocking); sitemap URL fixed to creatorflow365.com; /privacy and /terms added
 
 ---
 
