@@ -2602,6 +2602,7 @@ export default function Dashboard() {
   const [token, setToken] = useState<string>('')
   const [selectedBot, setSelectedBot] = useState<string | null>(null)
   const [helpCenterOpen, setHelpCenterOpen] = useState(false)
+  const [headerSearch, setHeaderSearch] = useState('')
   const [userId, setUserId] = useState<string>('')
 
   useEffect(() => {
@@ -2696,9 +2697,30 @@ export default function Dashboard() {
       {/* Header: CreatorFlow365 + controls, then nav topics in 2 rows */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-3">
         <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            CreatorFlow365
-          </h1>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+              CreatorFlow365
+            </h1>
+            <form
+              className="relative flex items-center"
+              onSubmit={(e) => {
+                e.preventDefault()
+                const q = headerSearch.trim()
+                if (q) router.push(`/documents?search=${encodeURIComponent(q)}`)
+                else router.push('/documents')
+              }}
+            >
+              <Search className="absolute left-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
+              <input
+                type="search"
+                placeholder="Search content..."
+                value={headerSearch}
+                onChange={(e) => setHeaderSearch(e.target.value)}
+                className="w-48 sm:w-64 pl-9 pr-3 py-1.5 text-sm bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                aria-label="Search content"
+              />
+            </form>
+          </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setHelpCenterOpen(true)}

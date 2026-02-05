@@ -1,15 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FileText, Plus, Search, Tag, Pin, PinOff, Edit, Trash2, Folder, X, Save } from 'lucide-react'
 
 export default function DocumentsPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [token, setToken] = useState('')
   const [documents, setDocuments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(() => searchParams.get('search') || '')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [showEditor, setShowEditor] = useState(false)
   const [editingDoc, setEditingDoc] = useState<any>(null)
