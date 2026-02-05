@@ -189,17 +189,22 @@ export async function POST(request: NextRequest) {
         }
 
         if (!userResult || userResult.rows.length === 0) {
-          return NextResponse.json({ error: 'Invalid email or password' }, { 
+          return NextResponse.json({ 
+            error: 'Invalid email or password',
+            code: 'NO_USER'
+          }, { 
             status: 400,
             headers: { 'Content-Type': 'application/json' }
           })
         }
 
         const user = userResult.rows[0] as any
-        // Support object row (password_hash) or array row (index 2)
-        const hash = user?.password_hash ?? user?.password ?? (Array.isArray(user) ? user[2] : undefined)
-        if (!user || !hash || typeof hash !== 'string') {
-          return NextResponse.json({ error: 'Invalid email or password' }, { 
+        const hash = user?.password_hash ?? user?.password
+        if (!user || !hash) {
+          return NextResponse.json({ 
+            error: 'Invalid email or password',
+            code: 'NO_HASH'
+          }, { 
             status: 400,
             headers: { 'Content-Type': 'application/json' }
           })
@@ -208,7 +213,10 @@ export async function POST(request: NextRequest) {
         // Verify password
         const isValid = await bcrypt.compare(password, hash)
         if (!isValid) {
-          return NextResponse.json({ error: 'Invalid email or password' }, { 
+          return NextResponse.json({ 
+            error: 'Invalid email or password',
+            code: 'BAD_PASSWORD'
+          }, { 
             status: 400,
             headers: { 'Content-Type': 'application/json' }
           })
