@@ -2722,8 +2722,8 @@ export default function Dashboard() {
               />
             </form>
           </div>
-          {/* Center: nav in 2 rows, aligned */}
-          <nav className="hidden md:flex flex-col gap-1.5 flex-1 min-w-0">
+          {/* Center: nav in 2 rows, shifted right */}
+          <nav className="hidden md:flex flex-col gap-1.5 flex-1 min-w-0 ml-8 sm:ml-12">
             <div className="flex flex-wrap items-center gap-1.5">
               <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
               <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
