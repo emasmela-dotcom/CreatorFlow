@@ -2738,8 +2738,9 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        {/* Row 2: Nav slid right (pic 1); row 2 of nav thinner (pic 3) */}
-        <nav className="flex flex-col gap-1 pl-12 sm:pl-20">
+        {/* Row 2: Nav centered in the header section */}
+        <div className="w-full flex justify-center">
+        <nav className="flex flex-col gap-1 items-center">
           <div className="flex flex-wrap items-center gap-1.5">
             <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
             <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
@@ -2755,6 +2756,7 @@ export default function Dashboard() {
             <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
           </div>
         </nav>
+        </div>
       </header>
 
       <div className="flex">
