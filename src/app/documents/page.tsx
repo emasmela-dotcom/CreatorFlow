@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FileText, Plus, Search, Tag, Pin, PinOff, Edit, Trash2, Folder, X, Save } from 'lucide-react'
 
-export default function DocumentsPage() {
+function DocumentsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [token, setToken] = useState('')
@@ -425,3 +425,10 @@ export default function DocumentsPage() {
   )
 }
 
+export default function DocumentsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>}>
+      <DocumentsContent />
+    </Suspense>
+  )
+}
