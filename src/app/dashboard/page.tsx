@@ -2694,16 +2694,16 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header: thin; row 1 = CreatorFlow365 + search (left) | controls (right); row 2 = nav centered */}
-      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-1.5">
-        {/* Row 1: Brand with search bar UNDER it (left), Help/Bell/Settings/Sign Out (right) */}
-        <div className="flex items-center justify-between gap-4 mb-1.5">
-          <div className="flex flex-col gap-1 shrink-0">
-            <h1 className="text-base sm:text-lg font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">
+      {/* Header: tight; CreatorFlow365 2x size; nav 6+7 centered */}
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-1">
+        {/* Row 1: Brand + search (left) | controls (right) */}
+        <div className="flex items-center justify-between gap-4 mb-1">
+          <div className="flex flex-col gap-0.5 shrink-0">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">
               CreatorFlow365
             </h1>
             <form
-              className="relative flex items-center w-52 sm:w-72 min-h-[2rem] flex-shrink-0"
+              className="relative flex items-center w-52 sm:w-72 min-h-[1.75rem] flex-shrink-0"
               onSubmit={(e) => {
                 e.preventDefault()
                 const q = headerSearch.trim()
@@ -2717,7 +2717,7 @@ export default function Dashboard() {
                 placeholder="Search content..."
                 value={headerSearch}
                 onChange={(e) => setHeaderSearch(e.target.value)}
-                className="w-full min-h-[2rem] pl-9 pr-3 py-1 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 aria-label="Search content"
               />
             </form>
@@ -2747,9 +2747,9 @@ export default function Dashboard() {
             <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
             <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
             <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
+            <button className="px-2.5 py-1 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-1.5">
-            <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
             <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-3 h-3 inline mr-1 -mt-0.5" />Documents</button>
             <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
             <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
