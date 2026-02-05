@@ -2696,9 +2696,9 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header: row 1 = CreatorFlow365 + search bar (left) | controls (right); row 2 = nav indented right */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-3">
-        {/* Row 1: Brand + search bar on left, Help/Bell/Settings/Sign Out on right */}
+        {/* Row 1: Brand with search bar UNDER it (left), Help/Bell/Settings/Sign Out (right) */}
         <div className="flex items-center justify-between gap-4 mb-3">
-          <div className="flex items-center gap-4 shrink-0">
+          <div className="flex flex-col gap-2 shrink-0">
             <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap">
               CreatorFlow365
             </h1>
