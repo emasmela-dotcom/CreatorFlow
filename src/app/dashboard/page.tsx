@@ -2696,13 +2696,13 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header: CreatorFlow365 + controls, then nav topics in 2 rows */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-3">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+        <div className="flex items-center justify-between mb-3 gap-4">
+          <div className="flex flex-col gap-2 min-w-0 flex-shrink-0">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap">
               CreatorFlow365
             </h1>
             <form
-              className="relative flex items-center"
+              className="relative flex items-center w-full max-w-xs"
               onSubmit={(e) => {
                 e.preventDefault()
                 const q = headerSearch.trim()
@@ -2710,13 +2710,13 @@ export default function Dashboard() {
                 else router.push('/documents')
               }}
             >
-              <Search className="absolute left-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Search className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none flex-shrink-0" />
               <input
                 type="search"
                 placeholder="Search content..."
                 value={headerSearch}
                 onChange={(e) => setHeaderSearch(e.target.value)}
-                className="w-48 sm:w-64 pl-9 pr-3 py-1.5 text-sm bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full min-w-[12rem] pl-9 pr-3 py-2 text-sm bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                 aria-label="Search content"
               />
             </form>
