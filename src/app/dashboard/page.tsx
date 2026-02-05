@@ -2738,8 +2738,8 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        {/* Row 2: Nav tabs indented to the right */}
-        <nav className="hidden md:flex flex-col gap-1.5 pl-12 sm:pl-16">
+        {/* Row 2: Nav categories always visible, lined up at top */}
+        <nav className="flex flex-col gap-1.5 pl-0 sm:pl-4">
           <div className="flex flex-wrap items-center gap-1.5">
             <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
             <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
