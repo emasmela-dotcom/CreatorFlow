@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
             <span>Back to Sign In</span>
           </button>
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            CreatorFlow
+            CreatorFlow365
           </h1>
           <div className="w-24" />
         </div>

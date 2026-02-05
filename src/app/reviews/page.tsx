@@ -126,7 +126,7 @@ export default function ReviewsPage() {
             className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-indigo-300 transition-colors flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5 text-purple-400" />
-            CreatorFlow
+            CreatorFlow365
           </button>
           <div className="flex items-center gap-4">
             <button
@@ -156,7 +156,7 @@ export default function ReviewsPage() {
             What Creators Are Saying
           </h1>
           <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-            Join thousands of creators who are growing their business with CreatorFlow
+            Join thousands of creators who are growing their business with CreatorFlow365
           </p>
           <div className="flex items-center justify-center gap-2 mb-8">
             <div className="flex">
@@ -239,7 +239,7 @@ export default function ReviewsPage() {
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-800">
         <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-4">CreatorFlow</h3>
+          <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
             <a href="/" className="hover:text-white transition-colors">Home</a>

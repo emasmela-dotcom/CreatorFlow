@@ -2693,11 +2693,11 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header: CreatorFlow + controls, then nav topics in 2 rows */}
+      {/* Header: CreatorFlow365 + controls, then nav topics in 2 rows */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-3">
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            CreatorFlow
+            CreatorFlow365
           </h1>
           <div className="flex items-center gap-2 sm:gap-4">
             <button

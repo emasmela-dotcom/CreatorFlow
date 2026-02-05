@@ -61,7 +61,7 @@ export default function SignInPage() {
             <span>Back to Home</span>
           </button>
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            CreatorFlow
+            CreatorFlow365
           </h1>
           <div className="w-24" /> {/* Spacer for centering */}
         </div>
@@ -71,7 +71,7 @@ export default function SignInPage() {
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-4">Sign In</h2>
           <p className="text-lg text-gray-400">
-            Welcome back to CreatorFlow
+            Welcome back to CreatorFlow365
           </p>
         </div>
 
