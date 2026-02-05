@@ -61,6 +61,15 @@ export async function POST(request: NextRequest) {
         }, { status: 403 })
       }
 
+      // Ensure DB is connected (avoid silent no-op when DATABASE_URL missing)
+      const probe = await db.execute({ sql: 'SELECT 1 as ok' })
+      if (!probe.rows?.length) {
+        return NextResponse.json(
+          { error: 'Database not available. Please try again later or contact support.' },
+          { status: 503 }
+        )
+      }
+
       // Get plan type from request (optional, defaults to 'starter' for backward compatibility)
       const { planType } = body
       const rawTier = (planType || 'starter').toLowerCase()
@@ -84,6 +93,18 @@ export async function POST(request: NextRequest) {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
           args: [userId, email, hashedPassword, subscriptionTier, now.toISOString(), trialStartedAt, trialEndAt, trialPlan]
         })
+
+      // Verify user was written (never return success if row missing)
+      const verify = await db.execute({
+        sql: 'SELECT id FROM users WHERE id = ?',
+        args: [userId]
+      })
+      if (!verify.rows?.length) {
+        return NextResponse.json(
+          { error: 'Account creation failed. Please try again or contact support.' },
+          { status: 500 }
+        )
+      }
 
       // Create account snapshot (empty state) for potential restore
       try {
