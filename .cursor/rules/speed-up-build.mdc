@@ -1,0 +1,11 @@
+---
+description: Do everything possible to speed up the build process
+alwaysApply: true
+---
+
+# Speed Up the Build Process
+
+- Do everything you can to **speed up the process of build**.
+- Prefer: fewer steps, fewer back-and-forths, batching changes, running commands yourself (commit, push, scripts), and finishing checklist items in one go.
+- Avoid: unnecessary questions when context or conventions already imply the answer; deferring work that can be done now; suggesting the user run things you can run (e.g. git, scripts).
+- When the user is trying to ship: prioritize unblocking and completing over explaining or polishing.
