@@ -10,12 +10,12 @@ Use this list to get **done today** and ready to market.
 
 | # | Task | Done |
 |---|------|------|
-| 1 | **One full signup test** – New email → Sign up → land on dashboard. No errors. | ☐ |
-| 2 | **One pricing test** – From home or dashboard, hit a plan or “Get Started” → signup/checkout flow starts (or trial). No broken Stripe. | ☐ |
-| 3 | **Stripe price check** – Stripe Dashboard prices match what the site shows (e.g. Starter $9, Essential $19, Creator $49, etc.). Price IDs in Vercel match. | ☐ |
-| 4 | **One link you’ll use** – Decide and write down: “I send people to: ________” (e.g. `https://www.creatorflow365.com` or `/signup`). Use it everywhere. | ☐ |
-| 5 | **Footer/legal** – Privacy and Terms pages load (not 404). Contact/support works (e.g. support@ or contact link). | ☐ |
-| 6 | **Demo works** – Visit `/demo`, try without signup. No crash. | ☐ |
+| 1 | **One full signup test** – New email → Sign up → land on dashboard. No errors. | ☑ |
+| 2 | **One pricing test** – From home or dashboard, hit a plan or “Get Started” → signup/checkout flow starts (or trial). No broken Stripe. | ☑ |
+| 3 | **Stripe price check** – Stripe Dashboard prices match what the site shows (e.g. Starter $9, Essential $19, Creator $49, etc.). Price IDs in Vercel match. | ☑ |
+| 4 | **One link you’ll use** – Decide and write down: “I send people to: ________” (e.g. `https://www.creatorflow365.com` or `/signup`). Use it everywhere. | ☑ |
+| 5 | **Footer/legal** – Privacy and Terms pages load (not 404). Contact/support works (e.g. support@ or contact link). | ☑ |
+| 6 | **Demo works** – Visit `/demo`, try without signup. No crash. | ☑ |
 
 ---
 
@@ -32,5 +32,7 @@ Use this list to get **done today** and ready to market.
 - **Deploy:** `git push origin main` → Vercel.
 - **Stripe webhook:** See LAUNCH_CHECKLIST_FINAL.md.
 - **Project status:** PROJECT_STATUS.md.
+
+**One link:** `https://www.creatorflow365.com` — use it everywhere.
 
 **Goal:** By end of today, anyone you send to creatorflow365.com can sign up, see pricing, and use the product. Then you market.
