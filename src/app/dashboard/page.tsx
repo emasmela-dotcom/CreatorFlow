@@ -2581,14 +2581,6 @@ export default function Dashboard() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
-  const [postInfo, setPostInfo] = useState<{
-    monthlyLimit: number | null
-    purchased: number
-    postsThisMonth: number
-    totalAvailable: number
-    remaining: number
-    packages: Array<{ quantity: number; price: number; savings: string }>
-  } | null>(null)
   const [posts, setPosts] = useState<Array<{
     id: string
     platform: string
@@ -2662,27 +2654,6 @@ export default function Dashboard() {
         setSubscriptionTier(data.plan || null)
       })
       .catch(err => console.error('Error fetching subscription:', err))
-
-      // Fetch post purchase info
-      fetch('/api/user/purchase-posts', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) {
-          setPostInfo({
-            monthlyLimit: data.monthlyLimit,
-            purchased: data.purchasedPosts || 0,
-            postsThisMonth: data.postsThisMonth || 0,
-            totalAvailable: data.totalAvailable || 0,
-            remaining: data.remaining || 0,
-            packages: data.packages || []
-          })
-        }
-      })
-      .catch(err => console.error('Error fetching post info:', err))
 
       // Fetch posts with lock status
       fetch('/api/posts', {
@@ -3182,102 +3153,6 @@ export default function Dashboard() {
               </div>
             </div>
           )}
-
-          {/* Purchase Additional Posts Section */}
-          {activeTab === 'overview' && postInfo && (
-            <div className="space-y-6 mt-6">
-              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-2 border-blue-500 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">Post Usage</h3>
-                    <p className="text-gray-300 text-sm">
-                      Monthly limit: <span className="font-semibold">{postInfo.monthlyLimit || 0} posts</span> • 
-                      Purchased: <span className="font-semibold text-green-400">{postInfo.purchased} posts</span> • 
-                      Used this month: <span className="font-semibold">{postInfo.postsThisMonth}</span>
-                    </p>
-                    <p className="text-purple-400 text-sm mt-2 font-semibold">
-                      Remaining: {postInfo.remaining} posts • Purchased posts roll over forever
-                    </p>
-                  </div>
-                  {postInfo.remaining < 5 && (
-                    <div className="bg-yellow-500/20 border border-yellow-500 px-4 py-2 rounded-lg">
-                      <p className="text-yellow-400 font-semibold text-sm">Low on posts</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="border-t border-blue-500/30 pt-4">
-                  <h4 className="font-semibold mb-3">Buy Additional Posts</h4>
-                  
-                  {/* Rollover Logic Explanation */}
-                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-4">
-                    <h5 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
-                      How Post Rollover Works
-                    </h5>
-                    <ul className="text-sm text-gray-300 space-y-2 ml-6">
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-400 mt-1">1.</span>
-                        <span><strong className="text-white">Monthly posts</strong> reset each month (from your plan)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-400 mt-1">2.</span>
-                        <span><strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-400 mt-1">3.</span>
-                        <span><strong className="text-white">Monthly posts are used first</strong>, then purchased posts are used</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span><strong className="text-purple-400">Example:</strong> If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month</span>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-                    {postInfo.packages.map((pkg, idx) => (
-                      <div 
-                        key={idx}
-                        className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 hover:border-blue-500 transition-all cursor-pointer"
-                        onClick={async () => {
-                          const token = localStorage.getItem('token')
-                          if (!token) return
-                          
-                          try {
-                            const res = await fetch('/api/user/purchase-posts', {
-                              method: 'POST',
-                              headers: {
-                                'Authorization': `Bearer ${token}`,
-                                'Content-Type': 'application/json'
-                              },
-                              body: JSON.stringify({ 
-                                quantity: pkg.quantity, 
-                                packageIndex: idx 
-                              })
-                            })
-                            const data = await res.json()
-                            if (data.url) {
-                              window.location.href = data.url
-                            }
-                          } catch (err) {
-                            console.error('Purchase error:', err)
-                            alert('Error initiating purchase. Please try again.')
-                          }
-                        }}
-                      >
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-blue-400 mb-1">${pkg.price}</div>
-                          <div className="text-sm text-gray-300 mb-1">{pkg.quantity} Posts</div>
-                          <div className="text-xs text-green-400 mb-2">{pkg.savings} Savings</div>
-                          <div className="text-xs text-gray-400">${(pkg.price / pkg.quantity).toFixed(2)}/post</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
 
           {/* AI Tool Panels - Available to All Paying Subscribers */}
           {subscriptionTier && (

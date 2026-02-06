@@ -5,7 +5,6 @@ import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSe
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
-import { POST_PACKAGES } from '@/lib/postPackages'
 
 export default function HomePage() {
   const [email, setEmail] = useState('')
@@ -322,6 +321,18 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
 
+          {/* Benefits vs competitors - every plan wins vs similar-priced competitors */}
+          <div className="mb-12 max-w-3xl mx-auto bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Why we win at every plan</h3>
+            <ul className="text-sm text-gray-300 space-y-2">
+              <li><strong className="text-white">Starter ($9)</strong> — More features than Rytr ($9): social accounts, documents, hashtags, templates, AI. They’re writing-only.</li>
+              <li><strong className="text-white">Essential ($19)</strong> — More than Writesonic ($19): social management, analytics, unlimited docs. They’re words-only, 1 user.</li>
+              <li><strong className="text-white">Creator ($49)</strong> — Team + API + analytics at $49. Rytr/Jasper at this price: 1 user, no team, no API.</li>
+              <li><strong className="text-white">Professional ($79)</strong> — White-label + 10 team members. Competitors charge $125–249 for similar.</li>
+              <li><strong className="text-white">Business ($149)</strong> — Unlimited team, full white-label, dedicated manager. Competitors $499+ for comparable.</li>
+            </ul>
+          </div>
+
           {/* Feature explanations - so visitors understand before joining */}
           <div className="mb-12 max-w-3xl mx-auto bg-gray-800/50 border border-gray-700 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-white mb-4">What these features mean</h3>
@@ -470,60 +481,6 @@ The CreatorFlow365 Team`,
               ))}
             </div>
             <p className="text-sm text-gray-400 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Purchase Additional Posts Section */}
-      <section className="py-20 px-6 bg-gray-900/40">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
-            <div className="flex items-center gap-3 mb-6">
-              <Zap className="w-8 h-8 text-white" />
-              <h2 className="text-3xl font-bold text-white">Purchase Additional Posts</h2>
-            </div>
-
-            <p className="text-gray-300 text-lg mb-6">
-              Need more posts than your plan includes? Purchase additional posts that roll over forever.
-            </p>
-
-            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6">
-              <h3 className="font-semibold text-white mb-4 text-xl">How Post Rollover Works</h3>
-              <ul className="text-gray-300 space-y-3">
-                <li className="flex items-start gap-3">
-                  <span className="text-white mt-1 font-bold">1.</span>
-                  <span><strong className="text-white">Monthly posts</strong> reset each month (from your subscription plan)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white mt-1 font-bold">2.</span>
-                  <span><strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white mt-1 font-bold">3.</span>
-                  <span><strong className="text-white">Monthly posts are used first</strong>, then purchased posts are used</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-white mt-1 font-bold">Example:</span>
-                  <span>If you buy 20 posts and use all 15 monthly posts, those 20 purchased posts carry over to next month</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
-              <h3 className="font-semibold text-white mb-4">Available Packages</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {POST_PACKAGES.map((pkg, i) => (
-                  <div key={i} className={`p-4 rounded-lg text-center ${i === POST_PACKAGES.length - 1 ? 'bg-gray-800/50 border-2 border-white' : 'bg-gray-700/50 border border-gray-600'}`}>
-                    <div className="text-2xl font-bold text-white mb-1">${pkg.price}</div>
-                    <div className="text-sm text-gray-300 mb-1">{pkg.quantity} Posts</div>
-                    <div className={`text-xs ${i === POST_PACKAGES.length - 1 ? 'text-white font-semibold' : 'text-gray-400'}`}>{pkg.perPost}{pkg.savings !== '0%' ? ` • ${pkg.savings} Savings` : ''}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-sm text-gray-400 mt-4 text-center">
-                All purchased posts roll over forever and never expire
-              </p>
-            </div>
           </div>
         </div>
       </section>

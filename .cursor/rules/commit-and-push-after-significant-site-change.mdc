@@ -1,0 +1,11 @@
+---
+description: After the user has Cursor make a significant change to the site, commit and push.
+alwaysApply: true
+---
+
+# Commit and Push After Significant Site Change
+
+- **When:** After the user has Cursor make a **significant** change to the site—code, config, or content that affects the product, pages, or docs (e.g. new feature, removal, pricing/copy update, multi-file fix, restore/revert).
+- **Then:** Commit all related changes with a clear message and push to the current branch (e.g. `main`). One commit per logical change; message summarizes what was done.
+- **Significant** = changes the user requested that affect the live site or project (app, API, pages, docs). Not: answering a question, explaining something, or trivial one-line tweaks unless the user asks to commit.
+- **Conflict with other rules:** When this rule applies (user had you make a significant site change), commit and push as part of finishing that work. When the user only asked a question or did not ask for a site change, do not commit or push unless they explicitly ask.
