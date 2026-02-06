@@ -1,0 +1,24 @@
+---
+description: Work on one issue at a time until it is fully resolved
+alwaysApply: true
+---
+
+# One Issue At A Time
+
+When working on this project:
+
+1. **Single focus**  
+   - Pick **one concrete issue** (e.g. \"home page credit bundles layout\")  
+   - Stay on that issue until it is **fully fixed and verified**.
+
+2. **No multitasking / no jumping around**  
+   - Do **not** start another issue or wander around other parts of the site while an issue is still open.  
+   - Only open/read files that are directly related to the current issue.
+
+3. **Definition of done**  
+   - The issue behavior is fixed and matches what the user described.  
+   - Any needed tests/checks for that issue are done.  
+   - Related changes are committed and pushed (per existing project rules).
+
+4. **Then and only then**, move to the next issue the user gives.
+
