@@ -1,0 +1,17 @@
+---
+description: Do not nitpick or fine-detail when code already runs
+alwaysApply: true
+---
+
+# No Nitpicking, No Fine Detailing If Code Runs
+
+When the code **already runs** and does what the user asked:
+
+1. **Do not nitpick** – Do not suggest small style fixes, naming tweaks, or “better” patterns unless the user asks.
+2. **Do not fine-detail** – Do not add polish, refactors, or extra improvements “while you’re there.”
+
+Only change or suggest changes when:
+- The user explicitly asks for improvements, or
+- Something is broken or incorrect.
+
+If it runs and meets the request, leave it alone.
