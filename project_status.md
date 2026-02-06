@@ -1,6 +1,6 @@
 # CreatorFlow – Project Status
 
-**Last Updated:** February 4, 2026  
+**Last Updated:** February 5, 2026  
 **Production:** https://www.creatorflow365.com
 
 ---
@@ -85,4 +85,4 @@ See **LAUNCH_CHECKLIST_FINAL.md** and **STRIPE_WEBHOOK_AND_SMOKE_TEST.md** for d
 
 ---
 
-**Status:** Production live at www.creatorflow365.com. Signup → dashboard (plan optional); dashboard nav in 2 rows; Sign Out in sidebar; auth/signin and forgot-password fixes in place. Smoke test and Stripe price alignment recommended before marketing.
+**Status:** Production live at www.creatorflow365.com. Signup → dashboard (plan optional); dashboard nav in 2 rows; Sign Out in sidebar; auth/signin and forgot-password fixes in place. Home page: header Reviews / Sign In / Sign up; footer Reviews, Privacy, Terms, Support, Contact. Smoke test and Stripe price alignment recommended before marketing.
