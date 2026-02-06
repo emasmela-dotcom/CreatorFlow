@@ -1,0 +1,19 @@
+---
+description: Do not build new code directly; describe and let user bring code from outside AI
+alwaysApply: true
+---
+
+# No Self-Building Code
+
+When new code is needed (features, components, APIs, scripts):
+
+1. **Do not build the full code yourself.**
+2. **Explain clearly what is needed** – structure, functions, types, and behavior.
+3. **Let the user fetch/generate the actual code** from an outside AI or source.
+4. **Then help integrate or review** the code the user brings back (wiring it up, fixing errors, or adjusting to fit the project).
+
+Only write or edit small glue code when absolutely necessary to:
+- Wire up imports/exports,
+- Fix obvious type/runtime errors,
+- Or connect user-provided code to existing files.
+
