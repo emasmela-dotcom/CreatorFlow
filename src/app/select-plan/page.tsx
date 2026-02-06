@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import type { PlanType } from '@/components/PlanSelection'
-import { TOOLS_BY_PLAN } from '@/lib/toolsByPlan'
+import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
 
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
@@ -35,6 +35,7 @@ function SelectPlanContent() {
   const planParam = (searchParams.get('plan') || 'pro').toLowerCase()
   const planId = planParamToId(planParam)
   const planName = PLAN_NAMES[planId] || PLAN_NAMES[planParam] || 'Creator'
+  const toolsPlanId = (planId === 'free' ? 'starter' : planId) as PlanId
 
   const [understood, setUnderstood] = useState(false)
 
@@ -63,7 +64,7 @@ function SelectPlanContent() {
         <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-8">
           <h3 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h3>
           <ul className="space-y-2 text-sm text-gray-300">
-            {TOOLS_BY_PLAN[planId].map((tool, i) => (
+            {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
               <li key={i} className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
                 <span>{tool}</span>
