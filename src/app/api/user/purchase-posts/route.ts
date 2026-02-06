@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import jwt from 'jsonwebtoken'
 import Stripe from 'stripe'
+import { POST_PACKAGES } from '@/lib/postPackages'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
   apiVersion: '2025-09-30.clover',
@@ -9,14 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
-// Pricing for additional posts
-const ADDITIONAL_POST_PACKAGES = [
-  { quantity: 5, price: 4.00, savings: '0%', perPost: '$0.80/post' },
-  { quantity: 10, price: 8.00, savings: '0%', perPost: '$0.80/post' },
-  { quantity: 15, price: 12.00, savings: '0%', perPost: '$0.80/post' },
-  { quantity: 20, price: 15.00, savings: '6%', perPost: '$0.75/post' },
-  { quantity: 24, price: 18.00, savings: '10%', perPost: '$0.75/post' },
-]
+const ADDITIONAL_POST_PACKAGES = POST_PACKAGES
 
 /**
  * GET - Get current post usage and available additional post packages
@@ -70,7 +64,7 @@ export async function GET(request: NextRequest) {
       postsThisMonth: postsThisMonth,
       totalAvailable: totalAvailable,
       remaining: remaining,
-      packages: ADDITIONAL_POST_PACKAGES
+      packages: POST_PACKAGES
     })
   } catch (error: any) {
     console.error('Get post purchase info error:', error)
@@ -112,9 +106,9 @@ export async function POST(request: NextRequest) {
     let price: number
     let packageInfo = null
 
-    if (packageIndex !== undefined && packageIndex >= 0 && packageIndex < ADDITIONAL_POST_PACKAGES.length) {
+    if (packageIndex !== undefined && packageIndex >= 0 && packageIndex < POST_PACKAGES.length) {
       // Use package pricing
-      packageInfo = ADDITIONAL_POST_PACKAGES[packageIndex]
+      packageInfo = POST_PACKAGES[packageIndex]
       if (quantity !== packageInfo.quantity) {
         return NextResponse.json({ 
           error: `Quantity must match package size: ${packageInfo.quantity}` 

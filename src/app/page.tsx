@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
+import { CREDIT_BUNDLES } from '@/lib/creditBundles'
+import { POST_PACKAGES } from '@/lib/postPackages'
 
 export default function HomePage() {
   const [email, setEmail] = useState('')
@@ -310,7 +312,7 @@ The CreatorFlow365 Team`,
 
 
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-gray-900/30">
+      <section id="pricing" className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
           <div className="flex flex-wrap justify-center gap-6">
@@ -424,6 +426,34 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
+      {/* Credit Bundles - from creditBundles.ts (single source of truth) */}
+      <section id="credits" className="py-20 px-6 bg-gray-900/40">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Star className="w-8 h-8 text-white" />
+              <h2 className="text-3xl font-bold text-white">Credit Bundles</h2>
+            </div>
+            <p className="text-gray-300 text-lg mb-2">All plans include <strong className="text-white">25 free credits</strong> for your first month as a gift to try premium tools.</p>
+            <p className="text-gray-400 text-sm mb-4">Lower plans: Premium tools cost credits per use. Higher plans: Premium tools included in your plan have unlimited use (no credits needed). Purchase additional credits to unlock more premium tool uses. Purchased credits roll over month to month.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              {CREDIT_BUNDLES.map((bundle, i) => (
+                <div key={bundle.id} className={`bg-gray-800/50 rounded-xl p-6 text-center ${bundle.id === 'popular' ? 'border-2 border-white relative' : 'border border-gray-700'}`}>
+                  {bundle.id === 'popular' && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-0.5 rounded-full text-xs font-semibold">Most Popular</div>}
+                  <h3 className="text-xl font-bold text-white mb-2">{bundle.name}</h3>
+                  <div className="text-3xl font-bold text-white mb-1">${bundle.price}</div>
+                  {'savings' in bundle && bundle.savings && <div className="text-sm text-green-400 mb-1">{bundle.savings}</div>}
+                  <div className="text-sm text-gray-400 mb-3">{bundle.credits} credits · {bundle.perCredit}</div>
+                  <p className="text-xs text-gray-400 mb-6">{bundle.description}</p>
+                  <button onClick={() => handleBuyCredits(bundle.id)} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm text-gray-400 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
+          </div>
+        </div>
+      </section>
+
       {/* Purchase Additional Posts Section */}
       <section className="py-20 px-6 bg-gray-900/40">
         <div className="max-w-4xl mx-auto">
@@ -462,91 +492,18 @@ The CreatorFlow365 Team`,
             <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
               <h3 className="font-semibold text-white mb-4">Available Packages</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-white mb-1">$4</div>
-                  <div className="text-sm text-gray-300 mb-1">5 Posts</div>
-                  <div className="text-xs text-gray-400">$0.80/post</div>
-                </div>
-                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-white mb-1">$8</div>
-                  <div className="text-sm text-gray-300 mb-1">10 Posts</div>
-                  <div className="text-xs text-gray-400">$0.80/post</div>
-                </div>
-                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-white mb-1">$12</div>
-                  <div className="text-sm text-gray-300 mb-1">15 Posts</div>
-                  <div className="text-xs text-gray-400">$0.80/post</div>
-                </div>
-                <div className="bg-gray-700/50 p-4 rounded-lg border border-gray-600 text-center">
-                  <div className="text-2xl font-bold text-white mb-1">$15</div>
-                  <div className="text-sm text-gray-300 mb-1">20 Posts</div>
-                  <div className="text-xs text-gray-400">$0.75/post</div>
-                </div>
-                <div className="bg-gray-800/50 p-4 rounded-lg border-2 border-white text-center">
-                  <div className="text-2xl font-bold text-white mb-1">$18</div>
-                  <div className="text-sm text-gray-300 mb-1">24 Posts</div>
-                  <div className="text-xs text-white font-semibold">$0.75/post • 10% Savings</div>
-                </div>
+                {POST_PACKAGES.map((pkg, i) => (
+                  <div key={i} className={`p-4 rounded-lg text-center ${i === POST_PACKAGES.length - 1 ? 'bg-gray-800/50 border-2 border-white' : 'bg-gray-700/50 border border-gray-600'}`}>
+                    <div className="text-2xl font-bold text-white mb-1">${pkg.price}</div>
+                    <div className="text-sm text-gray-300 mb-1">{pkg.quantity} Posts</div>
+                    <div className={`text-xs ${i === POST_PACKAGES.length - 1 ? 'text-white font-semibold' : 'text-gray-400'}`}>{pkg.perPost}{pkg.savings !== '0%' ? ` • ${pkg.savings} Savings` : ''}</div>
+                  </div>
+                ))}
               </div>
               <p className="text-sm text-gray-400 mt-4 text-center">
                 All purchased posts roll over forever and never expire
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Credit Bundles Section - agreed site pricing */}
-      <section id="credits" className="py-20 px-6 bg-gray-900/40">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
-            <div className="flex items-center gap-3 mb-6">
-              <Star className="w-8 h-8 text-white" />
-              <h2 className="text-3xl font-bold text-white">Credit Bundles</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-2">All plans include <strong className="text-white">25 free credits</strong> for your first month as a gift to try premium tools.</p>
-            <p className="text-gray-400 text-sm mb-4">Lower plans: Premium tools cost credits per use. Higher plans: Premium tools included in your plan have unlimited use (no credits needed). Purchase additional credits to unlock more premium tool uses. Purchased credits roll over month to month.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 text-center">
-                <h3 className="text-xl font-bold text-white mb-2">Starter Bundle</h3>
-                <div className="text-3xl font-bold text-white mb-1">$5</div>
-                <div className="text-sm text-gray-400 mb-3">50 credits · $0.10/credit</div>
-                <p className="text-xs text-gray-400 mb-4">Perfect for trying premium tools</p>
-                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 5 uses of Viral Predictor</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 10 uses of Brand Kit Manager</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 6 uses of Advanced Analytics</li>
-                </ul>
-                <button onClick={() => handleBuyCredits('starter')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
-              </div>
-              <div className="bg-gray-800/50 border-2 border-white rounded-xl p-6 text-center relative">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black px-3 py-0.5 rounded-full text-xs font-semibold">Most Popular</div>
-                <h3 className="text-xl font-bold text-white mb-2">Popular Bundle</h3>
-                <div className="text-3xl font-bold text-white mb-1">$10</div>
-                <div className="text-sm text-gray-400 mb-3">100 credits · $0.10/credit</div>
-                <p className="text-xs text-gray-400 mb-4">Best value for regular users</p>
-                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 10 uses of Viral Predictor</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 20 uses of Brand Kit Manager</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 12 uses of Advanced Analytics</li>
-                </ul>
-                <button onClick={() => handleBuyCredits('popular')} className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg font-medium transition-colors">Buy credits</button>
-              </div>
-              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 text-center">
-                <h3 className="text-xl font-bold text-white mb-2">Power Bundle</h3>
-                <div className="text-3xl font-bold text-white mb-1">$20</div>
-                <div className="text-sm text-green-400 mb-1">Save $5 (20% off)</div>
-                <div className="text-sm text-gray-400 mb-3">250 credits · $0.08/credit</div>
-                <p className="text-xs text-gray-400 mb-4">Best for power users</p>
-                <ul className="text-left text-sm text-gray-300 space-y-1 mb-6">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 25 uses of Viral Predictor</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 50 uses of Brand Kit Manager</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 flex-shrink-0" /> 31 uses of Advanced Analytics</li>
-                </ul>
-                <button onClick={() => handleBuyCredits('power')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
-              </div>
-            </div>
-            <p className="text-sm text-gray-400 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
           </div>
         </div>
       </section>
