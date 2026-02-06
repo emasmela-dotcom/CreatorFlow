@@ -148,6 +148,12 @@ The CreatorFlow365 Team`,
               Compare plans
             </button>
             <button
+              onClick={() => window.location.href = '/#tools'}
+              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            >
+              Tools
+            </button>
+            <button
               onClick={() => window.location.href = '/reviews'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
@@ -227,8 +233,8 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="pt-8 pb-20 px-6">
+      {/* Tools / Features Section */}
+      <section id="tools" className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
@@ -366,6 +372,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
+              <a href="/select-plan?plan=starter" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Essential</h3>
@@ -385,6 +392,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
+              <a href="/select-plan?plan=growth" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
@@ -408,6 +416,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
+              <a href="/select-plan?plan=pro" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Professional</h3>
@@ -428,6 +437,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
+              <a href="/select-plan?plan=business" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
@@ -452,6 +462,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
+              <a href="/select-plan?plan=agency" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
           </div>
         </div>

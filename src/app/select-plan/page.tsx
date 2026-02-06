@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import type { PlanType } from '@/components/PlanSelection'
+import { TOOLS_BY_PLAN } from '@/lib/toolsByPlan'
 
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
@@ -57,6 +58,19 @@ function SelectPlanContent() {
 
       <main className="max-w-2xl mx-auto px-6 py-12">
         <h2 className="text-3xl font-bold mb-8">{planName} plan</h2>
+
+        {/* Tools included in this plan */}
+        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-8">
+          <h3 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h3>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {TOOLS_BY_PLAN[planId].map((tool, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>{tool}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="space-y-6 mb-8">
           <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">

@@ -93,7 +93,7 @@ export default function CreatePost() {
 
     // Check post limit
     if (postInfo && postInfo.remaining <= 0 && status !== 'draft') {
-      alert('You have reached your post limit. Please upgrade your plan or purchase additional posts.')
+      alert('You have reached your post limit. Please upgrade your plan.')
       router.push('/dashboard')
       return
     }
@@ -201,7 +201,7 @@ export default function CreatePost() {
     // Fetch post usage info and preferred platforms
     const t = localStorage.getItem('token')
     if (t) {
-      // Fetch post usage info
+      // Fetch post usage info (monthly limit / remaining from plan)
       fetch('/api/user/purchase-posts', {
         headers: {
           'Authorization': `Bearer ${t}`
@@ -212,14 +212,14 @@ export default function CreatePost() {
         if (!data.error) {
           setPostInfo({
             monthlyLimit: data.monthlyLimit,
-            purchased: data.purchasedPosts || 0,
+            purchased: 0,
             postsThisMonth: data.postsThisMonth || 0,
-            totalAvailable: data.totalAvailable || 0,
-            remaining: data.remaining || 0
+            totalAvailable: data.totalAvailable ?? (data.monthlyLimit ?? 0),
+            remaining: data.remaining ?? 0
           })
         }
       })
-      .catch(err => console.error('Error fetching post info:', err))
+      .catch(() => {})
 
       // Fetch preferred platforms
       fetch('/api/user/preferred-platforms', {
@@ -341,19 +341,11 @@ export default function CreatePost() {
                         <span className="text-red-400 font-semibold"> You have used all available posts</span>
                       )}
                     </p>
-                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 mb-3">
-                      <h5 className="font-semibold text-blue-400 text-xs mb-2">How Post Rollover Works:</h5>
-                      <ul className="text-xs text-gray-300 space-y-1 ml-4">
-                        <li>• <strong className="text-white">Monthly posts</strong> reset each month (from your plan)</li>
-                        <li>• <strong className="text-green-400">Purchased posts</strong> never expire and roll over forever</li>
-                        <li>• <strong className="text-white">Monthly posts are used first</strong>, then purchased posts</li>
-                      </ul>
-                    </div>
                     <button
                       onClick={() => router.push('/dashboard')}
                       className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg font-semibold text-sm transition-all"
                     >
-                      Buy Additional Posts →
+                      Upgrade plan →
                     </button>
                   </div>
                 </div>
@@ -366,15 +358,12 @@ export default function CreatePost() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-300">
                     Posts remaining: <strong className="text-blue-400">{postInfo.remaining}</strong>
-                    {postInfo.purchased > 0 && (
-                      <span className="text-green-400 ml-2">({postInfo.purchased} purchased posts roll over forever)</span>
-                    )}
                   </span>
                   <button
                     onClick={() => router.push('/dashboard')}
                     className="text-blue-400 hover:text-blue-300 text-xs underline"
                   >
-                    Buy More
+                    Upgrade plan
                   </button>
                 </div>
               </div>

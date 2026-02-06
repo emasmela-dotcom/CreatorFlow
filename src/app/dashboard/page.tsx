@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Wrench, DollarSign } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
@@ -2595,6 +2595,7 @@ export default function Dashboard() {
   const [selectedBot, setSelectedBot] = useState<string | null>(null)
   const [helpCenterOpen, setHelpCenterOpen] = useState(false)
   const [headerSearch, setHeaderSearch] = useState('')
+  const headerSearchInputRef = useRef<HTMLInputElement>(null)
   const [userId, setUserId] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
 
@@ -2722,10 +2723,11 @@ export default function Dashboard() {
                 <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
                 <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
                   <Search className="absolute left-3 w-4 h-4 text-gray-600 pointer-events-none shrink-0" aria-hidden />
-                  <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
+                  <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search within the app" />
                 </form>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <button onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
                 <button onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
                 <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
                 <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
