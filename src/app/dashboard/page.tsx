@@ -2604,7 +2604,6 @@ export default function Dashboard() {
   const [helpCenterOpen, setHelpCenterOpen] = useState(false)
   const [headerSearch, setHeaderSearch] = useState('')
   const [userId, setUserId] = useState<string>('')
-  const [userEmail, setUserEmail] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
 
   useEffect(() => {
@@ -2626,7 +2625,6 @@ export default function Dashboard() {
         try {
           const userData = JSON.parse(storedUser)
           setUserId(userData.id || userData.userId || '')
-          setUserEmail(userData.email || '')
         } catch (e) {
           console.error('Failed to parse user data:', e)
         }
@@ -2756,14 +2754,11 @@ export default function Dashboard() {
                   <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
                 </form>
               </div>
-              <div className="flex flex-col items-end gap-0.5 min-w-[10rem] shrink-0">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <button onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                  <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-                  <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-                  <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span>Sign Out</span></button>
-                </div>
-                {userEmail && <p className="text-xs text-gray-400 pr-1">Signed in as {userEmail}</p>}
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <button onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
+                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
+                <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span>Sign Out</span></button>
               </div>
             </div>
             <div className="w-full">
