@@ -221,7 +221,7 @@ The CreatorFlow365 Team`,
       </section>
 
       {/* Features Section */}
-      <section className="pt-8 pb-20 px-6">
+      <section id="features" className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
@@ -310,7 +310,7 @@ The CreatorFlow365 Team`,
 
 
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-gray-900/30">
+      <section id="pricing" className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
           <div className="flex flex-wrap justify-center gap-6">
@@ -629,7 +629,11 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
-          <div className="flex justify-center gap-6 text-sm text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-gray-500">
+            <a href="/pricing" className="hover:text-white transition-colors">Pricing</a>
+            <a href="/create" className="hover:text-white transition-colors">Tools</a>
+            <a href="/#features" className="hover:text-white transition-colors">Features</a>
+            <a href="/demo" className="hover:text-white transition-colors">Demo</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
