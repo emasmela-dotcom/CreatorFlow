@@ -139,13 +139,15 @@ The CreatorFlow365 Team`,
           <h1 className="text-xl font-bold text-white">
             CreatorFlow365
           </h1>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.location.href = '/reviews'}
-              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
-            >
-              Reviews
-            </button>
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-end">
+            <a href="/pricing" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Pricing</a>
+            <a href="/create" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Tools</a>
+            <a href="/#features" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Features</a>
+            <a href="/demo" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Demo</a>
+            <a href="/#how-it-works" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">How it works</a>
+            <a href="/#platforms" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Platforms</a>
+            <a href="/#faq" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">FAQ</a>
+            <a href="/reviews" className="px-3 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Reviews</a>
             <button
               onClick={() => window.location.href = '/signin'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
@@ -221,7 +223,7 @@ The CreatorFlow365 Team`,
       </section>
 
       {/* Features Section */}
-      <section className="pt-8 pb-20 px-6">
+      <section id="features" className="pt-8 pb-20 px-6 scroll-mt-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
@@ -310,7 +312,7 @@ The CreatorFlow365 Team`,
 
 
       {/* Pricing Section */}
-      <section className="py-20 px-6 bg-gray-900/30">
+      <section id="pricing" className="py-20 px-6 bg-gray-900/30 scroll-mt-24">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
           <div className="flex flex-wrap justify-center gap-6">
@@ -609,6 +611,31 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 px-6 bg-gray-900/30 scroll-mt-24">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-10 text-white">Frequently asked questions</h2>
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+              <h3 className="font-semibold text-white mb-2">Is there a free trial?</h3>
+              <p className="text-gray-400 text-sm">Yes. Start a 14-day free trial with no credit card required. Use all features; if you subscribe, you keep your changes.</p>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+              <h3 className="font-semibold text-white mb-2">What&apos;s included in each plan?</h3>
+              <p className="text-gray-400 text-sm">Every plan includes analytics, scheduling, documents, AI tools, and support. Higher tiers add more social accounts, AI calls, and team collaboration.</p>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+              <h3 className="font-semibold text-white mb-2">Which platforms do you support?</h3>
+              <p className="text-gray-400 text-sm">We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube. Create content in CreatorFlow365, then copy and paste to your accounts.</p>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+              <h3 className="font-semibold text-white mb-2">Can I try without signing up?</h3>
+              <p className="text-gray-400 text-sm">Yes. Use the Demo to explore the product with no account required.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -629,7 +656,14 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
-          <div className="flex justify-center gap-6 text-sm text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-gray-500">
+            <a href="/pricing" className="hover:text-white transition-colors">Pricing</a>
+            <a href="/create" className="hover:text-white transition-colors">Tools</a>
+            <a href="/#features" className="hover:text-white transition-colors">Features</a>
+            <a href="/demo" className="hover:text-white transition-colors">Demo</a>
+            <a href="/#how-it-works" className="hover:text-white transition-colors">How it works</a>
+            <a href="/#platforms" className="hover:text-white transition-colors">Platforms</a>
+            <a href="/#faq" className="hover:text-white transition-colors">FAQ</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
