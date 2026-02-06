@@ -315,6 +315,20 @@ The CreatorFlow365 Team`,
       <section id="pricing" className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
+
+          {/* Feature explanations - so visitors understand before joining */}
+          <div className="mb-12 max-w-3xl mx-auto bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">What these features mean</h3>
+            <ul className="text-sm text-gray-300 space-y-2">
+              <li><strong className="text-white">Social accounts</strong> — How many platforms (e.g. Instagram, X, LinkedIn, TikTok, YouTube) you can connect and manage in one place.</li>
+              <li><strong className="text-white">Documents</strong> — Your content library: scripts, captions, and drafts stored in your personal cloud.</li>
+              <li><strong className="text-white">Hashtag sets</strong> — Saved groups of hashtags you can reuse for posts (research once, use everywhere).</li>
+              <li><strong className="text-white">Templates</strong> — Reusable post/caption layouts so you don’t start from scratch each time.</li>
+              <li><strong className="text-white">AI calls</strong> — Each use of an AI-powered tool (e.g. caption writer, idea generator) counts as one call; higher plans get more or unlimited.</li>
+              <li><strong className="text-white">Email support</strong> — Response time we aim for (e.g. 48hr = within 2 business days).</li>
+            </ul>
+          </div>
+
           <div className="flex flex-wrap justify-center gap-6">
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Starter</h3>
