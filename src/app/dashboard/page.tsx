@@ -2694,16 +2694,16 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header: tight; CreatorFlow365 2x size; nav 6+7 centered */}
-      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-1">
+      {/* Header: tight; shorter search bar; nav raised; less thick */}
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-0.5">
         {/* Row 1: Brand + search (left) | controls (right) */}
-        <div className="flex items-center justify-between gap-4 mb-1">
+        <div className="flex items-center justify-between gap-4 mb-0.5">
           <div className="flex flex-col gap-0.5 shrink-0">
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">
               CreatorFlow365
             </h1>
             <form
-              className="relative flex items-center w-52 sm:w-72 min-h-[1.75rem] flex-shrink-0"
+              className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0"
               onSubmit={(e) => {
                 e.preventDefault()
                 const q = headerSearch.trim()
@@ -2738,9 +2738,9 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        {/* Row 2: Nav centered in the header section */}
+        {/* Row 2: Nav raised (less gap above); tighter between rows */}
         <div className="w-full flex justify-center">
-        <nav className="flex flex-col gap-1 items-center">
+        <nav className="flex flex-col gap-0.5 items-center">
           <div className="flex flex-wrap items-center gap-1.5">
             <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
             <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
