@@ -143,6 +143,12 @@ The CreatorFlow365 Team`,
           </h1>
           <div className="flex items-center gap-4">
             <button
+              onClick={() => window.location.href = '/#pricing'}
+              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            >
+              Compare plans
+            </button>
+            <button
               onClick={() => window.location.href = '/reviews'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
