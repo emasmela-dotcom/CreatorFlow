@@ -53,7 +53,15 @@ export default function TrialStatusBanner() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ planType }),
       })
-      const data = await res.json()
+      let data: { url?: string; redirect?: string; success?: boolean; error?: string } = {}
+      try {
+        data = await res.json()
+      } catch {
+        setCheckoutError('Server error. Set STRIPE_SECRET_KEY and price IDs for Production in Vercel.')
+        await fetchSubscriptionStatus()
+        setCheckoutLoading(false)
+        return
+      }
       if (res.ok && data.url) {
         window.location.href = data.url
         return
@@ -62,11 +70,11 @@ export default function TrialStatusBanner() {
         window.location.href = data.redirect
         return
       }
-      setCheckoutError(data.error || 'Checkout failed. Try again or use $ Pricing.')
+      setCheckoutError(data.error || 'Checkout could not start. In Vercel → Production env, set STRIPE_SECRET_KEY and all STRIPE_PRICE_* (price_ IDs).')
       await fetchSubscriptionStatus()
     } catch (e) {
       console.error('Checkout error:', e)
-      setCheckoutError('Network error. Try again.')
+      setCheckoutError('Network or server error. Check Vercel Production env: STRIPE_SECRET_KEY and STRIPE_PRICE_* must be set.')
       await fetchSubscriptionStatus()
     } finally {
       setCheckoutLoading(false)
@@ -108,6 +116,12 @@ export default function TrialStatusBanner() {
         />
       )}
 
+      {checkoutError && (
+        <div className="mb-4 p-4 rounded-lg bg-red-900/40 border-2 border-red-500 text-red-100">
+          <p className="font-semibold">Subscribe button failed</p>
+          <p className="text-sm mt-1">{checkoutError}</p>
+        </div>
+      )}
       {subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && subscriptionData.daysRemaining > 3 && (
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -123,9 +137,6 @@ export default function TrialStatusBanner() {
             </div>
             {!subscriptionData.subscription && (
               <div className="flex flex-col gap-2">
-                {checkoutError && (
-                  <p className="text-sm text-red-400">{checkoutError}</p>
-                )}
                 <button
                   type="button"
                   onClick={handleContinue}
