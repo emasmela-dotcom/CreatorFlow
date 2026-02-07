@@ -8,21 +8,22 @@
 
 ## 1. Deploy
 
-- [ ] Latest code on `main`. Vercel builds and deploys. No failed deployments.
+- [x] Latest code on `main`. Pushed. Vercel build Ready (Production).
 
 ---
 
 ## 2. Stripe – Webhook
 
-- [ ] Stripe Dashboard → Webhooks: endpoint `https://www.creatorflow365.com/api/stripe/webhook`, events (checkout.session.completed, customer.subscription.created/updated, invoice.payment_failed).
-- [ ] Signing secret in Vercel as `STRIPE_WEBHOOK_SECRET`. Redeploy if you changed it.
+- [x] Stripe Dashboard → Webhooks: endpoint `https://www.creatorflow365.com/api/stripe/webhook`, Active, 7 events.
+- [x] Signing secret in Vercel as `STRIPE_WEBHOOK_SECRET` (confirm it’s set; redeploy only if you changed it).
 
 ---
 
 ## 3. Stripe – Prices
 
-- [ ] Stripe products/prices match site (Starter $9, Essential $19, Creator $49, Pro $79, Business $149).
-- [ ] Price IDs in Vercel match Stripe (`STRIPE_PRICE_STARTER`, etc.).
+- [x] Price IDs in Vercel: `STRIPE_PRICE_STARTER`, `STRIPE_PRICE_GROWTH`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_BUSINESS`, `STRIPE_PRICE_AGENCY` (Production).
+- [ ] Confirm in Stripe Dashboard that products/prices match site ($9, $19, $49, $79, $149). Then done.
+- **Note:** For live payments on www.creatorflow365.com, ensure `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` are set for **Production** (you have them for Preview).
 
 ---
 

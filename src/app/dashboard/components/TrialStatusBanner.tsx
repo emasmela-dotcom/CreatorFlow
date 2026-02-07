@@ -8,6 +8,7 @@ export default function TrialStatusBanner() {
   const [subscriptionData, setSubscriptionData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchSubscriptionStatus()
@@ -44,6 +45,7 @@ export default function TrialStatusBanner() {
       return
     }
     setCheckoutLoading(true)
+    setCheckoutError(null)
     try {
       const planType = subscriptionData?.trialPlan || subscriptionData?.plan || 'starter'
       const res = await fetch('/api/stripe/trial', {
@@ -60,9 +62,11 @@ export default function TrialStatusBanner() {
         window.location.href = data.redirect
         return
       }
+      setCheckoutError(data.error || 'Checkout failed. Try again or use $ Pricing.')
       await fetchSubscriptionStatus()
     } catch (e) {
       console.error('Checkout error:', e)
+      setCheckoutError('Network error. Try again.')
       await fetchSubscriptionStatus()
     } finally {
       setCheckoutLoading(false)
@@ -118,15 +122,20 @@ export default function TrialStatusBanner() {
               </div>
             </div>
             {!subscriptionData.subscription && (
-              <button
-                type="button"
-                onClick={handleContinue}
-                disabled={checkoutLoading}
-                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-semibold text-sm hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <CreditCard className="w-4 h-4" />
-                {checkoutLoading ? 'Redirecting...' : "Keep what you've built—subscribe to save your work and keep your tools"}
-              </button>
+              <div className="flex flex-col gap-2">
+                {checkoutError && (
+                  <p className="text-sm text-red-400">{checkoutError}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleContinue}
+                  disabled={checkoutLoading}
+                  className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-semibold text-sm hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  {checkoutLoading ? 'Redirecting...' : "Keep what you've built—subscribe to save your work and keep your tools"}
+                </button>
+              </div>
             )}
           </div>
         </div>

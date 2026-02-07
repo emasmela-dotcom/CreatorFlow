@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { planType } = await request.json()
+    const { planType: rawPlanType } = await request.json()
+    const planType = typeof rawPlanType === 'string' ? rawPlanType.toLowerCase().trim() : ''
 
     if (!planType) {
       return NextResponse.json({ error: 'Plan type is required' }, { status: 400 })
