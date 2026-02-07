@@ -12,6 +12,11 @@ export default function TrialStatusBanner() {
 
   useEffect(() => {
     fetchSubscriptionStatus()
+    const stored = sessionStorage.getItem('creatorflow_subscribe_error')
+    if (stored) {
+      setCheckoutError(stored)
+      sessionStorage.removeItem('creatorflow_subscribe_error')
+    }
   }, [])
 
   const fetchSubscriptionStatus = async () => {
@@ -71,11 +76,13 @@ export default function TrialStatusBanner() {
       }
       const errMsg = data.error || 'Checkout could not start. In Vercel → Production env, set STRIPE_SECRET_KEY and all STRIPE_PRICE_* (price_ IDs).'
       setCheckoutError(errMsg)
+      sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
       alert('Subscribe failed: ' + errMsg)
     } catch (e) {
       console.error('Checkout error:', e)
       const errMsg = 'Network or server error. Check Vercel Production env: STRIPE_SECRET_KEY and STRIPE_PRICE_* must be set.'
       setCheckoutError(errMsg)
+      sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
       alert('Subscribe failed: ' + errMsg)
     } finally {
       setCheckoutLoading(false)

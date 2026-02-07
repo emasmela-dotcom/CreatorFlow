@@ -8,9 +8,7 @@ const getStripe = () => {
   if (!secretKey) {
     throw new Error('STRIPE_SECRET_KEY is not configured')
   }
-  return new Stripe(secretKey, {
-    apiVersion: '2025-09-30.clover',
-  })
+  return new Stripe(secretKey)
 }
 
 // Price IDs from environment variables
@@ -128,9 +126,8 @@ export async function POST(request: NextRequest) {
       url: session.url 
     })
   } catch (error: any) {
-    console.error('Stripe trial error:', error)
-    return NextResponse.json({ 
-      error: error.message || 'Payment processing failed' 
-    }, { status: 500 })
+    const message = error?.message || String(error) || 'Payment processing failed'
+    console.error('Stripe trial error:', message, error)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

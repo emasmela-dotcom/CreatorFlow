@@ -4,9 +4,7 @@ import { CREDIT_BUNDLES } from '@/lib/creditBundles'
 import jwt from 'jsonwebtoken'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...', {
-  apiVersion: '2025-09-30.clover',
-})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...')
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
