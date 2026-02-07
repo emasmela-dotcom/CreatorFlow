@@ -67,14 +67,17 @@ export default function TrialStatusBanner() {
         return
       }
       if (res.ok && data.url) {
-        window.location.href = data.url
+        // Open in new tab so redirect can't be blocked; user stays on dashboard
+        const opened = window.open(data.url, '_blank', 'noopener,noreferrer')
+        if (!opened) window.location.href = data.url
+        setCheckoutLoading(false)
         return
       }
       if (res.ok && data.success && data.redirect) {
         window.location.href = data.redirect
         return
       }
-      const errMsg = data.error || 'Checkout could not start. In Vercel → Production env, set STRIPE_SECRET_KEY and all STRIPE_PRICE_* (price_ IDs).'
+      const errMsg = data.error || `Checkout failed. Server returned ${res.status}. Set STRIPE_SECRET_KEY and STRIPE_PRICE_* in Vercel Production.`
       setCheckoutError(errMsg)
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
       alert('Subscribe failed: ' + errMsg)

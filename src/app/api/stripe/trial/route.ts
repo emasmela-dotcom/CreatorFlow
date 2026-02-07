@@ -11,14 +11,16 @@ const getStripe = () => {
   return new Stripe(secretKey)
 }
 
-// Price IDs from environment variables
-const PRICE_IDS: Record<string, string> = {
-  free: '', // Free plan doesn't need Stripe
-  starter: process.env.STRIPE_PRICE_STARTER || '',
-  growth: process.env.STRIPE_PRICE_GROWTH || '',
-  pro: process.env.STRIPE_PRICE_PRO || '',
-  business: process.env.STRIPE_PRICE_BUSINESS || '',
-  agency: process.env.STRIPE_PRICE_AGENCY || '',
+// Read price IDs at request time so Vercel Production env is always used (not cached at module load)
+function getPriceIds(): Record<string, string> {
+  return {
+    free: '',
+    starter: process.env.STRIPE_PRICE_STARTER || '',
+    growth: process.env.STRIPE_PRICE_GROWTH || '',
+    pro: process.env.STRIPE_PRICE_PRO || '',
+    business: process.env.STRIPE_PRICE_BUSINESS || '',
+    agency: process.env.STRIPE_PRICE_AGENCY || '',
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -51,11 +53,14 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    if (!PRICE_IDS[planType] || !PRICE_IDS[planType]) {
-      return NextResponse.json({ error: 'Invalid plan type or price ID not configured' }, { status: 400 })
-    }
-
+    const PRICE_IDS = getPriceIds()
     const priceId = PRICE_IDS[planType]
+    if (!priceId) {
+      return NextResponse.json(
+        { error: `Price ID not configured for plan "${planType}". Set STRIPE_PRICE_${planType.toUpperCase()} in Vercel Production.` },
+        { status: 400 }
+      )
+    }
 
     // Get user from database to access full user data
     const { db } = await import('@/lib/db')
