@@ -13,10 +13,15 @@ export default function TrialStatusBanner() {
 
   useEffect(() => {
     fetchSubscriptionStatus()
-    const stored = sessionStorage.getItem('creatorflow_subscribe_error')
-    if (stored) {
-      setCheckoutError(stored)
+    const errStored = sessionStorage.getItem('creatorflow_subscribe_error')
+    if (errStored) {
+      setCheckoutError(errStored)
       sessionStorage.removeItem('creatorflow_subscribe_error')
+    }
+    const debugStored = sessionStorage.getItem('creatorflow_subscribe_debug')
+    if (debugStored) {
+      setCheckoutDebug(debugStored)
+      sessionStorage.removeItem('creatorflow_subscribe_debug')
     }
   }, [])
 
@@ -70,7 +75,9 @@ export default function TrialStatusBanner() {
         setCheckoutLoading(false)
         return
       }
-      setCheckoutDebug(`Status: ${res.status}\nResponse: ${JSON.stringify(data)}`)
+      const debugText = `Status: ${res.status}\nResponse: ${JSON.stringify(data)}`
+      setCheckoutDebug(debugText)
+      sessionStorage.setItem('creatorflow_subscribe_debug', debugText)
       if (res.ok && data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
         const opened = window.open(data.url, '_blank', 'noopener,noreferrer')
         if (!opened) window.location.href = data.url
@@ -87,9 +94,11 @@ export default function TrialStatusBanner() {
     } catch (e) {
       console.error('Checkout error:', e)
       const errMsg = 'Network or server error. Check Vercel Production env.'
+      const debugText = String(e)
       setCheckoutError(errMsg)
-      setCheckoutDebug(String(e))
+      setCheckoutDebug(debugText)
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
+      sessionStorage.setItem('creatorflow_subscribe_debug', debugText)
     } finally {
       setCheckoutLoading(false)
     }

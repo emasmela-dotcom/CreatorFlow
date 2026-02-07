@@ -94,30 +94,18 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Create checkout session with 15-day trial
+    // Create checkout session (subscription; trial can be added in Stripe Dashboard on the price)
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId, quantity: 1 }],
       mode: 'subscription',
       subscription_data: {
-        trial_period_days: 15,
-        metadata: {
-          userId: user.id,
-          planType: planType,
-        },
+        metadata: { userId: user.id, planType: planType },
       },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/dashboard?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/signup?canceled=true`,
-      metadata: {
-        userId: user.id,
-        planType: planType,
-      },
+      metadata: { userId: user.id, planType: planType },
     })
 
     if (!session.url) {
@@ -132,7 +120,9 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: any) {
     const message = error?.message || String(error) || 'Payment processing failed'
-    console.error('Stripe trial error:', message, error)
-    return NextResponse.json({ error: message }, { status: 500 })
+    const code = error?.code ?? error?.type ?? ''
+    const full = code ? `${message} (${code})` : message
+    console.error('Stripe trial error:', full, error)
+    return NextResponse.json({ error: full }, { status: 500 })
   }
 }
