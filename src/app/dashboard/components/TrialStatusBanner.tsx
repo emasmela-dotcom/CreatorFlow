@@ -70,9 +70,12 @@ export default function TrialStatusBanner() {
       try {
         data = JSON.parse(text)
       } catch {
-        setCheckoutError('Server returned non-JSON. Check Vercel Production env and logs.')
-        setCheckoutDebug(`Status: ${res.status}\nBody: ${text.slice(0, 500)}`)
-        setCheckoutLoading(false)
+        const debugText = `Status: ${res.status}\nBody: ${text.slice(0, 500)}`
+        const errMsg = 'Server returned non-JSON. Check Vercel Production env and logs.'
+        setCheckoutError(errMsg)
+        setCheckoutDebug(debugText)
+        sessionStorage.setItem('creatorflow_subscribe_debug', debugText)
+        window.location.href = `/dashboard?subscribe_error=${encodeURIComponent(errMsg)}&subscribe_debug=${encodeURIComponent(debugText)}`
         return
       }
       const debugText = `Status: ${res.status}\nResponse: ${JSON.stringify(data)}`
@@ -91,6 +94,8 @@ export default function TrialStatusBanner() {
       const errMsg = data.error || `Checkout failed (${res.status}). Set STRIPE_SECRET_KEY and STRIPE_PRICE_* in Vercel Production.`
       setCheckoutError(errMsg)
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
+      window.location.href = `/dashboard?subscribe_error=${encodeURIComponent(errMsg)}&subscribe_debug=${encodeURIComponent(debugText)}`
+      return
     } catch (e) {
       console.error('Checkout error:', e)
       const errMsg = 'Network or server error. Check Vercel Production env.'
@@ -99,6 +104,8 @@ export default function TrialStatusBanner() {
       setCheckoutDebug(debugText)
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
       sessionStorage.setItem('creatorflow_subscribe_debug', debugText)
+      window.location.href = `/dashboard?subscribe_error=${encodeURIComponent(errMsg)}&subscribe_debug=${encodeURIComponent(debugText)}`
+      return
     } finally {
       setCheckoutLoading(false)
     }
