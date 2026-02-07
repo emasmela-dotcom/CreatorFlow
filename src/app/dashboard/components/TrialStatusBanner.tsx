@@ -58,7 +58,6 @@ export default function TrialStatusBanner() {
         data = await res.json()
       } catch {
         setCheckoutError('Server error. Set STRIPE_SECRET_KEY and price IDs for Production in Vercel.')
-        await fetchSubscriptionStatus()
         setCheckoutLoading(false)
         return
       }
@@ -70,12 +69,14 @@ export default function TrialStatusBanner() {
         window.location.href = data.redirect
         return
       }
-      setCheckoutError(data.error || 'Checkout could not start. In Vercel → Production env, set STRIPE_SECRET_KEY and all STRIPE_PRICE_* (price_ IDs).')
-      await fetchSubscriptionStatus()
+      const errMsg = data.error || 'Checkout could not start. In Vercel → Production env, set STRIPE_SECRET_KEY and all STRIPE_PRICE_* (price_ IDs).'
+      setCheckoutError(errMsg)
+      alert('Subscribe failed: ' + errMsg)
     } catch (e) {
       console.error('Checkout error:', e)
-      setCheckoutError('Network or server error. Check Vercel Production env: STRIPE_SECRET_KEY and STRIPE_PRICE_* must be set.')
-      await fetchSubscriptionStatus()
+      const errMsg = 'Network or server error. Check Vercel Production env: STRIPE_SECRET_KEY and STRIPE_PRICE_* must be set.'
+      setCheckoutError(errMsg)
+      alert('Subscribe failed: ' + errMsg)
     } finally {
       setCheckoutLoading(false)
     }

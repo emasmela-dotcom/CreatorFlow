@@ -117,6 +117,12 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    if (!session.url) {
+      return NextResponse.json(
+        { error: 'Stripe did not return a checkout URL. Check price ID and Stripe Dashboard.' },
+        { status: 500 }
+      )
+    }
     return NextResponse.json({ 
       sessionId: session.id,
       url: session.url 
