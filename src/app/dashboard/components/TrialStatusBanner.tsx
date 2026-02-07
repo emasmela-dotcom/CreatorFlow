@@ -9,6 +9,7 @@ export default function TrialStatusBanner() {
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  const [checkoutDebug, setCheckoutDebug] = useState<string | null>(null)
 
   useEffect(() => {
     fetchSubscriptionStatus()
@@ -51,6 +52,7 @@ export default function TrialStatusBanner() {
     }
     setCheckoutLoading(true)
     setCheckoutError(null)
+    setCheckoutDebug(null)
     try {
       const planType = subscriptionData?.trialPlan || subscriptionData?.plan || 'starter'
       const res = await fetch('/api/stripe/trial', {
@@ -58,16 +60,18 @@ export default function TrialStatusBanner() {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ planType }),
       })
+      const text = await res.text()
       let data: { url?: string; redirect?: string; success?: boolean; error?: string } = {}
       try {
-        data = await res.json()
+        data = JSON.parse(text)
       } catch {
-        setCheckoutError('Server error. Set STRIPE_SECRET_KEY and price IDs for Production in Vercel.')
+        setCheckoutError('Server returned non-JSON. Check Vercel Production env and logs.')
+        setCheckoutDebug(`Status: ${res.status}\nBody: ${text.slice(0, 500)}`)
         setCheckoutLoading(false)
         return
       }
-      if (res.ok && data.url) {
-        // Open in new tab so redirect can't be blocked; user stays on dashboard
+      setCheckoutDebug(`Status: ${res.status}\nResponse: ${JSON.stringify(data)}`)
+      if (res.ok && data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
         const opened = window.open(data.url, '_blank', 'noopener,noreferrer')
         if (!opened) window.location.href = data.url
         setCheckoutLoading(false)
@@ -77,16 +81,15 @@ export default function TrialStatusBanner() {
         window.location.href = data.redirect
         return
       }
-      const errMsg = data.error || `Checkout failed. Server returned ${res.status}. Set STRIPE_SECRET_KEY and STRIPE_PRICE_* in Vercel Production.`
+      const errMsg = data.error || `Checkout failed (${res.status}). Set STRIPE_SECRET_KEY and STRIPE_PRICE_* in Vercel Production.`
       setCheckoutError(errMsg)
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
-      alert('Subscribe failed: ' + errMsg)
     } catch (e) {
       console.error('Checkout error:', e)
-      const errMsg = 'Network or server error. Check Vercel Production env: STRIPE_SECRET_KEY and STRIPE_PRICE_* must be set.'
+      const errMsg = 'Network or server error. Check Vercel Production env.'
       setCheckoutError(errMsg)
+      setCheckoutDebug(String(e))
       sessionStorage.setItem('creatorflow_subscribe_error', errMsg)
-      alert('Subscribe failed: ' + errMsg)
     } finally {
       setCheckoutLoading(false)
     }
@@ -131,6 +134,12 @@ export default function TrialStatusBanner() {
         <div className="mb-4 p-4 rounded-lg bg-red-900/40 border-2 border-red-500 text-red-100">
           <p className="font-semibold">Subscribe button failed</p>
           <p className="text-sm mt-1">{checkoutError}</p>
+        </div>
+      )}
+      {checkoutDebug && (
+        <div className="mb-4 p-4 rounded-lg bg-amber-900/40 border-2 border-amber-600 text-amber-100 font-mono text-xs whitespace-pre-wrap break-all">
+          <p className="font-semibold">Server response (copy this and send to fix):</p>
+          <p className="mt-1">{checkoutDebug}</p>
         </div>
       )}
       {subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && subscriptionData.daysRemaining > 3 && (
