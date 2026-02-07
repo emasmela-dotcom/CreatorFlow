@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, XCircle, Link2, ExternalLink, Loader2 } from 'lucide-react'
 
 interface PlatformConnection {
@@ -24,11 +25,28 @@ const PLATFORMS = [
   { id: 'youtube', name: 'YouTube', color: 'bg-gradient-to-r from-red-500 to-red-700' }
 ]
 
+const PLATFORM_USER_MESSAGE: Record<string, string> = {
+  twitter: "Direct posting to Twitter/X isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to Twitter when you're ready. We'll enable one-click posting soon.",
+  linkedin: "Direct posting to LinkedIn isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to LinkedIn when you're ready. We'll enable one-click posting soon.",
+  instagram: "Direct posting to Instagram isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to Instagram when you're ready. We'll enable one-click posting soon.",
+  tiktok: "Direct posting to TikTok isn't available yet. You can still create and schedule posts here. We'll enable one-click posting when possible.",
+  youtube: "Direct posting to YouTube isn't available yet. You can still plan content here. We'll enable one-click posting when possible."
+}
+
 export default function PlatformConnections({ token }: PlatformConnectionsProps) {
+  const searchParams = useSearchParams()
   const [connections, setConnections] = useState<PlatformConnection[]>([])
   const [loading, setLoading] = useState(true)
   const [connecting, setConnecting] = useState<string | null>(null)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    const notConfigured = searchParams.get('error') === 'platform_not_configured'
+    const platform = searchParams.get('platform') || ''
+    if (notConfigured && platform && PLATFORM_USER_MESSAGE[platform]) {
+      setError(PLATFORM_USER_MESSAGE[platform])
+    }
+  }, [searchParams])
 
   useEffect(() => {
     loadConnections()

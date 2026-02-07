@@ -46,6 +46,35 @@
 | **users** | subscription_tier, credits_balance, trial_plan, etc. |
 | **Migrations** | See DB_SETUP_HOW.md, sql/ |
 
+### Direct posting (turn fully on)
+
+*This section is for you (site owner), not for end users. Creators see a friendly message like “Direct posting isn’t available yet—you can still plan and copy posts” when a platform isn’t configured.*
+
+| Item | Status |
+|------|--------|
+| **Code** | OAuth connect/callback, platformPosting (Twitter + LinkedIn implemented), cron route, dashboard Connections tab |
+| **Cron** | `vercel.json` runs `/api/cron/process-scheduled-posts` every minute (Vercel Cron) |
+| **Env vars** | Set in Vercel (and `.env.local` for dev) to enable each platform |
+
+**Env vars to set (per platform):**
+
+| Platform | Env vars | Notes |
+|----------|----------|------|
+| **Twitter/X** | `TWITTER_CLIENT_ID`, `TWITTER_CLIENT_SECRET` | developer.twitter.com → app → OAuth 2.0; redirect `https://www.creatorflow365.com/api/auth/callback/twitter` |
+| **LinkedIn** | `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET` | linkedin.com/developers → app → Auth redirect `https://www.creatorflow365.com/api/auth/callback/linkedin`; scope `w_member_social` |
+| **Instagram** | `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET` | Facebook app + Instagram Basic; posting still stub (needs Graph API implementation) |
+| **Cron** | `CRON_SECRET` | Optional. If set, cron route requires `Authorization: Bearer <CRON_SECRET>`. If using only Vercel Cron, leave unset (Vercel does not send this header). |
+| **Base URL** | `NEXT_PUBLIC_BASE_URL` | e.g. `https://www.creatorflow365.com` (used for OAuth redirects) |
+
+**Steps to make direct posting fully on:**
+
+1. Create developer app(s) for Twitter and/or LinkedIn (see above).
+2. In Vercel → Project → Settings → Environment Variables, add the env vars for the platform(s) you want.
+3. Deploy (push to `main`). `vercel.json` cron runs every minute; leave `CRON_SECRET` unset so Vercel Cron can call the route.
+4. Users: Dashboard → Connections → Connect [platform], then create posts and set status to **Published** (post now) or **Scheduled** (cron posts at `scheduled_at`).
+
+**Docs:** DIRECT_POSTING_DOCUMENTATION.md, DIRECT_POSTING_IMPLEMENTATION_STATUS.md.
+
 ---
 
 ## Launch checklist (condensed)
