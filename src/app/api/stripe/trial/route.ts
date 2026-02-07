@@ -8,7 +8,7 @@ const getStripe = () => {
   if (!secretKey) {
     throw new Error('STRIPE_SECRET_KEY is not configured')
   }
-  return new Stripe(secretKey)
+  return new Stripe(secretKey, { apiVersion: '2024-11-20.acacia' })
 }
 
 // Read price IDs at request time so Vercel Production env is always used (not cached at module load)
@@ -25,13 +25,18 @@ function getPriceIds(): Record<string, string> {
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify authentication
     const authUser = await verifyAuth(request)
     if (!authUser) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { planType: rawPlanType } = await request.json()
+    let rawPlanType: unknown
+    try {
+      const body = await request.json()
+      rawPlanType = body && typeof body === 'object' && 'planType' in body ? (body as { planType?: unknown }).planType : undefined
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+    }
     const planType = typeof rawPlanType === 'string' ? rawPlanType.toLowerCase().trim() : ''
 
     if (!planType) {
@@ -121,8 +126,11 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     const message = error?.message || String(error) || 'Payment processing failed'
     const code = error?.code ?? error?.type ?? ''
-    const full = code ? `${message} (${code})` : message
-    console.error('Stripe trial error:', full, error)
-    return NextResponse.json({ error: full }, { status: 500 })
+    const full = code ? `${message} [${code}]` : message
+    console.error('Stripe trial error:', full, error?.stack || error)
+    return NextResponse.json(
+      { error: full, detail: process.env.NODE_ENV === 'development' ? error?.stack : undefined },
+      { status: 500 }
+    )
   }
 }
