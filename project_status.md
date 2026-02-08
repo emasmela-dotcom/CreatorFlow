@@ -1,6 +1,6 @@
 # CreatorFlow – Project Status
 
-**Last Updated:** February 5, 2026  
+**Last Updated:** February 7, 2026  
 **Production:** https://www.creatorflow365.com
 
 ---
@@ -86,7 +86,9 @@
 | Stripe webhook endpoint + signing secret in Vercel | ✅ |
 | Free plan removed; paid plans only | ✅ |
 | Stripe prices in Stripe + price IDs in Vercel | Confirm |
-| Smoke test (sign up → plan → checkout; buy credits) | Optional |
+| Smoke test (sign up → plan → checkout; buy credits) | Do before marketing |
+
+**→ Finish and go live:** See **READY_TO_BLAST.md** (3 steps, then market).
 
 Optional: Privacy/Terms pages, 404 check, support@ (ImprovMX).  
 See **LAUNCH_CHECKLIST_FINAL.md** and **STRIPE_WEBHOOK_AND_SMOKE_TEST.md** for details.
@@ -114,4 +116,4 @@ See **LAUNCH_CHECKLIST_FINAL.md** and **STRIPE_WEBHOOK_AND_SMOKE_TEST.md** for d
 
 ---
 
-**Status:** Production live at www.creatorflow365.com. Signup → dashboard (plan optional); dashboard nav in 2 rows; Sign Out in sidebar; auth/signin and forgot-password fixes in place. Home page: header Reviews / Sign In / Sign up; footer Reviews, Privacy, Terms, Support, Contact. Smoke test and Stripe price alignment recommended before marketing.
+**Status:** Production live at www.creatorflow365.com. Signup → dashboard (plan optional); dashboard nav in 2 rows; Sign Out in sidebar; auth/signin and forgot-password fixes in place. Home page: header Reviews / Sign In / Sign up; footer Reviews, Privacy, Terms, Support, Contact. Subscribe button (trial checkout): API returns granular errors (Stripe init, DB, customer, checkout); on failure, redirect to dashboard with error in URL and red box at top. Fix root cause from that error message, then smoke test and Stripe price alignment before marketing.
