@@ -1,0 +1,19 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/promises/[id]/route": "app/api/promises/[id]/route.js",
+  "/api/people/[id]/route": "app/api/people/[id]/route.js",
+  "/api/people/route": "app/api/people/route.js",
+  "/page": "app/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/login/page": "app/login/page.js",
+  "/api/promises/route": "app/api/promises/route.js",
+  "/api/cron/reminders/route": "app/api/cron/reminders/route.js",
+  "/dashboard/people/new/page": "app/dashboard/people/new/page.js",
+  "/dashboard/people/[id]/page": "app/dashboard/people/[id]/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/people/page": "app/dashboard/people/page.js",
+  "/dashboard/promises/[id]/page": "app/dashboard/promises/[id]/page.js",
+  "/dashboard/promises/new/page": "app/dashboard/promises/new/page.js"
+}

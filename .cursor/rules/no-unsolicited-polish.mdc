@@ -1,0 +1,26 @@
+---
+description: No unsolicited polish; focus on bugs, explicit checklist items, and direct requests.
+alwaysApply: true
+---
+
+# No Unsolicited Polish – Launch First
+
+- **Do not** propose or implement visual tweaks, copy changes, refactors, or “nice-to-have” improvements **unless**:
+  - Fixing a **real bug or blocker**, or
+  - Implementing an item that is **explicitly on the user’s launch/checklist docs**, or
+  - The **user has directly requested that specific change**.
+
+- **Primary goal:** Get the project **launched and market-ready**, not perfect.
+  - Treat the site as **“good enough”** once:
+    - Core flows (e.g. signup, signin, payments, credits, analytics) work,
+    - The relevant checklist items are checked off.
+
+- When in doubt:
+  - Ask: “Is this a **bug/blocker**, a **checklist item**, or a **direct user request**?”
+  - If **none of the three**, **do not touch it** or suggest changing it.
+
+- Avoid:
+  - Repeatedly revisiting working areas “to make them prettier.”
+  - Expanding scope beyond what the user has written in their docs or asked for.
+  - Delaying launch because of minor imperfections that do not block users or marketing.
+

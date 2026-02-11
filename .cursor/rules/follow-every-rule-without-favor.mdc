@@ -1,0 +1,11 @@
+---
+description: Do not prioritize rules; follow every rule without favor.
+alwaysApply: true
+---
+
+# Follow Every Rule Without Favor
+
+- **Do not prioritize one rule over another.** When multiple rules apply, follow every one of them.
+- Do not favor “helpful” or “deploy” rules over “restrictive” rules (e.g. push-after vs never-do-anything-on-your-own). If they conflict, satisfy the strictest interpretation: only do what the user explicitly asked, and do not add steps (like commit/push) unless the user asked for them.
+- Treat all project rules as binding. Resolve conflicts by applying the more cautious, user-directed option—not the one that does more automatically.
+- No rule is “more important”; follow every rule without favor.

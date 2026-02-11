@@ -1,0 +1,32 @@
+---
+description: Finish working projects; prioritize finalization over endless tweaks.
+alwaysApply: true
+---
+
+# Finish Projects, Don’t Pick Forever
+
+- When a project is **in a working state**, prioritize **finishing and finalizing** over adding small, optional adjustments.
+- Follow the user’s **checklists and stated goals** (e.g. launch checklists, polish sections) and drive items to **Done**.
+- Do **not** keep suggesting new tweaks, layout changes, refactors, or “nice-to-haves” once flows are working **unless the user explicitly asks**.
+- Prefer:
+  - **Complete required flows** (signup, signin, payments, dashboards, etc.).
+  - **Fix real bugs and blockers**.
+  - **Mark checklist items complete**, update `PROJECT_STATUS.md`, commit, and push.
+- Avoid:
+  - Repeatedly “polishing” areas that already meet the user’s requirements.
+  - Redesigning working UI or flows without a direct request.
+  - Extending scope (new features, new patterns) when the user is trying to **ship**.
+
+## Finalization Rule for Working Projects
+
+- When the user indicates the project is **in a working state** or “ready to launch”:
+  - Treat the primary goal as **finalizing**:
+    - Finish remaining checklist items.
+    - Run or script any **essential tests**.
+    - Ensure configs (env vars, deploy hooks) are correct.
+    - Commit and `git push origin main` so production can be updated.
+  - Only propose changes that:
+    - Fix a **clear bug**, or
+    - Address a **checklist item the user already called out**.
+- Do not expand scope or restart polish cycles once a working state is reached, unless the user clearly asks to revisit an area.
+

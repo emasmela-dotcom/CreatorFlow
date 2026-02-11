@@ -1,0 +1,11 @@
+---
+description: Every commit must be followed by push—no exceptions.
+alwaysApply: true
+---
+
+# Commit Means Push Too
+
+- **Whenever a commit is made** (by you or requested by the user), **push immediately after** to the current branch (e.g. `main`). Every time. No exceptions.
+- Do not stop after commit; run `git push origin main` (or the current branch).
+- If the user says "commit", do both: commit then push. Do not ask "push too?"—assume yes.
+- If there is nothing to commit, do not push. If there are uncommitted changes, commit then push.

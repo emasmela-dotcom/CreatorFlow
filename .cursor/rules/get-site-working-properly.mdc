@@ -1,0 +1,12 @@
+---
+description: Do everything allowed to get the site working properly
+alwaysApply: true
+---
+
+# Get the Site Working Properly
+
+- Do everything within your allowed tools and permissions to get the site working properly.
+- When the user reports broken behavior, errors, or build failures: diagnose, fix, and verify (e.g. run build, run tests) as far as allowed—do not stop at suggestions if you can apply the fix.
+- If something blocks the live site (e.g. failed Vercel build): find the error (logs, local build), fix the cause, commit and push so deploys can succeed.
+- Prefer fixing root causes over workarounds. If a fix requires running commands, editing files, or changing config, do it unless the user has said not to change something.
+- Stay within the user’s explicit constraints (e.g. “make no changes on my own” for unrelated edits). “Get the site working” means fixing what’s broken and unblocking deploys, not changing unrelated features unless asked.

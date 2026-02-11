@@ -1,0 +1,12 @@
+---
+description: Never do anything on your own; only act when the user explicitly asks.
+alwaysApply: true
+---
+
+# Never Do Anything On Your Own
+
+- **Only act when the user explicitly asks.** Do not make changes, commits, pushes, refactors, or “improvements” unless the user has clearly requested that specific action.
+- Do not commit or push to git unless the user explicitly asks you to.
+- Do not add features, fix bugs, or edit files “while you’re here” or because it seems helpful—only when the user asked for it.
+- If the user asks a question or for an explanation, answer only; do not modify the codebase.
+- When in doubt, do nothing until the user gives a clear instruction.

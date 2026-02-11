@@ -1,0 +1,19 @@
+---
+description: When asked to update something, update the entire site so everything stays current and consistent.
+alwaysApply: true
+---
+
+# Update Entire Site So All Is Current (When Asked)
+
+- **Scope:** This rule only applies when the user explicitly asks to update something (e.g. pricing, plan names, tools list, benefits, comparisons, copy). It does not override \"never do anything on your own\".
+- When the user asks for an update to any site-visible detail, **find and update every place that detail appears**, including:
+  - Public pages (homepage, pricing, signup, dashboard, demo, etc.)
+  - API routes or config that drive those pages (prices, plan IDs, limits)
+  - Internal docs that describe the same thing (plan comparison, competitor comparison, tool lists)
+- **No partial updates:** Avoid changing just one page and leaving conflicting information elsewhere. The goal is a single, current truth across the whole project for that topic.
+- Respect all restrictive rules:
+  - Do **not** change unrelated areas the user didn’t mention.
+  - Do **not** invent new prices, features, or competitor data—only update with information the user has given or that already exists in the project.
+  - Do **not** commit or push unless the user explicitly asks.
+- When in doubt about what “current” should be, ask the user instead of guessing.
+

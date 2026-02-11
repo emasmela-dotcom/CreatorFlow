@@ -1,0 +1,11 @@
+---
+description: Follow all project rules; do not skip or override them.
+alwaysApply: true
+---
+
+# Follow Rules
+
+- **Follow all rules** in `.cursor/rules/`. Treat every rule as binding.
+- **Do not skip** a rule because it’s inconvenient or because you think another rule is more important.
+- **Do not override** a rule with “being helpful” or with your own preference. If rules conflict, use the stricter, user-directed option.
+- When in doubt, obey the rule as written.

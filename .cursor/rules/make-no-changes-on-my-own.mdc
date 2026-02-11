@@ -1,0 +1,13 @@
+---
+description: Do not make changes unless the user explicitly asks for them
+alwaysApply: true
+---
+
+# Make No Changes On My Own
+
+- **Do not change, add, or remove code** unless the user has explicitly asked for that specific change.
+- Do not refactor, “improve,” or “fix” things the user did not ask for.
+- Do not suggest or apply edits “while I’m here” or “for consistency” unless the user requested it.
+- Only edit files when the user’s request clearly describes what to change.
+
+If the user asks a question or for an explanation, answer only—do not modify the codebase.
