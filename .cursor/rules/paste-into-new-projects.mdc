@@ -1,12 +1,10 @@
 ---
-description: Rules for AI (paste into new projects) – copy this whole block into Cursor Rules or .cursorrules when opening a new project.
+description: Rules for AI – commit/push, do it now, follow stated request, no unsolicited changes, one project one repo, etc.
 globs:
-alwaysApply: false
+alwaysApply: true
 ---
 
-# Rules for AI (paste into new projects)
-
-Copy the content below into Cursor's **Rules for AI** (or into a project `.cursorrules` / rules file) when you open a new project.
+# Rules for AI (apply in this project)
 
 ---
 

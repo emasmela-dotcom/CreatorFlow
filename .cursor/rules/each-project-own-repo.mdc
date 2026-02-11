@@ -1,0 +1,15 @@
+---
+description: Every project saved to Git must have its own repo (not a subfolder of another repo).
+globs:
+alwaysApply: true
+---
+
+# Each Project = Its Own Repo
+
+When saving a project to Git:
+
+- **One project, one repo.** Each project that is "saved to Git" or deployed as its own app must live in its **own GitHub (or other) repository**, not as a subfolder inside another project's repo.
+- **Do not** add new standalone projects as a folder inside an existing repo (e.g. do not add "FollowThroughCRM" as `follow-through-crm/` inside CreatorFlow). Instead, create or use a **separate repo** for that project and put the project's code at the **root** of that repo.
+- **If the user asks** to put a new project on Git: create or use a dedicated repo for it (e.g. new GitHub repo), put the project files at the repo root, init/commit/push there. Do not nest it under another project unless the user explicitly says to keep it in the same repo.
+
+This keeps each product/app separate for deployment, access, and history.
