@@ -234,7 +234,7 @@ The CreatorFlow365 Team`,
       </section>
 
       {/* Follow Thru CRM Highlight */}
-      <section className="py-16 px-6 bg-gray-900/40">
+      <section id="follow-thru" className="py-16 px-6 bg-gray-900/40">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-600/20 border border-purple-400/40 text-xs font-semibold text-purple-100 mb-4">

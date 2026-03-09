@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Wrench, DollarSign, CheckSquare } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, Link2, Sparkles, Wrench, DollarSign, CheckSquare, Check, ArrowRight, HelpCircle } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import HelpCenter from '@/components/HelpCenter'
 import HelpIcon from '@/components/HelpIcon'
@@ -2999,35 +2999,38 @@ export default function Dashboard() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                  <h3 className="text-lg font-semibold mb-4">Recent Posts</h3>
-                  <div className="space-y-4">
-                    {posts.slice(0, 5).map((post) => (
-                      <div key={post.id} className={`flex items-center justify-between p-4 rounded-lg ${
-                        post.isLocked ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-gray-700'
-                      }`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-3 h-3 rounded-full ${
-                            post.status === 'scheduled' ? 'bg-yellow-400' : 
-                            post.status === 'published' ? 'bg-green-400' : 'bg-gray-400'
-                          }`} />
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2">
-                              <p className="font-medium">{post.platform}</p>
-                              {post.isLocked && <LockedContentIcon />}
-                            </div>
-                            <p className="text-sm text-gray-400 truncate max-w-xs">{post.content}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm text-gray-400">
-                            {post.scheduled_at 
-                              ? new Date(post.scheduled_at).toLocaleDateString() 
-                              : new Date(post.created_at).toLocaleDateString()}
-                          </p>
-                          <p className="text-xs text-gray-500">{post.status}</p>
-                        </div>
-                      </div>
-                    ))}
+                  <h3 className="text-lg font-semibold mb-2">Follow Thru CRM</h3>
+                  <p className="text-sm text-gray-300 mb-4">
+                    Track people and promises in one place so you never drop a brand, collaborator, or high‑value follower.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-300 mb-4">
+                    <li className="flex gap-2">
+                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                      <span>People, notes, and next actions tied to your campaigns.</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                      <span>See who you owe replies, deliverables, or follow‑ups this week.</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                      <span>Extend Follow Thru with your own API automations when you&apos;re ready.</span>
+                    </li>
+                  </ul>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => { window.location.href = '/follow-thru' }}
+                      className="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-all flex items-center gap-2"
+                    >
+                      Open Follow Thru
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => { window.location.href = '/#follow-thru' }}
+                      className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-semibold hover:bg-gray-700 border border-gray-700 transition-all"
+                    >
+                      Learn how it works
+                    </button>
                   </div>
                 </div>
 
