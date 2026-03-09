@@ -5,7 +5,7 @@ import { GA_TRACKING_ID } from '@/lib/analytics'
 
 export const metadata: Metadata = {
   title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
-  description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 15-day free trial. Store, organize, and manage your content in your personal cloud library.',
+  description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 14-day free trial. Store, organize, and manage your content in your personal cloud library.',
   keywords: 'content creator, social media management, creator tools, micro-saas, analytics, Instagram scheduler, Twitter scheduler, LinkedIn scheduler, YouTube scheduler, content library',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
-    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 15-day free trial.',
+    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 14-day free trial.',
     type: 'website',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
     siteName: 'CreatorFlow365',

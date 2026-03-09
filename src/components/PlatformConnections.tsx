@@ -26,11 +26,11 @@ const PLATFORMS = [
 ]
 
 const PLATFORM_USER_MESSAGE: Record<string, string> = {
-  twitter: "Direct posting to Twitter/X isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to Twitter when you're ready. We'll enable one-click posting soon.",
-  linkedin: "Direct posting to LinkedIn isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to LinkedIn when you're ready. We'll enable one-click posting soon.",
-  instagram: "Direct posting to Instagram isn't available yet. You can still create and schedule posts here—use the calendar to plan and copy to Instagram when you're ready. We'll enable one-click posting soon.",
-  tiktok: "Direct posting to TikTok isn't available yet. You can still create and schedule posts here. We'll enable one-click posting when possible.",
-  youtube: "Direct posting to YouTube isn't available yet. You can still plan content here. We'll enable one-click posting when possible."
+  twitter: "Connect your Twitter/X account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into Twitter.",
+  linkedin: "Connect your LinkedIn account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into LinkedIn.",
+  instagram: "Connect Instagram for future direct posting. For now, create your post here and use Copy to paste into the Instagram app.",
+  tiktok: "Create your post here and use Copy to paste into TikTok. We'll enable direct posting when the API allows.",
+  youtube: "Plan and write here; use Copy to paste into YouTube Studio or the app. Video uploads use YouTube Studio."
 }
 
 export default function PlatformConnections({ token }: PlatformConnectionsProps) {
@@ -43,8 +43,11 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
   useEffect(() => {
     const notConfigured = searchParams.get('error') === 'platform_not_configured'
     const platform = searchParams.get('platform') || ''
+    const unauth = searchParams.get('error') === 'connect_unauthorized'
     if (notConfigured && platform && PLATFORM_USER_MESSAGE[platform]) {
       setError(PLATFORM_USER_MESSAGE[platform])
+    } else if (unauth) {
+      setError('Please use the Connect button below to connect. Sign in first if needed.')
     }
   }, [searchParams])
 
@@ -69,17 +72,16 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     }
   }
 
-  const handleConnect = async (platform: string) => {
-    try {
-      setConnecting(platform)
-      setError('')
-      
-      // Redirect to OAuth connection
-      window.location.href = `/api/auth/connect/${platform}`
-    } catch (err: any) {
-      setError(err.message || 'Failed to connect platform')
-      setConnecting(null)
+  const handleConnect = (platform: string) => {
+    if (!token) {
+      setError('Please sign in to connect an account')
+      return
     }
+    setConnecting(platform)
+    setError('')
+    // If redirect doesn't happen (e.g. blocked or failed), clear "Connecting..." after 5s
+    setTimeout(() => setConnecting(null), 5000)
+    window.location.href = `/api/auth/connect/${platform}?token=${encodeURIComponent(token)}`
   }
 
   const handleDisconnect = async (platform: string) => {
@@ -198,8 +200,9 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
               ) : (
                 <button
                   onClick={() => handleConnect(platform.id)}
-                  disabled={connecting === platform.id}
+                  disabled={connecting === platform.id || !token}
                   className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  title={!token ? 'Sign in to connect' : undefined}
                 >
                   {connecting === platform.id ? (
                     <>

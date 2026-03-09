@@ -78,10 +78,10 @@ export async function POST(request: NextRequest) {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10)
 
-      // Trial without Stripe: 15 days from signup; user adds payment when ready to keep content
+      // Trial without Stripe: 14 days from signup; user adds payment when ready to keep content
       const now = new Date()
       const trialEnd = new Date(now)
-      trialEnd.setDate(trialEnd.getDate() + 15)
+      trialEnd.setDate(trialEnd.getDate() + 14)
       const trialStartedAt = now.toISOString()
       const trialEndAt = trialEnd.toISOString()
       const trialPlan = subscriptionTier

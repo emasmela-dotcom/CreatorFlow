@@ -78,6 +78,27 @@ export async function verifyAuth(request: NextRequest): Promise<AuthUser | null>
 }
 
 /**
+ * Verify a raw JWT string (e.g. from query param for OAuth connect flow)
+ */
+export async function verifyToken(tokenString: string): Promise<AuthUser | null> {
+  if (!tokenString?.trim()) return null
+  try {
+    const secret = JWT_SECRET || (process.env.NODE_ENV === 'development' ? 'fallback-secret-key-for-development-only' : null)
+    if (!secret) return null
+    const decoded = jwt.verify(tokenString.trim(), secret) as { userId: string; email: string; type?: string }
+    if (decoded.type && decoded.type !== 'access') return null
+    const userResult = await db.execute({
+      sql: 'SELECT id FROM users WHERE id = ?',
+      args: [decoded.userId]
+    })
+    if (userResult.rows.length === 0) return null
+    return { userId: decoded.userId, email: decoded.email }
+  } catch {
+    return null
+  }
+}
+
+/**
  * Verify auth AND ensure userId matches (prevents authorization bypass)
  */
 export async function verifyAuthAndOwnership(

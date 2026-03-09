@@ -1,9 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { enforceContentLock } from '@/lib/contentLockCheck'
+import { verifyAuth } from '@/lib/auth'
 import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
+
+/**
+ * GET - Export all user's posts as CSV (creator-owned library backup, no lock check)
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const user = await verifyAuth(request)
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const postsResult = await db.execute({
+      sql: 'SELECT * FROM content_posts WHERE user_id = ? ORDER BY created_at DESC',
+      args: [user.userId]
+    })
+    const csv = convertToCSV(postsResult.rows as any[])
+    return new NextResponse(csv, {
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': `attachment; filename="creatorflow-library-${Date.now()}.csv"`
+      }
+    })
+  } catch (error: any) {
+    console.error('Export all posts error:', error)
+    return NextResponse.json({ error: error.message || 'Failed to export' }, { status: 500 })
+  }
+}
 
 /**
  * Export posts - ENFORCES LOCK

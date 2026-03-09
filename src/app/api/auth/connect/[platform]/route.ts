@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyAuth } from '@/lib/auth'
+import { verifyAuth, verifyToken } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -52,9 +52,15 @@ export async function GET(
   { params }: { params: Promise<{ platform: string }> }
 ) {
   try {
-    const user = await verifyAuth(request)
+    const tokenFromHeader = request.headers.get('authorization')?.replace('Bearer ', '')
+    const tokenFromQuery = request.nextUrl.searchParams.get('token')
+    const token = tokenFromHeader || tokenFromQuery
+    const user = token
+      ? await verifyToken(token)
+      : await verifyAuth(request)
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      const baseUrl = request.nextUrl.origin || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
+      return NextResponse.redirect(`${baseUrl}/dashboard?tab=connections&error=connect_unauthorized`)
     }
 
     const { platform: platformParam } = await params
@@ -79,7 +85,11 @@ export async function GET(
 
     const oauthUrl = PLATFORM_OAUTH_URLS[platform](redirectUri, state)
 
-    return NextResponse.redirect(oauthUrl)
+    // If token was in URL (direct navigation), redirect to OAuth so user never sees JSON. Otherwise return JSON for fetch-based flow.
+    if (tokenFromQuery) {
+      return NextResponse.redirect(oauthUrl)
+    }
+    return NextResponse.json({ url: oauthUrl })
   } catch (error: any) {
     console.error('OAuth initiation error:', error)
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'

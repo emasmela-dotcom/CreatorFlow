@@ -119,7 +119,10 @@ export async function POST(request: NextRequest) {
         payment_method_types: ['card'],
         line_items: [{ price: priceId, quantity: 1 }],
         mode: 'subscription',
-        subscription_data: { metadata: { userId: user.id, planType } },
+        subscription_data: {
+          metadata: { userId: user.id, planType },
+          trial_period_days: 14,
+        },
         success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/dashboard?success=true`,
         cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'}/signup?canceled=true`,
         metadata: { userId: user.id, planType },

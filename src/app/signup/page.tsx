@@ -146,13 +146,13 @@ function SignupPageContent() {
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Choose Your Plan</h2>
               <p className="text-xl text-gray-400">
-                Start your free trial with half a month (15 days) of any plan.
+                Start your free trial with 14 days of any plan.
               </p>
               <p className="text-sm text-green-400 mt-2">
                 ✅ No credit card required to start your trial.
               </p>
               <p className="text-xs text-gray-400 mt-1">
-                If you decide to keep going on a paid plan, your account keeps all the content you created during the trial.
+                When you sign up for the plan you trialed, all content you created during the trial is kept.
               </p>
               <p className="text-sm text-white/90 mt-3 font-medium">
                 Your work here is yours. Subscribe after trial to keep what you've created or changed—no payment required to start—and keep access to more tools than the competition.
@@ -304,7 +304,7 @@ function SignupPageContent() {
                 <h3 className="text-xl font-semibold mb-2">Ready to Become a Paying Member?</h3>
                 <p className="text-gray-400 mb-6">
                   When you’re ready, you’ll be redirected to secure Stripe checkout to add your payment method. 
-                  Your card will not be charged until after your 15-day trial ends.
+                  Your card will not be charged until after your 14-day trial ends.
                 </p>
                 
                 <button

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles } from 'lucide-react'
+import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles, CheckSquare } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
@@ -224,10 +224,10 @@ The CreatorFlow365 Team`,
               </button>
             </div>
           </div>
-          <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Keep your changes when you subscribe</p>
+          <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
-              <strong className="text-white">How it works:</strong> Create and manage all your content within CreatorFlow365, then simply copy and paste to your social media platforms. We work with Instagram, Twitter/X, LinkedIn, TikTok, and YouTube.
+              <strong className="text-white">How it works:</strong> Connect your accounts in the dashboard, then create and schedule posts—or post now—to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube. You can also copy to paste into any app.
             </p>
           </div>
         </div>
@@ -241,12 +241,13 @@ The CreatorFlow365 Team`,
             <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
               Get more than you pay for. Premium features included in every plan.
             </p>
+            <p className="text-sm text-gray-500 mb-4">53+ tools in your dashboard—scheduling, AI content tools, Follow Thru CRM, and more.</p>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
             </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
               <div className="text-xs font-mono text-white mb-3">ANALYTICS</div>
               <h3 className="text-xl font-semibold mb-4">Advanced Analytics Dashboard</h3>
@@ -286,6 +287,20 @@ The CreatorFlow365 Team`,
                 <Check className="w-4 h-4" />
                 <span>Full collaboration tools</span>
               </div>
+            </div>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
+              <div className="text-xs font-mono text-white mb-3">CRM</div>
+              <h3 className="text-xl font-semibold mb-4">Follow Thru CRM</h3>
+              <div className="h-px bg-gray-800 mb-4"></div>
+              <p className="text-gray-400 mb-4">Track people and promises in one place. Follow up on commitments and keep relationships moving.</p>
+              <div className="flex items-center gap-2 text-sm text-white">
+                <Check className="w-4 h-4" />
+                <span>Included in your plan</span>
+              </div>
+              <a href="/follow-thru" className="inline-flex items-center gap-2 mt-4 text-purple-400 hover:text-purple-300 text-sm font-medium">
+                <CheckSquare className="w-4 h-4" />
+                Open Follow Thru
+              </a>
             </div>
           </div>
           
@@ -546,8 +561,7 @@ The CreatorFlow365 Team`,
             <div className="mt-6 pt-6 border-t border-gray-700">
               <p className="text-sm text-gray-400">
                 <strong className="text-gray-300">Free Trial:</strong> Start your 14-day free trial with <strong className="text-white">no credit card required</strong>. 
-                Create content, schedule posts, and use all features. If you love it and want to keep your changes, simply subscribe to a paid plan. 
-                If you don't subscribe, your changes will be reverted to your original state.
+                Create content, schedule posts, and use all features. When you sign up for the plan you trialed, all your content is kept. If you don't subscribe, your changes will be reverted to your original state.
               </p>
             </div>
           </div>

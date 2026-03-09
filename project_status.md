@@ -56,14 +56,16 @@
 | **Cron** | `vercel.json` runs `/api/cron/process-scheduled-posts` every minute (Vercel Cron) |
 | **Env vars** | Set in Vercel (and `.env.local` for dev) to enable each platform |
 
-**Env vars to set (per platform):**
+**Env vars to set (per platform) – set these in Vercel to enable Connect for each:**
 
-| Platform | Env vars | Notes |
-|----------|----------|------|
-| **Twitter/X** | `TWITTER_CLIENT_ID`, `TWITTER_CLIENT_SECRET` | developer.twitter.com → app → OAuth 2.0; redirect `https://www.creatorflow365.com/api/auth/callback/twitter` |
-| **LinkedIn** | `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET` | linkedin.com/developers → app → Auth redirect `https://www.creatorflow365.com/api/auth/callback/linkedin`; scope `w_member_social` |
-| **Instagram** | `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET` | Facebook app + Instagram Basic; posting still stub (needs Graph API implementation) |
-| **Cron** | `CRON_SECRET` | Optional. If set, cron route requires `Authorization: Bearer <CRON_SECRET>`. If using only Vercel Cron, leave unset (Vercel does not send this header). |
+| Platform | Env vars | Redirect URI (add in dev portal) |
+|----------|----------|----------------------------------|
+| **Twitter/X** | `TWITTER_CLIENT_ID`, `TWITTER_CLIENT_SECRET` | `https://www.creatorflow365.com/api/auth/callback/twitter` |
+| **LinkedIn** | `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET` | `https://www.creatorflow365.com/api/auth/callback/linkedin` (scope: `w_member_social`) |
+| **Instagram** | `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET` | `https://www.creatorflow365.com/api/auth/callback/instagram` (Facebook app + Instagram Basic) |
+| **TikTok** | `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET` | `https://www.creatorflow365.com/api/auth/callback/tiktok` |
+| **YouTube** | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | `https://www.creatorflow365.com/api/auth/callback/youtube` (Google Cloud OAuth; scope e.g. youtube) |
+| **Cron** | `CRON_SECRET` | Optional. If set, cron route requires `Authorization: Bearer <CRON_SECRET>`. Leave unset for Vercel Cron. |
 | **Base URL** | `NEXT_PUBLIC_BASE_URL` | e.g. `https://www.creatorflow365.com` (used for OAuth redirects) |
 
 **Steps to make direct posting fully on:**

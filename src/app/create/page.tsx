@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 
 export default function CreatePost() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [content, setContent] = useState('')
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
   const [scheduledDate, setScheduledDate] = useState('')
@@ -66,6 +67,7 @@ export default function CreatePost() {
   const [isSaving, setIsSaving] = useState(false)
   const [isScheduling, setIsScheduling] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
+  const [publishResults, setPublishResults] = useState<{ succeeded: string[]; failed: string[]; fullContent: string } | null>(null)
 
   const createPost = async (status: 'draft' | 'scheduled' | 'published') => {
     // FREE PLAN RESTRICTION: Block post creation for free plan users
@@ -137,24 +139,39 @@ export default function CreatePost() {
       const responses = await Promise.all(promises)
       const results = await Promise.all(responses.map(res => res.json()))
 
-      // Check if any failed
-      const failed = results.filter(r => !r.success)
-      if (failed.length > 0) {
-        throw new Error(`Failed to create posts for ${failed.length} platform(s)`)
-      }
+      const succeeded: string[] = []
+      const failed: string[] = []
+      selectedPlatforms.forEach((platform, i) => {
+        const name = platforms.find(pl => pl.id === platform)?.name || platform
+        if (results[i]?.success) succeeded.push(name)
+        else failed.push(name)
+      })
 
-      // Success!
-      const platformNames = selectedPlatforms.map(p => platforms.find(pl => pl.id === p)?.name || p).join(', ')
       if (status === 'draft') {
+        const platformNames = selectedPlatforms.map(p => platforms.find(pl => pl.id === p)?.name || p).join(', ')
         alert(`Draft saved successfully for ${platformNames}!`)
-      } else if (status === 'scheduled') {
+        router.push('/dashboard')
+        return
+      }
+      if (status === 'scheduled') {
+        const platformNames = selectedPlatforms.map(p => platforms.find(pl => pl.id === p)?.name || p).join(', ')
         alert(`Post scheduled for ${platformNames} on ${scheduledDate} at ${scheduledTime}!`)
-      } else {
-        alert(`Post published successfully to ${platformNames}!`)
+        router.push('/dashboard')
+        return
       }
 
-      // Redirect to dashboard
-      router.push('/dashboard')
+      // Published
+      if (failed.length > 0) {
+        setPublishResults({ succeeded, failed, fullContent })
+        if (succeeded.length > 0) {
+          alert(`Posted to ${succeeded.join(', ')}. For ${failed.join(', ')}—copy below and paste into the app.`)
+        } else {
+          alert('Post saved as draft. Copy below and paste into each platform to post.')
+        }
+      } else {
+        alert(`Post published successfully to ${succeeded.join(', ')}!`)
+        router.push('/dashboard')
+      }
     } catch (error: any) {
       console.error('Create post error:', error)
       alert(error.message || 'Failed to create post. Please try again.')
@@ -191,6 +208,29 @@ export default function CreatePost() {
       setIsPublishing(false)
     }
   }
+
+  // Prefill from repurpose tool (Create post / Schedule CTAs)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const from = searchParams.get('from')
+    if (from !== 'repurpose') return
+    const prefillContent = sessionStorage.getItem('creatorflow_repurpose_content')
+    const prefillPlatform = sessionStorage.getItem('creatorflow_repurpose_platform')
+    const prefillHashtags = sessionStorage.getItem('creatorflow_repurpose_hashtags')
+    if (prefillContent) setContent(prefillContent)
+    if (prefillPlatform) setSelectedPlatforms([prefillPlatform])
+    if (prefillHashtags) setHashtags(prefillHashtags)
+    const schedule = searchParams.get('schedule') === '1'
+    if (schedule && !scheduledDate) {
+      const d = new Date()
+      d.setDate(d.getDate() + 1)
+      setScheduledDate(d.toISOString().slice(0, 10))
+      setScheduledTime('09:00')
+    }
+    sessionStorage.removeItem('creatorflow_repurpose_content')
+    sessionStorage.removeItem('creatorflow_repurpose_platform')
+    sessionStorage.removeItem('creatorflow_repurpose_hashtags')
+  }, [searchParams])
 
   useEffect(() => {
     // Load auth token on client
@@ -229,6 +269,7 @@ export default function CreatePost() {
       })
       .then(res => res.json())
       .then(data => {
+        if (searchParams.get('from') === 'repurpose') return
         if (!data.error && data.preferredPlatforms && data.preferredPlatforms.length > 0) {
           setSelectedPlatforms(data.preferredPlatforms)
         }
@@ -254,7 +295,7 @@ export default function CreatePost() {
         setSubscriptionTier('free')
       })
     }
-  }, [])
+  }, [searchParams])
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -303,6 +344,38 @@ export default function CreatePost() {
         {/* Main Content */}
         <main className="flex-1 p-6">
           <div className="max-w-4xl mx-auto space-y-6">
+            {/* Copy to post - when some platforms don't support direct post yet */}
+            {publishResults && publishResults.failed.length > 0 && (
+              <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-4">
+                <p className="text-sm text-gray-200 mb-2">
+                  {publishResults.succeeded.length > 0 && <span>Posted to {publishResults.succeeded.join(', ')}. </span>}
+                  For <strong className="text-white">{publishResults.failed.join(', ')}</strong>—copy below and paste into the app:
+                </p>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {publishResults.failed.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(publishResults!.fullContent)
+                        alert(`Copied! Paste into ${name} and post.`)
+                      }}
+                      className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 rounded text-white text-sm font-medium"
+                    >
+                      Copy for {name}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPublishResults(null)}
+                  className="text-xs text-gray-400 hover:text-gray-300"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+
             {/* FREE PLAN RESTRICTION BANNER */}
             {subscriptionTier === 'free' && (
               <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">

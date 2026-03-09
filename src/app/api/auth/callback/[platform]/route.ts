@@ -161,6 +161,48 @@ async function exchangeCodeForToken(
       })
       return await linkedinResponse.json()
 
+    case 'tiktok': {
+      const tiktokResponse = await fetch('https://open.tiktokapis.com/v2/oauth/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Cache-Control': 'no-cache'
+        },
+        body: new URLSearchParams({
+          client_key: clientId,
+          client_secret: clientSecret,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: redirectUri
+        })
+      })
+      const tiktokData = await tiktokResponse.json()
+      if (tiktokData.data?.access_token) {
+        return {
+          access_token: tiktokData.data.access_token,
+          refresh_token: tiktokData.data.refresh_token,
+          expires_in: tiktokData.data.expires_in,
+          token_type: tiktokData.data.token_type
+        }
+      }
+      throw new Error(tiktokData.error?.message || 'TikTok token exchange failed')
+    }
+
+    case 'youtube': {
+      const googleResponse = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code'
+        })
+      })
+      return await googleResponse.json()
+    }
+
     default:
       throw new Error(`Token exchange not implemented for ${platform}`)
   }
@@ -202,6 +244,31 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
           username: null,
           name: `${linkedinData.localizedFirstName || ''} ${linkedinData.localizedLastName || ''}`.trim() || null
         }
+
+      case 'tiktok': {
+        const tiktokResponse = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name', {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        })
+        const tiktokData = await tiktokResponse.json()
+        const user = tiktokData.data?.user
+        return {
+          id: user?.open_id || null,
+          username: user?.display_name || null,
+          name: user?.display_name || null
+        }
+      }
+
+      case 'youtube': {
+        const googleResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        })
+        const googleData = await googleResponse.json()
+        return {
+          id: googleData.id || null,
+          username: googleData.email?.split('@')[0] || null,
+          name: googleData.name || null
+        }
+      }
 
       default:
         return { id: null, username: null, name: null }

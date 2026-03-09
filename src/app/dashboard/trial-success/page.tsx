@@ -28,13 +28,13 @@ function TrialSuccessContent() {
         <h1 className="text-3xl font-bold mb-4">Trial Started Successfully!</h1>
         
         <p className="text-gray-300 mb-6">
-          Your 15-day free trial has begun. You now have access to all features of your selected plan.
+          Your 14-day free trial has begun. You now have access to all features of your selected plan.
         </p>
 
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6 text-left">
           <p className="text-sm text-blue-400 font-semibold mb-2">What happens next?</p>
           <ul className="text-xs text-gray-300 space-y-1">
-            <li>• Your trial lasts 15 days (half month)</li>
+            <li>• Your trial lasts 14 days</li>
             <li>• You'll be charged after the trial ends if you continue</li>
             <li>• A backup of your project was created before trial started</li>
             <li>• You can cancel anytime during trial</li>
