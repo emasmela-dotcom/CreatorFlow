@@ -196,7 +196,7 @@ The CreatorFlow365 Team`,
             CreatorFlow365
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
-            The all-in-one platform for content creators to manage, schedule, and monetize their content
+            Stop juggling apps. Start growing.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <input
