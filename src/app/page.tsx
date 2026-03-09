@@ -233,6 +233,71 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
+      {/* Follow Thru CRM Highlight */}
+      <section className="py-16 px-6 bg-gray-900/40">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-600/20 border border-purple-400/40 text-xs font-semibold text-purple-100 mb-4">
+              <CheckSquare className="w-4 h-4" />
+              <span>Included in every CreatorFlow365 plan</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Follow Thru CRM for creators</h2>
+            <p className="text-gray-300 text-lg mb-4">
+              Track people and promises in one place—right next to your content calendar and campaigns.
+            </p>
+            <ul className="space-y-2 text-sm text-gray-300 mb-6">
+              <li className="flex gap-2">
+                <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                <span>See every brand, collaborator, and VIP follower with notes and next actions.</span>
+              </li>
+              <li className="flex gap-2">
+                <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                <span>Never drop a commitment again—log promises and follow-ups with clear due dates.</span>
+              </li>
+              <li className="flex gap-2">
+                <Check className="w-4 h-4 text-green-400 mt-0.5" />
+                <span>Optionally extend Follow Thru with your own API automations and custom workflows.</span>
+              </li>
+            </ul>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => { window.location.href = '/follow-thru' }}
+                className="px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 text-sm"
+              >
+                Open Follow Thru
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => { window.location.href = '/dashboard?tab=connections' }}
+                className="px-6 py-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 border border-gray-700 transition-all text-sm"
+              >
+                Set it up in your dashboard
+              </button>
+            </div>
+          </div>
+          <div className="bg-gray-900/70 border border-gray-800 rounded-xl p-6 md:p-8">
+            <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+              <CheckSquare className="w-5 h-5 text-purple-400" />
+              How Follow Thru is different
+            </h3>
+            <div className="space-y-4 text-sm text-gray-300">
+              <div>
+                <p className="font-semibold text-white mb-1">Built for creators, not B2B sales teams</p>
+                <p>Most CRMs are designed for corporate pipelines. Follow Thru is tuned for creators managing brands, collaborators, and high‑value followers.</p>
+              </div>
+              <div>
+                <p className="font-semibold text-white mb-1">Lives inside your posting workflow</p>
+                <p>Your relationships, promises, and deals sit beside your content calendar, analytics, and scheduling instead of a separate tool.</p>
+              </div>
+              <div>
+                <p className="font-semibold text-white mb-1">Included in your plan</p>
+                <p>No extra per‑seat CRM fee. You get Follow Thru with CreatorFlow365 instead of stacking another $30–$90/month SaaS.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Tools / Features Section */}
       <section id="tools" className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
