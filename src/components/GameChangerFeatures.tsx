@@ -1,31 +1,42 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { 
   TrendingUp, Mic, RefreshCw, DollarSign, 
   Bell, TestTube, List, Hash, Handshake,
-  Sparkles, CheckCircle, XCircle, AlertCircle, ArrowLeftRight
+  Sparkles, CheckCircle, XCircle, AlertCircle, ArrowLeftRight, CheckSquare
 } from 'lucide-react'
 
 interface GameChangerFeaturesProps {
   token: string
 }
 
+export const GAME_CHANGER_FEATURES = [
+  { id: 'performance-predictor', name: 'Performance Predictor', icon: TrendingUp, color: 'purple' },
+  { id: 'brand-voice', name: 'Brand Voice', icon: Mic, color: 'blue' },
+  { id: 'cross-platform', name: 'Cross-Platform Sync', icon: ArrowLeftRight, color: 'green' },
+  { id: 'content-recycling', name: 'Content Recycling', icon: RefreshCw, color: 'orange' },
+  { id: 'revenue-tracker', name: 'Revenue Tracker', icon: DollarSign, color: 'yellow' },
+  { id: 'trend-alerts', name: 'Trend Alerts', icon: Bell, color: 'red' },
+  { id: 'ab-testing', name: 'A/B Testing', icon: TestTube, color: 'pink' },
+  { id: 'content-series', name: 'Content Series', icon: List, color: 'indigo' },
+  { id: 'hashtag-optimizer', name: 'Hashtag Optimizer', icon: Hash, color: 'teal' },
+  { id: 'marketplace', name: 'Collaboration Marketplace', icon: Handshake, color: 'cyan' },
+  { id: 'follow-thru-crm', name: 'Follow Thru CRM', icon: CheckSquare, color: 'purple' }
+] as const
+
+export function GameChangerFeatureDetail({ featureId, token, onClose }: { featureId: string; token: string; onClose: () => void }) {
+  return (
+    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+      {renderFeatureUI(featureId, token, onClose)}
+    </div>
+  )
+}
+
 export default function GameChangerFeatures({ token }: GameChangerFeaturesProps) {
   const [activeFeature, setActiveFeature] = useState<string | null>(null)
-
-  const features = [
-    { id: 'performance-predictor', name: 'Performance Predictor', icon: TrendingUp, color: 'purple' },
-    { id: 'brand-voice', name: 'Brand Voice', icon: Mic, color: 'blue' },
-    { id: 'cross-platform', name: 'Cross-Platform Sync', icon: ArrowLeftRight, color: 'green' },
-    { id: 'content-recycling', name: 'Content Recycling', icon: RefreshCw, color: 'orange' },
-    { id: 'revenue-tracker', name: 'Revenue Tracker', icon: DollarSign, color: 'yellow' },
-    { id: 'trend-alerts', name: 'Trend Alerts', icon: Bell, color: 'red' },
-    { id: 'ab-testing', name: 'A/B Testing', icon: TestTube, color: 'pink' },
-    { id: 'content-series', name: 'Content Series', icon: List, color: 'indigo' },
-    { id: 'hashtag-optimizer', name: 'Hashtag Optimizer', icon: Hash, color: 'teal' },
-    { id: 'marketplace', name: 'Collaboration Marketplace', icon: Handshake, color: 'cyan' }
-  ]
+  const features = GAME_CHANGER_FEATURES
 
   return (
     <div className="space-y-6">
@@ -81,7 +92,8 @@ function getFeatureDescription(id: string): string {
     'ab-testing': 'Test content variations',
     'content-series': 'Generate multi-part series',
     'hashtag-optimizer': 'AI-optimized hashtags',
-    'marketplace': 'Connect with brand opportunities'
+    'marketplace': 'Connect with brand opportunities',
+    'follow-thru-crm': 'Track what you’re waiting on and who you’re waiting on it from'
   }
   return descriptions[id] || 'Advanced feature'
 }
@@ -108,6 +120,13 @@ function renderFeatureUI(featureId: string, token: string, onClose: () => void) 
       return <HashtagOptimizerUI token={token} />
     case 'marketplace':
       return <CollaborationMarketplaceUI token={token} />
+    case 'follow-thru-crm':
+      return (
+        <div className="space-y-4">
+          <p className="text-gray-300">Track promises, people, and follow-ups. They owe you / You owe them / Overdue / Upcoming.</p>
+          <Link href="/crm" className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-500">Open Follow Thru CRM →</Link>
+        </div>
+      )
     default:
       return <div>Feature UI coming soon</div>
   }

@@ -2621,7 +2621,7 @@ export default function Dashboard() {
   const searchParams = useSearchParams()
   const subscribeError = searchParams.get('subscribe_error')
   const subscribeDebug = searchParams.get('subscribe_debug')
-  const [activeTab, setActiveTab] = useState('game-changers')
+  const [activeTab, setActiveTab] = useState('overview')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const [posts, setPosts] = useState<Array<{
     id: string
@@ -3229,7 +3229,7 @@ export default function Dashboard() {
             <div className="bg-gray-800/80 border border-gray-600 rounded-xl p-4 sm:p-6">
               <h2 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
                 <Wrench className="w-5 h-5 text-purple-400" />
-                53+ tools — all in one place
+                All tools — one place
               </h2>
               <p className="text-gray-400 text-sm mb-4">Click any tool to open it.</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-6">
@@ -3256,12 +3256,20 @@ export default function Dashboard() {
                   { id: 'sales-lead-qualifier', name: 'Lead Qualifier', type: 'bot' as const },
                   { id: 'website-chat', name: 'Website Chat', type: 'bot' as const },
                   ...GAME_CHANGER_FEATURES.map((f) => ({ id: f.id, name: f.name, type: 'gamechanger' as const })),
+                  { id: 'content', name: 'Content library', type: 'tab' as const },
+                  { id: 'calendar', name: 'Calendar', type: 'tab' as const },
+                  { id: 'analytics', name: 'Analytics', type: 'tab' as const },
+                  { id: 'collaborations', name: 'Collaborations', type: 'tab' as const },
+                  { id: 'connections', name: 'Connections', type: 'tab' as const },
+                  { id: 'social-listening', name: 'Listening', type: 'tab' as const },
+                  { id: 'community', name: 'Community', type: 'tab' as const },
                 ].map((tool) => (
                   <button
                     key={tool.id}
                     onClick={() => {
                       if (tool.type === 'bot') setSelectedBot(tool.id)
-                      else setActiveGameChanger(activeGameChanger === tool.id ? null : tool.id)
+                      else if (tool.type === 'gamechanger') setActiveGameChanger(activeGameChanger === tool.id ? null : tool.id)
+                      else if (tool.type === 'tab') setActiveTab(tool.id)
                     }}
                     className={`px-3 py-2 rounded-lg border text-left text-sm font-medium transition-colors ${
                       tool.type === 'gamechanger' && activeGameChanger === tool.id
