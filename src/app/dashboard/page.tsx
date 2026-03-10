@@ -2994,10 +2994,6 @@ export default function Dashboard() {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <ToolsInPackageCard />
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-lg font-semibold mb-2">Follow Thru CRM</h3>
                   <p className="text-sm text-gray-300 mb-4">
@@ -3057,10 +3053,14 @@ export default function Dashboard() {
                         <p className="text-sm text-green-400">+22% engagement</p>
                       </div>
                     </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ToolsInPackageCard />
+              </div>
           )}
 
           {activeTab === 'content' && (
