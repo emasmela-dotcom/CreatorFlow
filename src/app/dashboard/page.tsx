@@ -2869,6 +2869,21 @@ export default function Dashboard() {
               </div>
             </div>
 
+            <div className="p-4 rounded-lg border-2 border-purple-500 bg-purple-500/10">
+              <h4 className="font-semibold mb-2 text-white flex items-center gap-2">
+                <CheckSquare className="w-4 h-4 text-purple-400" />
+                Follow Thru CRM
+              </h4>
+              <p className="text-xs text-gray-300 mb-3">Track people and promises. Never drop a follow-up.</p>
+              <button
+                onClick={() => window.location.href = '/follow-thru'}
+                className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-white text-black rounded-lg font-semibold text-sm hover:bg-gray-200 transition-colors"
+              >
+                Open Follow Thru
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
             <div>
               <h4 className="font-semibold mb-3 text-gray-300">Recent Activity</h4>
               <div className="space-y-2 text-sm">
