@@ -1,0 +1,13 @@
+---
+description: Ask user to provide what's needed before any usage/credits are consumed
+alwaysApply: true
+---
+
+# Ask Before Using Usage
+
+Before any code or flow runs that would consume **usage** (e.g. in-app AI calls, credits, paid API calls, or other metered features in CreatorFlow365):
+
+1. **Ask the user** to get or provide whatever is needed (API keys, credentials, approval, or confirmation).
+2. **Do not** trigger or recommend actions that spend usage until the user has confirmed they have what's needed and are ready.
+
+If unsure whether something uses usage, ask the user first rather than assuming it's free to run.
