@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Script from 'next/script'
 import { GA_TRACKING_ID } from '@/lib/analytics'
+import HomeButton from '@/components/HomeButton'
 
 export const metadata: Metadata = {
   title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
@@ -89,6 +90,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <HomeButton />
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`
             if ('serviceWorker' in navigator) {

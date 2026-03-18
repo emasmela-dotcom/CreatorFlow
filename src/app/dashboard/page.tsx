@@ -3068,7 +3068,6 @@ export default function Dashboard() {
                         <p className="text-sm text-green-400">+22% engagement</p>
                       </div>
                     </div>
-                    </div>
                   </div>
                 </div>
               </div>
