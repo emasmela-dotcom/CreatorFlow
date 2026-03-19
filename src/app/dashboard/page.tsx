@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, Link2, Sparkles, Wrench, DollarSign, CheckSquare, Check, ArrowRight, HelpCircle } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Wrench, DollarSign } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import HelpCenter from '@/components/HelpCenter'
 import HelpIcon from '@/components/HelpIcon'
@@ -10,13 +10,13 @@ import PlatformConnections from '@/components/PlatformConnections'
 import SocialListening from '@/components/SocialListening'
 import TeamCollaboration from '@/components/TeamCollaboration'
 import AdvancedAnalytics from '@/components/AdvancedAnalytics'
-import { GAME_CHANGER_FEATURES, GameChangerFeatureDetail } from '@/components/GameChangerFeatures'
+import GameChangerFeatures from '@/components/GameChangerFeatures'
 import FeedbackButton from '@/components/FeedbackButton'
+import SuggestionsButton from '@/components/SuggestionsButton'
 import WhosOn from '@/components/WhosOn'
 import CreatorChat from '@/components/CreatorChat'
 import MessageBoard from '@/components/MessageBoard'
 import ContentTypesSettings from '@/components/ContentTypesSettings'
-import ToolsInPackageCard from '@/components/ToolsInPackageCard'
 
 // Simple UI Components for Bots
 function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -1380,7 +1380,6 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
         <div className="space-y-4">
           <div className="bg-green-500/10 border border-green-500/30 rounded p-3 text-sm">
             <div className="text-green-400 font-semibold">✅ Content Repurposed Successfully!</div>
-            <p className="text-gray-300 mt-1 text-xs">Post or schedule each format to that platform below.</p>
           </div>
           {result.repurposed && result.repurposed.map((item: any, index: number) => (
             <div key={index} className="bg-gray-800/50 border border-gray-700 rounded p-4">
@@ -1388,51 +1387,14 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
                 <h4 className="text-sm font-semibold text-white capitalize">{item.platform}</h4>
                 <span className="text-xs text-gray-400">{item.formatType} • {item.characterCount} chars</span>
               </div>
-              <div className="bg-gray-900/50 rounded p-3 text-sm text-gray-300 whitespace-pre-wrap mb-3">
+              <div className="bg-gray-900/50 rounded p-3 text-sm text-gray-300 whitespace-pre-wrap mb-2">
                 {item.content}
               </div>
               {item.hashtags && item.hashtags.length > 0 && (
-                <div className="text-xs text-purple-400 mb-3">
+                <div className="text-xs text-purple-400">
                   {item.hashtags.join(' ')}
                 </div>
               )}
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      sessionStorage.setItem('creatorflow_repurpose_content', item.content)
-                      sessionStorage.setItem('creatorflow_repurpose_platform', item.platform)
-                      sessionStorage.setItem('creatorflow_repurpose_hashtags', (item.hashtags || []).join(' '))
-                    }
-                    router.push('/create?from=repurpose')
-                  }}
-                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded text-white text-sm font-medium"
-                >
-                  Create post →
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      sessionStorage.setItem('creatorflow_repurpose_content', item.content)
-                      sessionStorage.setItem('creatorflow_repurpose_platform', item.platform)
-                      sessionStorage.setItem('creatorflow_repurpose_hashtags', (item.hashtags || []).join(' '))
-                    }
-                    router.push('/create?from=repurpose&schedule=1')
-                  }}
-                  className="px-3 py-1.5 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-medium"
-                >
-                  Schedule →
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.push('/dashboard')}
-                  className="px-3 py-1.5 border border-gray-500 hover:bg-gray-700 rounded text-gray-300 text-sm"
-                >
-                  View calendar
-                </button>
-              </div>
             </div>
           ))}
         </div>
@@ -2618,9 +2580,6 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
 
 export default function Dashboard() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const subscribeError = searchParams.get('subscribe_error')
-  const subscribeDebug = searchParams.get('subscribe_debug')
   const [activeTab, setActiveTab] = useState('overview')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const [posts, setPosts] = useState<Array<{
@@ -2635,27 +2594,18 @@ export default function Dashboard() {
   const [openAITool, setOpenAITool] = useState<string | null>(null)
   const [token, setToken] = useState<string>('')
   const [selectedBot, setSelectedBot] = useState<string | null>(null)
-  const [activeGameChanger, setActiveGameChanger] = useState<string | null>(null)
   const [helpCenterOpen, setHelpCenterOpen] = useState(false)
   const [headerSearch, setHeaderSearch] = useState('')
   const headerSearchInputRef = useRef<HTMLInputElement>(null)
   const [userId, setUserId] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
-  const [connections, setConnections] = useState<Array<{ platform: string; is_active: boolean }>>([])
-  const [connectNudgeDismissed, setConnectNudgeDismissed] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const p = new URLSearchParams(window.location.search)
       setHeaderVariant(p.get('header') === 'full' ? 'full' : 'center')
-      setConnectNudgeDismissed(localStorage.getItem('creatorflow_connect_nudge_dismissed') === '1')
     }
   }, [])
-
-  useEffect(() => {
-    const tab = searchParams.get('tab')
-    if (tab === 'connections') setActiveTab('connections')
-  }, [searchParams])
 
   useEffect(() => {
     // Get token from localStorage on client side
@@ -2720,18 +2670,6 @@ export default function Dashboard() {
         }
       })
       .catch(err => console.error('Error fetching posts:', err))
-
-      // Fetch connections (for connect nudge)
-      fetch('/api/platforms/connections', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.connections) {
-          setConnections(data.connections)
-        }
-      })
-      .catch(() => {})
     }
   }, [])
 
@@ -2752,7 +2690,6 @@ export default function Dashboard() {
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
-        <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/follow-thru')}><CheckSquare className="w-3 h-3 inline mr-1 -mt-0.5" />Follow Thru</button>
         <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
       </div>
     </>
@@ -2815,7 +2752,6 @@ export default function Dashboard() {
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
-                  <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/follow-thru')}><CheckSquare className="w-3 h-3 inline mr-1 -mt-0.5" />Follow Thru</button>
                   <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
                 </div>
               </nav>
@@ -2869,21 +2805,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="p-4 rounded-lg border-2 border-purple-500 bg-purple-500/10">
-              <h4 className="font-semibold mb-2 text-white flex items-center gap-2">
-                <CheckSquare className="w-4 h-4 text-purple-400" />
-                Follow Thru CRM
-              </h4>
-              <p className="text-xs text-gray-300 mb-3">Track people and promises. Never drop a follow-up.</p>
-              <button
-                onClick={() => window.location.href = '/follow-thru'}
-                className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-white text-black rounded-lg font-semibold text-sm hover:bg-gray-200 transition-colors"
-              >
-                Open Follow Thru
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
             <div>
               <h4 className="font-semibold mb-3 text-gray-300">Recent Activity</h4>
               <div className="space-y-2 text-sm">
@@ -2923,30 +2844,6 @@ export default function Dashboard() {
             </div>
           )}
           <TrialStatusBanner />
-          {connections.filter(c => c.is_active).length === 0 && !connectNudgeDismissed && (
-            <div className="mb-6 p-4 rounded-lg bg-purple-900/30 border border-purple-500/50 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-white font-medium">Connect an account to post from CreatorFlow365</p>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('connections')}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-medium text-white"
-                >
-                  Connect
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    localStorage.setItem('creatorflow_connect_nudge_dismissed', '1')
-                    setConnectNudgeDismissed(true)
-                  }}
-                  className="text-gray-400 hover:text-gray-300 text-sm"
-                >
-                  Dismiss
-                </button>
-              </div>
-            </div>
-          )}
           
           {activeTab === 'overview' && (
             <div className="space-y-6">
@@ -3010,38 +2907,35 @@ export default function Dashboard() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                  <h3 className="text-lg font-semibold mb-2">Follow Thru CRM</h3>
-                  <p className="text-sm text-gray-300 mb-4">
-                    Track people and promises in one place so you never drop a brand, collaborator, or high‑value follower.
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-300 mb-4">
-                    <li className="flex gap-2">
-                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
-                      <span>People, notes, and next actions tied to your campaigns.</span>
-                    </li>
-                    <li className="flex gap-2">
-                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
-                      <span>See who you owe replies, deliverables, or follow‑ups this week.</span>
-                    </li>
-                    <li className="flex gap-2">
-                      <Check className="w-4 h-4 text-green-400 mt-0.5" />
-                      <span>Extend Follow Thru with your own API automations when you&apos;re ready.</span>
-                    </li>
-                  </ul>
-                  <div className="flex flex-wrap gap-3">
-                    <button
-                      onClick={() => { window.location.href = '/follow-thru' }}
-                      className="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-all flex items-center gap-2"
-                    >
-                      Open Follow Thru
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => { window.location.href = '/#follow-thru' }}
-                      className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-semibold hover:bg-gray-700 border border-gray-700 transition-all"
-                    >
-                      Learn how it works
-                    </button>
+                  <h3 className="text-lg font-semibold mb-4">Recent Posts</h3>
+                  <div className="space-y-4">
+                    {posts.slice(0, 5).map((post) => (
+                      <div key={post.id} className={`flex items-center justify-between p-4 rounded-lg ${
+                        post.isLocked ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-gray-700'
+                      }`}>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-3 h-3 rounded-full ${
+                            post.status === 'scheduled' ? 'bg-yellow-400' : 
+                            post.status === 'published' ? 'bg-green-400' : 'bg-gray-400'
+                          }`} />
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium">{post.platform}</p>
+                              {post.isLocked && <LockedContentIcon />}
+                            </div>
+                            <p className="text-sm text-gray-400 truncate max-w-xs">{post.content}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-gray-400">
+                            {post.scheduled_at 
+                              ? new Date(post.scheduled_at).toLocaleDateString() 
+                              : new Date(post.created_at).toLocaleDateString()}
+                          </p>
+                          <p className="text-xs text-gray-500">{post.status}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -3070,19 +2964,13 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <ToolsInPackageCard />
-              </div>
+            </div>
           )}
 
           {activeTab === 'content' && (
             <div className="space-y-6">
-              <div className="rounded-lg bg-blue-500/10 border border-blue-500/30 p-4 text-sm text-gray-200">
-                <strong className="text-white">Creator-owned library.</strong> All drafts and published posts live here. Export or move your content anytime—it&apos;s yours.
-              </div>
-              <div className="flex justify-between items-center flex-wrap gap-3">
+              <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <h2 className="text-2xl font-bold">Content Management</h2>
                   <HelpIcon 
@@ -3090,39 +2978,13 @@ export default function Dashboard() {
                     title="Content Management"
                   />
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={async () => {
-                      try {
-                        const t = localStorage.getItem('token')
-                        if (!t) { router.push('/signin'); return }
-                        const res = await fetch('/api/posts/export', { headers: { 'Authorization': `Bearer ${t}` } })
-                        if (!res.ok) throw new Error(await res.text())
-                        const blob = await res.blob()
-                        const url = URL.createObjectURL(blob)
-                        const a = document.createElement('a')
-                        a.href = url
-                        a.download = `creatorflow-library-${Date.now()}.csv`
-                        a.click()
-                        URL.revokeObjectURL(url)
-                      } catch (e) {
-                        console.error(e)
-                        alert('Export failed. Try again.')
-                      }
-                    }}
-                    className="px-4 py-2 border border-gray-500 hover:bg-gray-700 rounded-lg text-sm font-medium flex items-center gap-2"
-                  >
-                    <FileText className="w-4 h-4" />
-                    Export library (CSV)
-                  </button>
-                  <button
-                    onClick={() => router.push('/create')}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
-                  >
-                    <Plus className="w-5 h-5" />
-                    Create New Post
-                  </button>
-                </div>
+                <button
+                  onClick={() => router.push('/create')}
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
+                >
+                  <Plus className="w-5 h-5" />
+                  Create New Post
+                </button>
               </div>
 
               {posts.length === 0 ? (
@@ -3243,68 +3105,8 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'game-changers' && (
-            <div className="bg-gray-800/80 border border-gray-600 rounded-xl p-4 sm:p-6">
-              <h2 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-purple-400" />
-                All tools — one place
-              </h2>
-              <p className="text-gray-400 text-sm mb-4">Click any tool to open it.</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-6">
-                {[
-                  { id: 'content-writer', name: 'Content Writer', type: 'bot' as const },
-                  { id: 'content-repurposing', name: 'Repurposing', type: 'bot' as const },
-                  { id: 'content-gap-analyzer', name: 'Gap Analyzer', type: 'bot' as const },
-                  { id: 'content-templates', name: 'Templates', type: 'bot' as const },
-                  { id: 'content-assistant', name: 'Content Assistant', type: 'bot' as const },
-                  { id: 'content-curation', name: 'Content Curation', type: 'bot' as const },
-                  { id: 'hashtag-research', name: 'Hashtag Research', type: 'bot' as const },
-                  { id: 'social-media-manager', name: 'Social Manager', type: 'bot' as const },
-                  { id: 'meeting-scheduler', name: 'Meeting Scheduler', type: 'bot' as const },
-                  { id: 'scheduling-assistant', name: 'Scheduling', type: 'bot' as const },
-                  { id: 'engagement-inbox', name: 'Engagement Inbox', type: 'bot' as const },
-                  { id: 'engagement-analyzer', name: 'Engagement Analyzer', type: 'bot' as const },
-                  { id: 'trend-scout', name: 'Trend Scout', type: 'bot' as const },
-                  { id: 'analytics-coach', name: 'Analytics Coach', type: 'bot' as const },
-                  { id: 'expense-tracker', name: 'Expense Tracker', type: 'bot' as const },
-                  { id: 'invoice-generator', name: 'Invoice Generator', type: 'bot' as const },
-                  { id: 'email-sorter', name: 'Email Sorter', type: 'bot' as const },
-                  { id: 'customer-service', name: 'Customer Service', type: 'bot' as const },
-                  { id: 'product-recommendation', name: 'Product Recs', type: 'bot' as const },
-                  { id: 'sales-lead-qualifier', name: 'Lead Qualifier', type: 'bot' as const },
-                  { id: 'website-chat', name: 'Website Chat', type: 'bot' as const },
-                  ...GAME_CHANGER_FEATURES.map((f) => ({ id: f.id, name: f.name, type: 'gamechanger' as const })),
-                  { id: 'content', name: 'Content library', type: 'tab' as const },
-                  { id: 'calendar', name: 'Calendar', type: 'tab' as const },
-                  { id: 'analytics', name: 'Analytics', type: 'tab' as const },
-                  { id: 'collaborations', name: 'Collaborations', type: 'tab' as const },
-                  { id: 'connections', name: 'Connections', type: 'tab' as const },
-                  { id: 'social-listening', name: 'Listening', type: 'tab' as const },
-                  { id: 'community', name: 'Community', type: 'tab' as const },
-                ].map((tool) => (
-                  <button
-                    key={tool.id}
-                    onClick={() => {
-                      if (tool.type === 'bot') setSelectedBot(tool.id)
-                      else if (tool.type === 'gamechanger') setActiveGameChanger(activeGameChanger === tool.id ? null : tool.id)
-                      else if (tool.type === 'tab') setActiveTab(tool.id)
-                    }}
-                    className={`px-3 py-2 rounded-lg border text-left text-sm font-medium transition-colors ${
-                      tool.type === 'gamechanger' && activeGameChanger === tool.id
-                        ? 'border-purple-500 bg-purple-500/10 text-white'
-                        : 'bg-gray-800 hover:bg-gray-700 border-gray-700 text-white'
-                    }`}
-                  >
-                    {tool.name}
-                  </button>
-                ))}
-              </div>
-              {activeGameChanger && (
-                <GameChangerFeatureDetail
-                  featureId={activeGameChanger}
-                  token={token}
-                  onClose={() => setActiveGameChanger(null)}
-                />
-              )}
+            <div className="space-y-6">
+              <GameChangerFeatures token={token} />
             </div>
           )}
 
@@ -3835,6 +3637,9 @@ export default function Dashboard() {
 
       {/* Feedback Button */}
       <FeedbackButton token={token} />
+
+      {/* Suggestions Button */}
+      <SuggestionsButton token={token} />
     </div>
   )
 }
