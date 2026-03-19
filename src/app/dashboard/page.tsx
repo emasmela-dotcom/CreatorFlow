@@ -2582,6 +2582,9 @@ export default function Dashboard() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
+  // Subscription feedback (used by the "Subscribe button failed" UI)
+  const [subscribeError, setSubscribeError] = useState<string | null>(null)
+  const [subscribeDebug, setSubscribeDebug] = useState<string | null>(null)
   const [posts, setPosts] = useState<Array<{
     id: string
     platform: string

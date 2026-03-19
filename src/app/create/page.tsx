@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { Suspense, useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 
-export default function CreatePost() {
+function CreatePostInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [content, setContent] = useState('')
@@ -711,5 +711,13 @@ export default function CreatePost() {
         </aside>
       </div>
     </div>
+  )
+}
+
+export default function CreatePost() {
+  return (
+    <Suspense fallback={null}>
+      <CreatePostInner />
+    </Suspense>
   )
 }
