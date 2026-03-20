@@ -4,12 +4,6 @@ import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-const oauth2Client = new google.auth.OAuth2(
-  process.env.YOUTUBE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID,
-  process.env.YOUTUBE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET,
-  process.env.YOUTUBE_REDIRECT_URI || `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'}/api/auth/callback/youtube`
-)
-
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
@@ -38,6 +32,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const clientId = process.env.YOUTUBE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID
+    const clientSecret = process.env.YOUTUBE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET
+    if (!clientId || !clientSecret) {
+      return NextResponse.redirect(`${baseUrl}/dashboard?error=oauth_failed&message=youtube_oauth_not_configured`)
+    }
+
+    // IMPORTANT: use the current origin/port for token exchange redirect URI matching.
+    const redirectUri = `${request.nextUrl.origin}/api/auth/callback/youtube`
+    const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
+
     const { tokens } = await oauth2Client.getToken(code)
 
     if (!tokens.access_token) {
