@@ -67,7 +67,53 @@ function CreatePostInner() {
   const [isSaving, setIsSaving] = useState(false)
   const [isScheduling, setIsScheduling] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
-  const [publishResults, setPublishResults] = useState<{ succeeded: string[]; failed: string[]; fullContent: string } | null>(null)
+  const [publishResults, setPublishResults] = useState<{
+    succeeded: string[]
+    failed: string[]
+    formattedByPlatform: Record<string, string>
+  } | null>(null)
+
+  const getPlatformName = (platformId: string) =>
+    platforms.find((pl) => pl.id === platformId)?.name || platformId
+
+  const formatForPlatform = (platformId: string, baseContent: string, baseHashtags: string) => {
+    const normalizedHashtags = baseHashtags
+      .split(/\s+/)
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .map((tag) => (tag.startsWith('#') ? tag : `#${tag}`))
+
+    switch (platformId) {
+      case 'twitter': {
+        const maxChars = 280
+        const hashtagBlock = normalizedHashtags.slice(0, 3).join(' ')
+        const suffix = hashtagBlock ? `\n\n${hashtagBlock}` : ''
+        const available = Math.max(0, maxChars - suffix.length)
+        const text = baseContent.length > available ? `${baseContent.slice(0, Math.max(0, available - 1))}...` : baseContent
+        return `${text}${suffix}`
+      }
+      case 'linkedin': {
+        const hashtagBlock = normalizedHashtags.slice(0, 5).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n${hashtagBlock}` : baseContent
+      }
+      case 'instagram': {
+        const hashtagBlock = normalizedHashtags.slice(0, 30).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n.\n.\n.\n${hashtagBlock}` : baseContent
+      }
+      case 'tiktok': {
+        const hashtagBlock = normalizedHashtags.slice(0, 8).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n${hashtagBlock}` : baseContent
+      }
+      case 'youtube': {
+        const title = baseContent.split('\n')[0].slice(0, 100)
+        const descriptionBody = baseContent.slice(0, 5000)
+        const hashtagBlock = normalizedHashtags.slice(0, 15).join(' ')
+        return `Title: ${title}\n\nDescription:\n${descriptionBody}${hashtagBlock ? `\n\n${hashtagBlock}` : ''}`
+      }
+      default:
+        return normalizedHashtags.length > 0 ? `${baseContent}\n\n${normalizedHashtags.join(' ')}` : baseContent
+    }
+  }
 
   const createPost = async (status: 'draft' | 'scheduled' | 'published') => {
     // FREE PLAN RESTRICTION: Block post creation for free plan users
@@ -140,11 +186,10 @@ function CreatePostInner() {
       const results = await Promise.all(responses.map(res => res.json()))
 
       const succeeded: string[] = []
-      const failed: string[] = []
+      const failedPlatformIds: string[] = []
       selectedPlatforms.forEach((platform, i) => {
-        const name = platforms.find(pl => pl.id === platform)?.name || platform
-        if (results[i]?.success) succeeded.push(name)
-        else failed.push(name)
+        if (results[i]?.success) succeeded.push(getPlatformName(platform))
+        else failedPlatformIds.push(platform)
       })
 
       if (status === 'draft') {
@@ -161,8 +206,13 @@ function CreatePostInner() {
       }
 
       // Published
-      if (failed.length > 0) {
-        setPublishResults({ succeeded, failed, fullContent })
+      if (failedPlatformIds.length > 0) {
+        const failed = failedPlatformIds.map((platformId) => getPlatformName(platformId))
+        const formattedByPlatform: Record<string, string> = {}
+        failedPlatformIds.forEach((platformId) => {
+          formattedByPlatform[getPlatformName(platformId)] = formatForPlatform(platformId, content.trim(), hashtags.trim())
+        })
+        setPublishResults({ succeeded, failed, formattedByPlatform })
         if (succeeded.length > 0) {
           alert(`Posted to ${succeeded.join(', ')}. For ${failed.join(', ')}—copy below and paste into the app.`)
         } else {
@@ -357,13 +407,23 @@ function CreatePostInner() {
                       key={name}
                       type="button"
                       onClick={() => {
-                        navigator.clipboard.writeText(publishResults!.fullContent)
+                        navigator.clipboard.writeText(publishResults!.formattedByPlatform[name] || '')
                         alert(`Copied! Paste into ${name} and post.`)
                       }}
                       className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 rounded text-white text-sm font-medium"
                     >
                       Copy for {name}
                     </button>
+                  ))}
+                </div>
+                <div className="space-y-2 mb-2">
+                  {publishResults.failed.map((name) => (
+                    <div key={`${name}-formatted`} className="rounded bg-gray-900/60 border border-gray-700 p-3">
+                      <p className="text-xs uppercase tracking-wide text-gray-400 mb-2">{name} formatted copy</p>
+                      <pre className="text-xs whitespace-pre-wrap break-words text-gray-200">
+                        {publishResults.formattedByPlatform[name]}
+                      </pre>
+                    </div>
                   ))}
                 </div>
                 <button
