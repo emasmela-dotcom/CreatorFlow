@@ -26,7 +26,9 @@ export async function GET(request: NextRequest) {
   const isLocal =
     request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1'
   const protocol = isLocal ? 'http:' : request.nextUrl.protocol
-  const redirectUri = `${protocol}//${request.nextUrl.host}/api/auth/callback/youtube`
+  const host = request.nextUrl.host
+  const redirectHost = request.nextUrl.hostname === 'localhost' ? host.replace(/^localhost/, '127.0.0.1') : host
+  const redirectUri = `${protocol}//${redirectHost}/api/auth/callback/youtube`
 
   const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
 

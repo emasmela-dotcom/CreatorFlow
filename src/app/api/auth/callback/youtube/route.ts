@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
   const isLocal =
     request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1'
   const protocol = isLocal ? 'http:' : request.nextUrl.protocol
-  const baseUrl = `${protocol}//${request.nextUrl.host}` || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
+  const host = request.nextUrl.host
+  const redirectHost = request.nextUrl.hostname === 'localhost' ? host.replace(/^localhost/, '127.0.0.1') : host
+  const baseUrl = `${protocol}//${redirectHost}` || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
 
   if (oauthError) {
     return NextResponse.redirect(`${baseUrl}/dashboard?error=oauth_cancelled`)
@@ -43,7 +45,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Use the redirect URI matching what we generated in connect.
-    const redirectUri = `${protocol}//${request.nextUrl.host}/api/auth/callback/youtube`
+    const redirectUri = `${protocol}//${redirectHost}/api/auth/callback/youtube`
     const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
 
     const { tokens } = await oauth2Client.getToken(code)
