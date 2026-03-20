@@ -21,8 +21,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'YouTube OAuth not configured' }, { status: 500 })
   }
 
-  // IMPORTANT: use the current origin/port so local callbacks work.
-  const redirectUri = `${request.nextUrl.origin}/api/auth/callback/youtube`
+  // IMPORTANT: force HTTP on local so Chrome doesn't throw ERR_SSL_PROTOCOL_ERROR.
+  // Google callbacks use the redirect URI we generate here, so it must be reachable.
+  const isLocal =
+    request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1'
+  const protocol = isLocal ? 'http:' : request.nextUrl.protocol
+  const redirectUri = `${protocol}//${request.nextUrl.host}/api/auth/callback/youtube`
 
   const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
 

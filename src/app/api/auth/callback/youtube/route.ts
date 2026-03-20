@@ -9,7 +9,11 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const state = searchParams.get('state')
   const oauthError = searchParams.get('error')
-  const baseUrl = request.nextUrl.origin || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
+  // Force HTTP for local hosts (prevents ERR_SSL_PROTOCOL_ERROR).
+  const isLocal =
+    request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1'
+  const protocol = isLocal ? 'http:' : request.nextUrl.protocol
+  const baseUrl = `${protocol}//${request.nextUrl.host}` || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
 
   if (oauthError) {
     return NextResponse.redirect(`${baseUrl}/dashboard?error=oauth_cancelled`)
@@ -38,8 +42,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${baseUrl}/dashboard?error=oauth_failed&message=youtube_oauth_not_configured`)
     }
 
-    // IMPORTANT: use the current origin/port for token exchange redirect URI matching.
-    const redirectUri = `${request.nextUrl.origin}/api/auth/callback/youtube`
+    // Use the redirect URI matching what we generated in connect.
+    const redirectUri = `${protocol}//${request.nextUrl.host}/api/auth/callback/youtube`
     const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri)
 
     const { tokens } = await oauth2Client.getToken(code)
