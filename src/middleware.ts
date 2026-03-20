@@ -10,7 +10,10 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
   // Force HTTPS in production
-  if (process.env.NODE_ENV === 'production') {
+  const isLocal =
+    request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1'
+
+  if (process.env.NODE_ENV === 'production' && !isLocal) {
     const protocol = request.headers.get('x-forwarded-proto') || request.nextUrl.protocol
     
     if (protocol !== 'https') {
