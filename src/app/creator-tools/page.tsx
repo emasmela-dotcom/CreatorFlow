@@ -241,7 +241,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'pricing for creator tools platform',
     ],
     body: [
-      'Start with a 14-day free trial (see current signup messaging for whether a card is required—marketing copy on the homepage states no credit card required).',
+      'Start with a 14-day free trial. As stated on the homepage, no credit card is required for the trial.',
       'Compare plans on the pricing page when you are ready to match features to your stage as a creator.',
     ],
   },
