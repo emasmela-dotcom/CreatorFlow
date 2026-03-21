@@ -154,6 +154,12 @@ The CreatorFlow365 Team`,
               Tools
             </button>
             <button
+              onClick={() => window.location.href = '/creator-tools'}
+              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            >
+              Creator tools
+            </button>
+            <button
               onClick={() => window.location.href = '/reviews'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
@@ -653,7 +659,8 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
           <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
-          <div className="flex justify-center gap-6 text-sm text-gray-500">
+          <div className="flex justify-center gap-6 text-sm text-gray-500 flex-wrap">
+            <a href="/creator-tools" className="hover:text-white transition-colors">Creator tools</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
