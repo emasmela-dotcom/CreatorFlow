@@ -29,7 +29,7 @@ const PLATFORM_USER_MESSAGE: Record<string, string> = {
   twitter: "Connect your Twitter/X account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into Twitter.",
   linkedin: "Connect your LinkedIn account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into LinkedIn.",
   instagram: "Connect Instagram for future direct posting. For now, create your post here and use Copy to paste into the Instagram app.",
-  tiktok: "Create your post here and use Copy to paste into TikTok. We'll enable direct posting when the API allows.",
+  tiktok: "Connect TikTok to publish videos directly from CreatorFlow. TikTok direct publishing requires approved API access and media URLs.",
   youtube: "Plan and write here; use Copy to paste into YouTube Studio or the app. Video uploads use YouTube Studio."
 }
 

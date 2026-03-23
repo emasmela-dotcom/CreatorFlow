@@ -38,7 +38,7 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
   tiktok: (redirectUri, state) => {
     const clientId = process.env.TIKTOK_CLIENT_KEY
     if (!clientId) throw new Error('TIKTOK_CLIENT_KEY not configured')
-    return `https://www.tiktok.com/v2/auth/authorize?client_key=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user.info.basic,video.upload&response_type=code&state=${state}`
+    return `https://www.tiktok.com/v2/auth/authorize?client_key=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user.info.basic,video.publish&response_type=code&state=${state}`
   },
   youtube: (redirectUri, state) => {
     const clientId = process.env.GOOGLE_CLIENT_ID
