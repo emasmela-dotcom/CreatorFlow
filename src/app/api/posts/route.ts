@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { enforceContentLock, hasActiveSubscription } from '@/lib/contentLockCheck'
 import { verifyAuth, isValidEmail, sanitizeContent } from '@/lib/auth'
 import { postToPlatform } from '@/lib/platformPosting'
+import { ensureTrialSnapshot } from '@/lib/trialSnapshot'
 
 /**
  * Create a new post
@@ -109,6 +110,8 @@ export async function POST(request: NextRequest) {
         postingError = error.message || 'Failed to post to platform'
       }
     }
+
+    await ensureTrialSnapshot(userId)
 
     await db.execute({
       sql: `INSERT INTO content_posts 

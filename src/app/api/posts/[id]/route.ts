@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { enforceContentLock } from '@/lib/contentLockCheck'
 import { verifyAuth, sanitizeContent } from '@/lib/auth'
+import { ensureTrialSnapshot } from '@/lib/trialSnapshot'
 
 /**
  * Update a post - ENFORCES LOCK
@@ -69,6 +70,8 @@ export async function PUT(
     args.push(new Date().toISOString())
     args.push(postId, userId)
 
+    await ensureTrialSnapshot(userId)
+
     await db.execute({
       sql: `UPDATE content_posts 
             SET ${updates.join(', ')}
@@ -117,6 +120,8 @@ export async function DELETE(
         upgradeRequired: true
       }, { status: 403 })
     }
+
+    await ensureTrialSnapshot(userId)
 
     await db.execute({
       sql: 'DELETE FROM content_posts WHERE id = ? AND user_id = ?',

@@ -113,10 +113,62 @@ async function refreshPlatformToken(userId: string, platform: string): Promise<b
       return false
     }
 
-    // Platform-specific token refresh
-    // This will be implemented when we add OAuth flows
-    // For now, return false to indicate refresh needed
-    return false
+    const refreshToken = String(connectionResult.rows[0].refresh_token)
+
+    switch (platform) {
+      case 'tiktok': {
+        const clientKey = process.env.TIKTOK_CLIENT_KEY
+        const clientSecret = process.env.TIKTOK_CLIENT_SECRET
+
+        if (!clientKey || !clientSecret) {
+          return false
+        }
+
+        const response = await fetch('https://open.tiktokapis.com/v2/oauth/token/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
+          },
+          body: new URLSearchParams({
+            client_key: clientKey,
+            client_secret: clientSecret,
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken
+          })
+        })
+
+        const data = await response.json().catch(() => null)
+        const refreshedAccessToken = data?.data?.access_token
+
+        if (!response.ok || !refreshedAccessToken) {
+          return false
+        }
+
+        const refreshedToken = data?.data?.refresh_token || refreshToken
+        const expiresIn = Number(data?.data?.expires_in || 0)
+        const expiresAt = expiresIn > 0
+          ? new Date(Date.now() + expiresIn * 1000).toISOString()
+          : null
+
+        await db.execute({
+          sql: `
+            UPDATE platform_connections
+            SET access_token = ?,
+                refresh_token = ?,
+                token_expires_at = ?,
+                updated_at = NOW()
+            WHERE user_id = ? AND platform = ?
+          `,
+          args: [refreshedAccessToken, refreshedToken, expiresAt, userId, platform]
+        })
+
+        return true
+      }
+
+      default:
+        return false
+    }
   } catch (error) {
     console.error('Token refresh error:', error)
     return false
@@ -278,11 +330,79 @@ async function postToLinkedIn(
  * Post to TikTok
  */
 async function postToTikTok(accessToken: string, postData: PostData): Promise<PostResult> {
-  // TikTok API is very limited and may require partnership
-  return {
-    success: false,
-    error: 'TikTok direct posting requires API partnership. Please post manually for now.',
-    errorCode: 'TIKTOK_NOT_AVAILABLE'
+  try {
+    // TikTok Content Posting API requires media URL input.
+    if (!postData.mediaUrls || postData.mediaUrls.length === 0) {
+      return {
+        success: false,
+        error: 'TikTok auto-publishing requires at least one media URL (video or image).',
+        errorCode: 'TIKTOK_MEDIA_REQUIRED'
+      }
+    }
+
+    const mediaUrl = postData.mediaUrls[0]
+    const title = postData.content.substring(0, 2200)
+
+    // Uses TikTok's direct post initialization endpoint.
+    // This succeeds only if your TikTok app has approved Content Posting API access.
+    const response = await fetch('https://open.tiktokapis.com/v2/post/publish/video/init/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        post_info: {
+          title,
+          privacy_level: 'PUBLIC_TO_EVERYONE',
+          disable_comment: false,
+          disable_duet: false,
+          disable_stitch: false,
+          video_cover_timestamp_ms: 1000
+        },
+        source_info: {
+          source: 'PULL_FROM_URL',
+          video_url: mediaUrl
+        }
+      })
+    })
+
+    const data = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      const errorMessage =
+        data?.error?.message ||
+        data?.error?.code ||
+        'TikTok API rejected the publish request.'
+
+      return {
+        success: false,
+        error: `${errorMessage} Ensure your TikTok app has Content Posting API approval and required scopes.`,
+        errorCode: 'TIKTOK_API_ERROR'
+      }
+    }
+
+    const publishId = data?.data?.publish_id || data?.data?.share_id || null
+
+    if (!publishId) {
+      return {
+        success: false,
+        error: 'TikTok publish request was accepted, but no publish id was returned.',
+        errorCode: 'TIKTOK_INVALID_RESPONSE'
+      }
+    }
+
+    return {
+      success: true,
+      platformPostId: publishId,
+      postId: publishId
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || 'Failed to post to TikTok',
+      errorCode: 'TIKTOK_ERROR'
+    }
   }
 }
 
