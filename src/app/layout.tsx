@@ -5,9 +5,9 @@ import { GA_TRACKING_ID } from '@/lib/analytics'
 import HomeButton from '@/components/HomeButton'
 
 export const metadata: Metadata = {
-  title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
-  description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 14-day free trial. Store, organize, and manage your content in your personal cloud library.',
-  keywords: 'content creator, social media management, creator tools, micro-saas, analytics, Instagram scheduler, Twitter scheduler, LinkedIn scheduler, YouTube scheduler, content library',
+  title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
+  description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, a content calendar, hashtag sets, scheduling, and analytics in one flow. 14-day free trial, no credit card required.',
+  keywords: 'creator OS, content creator workspace, AI captions, content calendar, social media scheduling, templates, hashtag sets, batch content, multi-platform publishing, repurpose content, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
   publisher: 'CreatorFlow365',
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
-    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place. 14-day free trial.',
+    title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
+    description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, scheduling, and analytics in one flow.',
     type: 'website',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
     siteName: 'CreatorFlow365',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow365 – The Micro-SaaS Marketplace for Content Creators',
-    description: 'Build, optimize, and monetize your content with 53+ professional tools in one place.',
+    title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
+    description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, scheduling, and analytics in one flow.',
     creator: '@creatorflow365',
   },
   alternates: {

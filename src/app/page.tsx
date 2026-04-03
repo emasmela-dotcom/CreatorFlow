@@ -198,11 +198,14 @@ The CreatorFlow365 Team`,
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-16">
         <div className="absolute inset-0 bg-gray-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
-            CreatorFlow365
+          <p className="text-xs font-mono tracking-widest text-purple-400 uppercase mb-4">
+            Creator OS — plan, draft, and publish in one place
+          </p>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
+            The creator workspace to plan, draft with AI, and ship content—solo or with your team.
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-300">
-            Stop juggling apps. Start growing.
+          <p className="text-xl md:text-2xl mb-8 text-gray-300 max-w-2xl mx-auto">
+            Not just an AI writer: documents, templates, scheduling, and analytics in one place.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <input
@@ -233,7 +236,7 @@ The CreatorFlow365 Team`,
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
-              <strong className="text-white">How it works:</strong> Connect your accounts in the dashboard, then create and schedule posts—or post now—to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube. You can also copy to paste into any app.
+              <strong className="text-white">How publishing works:</strong> Connect your accounts and schedule directly to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube—or copy and export content to paste anywhere else. Both work.
             </p>
           </div>
         </div>
@@ -308,11 +311,11 @@ The CreatorFlow365 Team`,
       <section id="tools" className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Everything you need to grow as a creator</h2>
+            <h2 className="text-4xl font-bold mb-4">Your full creator OS—not a single trick pony</h2>
             <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
-              Get more than you pay for. Premium features included in every plan.
+              AI captions, a content calendar, reusable templates, hashtag sets, batch content drafting, multi-platform scheduling, and analytics—all in one flow.
             </p>
-            <p className="text-sm text-gray-500 mb-4">53+ tools in your dashboard—scheduling, AI content tools, Follow Thru CRM, and more.</p>
+            <p className="text-sm text-gray-500 mb-4">Everything in your dashboard—scheduling, AI drafting tools, Follow Thru CRM, and more. Premium features included in every plan.</p>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
@@ -323,23 +326,23 @@ The CreatorFlow365 Team`,
               <div className="text-xs font-mono text-white mb-3">ANALYTICS</div>
               <h3 className="text-xl font-semibold mb-4">Advanced Analytics Dashboard</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Track your performance across all platforms with real-time analytics and insights.</p>
+              <p className="text-gray-400 mb-4">Track performance across connected platforms with real-time analytics. See what&apos;s working and repurpose your best content into new formats.</p>
               <div className="flex items-center gap-2 text-sm text-white">
                 <Check className="w-4 h-4" />
                 <span>Included in all plans</span>
               </div>
             </div>
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
-              <div className="text-xs font-mono text-white mb-3">AUTOMATION</div>
-              <h3 className="text-xl font-semibold mb-4">Smart Scheduling</h3>
+              <div className="text-xs font-mono text-white mb-3">SCHEDULING</div>
+              <h3 className="text-xl font-semibold mb-4">Content Calendar & Scheduling</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Schedule posts across Instagram, Twitter, LinkedIn, TikTok, and YouTube with optimal timing.</p>
+              <p className="text-gray-400 mb-4">Plan your content calendar and schedule posts across Instagram, Twitter/X, LinkedIn, TikTok, and YouTube. Connected accounts post directly; copy-paste export works for any other platform.</p>
               <div className="flex items-center gap-2 text-sm text-white mb-3">
                 <Check className="w-4 h-4" />
                 <span>AI-powered recommendations</span>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-700">
-                <p className="text-xs text-gray-500 mb-2">Supported Platforms:</p>
+                <p className="text-xs text-gray-500 mb-2">Connected posting supported on:</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Instagram</span>
                   <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Twitter/X</span>
@@ -353,7 +356,7 @@ The CreatorFlow365 Team`,
               <div className="text-xs font-mono text-white mb-3">PARTNERSHIPS</div>
               <h3 className="text-xl font-semibold mb-4">Brand Collaborations</h3>
               <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Manage partnerships, track campaigns, and grow your brand relationships.</p>
+              <p className="text-gray-400 mb-4">Manage brand partnerships and campaigns—whether you&apos;re a solo creator or a team with in-house or contracted creators.</p>
               <div className="flex items-center gap-2 text-sm text-white">
                 <Check className="w-4 h-4" />
                 <span>Full collaboration tools</span>
@@ -432,8 +435,8 @@ The CreatorFlow365 Team`,
               <li><strong className="text-white">Social accounts</strong> — How many platforms (e.g. Instagram, X, LinkedIn, TikTok, YouTube) you can connect and manage in one place.</li>
               <li><strong className="text-white">Documents</strong> — Your content library: scripts, captions, and drafts stored in your personal cloud.</li>
               <li><strong className="text-white">Hashtag sets</strong> — Saved groups of hashtags you can reuse for posts (research once, use everywhere).</li>
-              <li><strong className="text-white">Templates</strong> — Reusable post/caption layouts so you don’t start from scratch each time.</li>
-              <li><strong className="text-white">AI calls</strong> — Each use of an AI-powered tool (e.g. caption writer, idea generator) counts as one call; higher plans get more or unlimited.</li>
+              <li><strong className="text-white">Templates</strong> — Reusable post and caption layouts so you don&apos;t start from scratch each time. Great for batch content sessions.</li>
+              <li><strong className="text-white">AI calls</strong> — Each use of an AI-powered tool (e.g. AI caption writer, idea generator) counts as one call; higher plans get more or unlimited.</li>
               <li><strong className="text-white">Email support</strong> — Response time we aim for (e.g. 48hr = within 2 business days).</li>
             </ul>
           </div>
@@ -642,8 +645,8 @@ The CreatorFlow365 Team`,
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to grow your creator business?</h2>
-          <p className="text-xl text-gray-400 mb-8">Join thousands of creators who are already using CreatorFlow to scale their content.</p>
+          <h2 className="text-4xl font-bold mb-6">Your content workflow, finally in one place.</h2>
+          <p className="text-xl text-gray-400 mb-8">Solo creators and content teams use CreatorFlow365 to batch drafts, schedule across platforms, and keep every piece of content moving forward.</p>
           <button 
             onClick={() => window.location.href = '/signup'}
             className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"
@@ -658,7 +661,7 @@ The CreatorFlow365 Team`,
       <footer className="py-12 px-6 border-t border-gray-800">
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
-          <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
+          <p className="text-gray-400 mb-6">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500 flex-wrap">
             <a href="/creator-tools" className="hover:text-white transition-colors">Creator tools</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>

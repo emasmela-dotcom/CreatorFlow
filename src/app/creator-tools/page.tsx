@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Creator tools & workspace for serious creators – CreatorFlow365',
     description:
-      'Plan, create, and publish from one workspace—53+ tools, scheduling, analytics, and Follow Thru CRM included.',
+      'Plan, draft with AI, and publish from one workspace—scheduling, analytics, documents, templates, and Follow Thru CRM included.',
     url: `${baseUrl}/creator-tools`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
@@ -55,7 +55,7 @@ const jsonLd = {
       url: baseUrl,
       name: 'CreatorFlow365',
       description:
-        'Micro-SaaS marketplace and workspace for content creators—tools, scheduling, analytics, and CRM.',
+        'Creator workspace for planning, AI drafting, and publishing—scheduling, analytics, documents, templates, and Follow Thru CRM.',
       publisher: { '@id': `${baseUrl}/#organization` },
     },
     {
@@ -87,7 +87,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'micro saas for creators',
     ],
     body: [
-      'Creators often pay for a scheduler, a hashtag tool, a doc hub, analytics, and a CRM separately. CreatorFlow365 bundles 53+ professional tools into one membership so your workflow stays in one workspace.',
+      'Creators often pay for a scheduler, a hashtag tool, a doc hub, analytics, and a CRM separately. CreatorFlow365 brings scheduling, AI drafting tools, documents, templates, analytics, and Follow Thru CRM into one membership so your workflow stays in one workspace.',
       'If you have been searching for a single dashboard to plan, draft, and track performance, that is the problem this platform is built around.',
     ],
   },
