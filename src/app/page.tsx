@@ -321,61 +321,26 @@ The CreatorFlow365 Team`,
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
-              <div className="text-xs font-mono text-white mb-3">ANALYTICS</div>
-              <h3 className="text-xl font-semibold mb-4">Advanced Analytics Dashboard</h3>
-              <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Track performance across connected platforms with real-time analytics. See what&apos;s working and repurpose your best content into new formats.</p>
-              <div className="flex items-center gap-2 text-sm text-white">
-                <Check className="w-4 h-4" />
-                <span>Included in all plans</span>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
-              <div className="text-xs font-mono text-white mb-3">SCHEDULING</div>
-              <h3 className="text-xl font-semibold mb-4">Content Calendar & Scheduling</h3>
-              <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Plan your content calendar and schedule posts across Instagram, Twitter/X, LinkedIn, TikTok, and YouTube. Connected accounts post directly; copy-paste export works for any other platform.</p>
-              <div className="flex items-center gap-2 text-sm text-white mb-3">
-                <Check className="w-4 h-4" />
-                <span>AI-powered recommendations</span>
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-700">
-                <p className="text-xs text-gray-500 mb-2">Connected posting supported on:</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Instagram</span>
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">Twitter/X</span>
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">LinkedIn</span>
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">TikTok</span>
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-white rounded">YouTube</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
-              <div className="text-xs font-mono text-white mb-3">PARTNERSHIPS</div>
-              <h3 className="text-xl font-semibold mb-4">Brand Collaborations</h3>
-              <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Manage brand partnerships and campaigns—whether you&apos;re a solo creator or a team with in-house or contracted creators.</p>
-              <div className="flex items-center gap-2 text-sm text-white">
-                <Check className="w-4 h-4" />
-                <span>Full collaboration tools</span>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-8 rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
-              <div className="text-xs font-mono text-white mb-3">CRM</div>
-              <h3 className="text-xl font-semibold mb-4">Follow Thru CRM</h3>
-              <div className="h-px bg-gray-800 mb-4"></div>
-              <p className="text-gray-400 mb-4">Track people and promises in one place. Follow up on commitments and keep relationships moving.</p>
-              <div className="flex items-center gap-2 text-sm text-white">
-                <Check className="w-4 h-4" />
-                <span>Included in your plan</span>
-              </div>
-              <a href="/follow-thru" className="inline-flex items-center gap-2 mt-4 text-purple-400 hover:text-purple-300 text-sm font-medium">
-                <CheckSquare className="w-4 h-4" />
-                Open Follow Thru
-              </a>
-            </div>
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            {[
+              'Performance Predictor',
+              'Brand Voice',
+              'Cross-Platform Sync',
+              'Content Recycling',
+              'Revenue Tracker',
+              'Trend Alerts',
+              'A/B Testing',
+              'Content Series',
+              'Hashtag Optimizer',
+              'Collaboration Marketplace',
+            ].map((name) => (
+              <span
+                key={name}
+                className="px-4 py-2 rounded-lg bg-gray-900/90 border border-gray-700 text-gray-200 text-sm font-medium"
+              >
+                {name}
+              </span>
+            ))}
           </div>
           
           {/* Value Proposition */}
