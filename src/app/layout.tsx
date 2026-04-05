@@ -45,6 +45,13 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'CreatorFlow365',
   },
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 }
 
 export default function RootLayout({
