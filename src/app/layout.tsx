@@ -4,9 +4,34 @@ import Script from 'next/script'
 import { GA_TRACKING_ID } from '@/lib/analytics'
 import HomeButton from '@/components/HomeButton'
 
+const SITE_URL =
+  (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
+  'https://www.creatorflow365.com'
+
+const siteDescription =
+  'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, a content calendar, hashtag sets, scheduling, and analytics in one flow. 14-day free trial, no credit card required.'
+
+const schemaOrgJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'CreatorFlow365',
+      url: SITE_URL.replace(/\/$/, ''),
+      description: siteDescription,
+    },
+    {
+      '@type': 'Organization',
+      name: 'CreatorFlow365',
+      url: SITE_URL.replace(/\/$/, ''),
+    },
+  ],
+}
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL.replace(/\/$/, '')),
   title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
-  description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, a content calendar, hashtag sets, scheduling, and analytics in one flow. 14-day free trial, no credit card required.',
+  description: siteDescription,
   keywords: 'creator OS, content creator workspace, AI captions, content calendar, social media scheduling, templates, hashtag sets, batch content, multi-platform publishing, repurpose content, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
@@ -27,7 +52,7 @@ export const metadata: Metadata = {
     title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
     description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, scheduling, and analytics in one flow.',
     type: 'website',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
+    url: SITE_URL.replace(/\/$/, ''),
     siteName: 'CreatorFlow365',
     locale: 'en_US',
   },
@@ -96,6 +121,12 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schemaOrgJsonLd),
+          }}
+        />
         {children}
         <HomeButton />
         <Script id="service-worker-registration" strategy="afterInteractive">
