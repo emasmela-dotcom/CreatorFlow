@@ -74,7 +74,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
         fullPosts: 0, // Unlimited
         analytics: 'Enterprise analytics & custom reporting',
         calendar: 'Content calendar with drag-and-drop',
-        support: 'Priority support (2hr response) + Dedicated account manager',
+        support: 'Priority support (target 2hr response) + Dedicated account manager for onboarding, workspace setup guidance, and escalation support',
         collaborations: 'Advanced brand collaboration management',
         hashtag: true,
         ai: true, // Maximum AI bot performance

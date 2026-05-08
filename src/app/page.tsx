@@ -381,16 +381,19 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
 
-          {/* Benefits vs competitors - every plan wins vs similar-priced competitors */}
+          {/* Plan snapshot at similar price points */}
           <div className="mb-12 max-w-3xl mx-auto bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Why we win at every plan</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Plan snapshot at each price point</h3>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li><strong className="text-white">Starter ($9)</strong> — More features than Rytr ($9): social accounts, documents, hashtags, templates, AI. They’re writing-only.</li>
-              <li><strong className="text-white">Essential ($19)</strong> — More than Writesonic ($19): social management, analytics, unlimited docs. They’re words-only, 1 user.</li>
-              <li><strong className="text-white">Creator ($49)</strong> — Team + API + analytics at $49. Rytr/Jasper at this price: 1 user, no team, no API.</li>
-              <li><strong className="text-white">Professional ($79)</strong> — White-label + 10 team members. Competitors charge $125–249 for similar.</li>
-              <li><strong className="text-white">Business ($149)</strong> — Unlimited team, full white-label, dedicated manager. Competitors $499+ for comparable.</li>
+              <li><strong className="text-white">Starter ($9)</strong> — Includes social account management, content library, hashtag sets, templates, AI calls, and analytics support for creators on a budget.</li>
+              <li><strong className="text-white">Essential ($19)</strong> — Adds expanded social management, analytics visibility, and unlimited document workflow for creators posting across multiple channels.</li>
+              <li><strong className="text-white">Creator ($49)</strong> — Adds team collaboration, API access, advanced analytics, and brand collaboration tools at one price point.</li>
+              <li><strong className="text-white">Professional ($79)</strong> — Includes white-label options, expanded team capacity, predictive analytics, and advanced API access.</li>
+              <li><strong className="text-white">Business ($149)</strong> — Unlimited team, full white-label, and a dedicated account manager for onboarding and escalation support.</li>
             </ul>
+            <p className="text-xs text-gray-500 mt-4">
+              Feature and pricing comparisons are based on publicly listed competitor pages at time of writing and may change.
+            </p>
           </div>
 
           {/* Feature explanations - so visitors understand before joining */}
@@ -417,6 +420,7 @@ The CreatorFlow365 Team`,
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited hashtag sets</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited templates</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>500 AI calls/month</span></li>
+                <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Starter analytics included</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Enhanced AI features</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Email support (48hr)</span></li>
               </ul>
@@ -518,6 +522,83 @@ The CreatorFlow365 Team`,
               </button>
               <a href="/select-plan?plan=agency" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="py-20 px-6 bg-gray-900/20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Why creators trust CreatorFlow365</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">Who this is for</h3>
+              <p className="text-sm text-gray-300">
+                CreatorFlow365 is built for independent creators, small creator teams, and agencies that need one place to manage writing, planning, scheduling, and reporting.
+              </p>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">What&apos;s live today</h3>
+              <p className="text-sm text-gray-300">
+                Live today: published plans and pricing, a 14-day trial with no card required, content library workflows, scheduling tools, and plan-based analytics and collaboration features.
+              </p>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">How we communicate updates</h3>
+              <p className="text-sm text-gray-300">
+                We keep changes clear in product copy and support guidance. We avoid hype, document what is currently available, and update plan details when features or limits change.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 max-w-4xl mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-4">Proof</h3>
+            <ul className="text-sm text-gray-300 space-y-2">
+              <li>Published plan tiers and pricing are available on-site.</li>
+              <li>CreatorFlow365 offers a 14-day free trial with no credit card required.</li>
+              <li>Starter includes analytics support.</li>
+              <li>Professional includes white-label options.</li>
+              <li>Business includes full white-label.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* SEO Resource Pages */}
+      <section className="py-16 px-6 bg-gray-900/20">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4">Explore creator growth guides</h2>
+          <p className="text-gray-400 text-center mb-8">
+            Start with the guide that matches what you need right now.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="/ai-caption-writer-instagram-tiktok"
+              className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-gray-500 transition-colors"
+            >
+              <h3 className="font-semibold text-white mb-2">AI Caption Writer Guide</h3>
+              <p className="text-sm text-gray-300">
+                Learn how to draft faster Instagram and TikTok captions with a reusable workflow.
+              </p>
+            </a>
+            <a
+              href="/social-media-scheduler-for-creators"
+              className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-gray-500 transition-colors"
+            >
+              <h3 className="font-semibold text-white mb-2">Scheduler for Creators Guide</h3>
+              <p className="text-sm text-gray-300">
+                Organize multi-platform posting in one calendar without managing separate tools.
+              </p>
+            </a>
+            <a
+              href="/content-creator-analytics-platform"
+              className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 hover:border-gray-500 transition-colors"
+            >
+              <h3 className="font-semibold text-white mb-2">Creator Analytics Guide</h3>
+              <p className="text-sm text-gray-300">
+                Use analytics in the same workflow where you write and schedule content.
+              </p>
+            </a>
           </div>
         </div>
       </section>
