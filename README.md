@@ -188,7 +188,7 @@ curl http://localhost:3000/api/test
 1. Push code to GitHub
 2. Import project in Vercel
 3. Add environment variables in Vercel dashboard
-4. Connect custom domain (creatorflow.ai)
+4. Connect custom domain (e.g. creatorflow365.com — see `PRE_LAUNCH_STATUS.md`)
 5. Deploy
 
 See [LAUNCH_CHECKLIST.md](./LAUNCH_CHECKLIST.md) for detailed launch steps.

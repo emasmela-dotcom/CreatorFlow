@@ -1,13 +1,15 @@
-# Environment Variables Reference - CreatorFlow.ai
+# Environment Variables Reference — CreatorFlow365
 
 ## Required Variables for Production
 
-Copy these to Vercel Dashboard → Settings → Environment Variables
+Copy these to Vercel Dashboard → Settings → Environment Variables (**Production**).
 
 ### Application URL
 ```env
-NEXT_PUBLIC_APP_URL=https://creatorflow.ai
+NEXT_PUBLIC_APP_URL=https://www.creatorflow365.com
+NEXT_PUBLIC_BASE_URL=https://www.creatorflow365.com
 ```
+(`NEXT_PUBLIC_BASE_URL` is used for some OAuth/callback URLs; match your canonical domain.)
 
 ### Database (Neon PostgreSQL)
 ```env
@@ -48,6 +50,12 @@ FORMSPREE_ENDPOINT=https://formspree.io/f/your-endpoint
 ```env
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
+
+### Search Console (optional HTML tag verification)
+```env
+GOOGLE_SITE_VERIFICATION=your-google-verification-string
+```
+Set only if you use the meta-tag verification method (`layout.tsx` reads this).
 
 ## How to Set in Vercel
 

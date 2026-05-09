@@ -1,117 +1,82 @@
-# Pre-Launch Status - CreatorFlow.ai
+# Pre-Launch Status — CreatorFlow365
 
-## Current Status: 🟡 DEPLOYED BUT NOT YET LAUNCHED
+**Canonical production URL:** `https://www.creatorflow365.com`  
+(Code and newer docs use this. Older `.ai` references are outdated.)
 
-**Your site is LIVE on Vercel but needs production configuration before accepting real customers.**
+## Current Status
 
----
-
-## ✅ COMPLETED (Code & Features)
-
-- ✅ All features implemented and working
-- ✅ Authentication system (JWT)
-- ✅ 5-tier subscription plans
-- ✅ 14-day free trial system
-- ✅ Stripe integration (code complete)
-- ✅ Backup/restore system
-- ✅ 3-month content ownership policy
-- ✅ Database schema ready
-- ✅ All UI/UX polished
-- ✅ Professional design implemented
+Site deploys on **Vercel**. Taking **real money** requires **Stripe Live**, **Neon `DATABASE_URL`**, and **production env vars** below—all verified end-to-end.
 
 ---
 
-## 🔴 CRITICAL - Must Complete Before Launch:
+## Completed (typical)
 
-### 1. Stripe Live Mode Setup
-- [ ] Switch Stripe to Live Mode
-- [ ] Create 5 products (Starter $19, Growth $29, Pro $39, Business $49, Agency $99)
-- [ ] Copy all 5 Price IDs (price_xxxxx)
-- [ ] Copy Live Secret Key (sk_live_xxxxx)
-- [ ] Create webhook endpoint: `https://creatorflow.ai/api/stripe/webhook`
-- [ ] Copy Webhook Secret (whsec_xxxxx)
-- [ ] **Status**: Code ready, needs Stripe dashboard setup
-
-### 2. Turso Production Database
-- [ ] Create production database in Turso
-- [ ] Copy Database URL (libsql://xxx.turso.io)
-- [ ] Create and copy Auth Token
-- [ ] Initialize tables (run init script)
-- [ ] **Status**: Code ready, needs database creation
-
-### 3. Vercel Environment Variables
-**Need 11 variables:**
-- [ ] `NEXT_PUBLIC_APP_URL` = `https://creatorflow.ai`
-- [ ] `TURSO_DATABASE_URL` = (from step 2)
-- [ ] `TURSO_AUTH_TOKEN` = (from step 2)
-- [ ] `JWT_SECRET` = (generate secure 32+ char string)
-- [ ] `STRIPE_SECRET_KEY` = (from step 1)
-- [ ] `STRIPE_WEBHOOK_SECRET` = (from step 1)
-- [ ] `STRIPE_PRICE_STARTER` = (from step 1)
-- [ ] `STRIPE_PRICE_GROWTH` = (from step 1)
-- [ ] `STRIPE_PRICE_PRO` = (from step 1)
-- [ ] `STRIPE_PRICE_BUSINESS` = (from step 1)
-- [ ] `STRIPE_PRICE_AGENCY` = (from step 1)
-
-**Status**: Variables documented, need to add in Vercel dashboard
-
-### 4. DNS Configuration
-- [ ] Point creatorflow.ai to Vercel
-- [ ] Add domain in Vercel dashboard
-- [ ] Wait for DNS propagation (24-48 hours)
-- [ ] Verify site loads at https://creatorflow.ai
-- [ ] **Status**: Currently pointing to Hostinger
-
-### 5. Final Testing (After Steps 1-4)
-- [ ] Test signup flow end-to-end
-- [ ] Test Stripe checkout with real card (test mode first)
-- [ ] Verify webhook receives events
-- [ ] Verify database stores user data
-- [ ] Test trial creation
-- [ ] Test payment processing
+- App routes, auth (JWT), plans UI, trial/checkout API wiring  
+- Stripe webhook handler (`checkout.session.completed`, subscription events, `invoice.payment_failed`)  
+- DB layer expects **Neon** (`DATABASE_URL` or `NEON_DATABASE_URL`) — see `src/lib/db.ts`
 
 ---
 
-## 📋 Quick Status Summary
+## Critical — before launch
 
-| Item | Status | Action Needed |
-|------|--------|---------------|
-| Code/Features | ✅ Complete | None |
-| Stripe Setup | ⏳ Pending | Dashboard configuration |
-| Database Setup | ⏳ Pending | Create Turso DB |
-| Environment Vars | ⏳ Pending | Add to Vercel |
-| DNS | ⏳ Pending | Point to Vercel |
-| Testing | ⏳ Pending | After config |
+### 1. Stripe (Live mode)
+
+- [ ] Create **5 recurring monthly prices** matching the live site:
+  - **Starter** $9 → env `STRIPE_PRICE_STARTER`
+  - **Essential** (internal id `growth`) $19 → `STRIPE_PRICE_GROWTH`
+  - **Creator** (`pro`) $49 → `STRIPE_PRICE_PRO`
+  - **Professional** (`business`) $79 → `STRIPE_PRICE_BUSINESS`
+  - **Business** (`agency`) $149 → `STRIPE_PRICE_AGENCY`
+- [ ] `STRIPE_SECRET_KEY` = `sk_live_…`
+- [ ] Webhook URL: **`https://www.creatorflow365.com/api/stripe/webhook`**  
+  Events at minimum: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `invoice.payment_failed`
+- [ ] `STRIPE_WEBHOOK_SECRET` = signing secret from that endpoint
+
+### 2. Neon production database
+
+- [ ] Create DB / branch in Neon, copy **connection string**
+- [ ] Set `DATABASE_URL` (or `NEON_DATABASE_URL`) on Vercel **Production**
+- [ ] Run whatever migration/init your deployment uses so tables exist (`/api/db/setup` or documented script)
+
+### 3. Vercel environment variables (Production)
+
+| Variable | Example / notes |
+|----------|------------------|
+| `NEXT_PUBLIC_APP_URL` | `https://www.creatorflow365.com` |
+| `NEXT_PUBLIC_BASE_URL` | Same as above (OAuth callback bases in places) |
+| `DATABASE_URL` | Neon `postgresql://…` |
+| `JWT_SECRET` | Strong random 32+ chars |
+| `STRIPE_SECRET_KEY` | Live secret |
+| `STRIPE_WEBHOOK_SECRET` | From Stripe webhook |
+| `STRIPE_PRICE_STARTER` … `STRIPE_PRICE_AGENCY` | Five `price_…` IDs |
+
+Optional: `GOOGLE_SITE_VERIFICATION`, OAuth vars for social connect, etc.
+
+Redeploy after saving.
+
+### 4. Domain
+
+- [ ] Custom domain **creatorflow365.com** (and **www**) attached to the **correct** Vercel project  
+- [ ] SSL active  
+- [ ] `NEXT_PUBLIC_APP_URL` matches the URL users actually open
+
+### 5. Smoke tests
+
+- [ ] Sign up → trial / checkout → webhook fired → user row updated  
+- [ ] Cancel checkout returns to a sane URL (`/signup?canceled=true` on trial flow)  
+- [ ] Credits/add-ons if you sell them
 
 ---
 
-## ⏱️ Estimated Time to Launch
+## Docs that match this repo
 
-**If all information is ready: 60-90 minutes**
-1. Stripe setup: ~20 min
-2. Database setup: ~15 min  
-3. Environment variables: ~10 min
-4. DNS setup: ~5 min (propagation takes longer)
-5. Testing: ~30 min
+- `ENVIRONMENT_VARIABLES.md` — env cheat sheet  
+- `CURRENT_PLAN_PRICES.md` — amounts aligned with `PlanSelection.tsx`  
+- `LAUNCH_STATUS_CHECK.md` — checkbox version  
+- `CREATORFLOW365_PRODUCTION.md` — production URL notes  
 
 ---
 
-## 🚀 Ready to Complete These Steps?
+## Next step (human)
 
-**You have two options:**
-
-1. **I can guide you step-by-step** through each configuration
-2. **You can follow the guides** in:
-   - `LAUNCH_NOW.md` - Complete step-by-step guide
-   - `STRIPE_SETUP_DETAILED.md` - Detailed Stripe setup
-   - `ENVIRONMENT_VARIABLES.md` - Environment variables reference
-
-**Current URL (testing):** https://creatorflow-live.vercel.app
-**Target URL (production):** https://creatorflow.ai
-
----
-
-## Next Step
-
-Tell me which configuration you want to complete first, or say "start with Stripe" and I'll walk you through it step-by-step!
-
+Complete **Stripe Live + Neon + Vercel Production env**, redeploy, then run the **smoke tests** above. Say what failed if anything breaks—we fix code next.
