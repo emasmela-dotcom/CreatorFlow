@@ -1,21 +1,18 @@
 #!/usr/bin/env node
 /**
- * Fetch SEO title/description A/B variants from Claude (Anthropic Messages API).
+ * SEO meta title/description A/B variants — two modes:
  *
- * Uses usage / billing on your Anthropic account — run only when you consent.
+ * 1) NO API / NO SCRIPT USAGE — paste into Claude in the browser:
+ *      node scripts/claude-meta-variants.mjs --prompt-only --route=/
+ *    Copy stdout → https://claude.ai → paste → copy Claude’s JSON reply back.
  *
- * Setup:
- *   export ANTHROPIC_API_KEY="sk-ant-api03-..."
- * Optional:
- *   export ANTHROPIC_MODEL="claude-sonnet-4-20250514"
+ * 2) Anthropic Messages API (billed API usage — only if you consent):
+ *      export ANTHROPIC_API_KEY="sk-ant-api03-..."
+ *      node scripts/claude-meta-variants.mjs --route=/ --variants=5
  *
- * Run:
- *   node scripts/claude-meta-variants.mjs --route=/
- *   node scripts/claude-meta-variants.mjs --route=/signup --variants=5
+ * Optional API model: ANTHROPIC_MODEL (default claude-sonnet-4-20250514)
  *
- * Output: JSON array printed to stdout (paste into a doc or wire into CMS).
- *
- * Seeds: edit scripts/meta-ab-seeds.json when live copy changes.
+ * Seeds: scripts/meta-ab-seeds.json
  */
 
 import { readFileSync } from 'node:fs'
@@ -28,11 +25,13 @@ function parseArgs() {
   const args = process.argv.slice(2)
   let route = '/'
   let variants = 4
+  let promptOnly = false
   for (const a of args) {
+    if (a === '--prompt-only' || a === '-p') promptOnly = true
     if (a.startsWith('--route=')) route = a.slice('--route='.length)
     if (a.startsWith('--variants=')) variants = Math.min(12, Math.max(1, parseInt(a.slice('--variants='.length), 10) || 4))
   }
-  return { route, variants }
+  return { route, variants, promptOnly }
 }
 
 function loadSeeds() {
@@ -67,14 +66,7 @@ Return JSON shape exactly:
 }
 
 async function main() {
-  const { route, variants } = parseArgs()
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    console.error('Missing ANTHROPIC_API_KEY. Export it and run again.')
-    process.exit(1)
-  }
-
-  const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
+  const { route, variants, promptOnly } = parseArgs()
   const seeds = loadSeeds()
   const entry = seeds.routes[route]
   if (!entry) {
@@ -83,6 +75,21 @@ async function main() {
   }
 
   const prompt = buildPrompt(entry, route, variants)
+
+  if (promptOnly) {
+    console.log(prompt)
+    process.exit(0)
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    console.error(
+      'Missing ANTHROPIC_API_KEY. Use --prompt-only and paste into claude.ai, or export the key for API mode.'
+    )
+    process.exit(1)
+  }
+
+  const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
