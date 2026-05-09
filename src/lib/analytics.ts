@@ -1,6 +1,13 @@
 // Google Analytics 4 Integration
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX'
 
+/** Meta (Facebook) Pixel — set NEXT_PUBLIC_META_PIXEL_ID in Vercel when ready */
+export const META_PIXEL_ID = (process.env.NEXT_PUBLIC_META_PIXEL_ID || '').trim()
+
+export function isValidMetaPixelId(id: string): boolean {
+  return /^\d{8,20}$/.test(id)
+}
+
 // Track page views
 export const pageview = (url: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -87,5 +94,6 @@ export const trackCollaboration = (action: string, value?: number) => {
 declare global {
   interface Window {
     gtag: (...args: any[]) => void
+    fbq?: (...args: any[]) => void
   }
 }

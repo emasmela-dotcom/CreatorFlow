@@ -51,6 +51,12 @@ FORMSPREE_ENDPOINT=https://formspree.io/f/your-endpoint
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
+### Meta (Facebook) Pixel (optional)
+```env
+NEXT_PUBLIC_META_PIXEL_ID=123456789012345
+```
+Numeric Pixel ID from Meta Events Manager. If unset or invalid, no Pixel scripts load.
+
 ### Search Console (optional HTML tag verification)
 ```env
 GOOGLE_SITE_VERIFICATION=your-google-verification-string

@@ -1,177 +1,76 @@
-# 🚀 Quick Launch Guide - CreatorFlow.ai
+# Quick Launch Guide — CreatorFlow365
 
-## Pre-Launch Checklist (Do These in Order)
+Canonical URLs and env details: **`PRE_LAUNCH_STATUS.md`**, **`ENVIRONMENT_VARIABLES.md`**.
 
-### ✅ Step 1: Set Up Stripe (15 minutes)
+## Step 1: Stripe (Live)
 
-1. **Go to Stripe Dashboard** → https://dashboard.stripe.com/
-2. **Switch to Live Mode** (toggle in top right)
-3. **Create 5 Products:**
-   - Product 1: "Starter Plan" - $19/month recurring
-   - Product 2: "Growth Plan" - $29/month recurring
-   - Product 3: "Pro Plan" - $39/month recurring
-   - Product 4: "Business Plan" - $49/month recurring
-   - Product 5: "Agency Plan" - $99/month recurring
-4. **Copy Price IDs** from each product (format: `price_xxxxx`)
-5. **Set up Webhook:**
-   - Go to Developers → Webhooks
-   - Add endpoint: `https://creatorflow.ai/api/stripe/webhook`
-   - Select events:
-     - `checkout.session.completed`
-     - `customer.subscription.created`
-     - `customer.subscription.updated`
-     - `invoice.payment_failed`
-   - Copy webhook signing secret (starts with `whsec_`)
+1. **Stripe Dashboard** → https://dashboard.stripe.com/ → **Live mode**
+2. **Five subscription prices** (match app / **`CURRENT_PLAN_PRICES.md`** — internal ids: `starter`, `growth`, `pro`, `business`, `agency`):
+   - Starter — **$9**/mo  
+   - Essential (growth) — **$19**/mo  
+   - Creator (pro) — **$49**/mo  
+   - Professional (business) — **$79**/mo  
+   - Agency — **$149**/mo  
+3. Copy each **Price ID** (`price_…`) into Vercel as `STRIPE_PRICE_STARTER`, `STRIPE_PRICE_GROWTH`, etc.
+4. **Webhooks** → Add endpoint: **`https://www.creatorflow365.com/api/stripe/webhook`**  
+   Events: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `invoice.payment_failed`  
+5. Copy signing secret → `STRIPE_WEBHOOK_SECRET`
 
----
+## Step 2: Database (Neon)
 
-### ✅ Step 2: Set Up Turso Database (10 minutes)
+1. **Neon** → create production database → copy connection string  
+2. Set **`DATABASE_URL`** (or **`NEON_DATABASE_URL`**) in Vercel Production
 
-1. **Go to Turso Dashboard** → https://turso.tech/
-2. **Create Production Database:**
-   - Name: `creatorflow-production`
-   - Choose location closest to your users
-3. **Get Connection Details:**
-   - Database URL (format: `libsql://xxx.turso.io`)
-   - Auth Token (generate new token)
-4. **Initialize Database:**
-   - The `initDatabase()` function will run automatically on first API call
-   - Or run manually via API endpoint: `/api/test` (if you create one)
+## Step 3: Vercel environment variables
 
----
+Production examples (see **`ENVIRONMENT_VARIABLES.md`** for full list):
 
-### ✅ Step 3: Configure Vercel Environment Variables (10 minutes)
+```env
+NEXT_PUBLIC_APP_URL=https://www.creatorflow365.com
+NEXT_PUBLIC_BASE_URL=https://www.creatorflow365.com
 
-1. **Go to Vercel Dashboard** → Your Project → Settings → Environment Variables
-2. **Add All Variables:**
+DATABASE_URL=postgresql://...
 
-```
-NEXT_PUBLIC_APP_URL=https://creatorflow.ai
+JWT_SECRET=<strong-random-secret>
 
-TURSO_DATABASE_URL=libsql://your-db-url.turso.io
-TURSO_AUTH_TOKEN=your-turso-token
-
-JWT_SECRET=your-strong-random-secret-32-chars-minimum
-
-STRIPE_SECRET_KEY=sk_live_your_live_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-
-STRIPE_PRICE_STARTER=price_starter_live_id
-STRIPE_PRICE_GROWTH=price_growth_live_id
-STRIPE_PRICE_PRO=price_pro_live_id
-STRIPE_PRICE_BUSINESS=price_business_live_id
-STRIPE_PRICE_AGENCY=price_agency_live_id
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRICE_STARTER=price_...
+STRIPE_PRICE_GROWTH=price_...
+STRIPE_PRICE_PRO=price_...
+STRIPE_PRICE_BUSINESS=price_...
+STRIPE_PRICE_AGENCY=price_...
 ```
 
-3. **Set for Production Environment** (not Preview/Development)
-4. **Redeploy** after adding variables
+Optional: `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `GOOGLE_SITE_VERIFICATION`
+
+Redeploy after saves.
+
+## Step 4: DNS
+
+Point **creatorflow365.com** (and **www**) at Vercel per Vercel → Settings → Domains. Wait for DNS + SSL.
+
+## Step 5: Final testing
+
+1. Open **https://www.creatorflow365.com** — signup → paid plan → Stripe Checkout → return to app  
+2. **Stripe** → Events / Webhooks — deliveries OK  
+3. **Neon** — user / subscription fields updated as expected  
 
 ---
 
-### ✅ Step 4: Configure DNS (5 minutes)
+## Troubleshooting
 
-1. **Go to Your Domain Registrar** (where you bought creatorflow.ai)
-2. **Add DNS Record:**
-   - Type: **CNAME** (recommended) or **A record**
-   - Name: `@` (or leave blank for root domain)
-   - Value: `cname.vercel-dns.com` (for CNAME)
-   - OR get IP from Vercel Dashboard → Your Project → Settings → Domains
-3. **In Vercel Dashboard:**
-   - Go to Settings → Domains
-   - Add domain: `creatorflow.ai`
-   - Follow Vercel's instructions
-4. **Wait for DNS Propagation** (5 minutes to 48 hours, usually < 1 hour)
-5. **SSL Certificate** will auto-generate (may take a few minutes)
+| Issue | Checks |
+|-------|--------|
+| Webhook failures | URL exactly `https://www.creatorflow365.com/api/stripe/webhook`; Live mode secret; redeploy |
+| DB errors | `DATABASE_URL` / migrations; Neon project active |
+| Wrong redirect URLs | `NEXT_PUBLIC_APP_URL` and `NEXT_PUBLIC_BASE_URL` |
 
 ---
 
-### ✅ Step 5: Final Testing (20 minutes)
+## Post-launch (optional)
 
-1. **Test Signup Flow:**
-   - [ ] Visit https://creatorflow.ai (or Vercel URL)
-   - [ ] Click "Start Free Trial"
-   - [ ] Select a plan
-   - [ ] Create account
-   - [ ] Complete Stripe checkout (use test card: 4242 4242 4242 4242)
-   - [ ] Verify trial starts
+- Error monitoring, alerts  
+- Meta campaigns + **`NEXT_PUBLIC_META_PIXEL_ID`** if using Meta Pixel  
 
-2. **Test Database:**
-   - [ ] Check if user was created in Turso
-   - [ ] Verify backup was created
-   - [ ] Check subscription tier set correctly
-
-3. **Test Webhook:**
-   - [ ] Check Stripe Dashboard → Events for webhook delivery
-   - [ ] Verify no errors
-
-4. **Test All Plans:**
-   - [ ] Test each plan checkout
-   - [ ] Verify correct post limits set
-   - [ ] Check social account locking works
-
----
-
-## 🎯 Launch Day
-
-1. **Monitor First Hour:**
-   - Watch Stripe Dashboard for real payments
-   - Monitor Vercel logs for errors
-   - Check Turso database connections
-
-2. **Test Real Payment:**
-   - Make one real test purchase (can refund)
-   - Verify entire flow works end-to-end
-
-3. **Monitor Metrics:**
-   - Check Vercel Analytics
-   - Monitor Stripe Dashboard
-   - Watch for any error emails
-
----
-
-## 🔧 Troubleshooting
-
-### Issue: Webhook not receiving events
-- **Fix**: Check webhook URL in Stripe matches exactly
-- **Fix**: Verify webhook secret is correct
-- **Fix**: Check Vercel logs for webhook errors
-
-### Issue: Database connection fails
-- **Fix**: Verify TURSO_DATABASE_URL is correct
-- **Fix**: Check TURSO_AUTH_TOKEN is valid
-- **Fix**: Ensure database exists in Turso
-
-### Issue: Domain not resolving
-- **Fix**: Wait for DNS propagation (can take up to 48h)
-- **Fix**: Check DNS records are correct
-- **Fix**: Verify domain in Vercel is configured
-
-### Issue: Environment variables not working
-- **Fix**: Ensure variables are set for "Production" environment
-- **Fix**: Redeploy after adding variables
-- **Fix**: Check variable names match exactly (case-sensitive)
-
----
-
-## 📞 Support Resources
-
-- **Vercel Docs**: https://vercel.com/docs
-- **Stripe Docs**: https://stripe.com/docs
-- **Turso Docs**: https://docs.turso.tech
-- **Next.js Docs**: https://nextjs.org/docs
-
----
-
-## ✅ Post-Launch Checklist
-
-- [ ] Set up error monitoring (Sentry, etc.)
-- [ ] Configure analytics (Google Analytics)
-- [ ] Set up email notifications for errors
-- [ ] Create help/support documentation
-- [ ] Set up monitoring alerts
-- [ ] Plan first feature update
-
----
-
-**You're ready to launch! 🚀**
-
+See **`FINAL_LAUNCH_CHECKLIST.md`** for a short checklist.

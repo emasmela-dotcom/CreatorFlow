@@ -1,83 +1,34 @@
-# 🚀 Final Launch Checklist - Verify Everything
+# Final Launch Checklist — CreatorFlow365
 
-## Critical Items (MUST Have Before Launch):
+Use **`PRE_LAUNCH_STATUS.md`** for step-by-step instructions and **`LAUNCH_STATUS_CHECK.md`** for a checkbox pass. This file is a short sanity list aligned with **https://www.creatorflow365.com**, **Neon**, and **Stripe Live**.
 
-### ✅ Stripe - Verify You Have:
-- [ ] All 5 products created (check `STRIPE_SETUP_VALUES.md` - are all Price IDs filled in?)
-- [ ] Secret Key copied (sk_live_...)
-- [ ] Webhook created with URL: https://creatorflow.ai/api/stripe/webhook
-- [ ] Webhook secret copied (whsec_...)
+## Critical items
 
-### ✅ Database (Turso):
-- [ ] Production database created
-- [ ] Database URL copied
-- [ ] Auth token copied
+### Stripe (Live)
 
-### ✅ Vercel Environment Variables:
-- [ ] All 11 environment variables added to Vercel
-- [ ] Set for "Production" environment
-- [ ] Project redeployed after adding variables
+- [ ] Five recurring prices created and mapped to `STRIPE_PRICE_STARTER`, `STRIPE_PRICE_GROWTH`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_BUSINESS`, `STRIPE_PRICE_AGENCY` (see **`CURRENT_PLAN_PRICES.md`**)
+- [ ] `STRIPE_SECRET_KEY` = `sk_live_…`
+- [ ] Webhook endpoint: **`https://www.creatorflow365.com/api/stripe/webhook`**
+- [ ] Events: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `invoice.payment_failed`
+- [ ] `STRIPE_WEBHOOK_SECRET` = `whsec_…`
 
-### ✅ DNS:
-- [ ] DNS records added (CNAME to cname.vercel-dns.com)
-- [ ] Domain added in Vercel dashboard
-- [ ] DNS propagated (check: https://dnschecker.org/#A/creatorflow.ai)
-- [ ] Site accessible at https://creatorflow.ai
+### Database (Neon)
 
----
+- [ ] Production Postgres created in Neon
+- [ ] `DATABASE_URL` or `NEON_DATABASE_URL` set in Vercel Production
 
-## Quick Verification Steps:
+### Vercel
 
-### 1. Check Stripe Values
-**Open `STRIPE_SETUP_VALUES.md`** - Are all the blanks filled in?
-- All 5 Price IDs?
-- Secret Key?
-- Webhook Secret?
+- [ ] Production env vars set (see **`ENVIRONMENT_VARIABLES.md`**) — including `NEXT_PUBLIC_APP_URL` / `NEXT_PUBLIC_BASE_URL` = `https://www.creatorflow365.com`
+- [ ] Redeploy after changing secrets
 
-### 2. Check Vercel
-Go to: https://vercel.com/dashboard → Your Project → Settings → Environment Variables
-- Count: Do you have all 11 variables?
-- Are they set for Production?
+### Domain
 
-### 3. Test Your Site
-Visit: https://creatorflow.ai (or your Vercel URL)
-- Does it load?
-- Can you see the homepage?
+- [ ] `creatorflow365.com` / `www` configured in Vercel and DNS
 
----
+## Quick verification
 
-## If Everything is Done:
+1. **`STRIPE_SETUP_VALUES.md`** or Dashboard: all price IDs and webhook secret filled for production.
+2. **Smoke test:** signup → choose paid plan → Stripe Checkout → return to dashboard → Stripe Events show successful webhook delivery.
 
-**✅ You're ready to launch!**
-
-But first, do ONE test:
-
-1. **Test Signup Flow:**
-   - Go to your site
-   - Click "Start Free Trial"
-   - Select a plan
-   - Create account
-   - Complete checkout (use test card: 4242 4242 4242 4242)
-
-2. **Verify:**
-   - Check Stripe Dashboard → Events (did webhook fire?)
-   - Check Vercel Logs (any errors?)
-
-**If test works → YOU'RE LIVE! 🎉**
-
----
-
-## If Something is Missing:
-
-Tell me what's NOT done yet, and I'll help you complete it quickly!
-
-**Common items that might be missing:**
-- Products not created yet (need to do this in Stripe)
-- Environment variables not added to Vercel
-- DNS not configured yet
-- Database not set up
-
----
-
-**What do you still need help with? Or are you truly 100% ready?** 🤔
-
+If that passes, you are in good shape to treat the app as live for billing and accounts.
