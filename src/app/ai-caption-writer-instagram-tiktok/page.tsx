@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AI_CAPTION_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 const pagePath = '/ai-caption-writer-instagram-tiktok'
@@ -95,24 +97,19 @@ export default function AICaptionWriterPage() {
         </section>
 
         <section className="space-y-3">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqPageJsonLd(AI_CAPTION_GUIDE_FAQ)),
+            }}
+          />
           <h2 className="text-2xl font-semibold">FAQ</h2>
           <div className="space-y-3 text-gray-300">
-            <p>
-              <strong className="text-white">Can I use this for both Instagram and TikTok?</strong>{' '}
-              Yes. You can draft, edit, and save versions for each platform in one workflow.
-            </p>
-            <p>
-              <strong className="text-white">Do I need a credit card to start?</strong> No. You can
-              start with a 14-day free trial without adding a card.
-            </p>
-            <p>
-              <strong className="text-white">Can I keep my drafts organized?</strong> Yes. Captions,
-              templates, and hashtag sets live in your content library for reuse.
-            </p>
-            <p>
-              <strong className="text-white">Which plan should I start with?</strong> Most creators
-              start on Starter and upgrade as posting volume and team needs grow.
-            </p>
+            {AI_CAPTION_GUIDE_FAQ.map((item) => (
+              <p key={item.question}>
+                <strong className="text-white">{item.question}</strong> {item.answer}
+              </p>
+            ))}
           </div>
         </section>
 

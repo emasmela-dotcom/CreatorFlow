@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SCHEDULER_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 const pagePath = '/social-media-scheduler-for-creators'
@@ -92,25 +94,19 @@ export default function SocialSchedulerPage() {
         </section>
 
         <section className="space-y-3">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqPageJsonLd(SCHEDULER_GUIDE_FAQ)),
+            }}
+          />
           <h2 className="text-2xl font-semibold">FAQ</h2>
           <div className="space-y-3 text-gray-300">
-            <p>
-              <strong className="text-white">Can I schedule content for multiple platforms?</strong>{' '}
-              Yes. You can plan your publishing workflow for Instagram, TikTok, LinkedIn, and other
-              supported channels from one place.
-            </p>
-            <p>
-              <strong className="text-white">Does this include analytics?</strong> Yes. Analytics
-              support starts at Starter and expands in higher tiers.
-            </p>
-            <p>
-              <strong className="text-white">Can my team use the same schedule view?</strong> Yes.
-              Team collaboration features are available in higher plans.
-            </p>
-            <p>
-              <strong className="text-white">Is there a trial?</strong> Yes. There is a 14-day free
-              trial with no credit card required.
-            </p>
+            {SCHEDULER_GUIDE_FAQ.map((item) => (
+              <p key={item.question}>
+                <strong className="text-white">{item.question}</strong> {item.answer}
+              </p>
+            ))}
           </div>
         </section>
 

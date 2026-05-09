@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ANALYTICS_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 const pagePath = '/content-creator-analytics-platform'
@@ -93,24 +95,19 @@ export default function ContentCreatorAnalyticsPage() {
         </section>
 
         <section className="space-y-3">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqPageJsonLd(ANALYTICS_GUIDE_FAQ)),
+            }}
+          />
           <h2 className="text-2xl font-semibold">FAQ</h2>
           <div className="space-y-3 text-gray-300">
-            <p>
-              <strong className="text-white">Does Starter include analytics?</strong> Yes, Starter
-              includes analytics support and higher tiers expand that capability.
-            </p>
-            <p>
-              <strong className="text-white">Can teams view the same performance data?</strong>{' '}
-              Yes. Team-enabled plans support shared collaboration and reporting workflows.
-            </p>
-            <p>
-              <strong className="text-white">Can agencies use this for client reporting?</strong>{' '}
-              Yes. Higher plans are designed for broader account coverage and agency workflows.
-            </p>
-            <p>
-              <strong className="text-white">Is there a free trial?</strong> Yes. CreatorFlow365
-              offers a 14-day trial with no credit card required.
-            </p>
+            {ANALYTICS_GUIDE_FAQ.map((item) => (
+              <p key={item.question}>
+                <strong className="text-white">{item.question}</strong> {item.answer}
+              </p>
+            ))}
           </div>
         </section>
 

@@ -5,6 +5,8 @@ import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSe
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
+import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
   const [email, setEmail] = useState('')
@@ -735,48 +737,23 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
-      {/* FAQ — Phase 2 (only policy/pricing-grounded answers) */}
+      {/* FAQ — Phase 2 + Phase 7 FAQPage JSON-LD (must match entries in HOMEPAGE_FAQ_PAIRS) */}
       <section id="faq" className="py-16 px-6 bg-black border-t border-gray-800">
         <div className="max-w-3xl mx-auto">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqPageJsonLd(HOMEPAGE_FAQ_PAIRS)),
+            }}
+          />
           <h2 className="text-3xl font-bold text-center mb-10 text-white">Frequently asked questions</h2>
           <dl className="space-y-6 text-gray-300 text-sm md:text-base">
-            <div>
-              <dt className="font-semibold text-white">How does CreatorFlow365 work with social platforms?</dt>
-              <dd className="mt-2">
-                You create and organize content inside CreatorFlow365. Depending on your setup, you can connect accounts
-                for scheduling or copy content to publish where you need it. See the note below the signup buttons on this
-                page for how publishing fits your workflow.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-white">What happens if I don&apos;t subscribe after the trial?</dt>
-              <dd className="mt-2">
-                Trial changes may be reverted per our Content Ownership Policy. If you subscribe, content you created during
-                the trial is kept according to that policy.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-white">Is a credit card required for the free trial?</dt>
-              <dd className="mt-2">No. You get 14 days free with no card on file.</dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-white">What&apos;s the difference between AI calls and credits?</dt>
-              <dd className="mt-2">
-                AI calls are included per plan (see pricing cards). Credits are an add-on for premium tools outside your
-                plan&apos;s included usage; purchased credits roll over month to month.
-              </dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-white">Can I change plans later?</dt>
-              <dd className="mt-2">Yes. You can upgrade or downgrade as your needs change.</dd>
-            </div>
-            <div>
-              <dt className="font-semibold text-white">Does CreatorFlow365 work for agencies?</dt>
-              <dd className="mt-2">
-                Yes. Professional includes white-label options; Business includes full white-label, unlimited team members,
-                and a dedicated account manager for onboarding and escalation—see pricing for details.
-              </dd>
-            </div>
+            {HOMEPAGE_FAQ_PAIRS.map((item) => (
+              <div key={item.question}>
+                <dt className="font-semibold text-white">{item.question}</dt>
+                <dd className="mt-2">{item.answer}</dd>
+              </div>
+            ))}
           </dl>
         </div>
       </section>

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { PlanType } from '@/components/PlanSelection'
 import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
 import { PHASE2_BY_PLAN } from '@/lib/selectPlanPhase2Copy'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
@@ -156,6 +157,14 @@ function SelectPlanContent() {
         </div>
 
           <section aria-labelledby="faq-heading" className="border-t border-gray-700 pt-10">
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(
+                  faqPageJsonLd(phase2.faq.map((item) => ({ question: item.q, answer: item.a })))
+                ),
+              }}
+            />
             <h2 id="faq-heading" className="text-xl font-semibold text-white mb-4">
               Frequently asked questions
             </h2>
