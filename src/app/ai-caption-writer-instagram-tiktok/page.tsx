@@ -57,6 +57,21 @@ export default function AICaptionWriterPage() {
           </ul>
         </section>
 
+        <section className="space-y-3 border border-gray-800 rounded-xl p-6 bg-gray-950/40">
+          <h2 className="text-2xl font-semibold">Why you can trust this page</h2>
+          <p className="text-gray-300">
+            CreatorFlow365 operates{' '}
+            <Link href="/" className="text-purple-400 hover:underline">creatorflow365.com</Link>{' '}
+            and describes plans the same way here as on the homepage and in our{' '}
+            <Link href="/privacy" className="text-purple-400 hover:underline">Privacy Policy</Link>. We do not promise results we cannot measure inside the product.
+          </p>
+          <p className="text-gray-400 text-sm">
+            Proof you can check yourself: published pricing and trials on the homepage, plan-by-plan tools on{' '}
+            <Link href="/select-plan" className="text-purple-400 hover:underline">select-plan</Link>, and product questions via{' '}
+            <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.
+          </p>
+        </section>
+
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold">FAQ</h2>
           <div className="space-y-3 text-gray-300">
@@ -77,6 +92,40 @@ export default function AICaptionWriterPage() {
               start on Starter and upgrade as posting volume and team needs grow.
             </p>
           </div>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-2xl font-semibold">Related workflows on CreatorFlow365</h2>
+          <ul className="list-disc pl-6 space-y-2 text-gray-300">
+            <li>
+              <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+                Multi-platform scheduling workflow for creators
+              </Link>{' '}
+              after captions are drafted.
+            </li>
+            <li>
+              <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+                Analytics in the same workspace as drafting and scheduling
+              </Link>.
+            </li>
+            <li>
+              <Link href="/creator-tools" className="text-purple-400 hover:underline">
+                Full creator tools directory
+              </Link>{' '}
+              for other surfaces beyond captions.
+            </li>
+            <li>
+              <Link href="/follow-thru" className="text-purple-400 hover:underline">
+                Follow Thru CRM for brands and collaborators
+              </Link>{' '}
+              next to your calendar.
+            </li>
+            <li>
+              <Link href="/reviews" className="text-purple-400 hover:underline">
+                CreatorFlow365 reviews and feedback
+              </Link>.
+            </li>
+          </ul>
         </section>
 
         <section className="pt-4 flex flex-wrap gap-3">

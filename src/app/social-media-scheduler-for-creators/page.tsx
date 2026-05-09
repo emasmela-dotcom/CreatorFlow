@@ -54,6 +54,21 @@ export default function SocialSchedulerPage() {
           </ul>
         </section>
 
+        <section className="space-y-3 border border-gray-800 rounded-xl p-6 bg-gray-950/40">
+          <h2 className="text-2xl font-semibold">Why you can trust this page</h2>
+          <p className="text-gray-300">
+            Scheduling behavior depends on official APIs for each network; features shift when platforms change policies. We summarize supported surfaces on the{' '}
+            <Link href="/" className="text-purple-400 hover:underline">CreatorFlow365 homepage</Link>{' '}
+            (“How publishing works”) and in dashboard Connections after signup—same operator as our{' '}
+            <Link href="/privacy" className="text-purple-400 hover:underline">Privacy Policy</Link>.
+          </p>
+          <p className="text-gray-400 text-sm">
+            For definitions of plans and limits, use homepage pricing and{' '}
+            <Link href="/select-plan" className="text-purple-400 hover:underline">select-plan</Link>; reach us at{' '}
+            <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.
+          </p>
+        </section>
+
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold">FAQ</h2>
           <div className="space-y-3 text-gray-300">
@@ -75,6 +90,39 @@ export default function SocialSchedulerPage() {
               trial with no credit card required.
             </p>
           </div>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-2xl font-semibold">Related workflows on CreatorFlow365</h2>
+          <ul className="list-disc pl-6 space-y-2 text-gray-300">
+            <li>
+              <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+                AI caption drafting for Instagram and TikTok
+              </Link>{' '}
+              before you queue posts.
+            </li>
+            <li>
+              <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+                Creator analytics platform overview
+              </Link>{' '}
+              for performance next to your calendar.
+            </li>
+            <li>
+              <Link href="/creator-tools" className="text-purple-400 hover:underline">
+                Creator tools directory
+              </Link>.
+            </li>
+            <li>
+              <Link href="/follow-thru" className="text-purple-400 hover:underline">
+                Follow Thru CRM for creators
+              </Link>.
+            </li>
+            <li>
+              <Link href="/reviews" className="text-purple-400 hover:underline">
+                Reviews from creators
+              </Link>.
+            </li>
+          </ul>
         </section>
 
         <section className="pt-4 flex flex-wrap gap-3">

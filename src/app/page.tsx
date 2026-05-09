@@ -199,25 +199,14 @@ The CreatorFlow365 Team`,
         <div className="absolute inset-0 bg-gray-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <p className="text-xs font-mono tracking-widest text-purple-400 uppercase mb-4">
-            Creator OS — plan, draft, and publish in one place
+            CreatorFlow365
           </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
-            The creator workspace to plan, draft with AI, and ship content—solo or with your team.
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight max-w-4xl mx-auto">
+            One workspace for beginner and pro creators—to prep content in the right format for each platform you post to.
           </h1>
-          {/* Phase 2 — answer-first blocks (primary intent: all-in-one creator tools) */}
-          <div className="max-w-2xl mx-auto space-y-4 mb-8 text-left md:text-center">
+          <div className="max-w-2xl mx-auto mb-8 text-left md:text-center">
             <p className="text-base md:text-lg text-gray-200 leading-relaxed">
-              CreatorFlow365 is an all-in-one creator workspace: plan content, draft with AI, keep a content library,
-              organize scheduling, and review analytics—without switching between disconnected apps.
-            </p>
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-              Built for solo creators, small teams, and agencies who want one workflow instead of stacking separate
-              writing-only, scheduling-only, and analytics-only tools.
-            </p>
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-              Plans from $9/month with a <strong className="text-white">14-day free trial</strong> and{' '}
-              <strong className="text-white">no credit card required</strong>. Starter includes analytics support;
-              higher tiers add collaboration, API access, and white-label options where listed on pricing.
+              Plan, draft, schedule, and see how posts perform—without jumping between apps.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -564,14 +553,58 @@ The CreatorFlow365 Team`,
             </div>
           </div>
 
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 max-w-4xl mx-auto">
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 max-w-4xl mx-auto mb-8">
+            <h3 className="text-lg font-semibold text-white mb-3">Who runs CreatorFlow365</h3>
+            <p className="text-sm text-gray-300 mb-3">
+              CreatorFlow365 operates <span className="text-white">creatorflow365.com</span> and ships the workspace you see
+              on this site: planning, drafting, scheduling, analytics, and related tools in one product.
+            </p>
+            <p className="text-sm text-gray-300">
+              That matches how we describe the service in our{' '}
+              <a href="/privacy" className="text-purple-400 hover:underline">Privacy Policy</a>
+              {' '}and{' '}
+              <a href="/terms" className="text-purple-400 hover:underline">Terms</a>. Product or account questions:{' '}
+              <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.
+            </p>
+          </div>
+
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 max-w-4xl mx-auto mb-8">
             <h3 className="text-lg font-semibold text-white mb-4">Proof</h3>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li>Published plan tiers and pricing are available on-site.</li>
-              <li>CreatorFlow365 offers a 14-day free trial with no credit card required.</li>
-              <li>Starter includes analytics support.</li>
-              <li>Professional includes white-label options.</li>
-              <li>Business includes full white-label.</li>
+              <li>Published plan tiers, limits, and pricing are on this page and on{' '}
+                <a href="/select-plan" className="text-purple-400 hover:underline">the select-plan comparison</a>.
+              </li>
+              <li>14-day free trial with no credit card required—same detail repeated at signup and in FAQ below.</li>
+              <li>Starter includes analytics support; Professional adds white-label options; Business adds full white-label—the cards above stay the source of truth.</li>
+              <li>What we verify when we ship: signup flows, Stripe checkout for subscriptions and credits, and dashboard workflows tied to published plans.</li>
+              <li>Publishing paths vary by network (direct scheduling vs copy/export)—see the “How publishing works” note under the hero; dashboard Connections explains what applies once you&apos;re logged in.</li>
+              <li>Deeper reads:
+                {' '}<a href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">AI caption workflow for Instagram and TikTok</a>,
+                {' '}<a href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">scheduling workflow for creators</a>,
+                {' '}<a href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">analytics alongside drafting</a>,
+                {' '}<a href="/creator-tools" className="text-purple-400 hover:underline">creator tools directory</a>,
+                {' '}and{' '}<a href="/follow-thru" className="text-purple-400 hover:underline">Follow Thru CRM included with plans</a>.
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 max-w-4xl mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-4">Claims and assumptions</h3>
+            <ul className="text-sm text-gray-300 space-y-2 list-disc pl-5">
+              <li>
+                Email support windows (for example 48-hour or 24-hour targets) are goals we aim for, not guarantees; wording matches plan cards on this page and billing/terms flows you agree to at signup.
+              </li>
+              <li>
+                The plan snapshot disclaimer applies wherever we compare tiers at similar prices: we rely on publicly listed competitor pricing when quoted elsewhere—it shifts frequently—verify vendors you evaluate independently.
+              </li>
+              <li>
+                Network availability follows official APIs for{' '}
+                <a href="https://developers.facebook.com/docs/instagram-api/" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Instagram via Meta</a>,{' '}
+                <a href="https://developer.x.com/en/docs/twitter-api" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">X (Twitter)</a>,{' '}
+                <a href="https://learn.microsoft.com/en-us/linkedin/" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">LinkedIn</a>,{' '}
+                <a href="https://developers.tiktok.com/" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">TikTok</a>, and{' '}
+                <a href="https://developers.google.com/youtube/v3" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">YouTube</a>—features depend on those programs and your account type.
+              </li>
             </ul>
           </div>
         </div>
