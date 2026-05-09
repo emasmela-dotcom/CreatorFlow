@@ -1,0 +1,40 @@
+{
+  "routes": {
+    "/": {
+      "label": "Homepage",
+      "currentTitle": "CreatorFlow365 – One Workspace for Every Platform",
+      "currentDescription": "Prep content for Instagram, X, LinkedIn, TikTok & YouTube—plan, draft, schedule & analytics in one workspace. 14-day trial, no card. Start free.",
+      "notes": "Beginner + pro creators; multi-platform; trial/pricing honest."
+    },
+    "/creator-tools": {
+      "label": "Creator tools pillar",
+      "currentTitle": "Creator Tools & Workspace – Calendar to CRM | CreatorFlow365",
+      "currentDescription": "Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for Instagram, X, LinkedIn, TikTok & YouTube. 14-day trial, no card.",
+      "notes": "Search-intent map page; avoid stuffing."
+    },
+    "/ai-caption-writer-instagram-tiktok": {
+      "label": "AI captions guide",
+      "currentTitle": "AI Captions for Instagram & TikTok | CreatorFlow365",
+      "currentDescription": "Draft Instagram & TikTok captions faster—AI assist, templates & library in one workflow. 14-day trial, no card.",
+      "notes": "Workflow page; no ranking guarantees."
+    },
+    "/social-media-scheduler-for-creators": {
+      "label": "Scheduler guide",
+      "currentTitle": "Social Media Scheduler for Creators | CreatorFlow365",
+      "currentDescription": "One calendar for Instagram, TikTok, LinkedIn, X & YouTube plans—drafts stay aligned. 14-day trial, no card.",
+      "notes": "Scheduling + calendar angle."
+    },
+    "/content-creator-analytics-platform": {
+      "label": "Analytics guide",
+      "currentTitle": "Creator Analytics Platform | CreatorFlow365",
+      "currentDescription": "Analytics next to drafts & schedules—plan-based reporting for creators & teams. 14-day trial, no card.",
+      "notes": "Integrated analytics; plan-based limits honest."
+    },
+    "/signup": {
+      "label": "Signup",
+      "currentTitle": "Sign Up – 14-Day Free Trial | CreatorFlow365",
+      "currentDescription": "Create your account: full workspace trial, no credit card. Plan, draft & schedule across major platforms—upgrade anytime.",
+      "notes": "Conversion page; no hype metrics."
+    }
+  }
+}
