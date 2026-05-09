@@ -21,6 +21,10 @@ export default function ContentCreatorAnalyticsPage() {
             Use analytics in the same workflow where you write, organize, and schedule content so
             your strategy decisions happen faster.
           </p>
+          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+            Starter includes analytics support; Essential and higher tiers expand reporting depth. Every plan includes a
+            14-day free trial with no credit card required.
+          </p>
         </header>
 
         <section className="space-y-3">

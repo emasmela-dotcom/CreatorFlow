@@ -5,6 +5,7 @@ import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import type { PlanType } from '@/components/PlanSelection'
 import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
+import { PHASE2_BY_PLAN } from '@/lib/selectPlanPhase2Copy'
 
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
@@ -36,6 +37,7 @@ function SelectPlanContent() {
   const planId = planParamToId(planParam)
   const planName = PLAN_NAMES[planId] || PLAN_NAMES[planParam] || 'Creator'
   const toolsPlanId = (planId === 'free' ? 'starter' : planId) as PlanId
+  const phase2 = PHASE2_BY_PLAN[toolsPlanId]
 
   const [understood, setUnderstood] = useState(false)
 
@@ -47,7 +49,7 @@ function SelectPlanContent() {
     <div className="min-h-screen bg-gray-900 text-white">
       <header className="border-b border-gray-700 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold">CreatorFlow 365</h1>
+          <Link href="/" className="text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
           <nav className="flex items-center gap-6 text-sm">
             <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
             <Link href="/#pricing" className="text-gray-400 hover:text-white">Pricing</Link>
@@ -57,12 +59,44 @@ function SelectPlanContent() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-12">
-        <h2 className="text-3xl font-bold mb-8">{planName} plan</h2>
+      <main className="max-w-3xl mx-auto px-6 py-12">
+        <article className="space-y-10">
+          {/* Phase 2 — answer-first */}
+          <header className="space-y-4">
+            <p className="text-sm font-medium text-purple-400 uppercase tracking-wide">{planName}</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">{phase2.headline}</h1>
+            <div className="space-y-4 text-gray-300 text-base leading-relaxed">
+              {phase2.blocks.map((block, i) => (
+                <p key={i}>{block}</p>
+              ))}
+            </div>
+          </header>
+
+          <section aria-labelledby="included-heading">
+            <h2 id="included-heading" className="text-xl font-semibold text-white mb-3">
+              What&apos;s included
+            </h2>
+            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
+              {phase2.includedBullets.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section aria-labelledby="who-heading">
+            <h2 id="who-heading" className="text-xl font-semibold text-white mb-3">
+              Who this plan fits
+            </h2>
+            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
+              {phase2.whoBullets.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </section>
 
         {/* Tools included in this plan */}
-        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-8">
-          <h3 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h3>
+        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h2>
           <ul className="space-y-2 text-sm text-gray-300">
             {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
               <li key={i} className="flex items-start gap-2">
@@ -73,7 +107,7 @@ function SelectPlanContent() {
           </ul>
         </div>
 
-        <div className="space-y-6 mb-8">
+        <div className="space-y-6">
           <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
             <p><strong>Tools marked with a credit badge</strong> and <strong>tools shown as part of higher-tier plans</strong> are not included in this plan.</p>
             <p className="mt-2">You can still use these tools by buying credits or upgrading. They were <strong>never part of this plan.</strong></p>
@@ -120,6 +154,21 @@ function SelectPlanContent() {
             Cancel
           </Link>
         </div>
+
+          <section aria-labelledby="faq-heading" className="border-t border-gray-700 pt-10">
+            <h2 id="faq-heading" className="text-xl font-semibold text-white mb-4">
+              Frequently asked questions
+            </h2>
+            <dl className="space-y-4 text-sm text-gray-300">
+              {phase2.faq.map((item, i) => (
+                <div key={i}>
+                  <dt className="font-medium text-white">{item.q}</dt>
+                  <dd className="mt-1 pl-0">{item.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </article>
       </main>
     </div>
   )

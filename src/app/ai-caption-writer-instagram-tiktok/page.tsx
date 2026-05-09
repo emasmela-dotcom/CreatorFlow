@@ -23,6 +23,10 @@ export default function AICaptionWriterPage() {
             If you post consistently and want faster first drafts without losing your voice, this
             workflow keeps writing, editing, and scheduling in one place.
           </p>
+          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+            Plans start at $9/month with a 14-day free trial and no credit card required. Starter includes analytics
+            support; compare tiers on the homepage pricing section before you commit.
+          </p>
         </header>
 
         <section className="space-y-3">

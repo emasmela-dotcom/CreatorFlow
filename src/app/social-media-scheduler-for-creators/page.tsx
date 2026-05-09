@@ -21,6 +21,10 @@ export default function SocialSchedulerPage() {
             Use one calendar to plan what goes live next, keep your drafts aligned to campaigns,
             and maintain consistency week after week.
           </p>
+          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+            Essential ($19/month) adds five accounts and content analytics on top of Starter scheduling workflows—all with a
+            14-day trial and no credit card to start.
+          </p>
         </header>
 
         <section className="space-y-3">
