@@ -30,7 +30,7 @@ const schemaOrgJsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL.replace(/\/$/, '')),
-  title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
+  title: 'CreatorFlow365 – One Workspace for Every Platform',
   description: siteDescription,
   keywords: 'creator OS, content creator workspace, AI captions, content calendar, social media scheduling, templates, hashtag sets, batch content, multi-platform publishing, repurpose content, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
