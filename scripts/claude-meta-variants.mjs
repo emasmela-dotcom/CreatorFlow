@@ -1,16 +1,13 @@
 #!/usr/bin/env node
 /**
- * SEO meta title/description A/B variants — two modes:
+ * Print a paste-ready prompt for SEO meta A/B variants (local file read only — no network).
  *
- * 1) NO API / NO SCRIPT USAGE — paste into Claude in the browser:
- *      node scripts/claude-meta-variants.mjs --prompt-only --route=/
- *    Copy stdout → https://claude.ai → paste → copy Claude’s JSON reply back.
+ * Copy stdout → paste into Claude (or any assistant) in the browser yourself.
+ * This script does not call any API and does not consume LLM usage on your behalf.
  *
- * 2) Anthropic Messages API (billed API usage — only if you consent):
- *      export ANTHROPIC_API_KEY="sk-ant-api03-..."
- *      node scripts/claude-meta-variants.mjs --route=/ --variants=5
- *
- * Optional API model: ANTHROPIC_MODEL (default claude-sonnet-4-20250514)
+ * Run:
+ *   node scripts/claude-meta-variants.mjs --route=/ --variants=5
+ *   npm run meta:prompt -- --route=/signup
  *
  * Seeds: scripts/meta-ab-seeds.json
  */
@@ -25,13 +22,12 @@ function parseArgs() {
   const args = process.argv.slice(2)
   let route = '/'
   let variants = 4
-  let promptOnly = false
   for (const a of args) {
-    if (a === '--prompt-only' || a === '-p') promptOnly = true
     if (a.startsWith('--route=')) route = a.slice('--route='.length)
-    if (a.startsWith('--variants=')) variants = Math.min(12, Math.max(1, parseInt(a.slice('--variants='.length), 10) || 4))
+    if (a.startsWith('--variants='))
+      variants = Math.min(12, Math.max(1, parseInt(a.slice('--variants='.length), 10) || 4))
   }
-  return { route, variants, promptOnly }
+  return { route, variants }
 }
 
 function loadSeeds() {
@@ -65,73 +61,15 @@ Return JSON shape exactly:
 `
 }
 
-async function main() {
-  const { route, variants, promptOnly } = parseArgs()
+function main() {
+  const { route, variants } = parseArgs()
   const seeds = loadSeeds()
   const entry = seeds.routes[route]
   if (!entry) {
     console.error(`No seed for route "${route}". Add it to scripts/meta-ab-seeds.json`)
     process.exit(1)
   }
-
-  const prompt = buildPrompt(entry, route, variants)
-
-  if (promptOnly) {
-    console.log(prompt)
-    process.exit(0)
-  }
-
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    console.error(
-      'Missing ANTHROPIC_API_KEY. Use --prompt-only and paste into claude.ai, or export the key for API mode.'
-    )
-    process.exit(1)
-  }
-
-  const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: 2048,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  })
-
-  const body = await res.json().catch(() => ({}))
-  if (!res.ok) {
-    console.error('Anthropic API error:', res.status, JSON.stringify(body, null, 2))
-    process.exit(1)
-  }
-
-  const text = body?.content?.map((b) => (b.type === 'text' ? b.text : '')).join('') || ''
-  let trimmed = text.trim()
-  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/)
-  if (fenced) trimmed = fenced[1].trim()
-  const start = trimmed.indexOf('{')
-  const end = trimmed.lastIndexOf('}')
-  if (start === -1 || end <= start) {
-    console.error('No JSON object in model response. Raw:\n', text)
-    process.exit(1)
-  }
-  trimmed = trimmed.slice(start, end + 1)
-  try {
-    JSON.parse(trimmed)
-  } catch {
-    console.error('Invalid JSON from model. Extracted:\n', trimmed)
-    process.exit(1)
-  }
-  console.log(trimmed)
+  console.log(buildPrompt(entry, route, variants))
 }
 
-main().catch((e) => {
-  console.error(e)
-  process.exit(1)
-})
+main()

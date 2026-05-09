@@ -10,8 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "meta:variants": "node scripts/claude-meta-variants.mjs",
-    "meta:prompt": "node scripts/claude-meta-variants.mjs --prompt-only"
+    "meta:prompt": "node scripts/claude-meta-variants.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
