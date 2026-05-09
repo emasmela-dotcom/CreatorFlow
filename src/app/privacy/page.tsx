@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 export const metadata = {
-  title: 'Privacy Policy – CreatorFlow365',
-  description: 'Privacy Policy for CreatorFlow365. How we collect, use, and protect your data.',
+  title: 'Privacy Policy | CreatorFlow365',
+  description:
+    'How CreatorFlow365 collects, uses & protects your data. Questions? Email support@creatorflow365.com.',
 }
 
 export default function PrivacyPage() {

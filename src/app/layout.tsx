@@ -9,7 +9,7 @@ const SITE_URL =
   'https://www.creatorflow365.com'
 
 const siteDescription =
-  'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, a content calendar, hashtag sets, scheduling, and analytics in one flow. 14-day free trial, no credit card required.'
+  'Prep content for Instagram, X, LinkedIn, TikTok & YouTube—plan, draft, schedule & analytics in one workspace. 14-day trial, no card. Start free.'
 
 const schemaOrgJsonLd = {
   '@context': 'https://schema.org',
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
-    description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, scheduling, and analytics in one flow.',
+    title: 'CreatorFlow365 – One Workspace for Every Platform',
+    description: siteDescription,
     type: 'website',
     url: SITE_URL.replace(/\/$/, ''),
     siteName: 'CreatorFlow365',
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow365 – The Creator Workspace for Planning, AI Drafting & Publishing',
-    description: 'Plan, draft with AI, and ship content—solo or with your team. Documents, templates, scheduling, and analytics in one flow.',
+    title: 'CreatorFlow365 – One Workspace for Every Platform',
+    description: siteDescription,
     creator: '@creatorflow365',
   },
   alternates: {

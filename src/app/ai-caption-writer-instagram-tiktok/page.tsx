@@ -1,10 +1,32 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
+const pagePath = '/ai-caption-writer-instagram-tiktok'
+
+const title = 'AI Captions for Instagram & TikTok | CreatorFlow365'
+const description =
+  'Draft Instagram & TikTok captions faster—AI assist, templates & library in one workflow. 14-day trial, no card.'
+
 export const metadata: Metadata = {
-  title: 'AI Caption Writer for Instagram and TikTok | CreatorFlow365',
-  description:
-    'Write better Instagram and TikTok captions faster with CreatorFlow365. Plan, draft, and organize content in one workflow with a 14-day free trial.',
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: `${baseUrl}${pagePath}`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
+  alternates: {
+    canonical: `${baseUrl}${pagePath}`,
+  },
 }
 
 export default function AICaptionWriterPage() {

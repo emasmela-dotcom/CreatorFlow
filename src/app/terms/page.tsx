@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 export const metadata = {
-  title: 'Terms of Service – CreatorFlow365',
-  description: 'Terms of Service for CreatorFlow365. Rules and agreement for using our platform.',
+  title: 'Terms of Service | CreatorFlow365',
+  description:
+    'Rules for using CreatorFlow365—trials, subscriptions & acceptable use. Read before you subscribe.',
 }
 
 export default function TermsPage() {

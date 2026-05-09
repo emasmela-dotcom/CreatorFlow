@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Try Demo – CreatorFlow365',
-  description: 'Try CreatorFlow365 with no signup. See scheduling, analytics, and creator tools in action.',
+  title: 'Interactive Demo | CreatorFlow365',
+  description:
+    'Explore CreatorFlow365 without signing up—see scheduling & tools in context. Then start your free trial.',
 }
 
 export default function DemoLayout({

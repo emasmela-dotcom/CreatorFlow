@@ -5,9 +5,9 @@ import { ArrowLeft } from 'lucide-react'
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 
 export const metadata: Metadata = {
-  title: 'Creator tools, scheduling & content workspace – CreatorFlow365',
+  title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
   description:
-    'All-in-one creator tools: content calendar, social scheduling, hashtag help, repurposing, analytics, documents, and Follow Thru CRM. 14-day free trial. Built for Instagram, X, LinkedIn, TikTok, and YouTube workflows.',
+    'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for Instagram, X, LinkedIn, TikTok & YouTube. 14-day trial, no card.',
   keywords: [
     'creator tools',
     'content creator software',
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     'content library for creators',
   ],
   openGraph: {
-    title: 'Creator tools & workspace for serious creators – CreatorFlow365',
+    title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
     description:
-      'Plan, draft with AI, and publish from one workspace—scheduling, analytics, documents, templates, and Follow Thru CRM included.',
+      'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for major creator platforms. 14-day trial, no card.',
     url: `${baseUrl}/creator-tools`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Creator tools & workspace – CreatorFlow365',
+    title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
     description:
-      'Content calendar, scheduling, AI-assisted tools, analytics, and creator CRM in one membership.',
+      'One membership for calendar, scheduling, AI tools, analytics & CRM—try free for 14 days, no card.',
   },
   alternates: {
     canonical: `${baseUrl}/creator-tools`,
@@ -55,7 +55,7 @@ const jsonLd = {
       url: baseUrl,
       name: 'CreatorFlow365',
       description:
-        'Creator workspace for planning, AI drafting, and publishing—scheduling, analytics, documents, templates, and Follow Thru CRM.',
+        'Plan, draft & publish—scheduling, analytics, documents & Follow Thru CRM for creators on major platforms.',
       publisher: { '@id': `${baseUrl}/#organization` },
     },
     {
@@ -69,10 +69,10 @@ const jsonLd = {
       '@type': 'WebPage',
       '@id': `${baseUrl}/creator-tools#webpage`,
       url: `${baseUrl}/creator-tools`,
-      name: 'Creator tools, scheduling & content workspace',
+      name: 'Creator Tools & Workspace – Calendar to CRM',
       isPartOf: { '@id': `${baseUrl}/#website` },
       description:
-        'How CreatorFlow365 helps creators plan content, manage platforms, and run their business from one app.',
+        'How CreatorFlow365 maps searches—calendar, scheduling, hashtags, analytics & CRM—to one workspace.',
     },
   ],
 }

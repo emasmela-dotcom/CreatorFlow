@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Sign In – CreatorFlow365',
-  description: 'Sign in to CreatorFlow365. Your creator workspace for planning, AI drafting, scheduling, and analytics in one flow.',
+  title: 'Sign In | CreatorFlow365',
+  description:
+    'Access your creator workspace—library, scheduling, analytics & plan settings in one dashboard.',
 }
 
 export default function SignInLayout({

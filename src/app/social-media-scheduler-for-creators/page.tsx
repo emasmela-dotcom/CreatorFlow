@@ -1,10 +1,32 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
+const pagePath = '/social-media-scheduler-for-creators'
+
+const title = 'Social Media Scheduler for Creators | CreatorFlow365'
+const description =
+  'One calendar for Instagram, TikTok, LinkedIn, X & YouTube plans—drafts stay aligned. 14-day trial, no card.'
+
 export const metadata: Metadata = {
-  title: 'Social Media Scheduler for Content Creators | CreatorFlow365',
-  description:
-    'Plan your social media schedule across Instagram, TikTok, LinkedIn, and more with CreatorFlow365. Keep your content workflow in one place.',
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: `${baseUrl}${pagePath}`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
+  alternates: {
+    canonical: `${baseUrl}${pagePath}`,
+  },
 }
 
 export default function SocialSchedulerPage() {

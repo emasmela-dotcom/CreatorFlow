@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Sign Up – CreatorFlow365',
-  description: 'Start your 14-day free trial. No credit card required. Stop juggling apps. Start growing with CreatorFlow365.',
+  title: 'Sign Up – 14-Day Free Trial | CreatorFlow365',
+  description:
+    'Create your account: full workspace trial, no credit card. Plan, draft & schedule across major platforms—upgrade anytime.',
 }
 
 export default function SignupLayout({

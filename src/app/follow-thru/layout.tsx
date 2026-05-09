@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Follow Thru CRM – CreatorFlow365',
-  description: 'Track people and promises in one place. Follow Thru CRM for creators—included in every CreatorFlow365 plan.',
+  title: 'Follow Thru CRM | CreatorFlow365',
+  description:
+    'Track brands, collaborators & follow-ups beside your calendar—included in CreatorFlow365 plans. Open from your dashboard.',
 }
 
 export default function FollowThruLayout({

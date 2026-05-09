@@ -1,10 +1,32 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
+const pagePath = '/content-creator-analytics-platform'
+
+const title = 'Creator Analytics Platform | CreatorFlow365'
+const description =
+  'Analytics next to drafts & schedules—plan-based reporting for creators & teams. 14-day trial, no card.'
+
 export const metadata: Metadata = {
-  title: 'Content Creator Analytics Platform | CreatorFlow365',
-  description:
-    'Track content performance in CreatorFlow365 with plan-based analytics built for creators, teams, and agencies.',
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: `${baseUrl}${pagePath}`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
+  alternates: {
+    canonical: `${baseUrl}${pagePath}`,
+  },
 }
 
 export default function ContentCreatorAnalyticsPage() {
