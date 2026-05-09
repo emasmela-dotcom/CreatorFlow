@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AICaptionWriterPage() {
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-16">
+    <main id="main-content" className="min-h-screen bg-black text-white px-6 py-16">
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
           <h1 className="text-4xl md:text-5xl font-bold">

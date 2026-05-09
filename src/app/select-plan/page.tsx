@@ -59,7 +59,7 @@ function SelectPlanContent() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main id="main-content" className="max-w-3xl mx-auto px-6 py-12">
         <article className="space-y-10">
           {/* Phase 2 — answer-first */}
           <header className="space-y-4">

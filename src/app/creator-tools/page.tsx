@@ -283,7 +283,7 @@ export default function CreatorToolsPage() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-12 pb-24">
+      <main id="main-content" className="max-w-3xl mx-auto px-6 py-12 pb-24">
         <article>
           <p className="text-sm font-semibold text-purple-400 uppercase tracking-wide mb-2">CreatorFlow365</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">

@@ -145,6 +145,7 @@ export default function ReviewsPage() {
         </div>
       </header>
 
+      <main id="main-content">
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
@@ -235,6 +236,8 @@ export default function ReviewsPage() {
           </button>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-800">

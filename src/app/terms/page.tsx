@@ -17,7 +17,7 @@ export default function TermsPage() {
           </Link>
         </div>
       </header>
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>
         <p className="text-gray-400 text-sm mb-10">Last updated: February 2026</p>
 

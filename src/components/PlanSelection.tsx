@@ -171,7 +171,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             <div className="flex-1 min-h-[140px] mt-4 rounded-lg overflow-hidden bg-gray-700/50 flex items-center justify-center">
               <img
                 src={PLAN_IMAGES[plan.id]}
-                alt="Content creator"
+                alt={`${plan.name} plan — decorative workspace photo for comparison`}
                 className="w-full h-full object-cover min-h-[140px]"
               />
             </div>

@@ -137,9 +137,9 @@ The CreatorFlow365 Team`,
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 bg-black border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-white">
+          <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
             CreatorFlow365
-          </h1>
+          </a>
           <div className="flex items-center gap-4">
             <button
               onClick={() => window.location.href = '/#pricing'}
@@ -181,6 +181,7 @@ The CreatorFlow365 Team`,
         </div>
       </header>
 
+      <main id="main-content">
       {/* Promo Banner - First 25 Creators */}
       <section className="bg-gray-800 py-4 px-6 border-b border-gray-700 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
@@ -794,6 +795,8 @@ The CreatorFlow365 Team`,
           </button>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-800">

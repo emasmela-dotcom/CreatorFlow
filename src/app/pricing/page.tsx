@@ -10,7 +10,9 @@ export default function PricingPage() {
   }, [router])
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center text-gray-400">
-      Redirecting to pricing...
+      <main id="main-content">
+        <p>Redirecting to pricing...</p>
+      </main>
     </div>
   )
 }

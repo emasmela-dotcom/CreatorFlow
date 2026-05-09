@@ -18,14 +18,16 @@ export default function FollowThruPage() {
   if (FOLLOW_THRU_URL) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <p className="text-gray-400">Redirecting to Follow Thru…</p>
+        <main id="main-content">
+          <p className="text-gray-400">Redirecting to Follow Thru…</p>
+        </main>
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-lg mx-auto">
+      <main id="main-content" className="max-w-lg mx-auto">
         <button
           onClick={() => router.push('/dashboard')}
           className="flex items-center gap-2 text-gray-400 hover:text-white mb-8"
@@ -43,7 +45,7 @@ export default function FollowThruPage() {
         <p className="text-sm text-gray-500">
           To open Follow Thru from here, set <code className="bg-gray-800 px-1 rounded">NEXT_PUBLIC_FOLLOW_THRU_APP_URL</code> in your environment to the Follow Thru app URL. Once set, this page will redirect there automatically.
         </p>
-      </div>
+      </main>
     </div>
   )
 }
