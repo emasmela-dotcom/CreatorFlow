@@ -151,13 +151,17 @@ export default function ReviewsPage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-full text-sm font-semibold mb-6">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-purple-300">Trusted by 10,000+ Creators</span>
+            <span className="text-purple-300">Creator feedback</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
             What Creators Are Saying
           </h1>
-          <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-            Join thousands of creators who are growing their business with CreatorFlow365
+          <p className="text-xl text-gray-400 mb-4 max-w-2xl mx-auto">
+            Quotes highlight workflows creators use inside CreatorFlow365—your results will depend on your niche and
+            consistency.
+          </p>
+          <p className="text-sm text-gray-500 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Not audited third-party reviews; treat stories as illustrative examples. Start your own trial to judge fit for your stack.
           </p>
           <div className="flex items-center justify-center gap-2 mb-8">
             <div className="flex">
@@ -221,10 +225,47 @@ export default function ReviewsPage() {
         </div>
       </section>
 
+      {/* Internal links — hub + guides */}
+      <section className="py-12 px-6 border-t border-gray-800 bg-black/40">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-white mb-4 text-center">See how the product maps to searches</h2>
+          <p className="text-gray-400 text-center mb-6 text-sm">
+            Jump back into structured guides when one workflow matters most.
+          </p>
+          <ul className="space-y-2 text-gray-300 text-center sm:text-left sm:list-disc sm:pl-8 leading-relaxed">
+            <li>
+              <a href="/creator-tools" className="text-purple-400 hover:underline">
+                Creator tools hub—calendar, hashtags, CRM, analytics overview
+              </a>
+            </li>
+            <li>
+              <a href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+                AI captions for Instagram and TikTok
+              </a>
+            </li>
+            <li>
+              <a href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+                Social media scheduler for creators
+              </a>
+            </li>
+            <li>
+              <a href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+                Creator analytics next to drafts
+              </a>
+            </li>
+            <li>
+              <a href="/select-plan" className="text-purple-400 hover:underline">
+                Compare plans and included tools before signup
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-black">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to join thousands of happy creators?</h2>
+          <h2 className="text-4xl font-bold mb-6">Ready to try CreatorFlow365 yourself?</h2>
           <p className="text-xl text-gray-400 mb-8">
             Start your 14-day free trial today. No credit card required during trial.
           </p>

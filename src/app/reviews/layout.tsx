@@ -1,9 +1,31 @@
 import type { Metadata } from 'next'
 
+const baseUrl =
+  (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
+  'https://www.creatorflow365.com'
+const origin = baseUrl.replace(/\/$/, '')
+
+const title = 'Creator Reviews & Testimonials | CreatorFlow365'
+const description =
+  'Creator feedback on scheduling, analytics, drafting & workspace tools. Compare plans—14-day trial, no card to start.'
+
 export const metadata: Metadata = {
-  title: 'Reviews | CreatorFlow365',
-  description:
-    'Creator feedback on CreatorFlow365—scheduling, analytics, drafting & workspace tools. Start a trial to compare.',
+  title,
+  description,
+  alternates: { canonical: `${origin}/reviews` },
+  openGraph: {
+    title,
+    description,
+    url: `${origin}/reviews`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
 }
 
 export default function ReviewsLayout({
