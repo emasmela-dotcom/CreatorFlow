@@ -5,19 +5,19 @@ const baseUrl =
   'https://www.creatorflow365.com'
 const origin = baseUrl.replace(/\/$/, '')
 
-const title = 'Sign Up – 14-Day Free Trial | CreatorFlow365'
+const title = 'Reset Password | CreatorFlow365'
 const description =
-  'Create your CreatorFlow365 account—full workspace trial, no credit card. Plan, draft & schedule across major platforms.'
+  'Reset your CreatorFlow365 account password securely. Need help? Contact support@creatorflow365.com.'
 
 export const metadata: Metadata = {
   title,
   description,
-  robots: { index: true, follow: true },
-  alternates: { canonical: `${origin}/signup` },
+  robots: { index: false, follow: true },
+  alternates: { canonical: `${origin}/forgot-password` },
   openGraph: {
     title,
     description,
-    url: `${origin}/signup`,
+    url: `${origin}/forgot-password`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
     type: 'website',
@@ -29,10 +29,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function SignupLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function ForgotPasswordLayout({ children }: { children: React.ReactNode }) {
   return children
 }

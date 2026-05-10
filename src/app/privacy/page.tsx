@@ -1,10 +1,34 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
-export const metadata = {
-  title: 'Privacy Policy | CreatorFlow365',
-  description:
-    'How CreatorFlow365 collects, uses & protects your data. Questions? Email support@creatorflow365.com.',
+const baseUrl =
+  (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
+  'https://www.creatorflow365.com'
+const origin = baseUrl.replace(/\/$/, '')
+
+const title = 'Privacy Policy | CreatorFlow365'
+const description =
+  'How CreatorFlow365 collects, uses & protects your data—cookies, Stripe billing & creator workspace usage.'
+
+export const metadata: Metadata = {
+  title,
+  description,
+  robots: { index: true, follow: true },
+  alternates: { canonical: `${origin}/privacy` },
+  openGraph: {
+    title,
+    description,
+    url: `${origin}/privacy`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
 }
 
 export default function PrivacyPage() {
