@@ -1,0 +1,16 @@
+---
+description: Follow written checklists top-to-bottom; do not ask user to pick what to do first.
+alwaysApply: true
+---
+
+# Follow written order — no “which first?” questions
+
+1. **Do not ask** the user to choose between workstreams (for example: SEO vs payments vs Meta) when they have already said **everything must be done**.
+
+2. **Launch / production:** Follow **`PRE_LAUNCH_STATUS.md`** and **`LAUNCH_STATUS_CHECK.md`** from **first section to last**, in order, unless the user explicitly changes scope.
+
+3. **SEO:** Follow the **numbered phases 1 → 8** in order. Finish earlier phases before treating later ones as done.
+
+4. **Time-bound steps** (for example: watching Search Console over several weeks): treat them as the **next step in sequence**, not a branch choice — say what is started, what to revisit on a schedule, and continue other ordered items that do not depend on that wait.
+
+5. If something is **blocked** (missing access, secret, or tool only the user has): say exactly what is blocking and the **next line** of the checklist you will do as soon as it is unblocked—still **no** “pick your priority” framing.
