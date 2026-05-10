@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guideEntries,
     { url: `${origin}/signup`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${origin}/signin`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${origin}/pricing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // /pricing redirects to /#pricing (noindex in route layout) — omit from sitemap.
     { url: `${origin}/select-plan`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${origin}/demo`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${origin}/follow-thru`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
