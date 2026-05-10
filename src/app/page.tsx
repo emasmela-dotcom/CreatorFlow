@@ -207,9 +207,16 @@ The CreatorFlow365 Team`,
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight max-w-4xl mx-auto">
             One workspace for beginner and pro creators—to prep content in the right format for each platform you post to.
           </h1>
-          <div className="max-w-2xl mx-auto mb-8 text-left md:text-center">
-            <p className="text-base md:text-lg text-gray-200 leading-relaxed">
-              Plan, draft, schedule, and see how posts perform—without jumping between apps.
+          <div className="max-w-2xl mx-auto mb-8 space-y-3 text-left md:text-center">
+            <p className="text-base md:text-lg text-gray-100 leading-relaxed font-medium">
+              CreatorFlow365 is one web app to plan posts, draft captions (with AI help where you want it), schedule when your
+              accounts are connected, and check performance—so you are not paying for a pile of separate tools.
+            </p>
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+              It is built for solo creators, small teams, and agencies posting to Instagram, TikTok, LinkedIn, X, and YouTube.
+            </p>
+            <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+              Start with a 14-day trial and no credit card; honest pricing and plan limits are on this page below.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

@@ -1,0 +1,93 @@
+PHASE 1 — FILLED FOR YOU (edit any line you want)
+
+START HERE
+
+QUERY:
+AI caption writer for Instagram and TikTok
+
+PATH:
+/ai-caption-writer-instagram-tiktok
+
+OUTCOME:
+For creators posting on Instagram and TikTok who want faster first drafts and a saved caption library without extra writing apps.
+
+QUERY:
+social media scheduler for creators
+
+PATH:
+/social-media-scheduler-for-creators
+
+OUTCOME:
+For solo creators and small teams who want one calendar and draft flow across platforms instead of many separate tools.
+
+QUERY:
+content creator analytics platform
+
+PATH:
+/content-creator-analytics-platform
+
+OUTCOME:
+For creators who want performance next to drafting and scheduling so they can decide what to post next without spreadsheet exports.
+
+QUERY:
+all in one creator tools workspace
+
+PATH:
+/creator-tools
+
+OUTCOME:
+For people who want scheduling, AI drafting, docs, analytics, and light CRM in one membership instead of stacking subscriptions.
+
+QUERY:
+CreatorFlow365 pricing free trial
+
+PATH:
+/
+
+OUTCOME:
+For buyers who need clear tiers, a 14-day trial without a card, and limits spelled out before signup.
+
+QUERY:
+schedule Instagram and LinkedIn from one place
+
+PATH:
+/creator-tools
+
+OUTCOME:
+For creators planning multi-network posts who want one hub page plus the scheduler guide linked from it for detail.
+
+QUERY:
+hashtag and caption tools for creators
+
+PATH:
+/creator-tools
+
+OUTCOME:
+For creators optimizing captions and tags who start from the tools hub and drill into the caption guide when they want a focused workflow.
+
+QUERY:
+creator CRM brand deals follow up
+
+PATH:
+/follow-thru
+
+OUTCOME:
+For creators tracking sponsors and follow-ups who need Follow Thru alongside the main workspace described on creator-tools.
+
+QUERY:
+content calendar app for creators
+
+PATH:
+/creator-tools
+
+OUTCOME:
+For people searching calendar-first language who still land on the hub that explains scheduling and links to the scheduler guide.
+
+QUERY:
+AI captions for reels and shorts
+
+PATH:
+/ai-caption-writer-instagram-tiktok
+
+OUTCOME:
+For short-video creators who want the same caption workflow whether they say Instagram, TikTok, or “reels.”

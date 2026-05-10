@@ -13,7 +13,11 @@
 | 6 | Schedule Instagram and LinkedIn from one place | `/creator-tools` + `/social-media-scheduler-for-creators` | **Pillar:** `/creator-tools` maps the problem; **supporting:** scheduler guide explains how multi-platform planning fits one workflow. |
 | 7 | Hashtag and caption tools for creators | `/creator-tools` + `/ai-caption-writer-instagram-tiktok` | **Pillar:** `/creator-tools`; **supporting:** caption guide for drafting-specific intent. |
 | 8 | Creator CRM brand deals follow up | `/follow-thru` + `/creator-tools` | **Pillar:** `/creator-tools` (CRM section); **supporting:** `/follow-thru` for the Follow Thru product surface. |
+| 9 | Content calendar app for creators | `/creator-tools` | For calendar-first searches who should land on the hub that explains scheduling and links to the scheduler guide. |
+| 10 | AI captions for reels and shorts | `/ai-caption-writer-instagram-tiktok` | For short-video creators who want one caption workflow whether they say reels, Shorts, or TikTok. |
 
 Rows 6–8 use one pillar + one child where search intent splits; both URLs stay linked from the pillar page.
 
 **Review:** Revise this table when Search Console shows new high-impression queries.
+
+**Plain-text copy:** Same targets are also in `docs/PHASE1_FILL_THIS.txt` (QUERY / PATH / OUTCOME blocks).
