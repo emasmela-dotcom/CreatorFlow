@@ -43,11 +43,11 @@ export function middleware(request: NextRequest) {
     // In development, allow all connections to localhost
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://connect.facebook.net",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' http://localhost:* http://127.0.0.1:* https://api.stripe.com https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com https://va.vercel-scripts.com",
+      "connect-src 'self' http://localhost:* http://127.0.0.1:* https://api.stripe.com https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com https://va.vercel-scripts.com https://www.facebook.com https://connect.facebook.net",
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -59,11 +59,11 @@ export function middleware(request: NextRequest) {
     // Production CSP - allow Google Analytics and Vercel Analytics
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://connect.facebook.net",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.stripe.com https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com https://va.vercel-scripts.com",
+      "connect-src 'self' https://api.stripe.com https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com https://va.vercel-scripts.com https://www.facebook.com https://connect.facebook.net",
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
