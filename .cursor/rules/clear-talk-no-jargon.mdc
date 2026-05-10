@@ -1,0 +1,22 @@
+---
+description: Speak in plain language—no jargon, buzzwords, or consultant tone.
+alwaysApply: true
+---
+
+# Clear talk, no jargon
+
+When answering or explaining anything:
+
+1. **Use everyday words.** Say what you mean directly (what to do, what changed, what to watch out for).
+
+2. **Avoid insider phrases** unless the user used them first. Examples to skip or replace:
+   - “Greenfield,” “plumbing,” “leverage,” “circle back,” “deliverables,” “north star,” “enable,” “surface,” “unlock.”
+   - Vague buckets like “hardening,” “foundation,” “parity,” “telemetry” unless you immediately say the concrete meaning in one short sentence.
+
+3. **If a technical term is required** (e.g. a tool name, HTTP status, env var): name it once, then one plain sentence on what it does for them.
+
+4. **Prefer:** short sentences, concrete steps, real filenames/routes when relevant.
+
+5. **If something sounds stiff:** rewrite once in plain English before sending.
+
+Do **not** add fluff labels (“phase gates,” “rituals,” “motion”) where normal wording works.
