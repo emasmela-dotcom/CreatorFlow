@@ -59,3 +59,12 @@ This file lives next to the app source. Editable surfaces:
 | Sitemap | `src/app/sitemap.ts` |
 | Robots | `src/app/robots.ts` |
 | Site-wide defaults | `src/app/layout.tsx` |
+
+## Execution files (do the phases here, not in ~/Public)
+
+| Phase | In this repo |
+|-------|----------------|
+| 1 | `docs/SEO_PHASE_1_TARGET_QUERIES.md` |
+| 8 | `docs/SEO_PHASE_8_MEASUREMENT.md` |
+
+Phases **2–7** are implemented on the hub, homepage trust blocks, and three guides (answer-first intros, sections, FAQs matching JSON-LD, internal links, titles/descriptions). **You** still run Rich Results Test and Search Console on the live URLs (phase 7–8).

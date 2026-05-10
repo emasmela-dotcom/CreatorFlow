@@ -327,6 +327,46 @@ export default function CreatorToolsPage() {
             ))}
           </div>
 
+          <section
+            className="mt-16 pt-10 border-t border-gray-800"
+            aria-labelledby="pillar-guides-heading"
+          >
+            <h2 id="pillar-guides-heading" className="text-2xl font-bold text-white mb-4">
+              Guides that match how people search
+            </h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              This page is the hub. Below are focused guides for three common intents—each links back to scheduling,
+              analytics, and other tools so readers stay inside one product story.
+            </p>
+            <ul className="list-disc pl-6 space-y-2 text-gray-300 leading-relaxed">
+              <li>
+                <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+                  AI captions for Instagram and TikTok—drafting workflow and library
+                </Link>
+              </li>
+              <li>
+                <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+                  Social media scheduler for creators—one calendar across platforms
+                </Link>
+              </li>
+              <li>
+                <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+                  Creator analytics—performance next to drafts and schedules
+                </Link>
+              </li>
+              <li>
+                <Link href="/reviews" className="text-purple-400 hover:underline">
+                  CreatorFlow365 reviews from users
+                </Link>
+              </li>
+              <li>
+                <Link href="/select-plan" className="text-purple-400 hover:underline">
+                  Compare plans line by line before you sign up
+                </Link>
+              </li>
+            </ul>
+          </section>
+
           <div className="mt-16 pt-10 border-t border-gray-800 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-white">Ready to try the workspace?</p>

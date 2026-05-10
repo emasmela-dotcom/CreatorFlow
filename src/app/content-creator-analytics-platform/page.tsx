@@ -73,8 +73,8 @@ export default function ContentCreatorAnalyticsPage() {
           <h2 className="text-2xl font-semibold">Plan fit</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
             <li>Starter includes analytics support for foundational reporting.</li>
-            <li>Growth expands analytics depth for multi-platform creators.</li>
-            <li>Pro and above adds advanced and enterprise-level analytics options.</li>
+            <li>Essential expands analytics depth for multi-platform creators (Growth tier on select-plan).</li>
+            <li>Creator and above adds advanced and enterprise-level analytics options.</li>
           </ul>
         </section>
 

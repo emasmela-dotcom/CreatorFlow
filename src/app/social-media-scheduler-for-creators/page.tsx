@@ -73,8 +73,8 @@ export default function SocialSchedulerPage() {
           <h2 className="text-2xl font-semibold">What to expect by plan</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
             <li>Starter: core scheduling and content workflow for creators starting out.</li>
-            <li>Growth: expanded account support and analytics visibility.</li>
-            <li>Pro and above: team workflows, deeper analytics, and advanced features.</li>
+            <li>Essential: expanded account support and analytics visibility (Growth tier on select-plan).</li>
+            <li>Creator and above: team workflows, deeper analytics, and advanced features.</li>
           </ul>
         </section>
 
