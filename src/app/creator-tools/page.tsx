@@ -289,11 +289,48 @@ export default function CreatorToolsPage() {
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
             Creator tools, scheduling &amp; content workspace—built for how creators actually search
           </h1>
-          <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-            Below is a structured map of the problems creators type into Google—content calendar apps, schedulers, hashtag
-            help, repurposing, analytics, CRM—and how CreatorFlow365 addresses each in one membership. No keyword stuffing:
-            just clear sections you can skim, share, or link to.
-          </p>
+          <div className="space-y-3 mb-6">
+            <p className="text-lg text-gray-100 leading-relaxed font-medium">
+              CreatorFlow365 is one membership for calendars, scheduling, AI-assisted drafting, documents, analytics, and
+              Follow Thru CRM—so you are not stacking five separate subscriptions.
+            </p>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              This page maps what creators type into search—calendar apps, schedulers, hashtags, repurposing, analytics,
+              lightweight CRM—to how those jobs fit one workspace.
+            </p>
+            <p className="text-base text-gray-400 leading-relaxed">
+              Skim by section, share a heading link, or jump to the three guides at the bottom when one intent is all you
+              need.
+            </p>
+          </div>
+
+          <section
+            className="border border-gray-800 rounded-xl p-6 bg-gray-950/40 mb-10"
+            aria-labelledby="hub-trust-heading"
+          >
+            <h2 id="hub-trust-heading" className="text-lg font-semibold text-white mb-2">
+              Why you can trust this overview
+            </h2>
+            <p className="text-sm text-gray-300 leading-relaxed">
+              Same site and operator as{' '}
+              <Link href="/" className="text-purple-400 hover:underline">
+                creatorflow365.com
+              </Link>
+              . Pricing and trials match the homepage; legal terms are in{' '}
+              <Link href="/privacy" className="text-purple-400 hover:underline">
+                Privacy
+              </Link>{' '}
+              and{' '}
+              <Link href="/terms" className="text-purple-400 hover:underline">
+                Terms
+              </Link>
+              . Product questions:{' '}
+              <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">
+                support@creatorflow365.com
+              </a>
+              .
+            </p>
+          </section>
 
           <nav aria-label="On this page" className="mb-12 p-4 rounded-xl bg-gray-900/80 border border-gray-800">
             <p className="text-sm font-semibold text-white mb-3">On this page</p>

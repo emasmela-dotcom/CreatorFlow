@@ -67,6 +67,10 @@ This file lives next to the app source. Editable surfaces:
 | 1 | `docs/SEO_PHASE_1_TARGET_QUERIES.md` + `docs/PHASE1_FILL_THIS.txt` |
 | 8 | `docs/SEO_PHASE_8_MEASUREMENT.md` |
 
-**Phase 2:** Homepage hero uses three short blocks under the H1 (direct answer, audience, trial/pricing pointer). Hub + three guides already use answer-first intros and section headings.
+**Phase 2:** Homepage hero + `/creator-tools` hub each open with three short blocks under the H1 (direct answer, audience, how to use the page). Three guides keep answer-first intros.
 
-Phases **3–7** are largely covered on hub, homepage trust blocks, and guides (FAQs matching JSON-LD, internal links, titles/descriptions). **You** still run Rich Results Test and Search Console on the live URLs (phase 7–8).
+**Phase 3:** Hub adds an explicit “Why you can trust this overview” box; homepage + guides already carry credibility + proof sections.
+
+**Phase 4:** Guides link up to `/creator-tools` as pillar; hub links down to guides + reviews + select-plan.
+
+Phases **5–7** (technical sweep, metadata spots, FAQ JSON-LD match): guides + homepage already wired; spot-check live URLs with Rich Results Test after deploy. **Phase 8:** Search Console cadence in `docs/SEO_PHASE_8_MEASUREMENT.md`.
