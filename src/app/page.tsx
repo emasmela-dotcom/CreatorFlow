@@ -246,9 +246,12 @@ The CreatorFlow365 Team`,
             </div>
           </div>
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
-          <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
-            <p className="text-sm text-gray-300">
-              <strong className="text-white">How publishing works:</strong> Connect your accounts and schedule directly to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube—or copy and export content to paste anywhere else. Both work.
+          <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto space-y-3 text-sm text-gray-300 text-left">
+            <p>
+              <strong className="text-white">How publishing works:</strong> Plan and draft here, keep everything on your calendar, and publish in the way that fits each network—use account connections where direct posting is available, or copy and export into each platform’s app when that is clearer or more reliable.
+            </p>
+            <p>
+              <strong className="text-white">About automatic posting:</strong> The major platforms do offer official APIs that can publish on your behalf. In practice, those programs change often—permissions, approvals, quotas, and breaking updates—so keeping a full set of integrations current everywhere would consume a disproportionate share of engineering time. CreatorFlow365 deliberately invests that capacity in the workspace you use every day (planning, drafting, analytics, and related tools) rather than in perpetual API chase-work across every channel.
             </p>
           </div>
         </div>
