@@ -6,7 +6,6 @@ import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
-import { TOOL_COUNT_ROLLOUT } from '@/lib/toolsByPlan'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
@@ -247,12 +246,9 @@ The CreatorFlow365 Team`,
             </div>
           </div>
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
-          <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto space-y-3 text-sm text-gray-300 text-left">
-            <p>
-              <strong className="text-white">How publishing works:</strong> Plan and draft here, keep everything on your calendar, and publish in the way that fits each network—use account connections where direct posting is available, or copy and export into each platform’s app when that is clearer or more reliable.
-            </p>
-            <p>
-              <strong className="text-white">About automatic posting:</strong> The major platforms do offer official APIs that can publish on your behalf. In practice, those programs change often—permissions, approvals, quotas, and breaking updates—so keeping a full set of integrations current everywhere would consume a disproportionate share of engineering time. CreatorFlow365 deliberately invests that capacity in the workspace you use every day (planning, drafting, analytics, and related tools) rather than in perpetual API chase-work across every channel.
+          <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
+            <p className="text-sm text-gray-300">
+              <strong className="text-white">How publishing works:</strong> Connect your accounts and schedule directly to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube—or copy and export content to paste anywhere else. Both work.
             </p>
           </div>
         </div>
@@ -335,48 +331,6 @@ The CreatorFlow365 Team`,
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
-            </div>
-            <div className="max-w-xl mx-auto mb-10 overflow-x-auto rounded-xl border border-gray-700 bg-gray-900/60">
-              <p className="px-4 pt-4 text-sm font-semibold text-white text-center">
-                Named tools in your plan (running total)
-              </p>
-              <table className="w-full text-sm text-left text-gray-300 mt-3">
-                <caption className="sr-only">
-                  Subscription tier, new tool names added at that tier, and cumulative unique tool count
-                </caption>
-                <thead>
-                  <tr className="border-y border-gray-700 bg-gray-800/50 text-gray-100">
-                    <th scope="col" className="px-4 py-3 font-semibold">
-                      Tier
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-semibold text-right">
-                      New this tier
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-semibold text-right">
-                      Running total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {TOOL_COUNT_ROLLOUT.map((row, idx) => (
-                    <tr key={row.tier} className="border-b border-gray-800 last:border-b-0">
-                      <td className="px-4 py-3 text-white">{row.tier}</td>
-                      <td className="px-4 py-3 text-right tabular-nums">
-                        {idx === 0 ? row.newInTier : `+${row.newInTier}`}
-                      </td>
-                      <td className="px-4 py-3 text-right tabular-nums font-medium text-gray-100">{row.cumulative}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p className="px-4 pb-4 text-xs text-gray-400 leading-relaxed">
-                Each row adds the tool names introduced at that tier; your plan includes everything from the tiers above it,
-                plus the new names on your row. Same list as{' '}
-                <a href="/select-plan" className="text-purple-400 hover:underline">
-                  Tools offered
-                </a>{' '}
-                per plan.
-              </p>
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
