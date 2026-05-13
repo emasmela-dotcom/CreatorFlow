@@ -55,3 +55,37 @@ export const TOOLS_BY_PLAN: Record<PlanId, string[]> = {
     'Creator Collaboration Marketplace',
   ],
 }
+
+/** Public pricing labels — same order as homepage / select-plan tiers */
+const PLAN_ORDER: PlanId[] = ['starter', 'growth', 'pro', 'business', 'agency']
+
+const PLAN_DISPLAY_NAME: Record<PlanId, string> = {
+  starter: 'Starter',
+  growth: 'Essential',
+  pro: 'Creator',
+  business: 'Professional',
+  agency: 'Business',
+}
+
+export type ToolCountRolloutRow = {
+  tier: string
+  /** Named tools added at this tier (excludes “Everything in …” lines) */
+  newInTier: number
+  /** Distinct tool names through this tier */
+  cumulative: number
+}
+
+/**
+ * Single source for “how many tools” messaging: derived from {@link TOOLS_BY_PLAN}.
+ * Agency (Business plan) = 35 unique named tools/features in the public list.
+ */
+export function getToolCountRollout(): ToolCountRolloutRow[] {
+  let cumulative = 0
+  return PLAN_ORDER.map((id) => {
+    const newInTier = TOOLS_BY_PLAN[id].filter((t) => !t.startsWith('Everything in ')).length
+    cumulative += newInTier
+    return { tier: PLAN_DISPLAY_NAME[id], newInTier, cumulative }
+  })
+}
+
+export const TOOL_COUNT_ROLLOUT: ToolCountRolloutRow[] = getToolCountRollout()

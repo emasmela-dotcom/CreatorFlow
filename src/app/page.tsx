@@ -6,6 +6,7 @@ import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
+import { TOOL_COUNT_ROLLOUT } from '@/lib/toolsByPlan'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
@@ -334,6 +335,48 @@ The CreatorFlow365 Team`,
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
+            </div>
+            <div className="max-w-xl mx-auto mb-10 overflow-x-auto rounded-xl border border-gray-700 bg-gray-900/60">
+              <p className="px-4 pt-4 text-sm font-semibold text-white text-center">
+                Named tools in your plan (running total)
+              </p>
+              <table className="w-full text-sm text-left text-gray-300 mt-3">
+                <caption className="sr-only">
+                  Subscription tier, new tool names added at that tier, and cumulative unique tool count
+                </caption>
+                <thead>
+                  <tr className="border-y border-gray-700 bg-gray-800/50 text-gray-100">
+                    <th scope="col" className="px-4 py-3 font-semibold">
+                      Tier
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-semibold text-right">
+                      New this tier
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-semibold text-right">
+                      Running total
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {TOOL_COUNT_ROLLOUT.map((row, idx) => (
+                    <tr key={row.tier} className="border-b border-gray-800 last:border-b-0">
+                      <td className="px-4 py-3 text-white">{row.tier}</td>
+                      <td className="px-4 py-3 text-right tabular-nums">
+                        {idx === 0 ? row.newInTier : `+${row.newInTier}`}
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums font-medium text-gray-100">{row.cumulative}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="px-4 pb-4 text-xs text-gray-400 leading-relaxed">
+                Each row adds the tool names introduced at that tier; your plan includes everything from the tiers above it,
+                plus the new names on your row. Same list as{' '}
+                <a href="/select-plan" className="text-purple-400 hover:underline">
+                  Tools offered
+                </a>{' '}
+                per plan.
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
