@@ -1,5 +1,26 @@
 'use client'
 
+/*
+ * HOMEPAGE — what changed this page (source comments only; not shown to visitors)
+ *
+ * CURRENT HERO (May 2026 restore): "CreatorFlow365" + "Stop juggling apps. Start growing."
+ *   — Restored from pre–May 8 2026 SEO rewrite (snapshot before commits 1c90d77 / 3b6544d).
+ *   — Replaced SEO hero: "One workspace for beginner and pro creators…" + three answer-first paragraphs.
+ *
+ * REMOVED (do not re-add without explicit approval):
+ *   — b058c8b: tier tool-count table (35 tools) in #tools
+ *   — 9ecfc5e: long "About automatic posting" block under hero
+ *
+ * STILL FROM SEO / LATER WORK (below hero):
+ *   — "How publishing works" callout: wording from 3b6544d era (not the older "How it works" line)
+ *   — #tools: c6c1f2e pill list; headline "Your full creator OS…" (replaced grid + "53+ tools" line)
+ *   — #pricing: plan snapshot + feature glossary (SEO / clarity pass, May 2026)
+ *   — Trust + Proof + Claims: e23df03 / 3b6544d (E-E-A-T)
+ *   — #faq + HOMEPAGE_FAQ_PAIRS JSON-LD: 71cfdc8, 83c4729
+ *   — Header logo: <a href="/"> not <h1> (a2a41c4 — single H1 stays in hero)
+ *   — <main id="main-content"> wrapper (a2a41c4)
+ */
+
 import { useState } from 'react'
 import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles, CheckSquare } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
@@ -136,7 +157,7 @@ The CreatorFlow365 Team`,
     <>
       <AnalyticsProvider />
       <div className="min-h-screen bg-black text-white">
-      {/* Header */}
+      {/* Header — a2a41c4: logo is <a>, not <h1>, so hero keeps the only page H1 */}
       <header className="absolute top-0 left-0 right-0 z-20 bg-black border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
@@ -197,28 +218,16 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
-      {/* Hero Section */}
+      {/* Hero — restored May 2026: simple H1 + tagline (reverted SEO "One workspace for beginner…" block) */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-16">
         <div className="absolute inset-0 bg-gray-900/20" />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <p className="text-xs font-mono tracking-widest text-purple-400 uppercase mb-4">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
             CreatorFlow365
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight max-w-4xl mx-auto">
-            One workspace for beginner and pro creators—to prep content in the right format for each platform you post to.
           </h1>
-          <div className="max-w-2xl mx-auto mb-8 space-y-3 text-left md:text-center">
-            <p className="text-base md:text-lg text-gray-100 leading-relaxed font-medium">
-              CreatorFlow365 is one web app to plan posts, draft captions (with AI help where you want it), schedule when your
-              accounts are connected, and check performance—so you are not paying for a pile of separate tools.
-            </p>
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-              It is built for solo creators, small teams, and agencies posting to Instagram, TikTok, LinkedIn, X, and YouTube.
-            </p>
-            <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-              Start with a 14-day trial and no credit card; honest pricing and plan limits are on this page below.
-            </p>
-          </div>
+          <p className="text-xl md:text-2xl mb-8 text-gray-300">
+            Stop juggling apps. Start growing.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <input
               type="email"
@@ -246,6 +255,7 @@ The CreatorFlow365 Team`,
             </div>
           </div>
           <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
+          {/* Publishing callout — kept from 3b6544d; replaces older "How it works" (dashboard-first) copy */}
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
               <strong className="text-white">How publishing works:</strong> Connect your accounts and schedule directly to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube—or copy and export content to paste anywhere else. Both work.
@@ -319,7 +329,7 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
-      {/* Tools / Features Section */}
+      {/* #tools — c6c1f2e: ten name pills; removed "53+ tools" + feature grid. b058c8b table was added then reverted. */}
       <section id="tools" className="pt-8 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -388,7 +398,7 @@ The CreatorFlow365 Team`,
       </section>
 
 
-      {/* Pricing Section */}
+      {/* #pricing — plan snapshot + glossary added in May 2026 SEO/clarity pass (not hero restore) */}
       <section id="pricing" className="py-20 px-6 bg-gray-900/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
@@ -538,7 +548,7 @@ The CreatorFlow365 Team`,
         </div>
       </section>
 
-      {/* Trust Section */}
+      {/* Trust / Proof / Claims — e23df03, 3b6544d (SEO Phase 3); not part of hero restore */}
       <section className="py-20 px-6 bg-gray-900/20">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Why creators trust CreatorFlow365</h2>
