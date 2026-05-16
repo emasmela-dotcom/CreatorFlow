@@ -60,8 +60,8 @@ export async function POST(request: NextRequest) {
 
       await db.execute({
         sql: `
-          INSERT INTO users (id, email, password_hash, subscription_tier, created_at)
-          VALUES (?, ?, ?, 'free', NOW())
+          INSERT INTO users (id, email, password_hash, subscription_tier, trial_end_at, created_at)
+          VALUES (?, ?, ?, 'starter', NOW() + INTERVAL '30 days', NOW())
         `,
         args: [userId, DEMO_EMAIL, hashedPassword]
       })
@@ -98,6 +98,8 @@ export async function POST(request: NextRequest) {
       userId = (demoUser.rows[0] as any).id
     }
 
+    await ensureDemoTrialAccess(userId)
+
     // Generate token with longer expiration for demo (7 days)
     const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-key-for-development-only'
     const token = jwt.sign(
@@ -129,6 +131,23 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/** Starter trial so demo can create posts and use full AI monthly allowance */
+async function ensureDemoTrialAccess(userId: string) {
+  try {
+    await db.execute({
+      sql: `
+        UPDATE users
+        SET subscription_tier = 'starter',
+            trial_end_at = NOW() + INTERVAL '30 days'
+        WHERE id = ?
+      `,
+      args: [userId],
+    })
+  } catch (error) {
+    console.error('Error ensuring demo trial access:', error)
+  }
+}
+
 /**
  * Create sample demo content
  */
@@ -148,23 +167,25 @@ async function createDemoContent(userId: string) {
     // Create sample hashtag sets
     await db.execute({
       sql: `
-        INSERT INTO hashtag_sets (user_id, name, platform, hashtags, created_at)
+        INSERT INTO hashtag_sets (user_id, name, platform, hashtags, description, created_at)
         VALUES 
-          (?, 'Fitness Hashtags', 'instagram', '["#fitness", "#workout", "#health"]', NOW()),
-          (?, 'Tech Hashtags', 'twitter', '["#tech", "#innovation", "#startup"]', NOW())
+          (?, 'Fitness — Instagram', 'instagram', '["#fitness", "#workout", "#health", "#gymlife"]', 'Demo fitness niche set', NOW()),
+          (?, 'Tech — Twitter', 'twitter', '["#tech", "#innovation", "#startup", "#buildinpublic"]', 'Demo tech niche set', NOW()),
+          (?, 'Creator tips — TikTok', 'tiktok', '["#creatortips", "#contentcreator", "#socialmediatips"]', 'Demo short-form set', NOW())
       `,
-      args: [userId, userId]
+      args: [userId, userId, userId]
     })
 
     // Create sample templates
     await db.execute({
       sql: `
-        INSERT INTO content_templates (user_id, name, platform, content, variables, created_at)
+        INSERT INTO content_templates (user_id, name, platform, content, variables, category, created_at)
         VALUES 
-          (?, 'Product Launch', 'instagram', 'Excited to announce {product}! 🎉', '["product"]', NOW()),
-          (?, 'Weekly Update', 'twitter', 'This week: {update}. What do you think?', '["update"]', NOW())
+          (?, 'Product Launch', 'instagram', 'Excited to announce {product}! 🎉\n\nLink in bio for early access.', '["product"]', 'launch', NOW()),
+          (?, 'Weekly Update', 'twitter', 'This week: {update}. What would you try first?', '["update"]', 'update', NOW()),
+          (?, 'Carousel slide 1', 'instagram', 'Hook: {hook}\n\nSwipe for the full breakdown →', '["hook"]', 'carousel', NOW())
       `,
-      args: [userId, userId]
+      args: [userId, userId, userId]
     })
 
     // Create sample posts
@@ -172,10 +193,12 @@ async function createDemoContent(userId: string) {
       sql: `
         INSERT INTO content_posts (user_id, platform, content, status, created_at)
         VALUES 
-          (?, 'instagram', 'Check out this amazing feature! #demo #creatorflow', 'published', NOW()),
-          (?, 'twitter', 'Just exploring CreatorFlow - this is awesome! 🚀', 'draft', NOW())
+          (?, 'instagram', 'Check out CreatorFlow365 — plan, write, and organize content in one workspace. #demo #creatorflow', 'published', NOW()),
+          (?, 'twitter', 'Just batched a week of posts in one session. Less app-hopping, more publishing. 🚀', 'draft', NOW()),
+          (?, 'linkedin', 'Creators: your bottleneck is not ideas — it is workflow. Here is how I structure a content week.', 'draft', NOW()),
+          (?, 'tiktok', 'POV: you finally have captions, hashtags, and templates in one place.', 'draft', NOW())
       `,
-      args: [userId, userId]
+      args: [userId, userId, userId, userId]
     })
   } catch (error) {
     console.error('Error creating demo content:', error)
