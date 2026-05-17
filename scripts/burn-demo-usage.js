@@ -2,6 +2,9 @@
 /**
  * Burn AI usage on production demo account — all bots + library wave 2 + tools.
  *   BASE_URL=https://www.creatorflow365.com npm run burn:demo
+ *
+ * If demo hits AI limit (501/500), reset in Neon SQL Editor then re-run:
+ *   DELETE FROM ai_call_logs WHERE user_id = (SELECT id FROM users WHERE email = 'demo@creatorflow365.com');
  */
 
 const BASE_URL = (process.env.BASE_URL || 'http://127.0.0.1:3000').replace(/\/$/, '')
@@ -118,16 +121,16 @@ async function main() {
   record('documents:create', doc.ok, doc.data.error)
 
   const cal = await post(
-    '/api/content-calendar',
+    '/api/calendar',
     {
-      title: 'Demo launch week',
       platform: 'instagram',
-      scheduledDate: '2026-05-22',
       content: 'Teaser → tutorial → CTA post sequence',
+      scheduledAt: '2026-05-22T15:00:00.000Z',
+      status: 'scheduled',
     },
     token
   )
-  record('content-calendar:create', cal.ok, cal.data.error)
+  record('calendar:schedule', cal.ok, cal.data.error)
 
   const passed = results.filter((r) => r.ok).length
   const failed = results.filter((r) => !r.ok).length

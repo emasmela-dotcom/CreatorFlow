@@ -165,11 +165,15 @@ export default function SocialSchedulerPage() {
           </Link>
         </section>
 
-        <footer className="pt-6 text-sm text-gray-500 flex flex-wrap gap-4">
-          <Link href="/">Home</Link>
-          <Link href="/reviews">Reviews</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+        <footer className="pt-6 text-sm text-gray-500 flex flex-wrap gap-x-4 gap-y-2">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <Link href="/creator-tools" className="hover:text-white transition-colors">Creator tools</Link>
+          <Link href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</Link>
+          <Link href="/content-creator-analytics-platform" className="hover:text-white transition-colors">Analytics</Link>
+          <Link href="/demo" className="hover:text-white transition-colors">Demo</Link>
+          <Link href="/reviews" className="hover:text-white transition-colors">Reviews</Link>
+          <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+          <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
         </footer>
       </div>
     </main>

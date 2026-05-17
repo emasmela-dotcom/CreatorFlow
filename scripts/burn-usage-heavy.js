@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /**
- * Heavy usage burn before quota reset — demo seed + all bots + temp test users.
- *   BASE_URL=https://www.creatorflow365.com node scripts/burn-usage-heavy.js
+ * Heavy usage burn before quota reset — demo seed + all bots + signup smoke test.
+ *   BASE_URL=https://www.creatorflow365.com npm run burn:heavy
+ *
+ * Demo capped? Run in Neon (production branch) then retry tomorrow:
+ *   DELETE FROM ai_call_logs WHERE user_id = (SELECT id FROM users WHERE email = 'demo@creatorflow365.com');
  */
 
 const { spawnSync } = require('child_process')
@@ -27,9 +30,9 @@ async function main() {
     run(`burn:demo pass ${i}/3`, 'node', ['scripts/burn-demo-usage.js'])
   }
 
-  for (let i = 1; i <= 4; i++) {
-    run(`test-all-bots pass ${i}/4`, 'node', ['scripts/test-all-bots-tools.js'])
-  }
+  run('signup production check', 'node', ['scripts/signup-production-check.js'])
+
+  run('test-all-bots (fresh signup domain)', 'node', ['scripts/test-all-bots-tools.js'])
 
   run('test-all-tools-comprehensive', 'node', ['scripts/test-all-tools-comprehensive.js'])
 

@@ -13,7 +13,8 @@
     "meta:prompt": "node scripts/claude-meta-variants.mjs",
     "seed:demo": "node scripts/seed-demo-ai-library.js",
     "burn:demo": "node scripts/burn-demo-usage.js",
-    "burn:heavy": "node scripts/burn-usage-heavy.js"
+    "burn:heavy": "node scripts/burn-usage-heavy.js",
+    "test:signup:prod": "node scripts/signup-production-check.js"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",

@@ -75,8 +75,8 @@ async function setupAuth() {
     return TEST_TOKEN
   }
 
-  // Try to create a test account
-  const testEmail = `test-${Date.now()}@test.com`
+  // Unique domain avoids "max 2 accounts per email domain" on @test.com
+  const testEmail = `bots-${Date.now()}@cfqa${Date.now()}.example.com`
   const testPassword = 'TestPassword123!'
 
   try {
