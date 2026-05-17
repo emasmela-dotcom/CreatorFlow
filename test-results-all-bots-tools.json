@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-16T14:03:01.816Z",
+  "timestamp": "2026-05-17T18:08:38.626Z",
   "baseUrl": "https://www.creatorflow365.com",
   "tests": [
     {
@@ -8,160 +8,160 @@
       "details": {
         "message": "Created test account"
       },
-      "timestamp": "2026-05-16T14:03:02.503Z"
+      "timestamp": "2026-05-17T18:08:40.226Z"
     },
     {
       "name": "Content Assistant Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:02.637Z"
+      "timestamp": "2026-05-17T18:08:40.392Z"
     },
     {
       "name": "Scheduling Assistant Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:02.746Z"
+      "timestamp": "2026-05-17T18:08:40.549Z"
     },
     {
       "name": "Engagement Analyzer Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:02.893Z"
+      "timestamp": "2026-05-17T18:08:40.748Z"
     },
     {
       "name": "Trend Scout Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.011Z"
+      "timestamp": "2026-05-17T18:08:40.944Z"
     },
     {
       "name": "Content Curation Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.127Z"
+      "timestamp": "2026-05-17T18:08:41.165Z"
     },
     {
       "name": "Analytics Coach Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.256Z"
+      "timestamp": "2026-05-17T18:08:41.444Z"
     },
     {
       "name": "Content Writer Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.410Z"
+      "timestamp": "2026-05-17T18:08:41.605Z"
     },
     {
       "name": "Content Gap Analyzer Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.576Z"
+      "timestamp": "2026-05-17T18:08:41.831Z"
     },
     {
       "name": "Content Repurposing Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.727Z"
+      "timestamp": "2026-05-17T18:08:41.958Z"
     },
     {
       "name": "Expense Tracker Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:03.861Z"
+      "timestamp": "2026-05-17T18:08:42.262Z"
     },
     {
       "name": "Invoice Generator Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:04.961Z"
+      "timestamp": "2026-05-17T18:08:42.638Z"
     },
     {
       "name": "Email Sorter Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.181Z"
+      "timestamp": "2026-05-17T18:08:43.182Z"
     },
     {
       "name": "Customer Service Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.352Z"
+      "timestamp": "2026-05-17T18:08:43.403Z"
     },
     {
       "name": "Product Recommendation Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.498Z"
+      "timestamp": "2026-05-17T18:08:43.651Z"
     },
     {
       "name": "Sales Lead Qualifier Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.675Z"
+      "timestamp": "2026-05-17T18:08:43.833Z"
     },
     {
       "name": "Meeting Scheduler Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.811Z"
+      "timestamp": "2026-05-17T18:08:44.013Z"
     },
     {
       "name": "Social Media Manager Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:05.945Z"
+      "timestamp": "2026-05-17T18:08:44.205Z"
     },
     {
       "name": "Website Chat Bot",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.137Z"
+      "timestamp": "2026-05-17T18:08:44.517Z"
     },
     {
       "name": "Hashtag Research Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.249Z"
+      "timestamp": "2026-05-17T18:08:44.630Z"
     },
     {
       "name": "Content Templates Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.512Z"
+      "timestamp": "2026-05-17T18:08:44.850Z"
     },
     {
       "name": "Documents Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.779Z"
+      "timestamp": "2026-05-17T18:08:45.230Z"
     },
     {
       "name": "Content Calendar Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.865Z"
+      "timestamp": "2026-05-17T18:08:45.403Z"
     },
     {
       "name": "Content Library Search Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:06.969Z"
+      "timestamp": "2026-05-17T18:08:45.589Z"
     },
     {
       "name": "Performance Analytics Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:07.071Z"
+      "timestamp": "2026-05-17T18:08:45.783Z"
     },
     {
       "name": "Posts Tool",
       "status": "pass",
       "details": {},
-      "timestamp": "2026-05-16T14:03:07.188Z"
+      "timestamp": "2026-05-17T18:08:45.871Z"
     }
   ],
-  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzOTU4YTNjMy03ZTdmLTQyMDUtOWRlOC1kN2E2YThiYmQ3MDYiLCJlbWFpbCI6InRlc3QtMTc3ODk0MDE4MTgyOUB0ZXN0LmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3Nzg5NDAxODIsImV4cCI6MTc3ODk0Mzc4Mn0.qg-mLQSoevHMfC6GaGvZgDTMAqcGAHdqAEfkmGco5iU",
+  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwY2U0YWNjYS1kM2FmLTQ5YzQtOTU3My05MDc1ZmY1MjFmN2QiLCJlbWFpbCI6InRlc3QtMTc3OTA0MTMxODYzNkB0ZXN0LmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NzkwNDEzMjAsImV4cCI6MTc3OTA0NDkyMH0.X96zc_ewrTWJg3p_-JchyO1IhIzFxkcLbXCDsTO-oaA",
   "summary": {
     "total": 26,
     "passed": 26,
