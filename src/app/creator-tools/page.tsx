@@ -392,6 +392,11 @@ export default function CreatorToolsPage() {
                 </Link>
               </li>
               <li>
+                <Link href="/follow-thru" className="text-purple-400 hover:underline">
+                  Creator CRM for brand deals and follow-ups (Follow Thru)
+                </Link>
+              </li>
+              <li>
                 <Link href="/reviews" className="text-purple-400 hover:underline">
                   CreatorFlow365 reviews from users
                 </Link>

@@ -799,11 +799,14 @@ The CreatorFlow365 Team`,
           <p className="text-gray-400 mb-6">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500 flex-wrap">
             <a href="/creator-tools" className="hover:text-white transition-colors">Creator tools</a>
+            <a href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</a>
+            <a href="/social-media-scheduler-for-creators" className="hover:text-white transition-colors">Scheduler</a>
+            <a href="/content-creator-analytics-platform" className="hover:text-white transition-colors">Analytics</a>
+            <a href="/demo" className="hover:text-white transition-colors">Demo</a>
             <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Support</a>
-            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Contact</a>
           </div>
         </div>
       </footer>

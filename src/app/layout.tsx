@@ -9,7 +9,7 @@ const SITE_URL =
   'https://www.creatorflow365.com'
 
 const siteDescription =
-  'Prep content for Instagram, X, LinkedIn, TikTok & YouTube—plan, draft, schedule & analytics in one workspace. 14-day trial, no card. Start free.'
+  'CreatorFlow365: one workspace for Instagram, X, LinkedIn, TikTok & YouTube—plan, draft, schedule & analytics. 14-day free trial, no credit card. Plans from $9/mo.'
 
 const schemaOrgJsonLd = {
   '@context': 'https://schema.org',
@@ -30,7 +30,7 @@ const schemaOrgJsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL.replace(/\/$/, '')),
-  title: 'CreatorFlow365 – One Workspace for Every Platform',
+  title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
   description: siteDescription,
   keywords: 'creator OS, content creator workspace, AI captions, content calendar, social media scheduling, templates, hashtag sets, batch content, multi-platform publishing, repurpose content, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow365 – One Workspace for Every Platform',
+    title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
     description: siteDescription,
     type: 'website',
     url: SITE_URL.replace(/\/$/, ''),
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow365 – One Workspace for Every Platform',
+    title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
     description: siteDescription,
     creator: '@creatorflow365',
   },

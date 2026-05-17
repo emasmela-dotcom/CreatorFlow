@@ -7,7 +7,8 @@ let sqlClient: any
 function getClient() {
   if (sqlClient) return sqlClient
   
-  const databaseUrl = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || ''
+  const rawUrl = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || ''
+  const databaseUrl = rawUrl.trim().replace(/^['"]+|['"]+$/g, '')
   
   if (!databaseUrl || (!databaseUrl.startsWith('postgresql://') && !databaseUrl.startsWith('postgres://'))) {
     console.warn('Database URL not configured. Set DATABASE_URL or NEON_DATABASE_URL environment variable.')
@@ -250,6 +251,8 @@ export async function initDatabase() {
       { name: 'additional_posts_purchased', sql: `ALTER TABLE users ADD COLUMN additional_posts_purchased INTEGER DEFAULT 0` },
       { name: 'credits_balance', sql: `ALTER TABLE users ADD COLUMN credits_balance INTEGER DEFAULT 0` },
       { name: 'content_types', sql: `ALTER TABLE users ADD COLUMN content_types TEXT DEFAULT '[]'` },
+      { name: 'full_name', sql: `ALTER TABLE users ADD COLUMN full_name VARCHAR(255)` },
+      { name: 'avatar_url', sql: `ALTER TABLE users ADD COLUMN avatar_url TEXT` },
       { name: 'created_at', sql: `ALTER TABLE users ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT NOW()` },
       { name: 'updated_at', sql: `ALTER TABLE users ADD COLUMN updated_at TIMESTAMP NOT NULL DEFAULT NOW()` },
       { name: 'content_types', sql: `ALTER TABLE users ADD COLUMN content_types TEXT` }
@@ -320,8 +323,26 @@ export async function initDatabase() {
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
-    `
+    ` 
     })
+
+    const contentPostColumns = [
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS platform_post_id VARCHAR(255)`,
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS media_urls TEXT DEFAULT '[]'`,
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS scheduled_at TIMESTAMP`,
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS published_at TIMESTAMP`,
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS engagement_metrics JSONB`,
+      `ALTER TABLE content_posts ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW()`,
+    ]
+    for (const sql of contentPostColumns) {
+      try {
+        await db.execute({ sql })
+      } catch (e: any) {
+        if (!e.message?.includes('already exists')) {
+          console.warn('content_posts column migration:', e.message)
+        }
+      }
+    }
 
     // Create analytics table
     await db.execute({

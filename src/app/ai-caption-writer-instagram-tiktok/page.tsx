@@ -44,7 +44,7 @@ export default function AICaptionWriterPage() {
             save everything in one organized content library.
           </p>
           <p className="text-gray-400">
-            If you post consistently and want faster first drafts without losing your voice, this
+            If you post Reels, Shorts, Stories, or TikToks and want faster first drafts without losing your voice, this
             workflow keeps writing, editing, and scheduling in one place.
           </p>
           <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
