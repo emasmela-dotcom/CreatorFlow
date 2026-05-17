@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
 import {
   ASSISTANT_JOBS,
+  ASSISTANT_JOBS_WAVE2,
   CONTENT_WRITER_JOBS,
+  CONTENT_WRITER_JOBS_WAVE2,
+  DEMO_BOT_CALLS,
   DEMO_EMAIL,
+  HASHTAG_RESEARCH_JOBS,
   HASHTAG_SAVE_JOBS,
   POST_JOBS,
   REPURPOSING_JOBS,
+  REPURPOSING_JOBS_WAVE2,
   TEMPLATE_JOBS,
 } from '@/lib/demoLibrarySeed'
 import { db } from '@/lib/db'
@@ -127,6 +132,35 @@ export async function POST(request: NextRequest) {
     for (const job of POST_JOBS) {
       const label = `post:${job.platform}`
       const { ok, data } = await callApi(origin, token, '/api/posts', { ...job })
+      results.push({ ok, label, error: ok ? undefined : String(data.error || 'failed') })
+    }
+
+    for (const job of CONTENT_WRITER_JOBS_WAVE2) {
+      const label = `content-writer2:${job.type}`
+      const { ok, data } = await callApi(origin, token, '/api/bots/content-writer', { ...job })
+      results.push({ ok, label, error: ok ? undefined : String(data.error || 'failed') })
+    }
+
+    for (const job of REPURPOSING_JOBS_WAVE2) {
+      const label = `repurposing2:${job.targetPlatforms.join('+')}`
+      const { ok, data } = await callApi(origin, token, '/api/bots/content-repurposing', { ...job })
+      results.push({ ok, label, error: ok ? undefined : String(data.error || 'failed') })
+    }
+
+    for (const job of ASSISTANT_JOBS_WAVE2) {
+      const label = `content-assistant2:${job.platform}`
+      const { ok, data } = await callApi(origin, token, '/api/bots/content-assistant', { ...job })
+      results.push({ ok, label, error: ok ? undefined : String(data.error || 'failed') })
+    }
+
+    for (const call of DEMO_BOT_CALLS) {
+      const { ok, data } = await callApi(origin, token, call.path, { ...call.body })
+      results.push({ ok, label: call.label, error: ok ? undefined : String(data.error || 'failed') })
+    }
+
+    for (const job of HASHTAG_RESEARCH_JOBS) {
+      const label = `hashtag-research:${job.platform}`
+      const { ok, data } = await callApi(origin, token, '/api/hashtag-research', { ...job })
       results.push({ ok, label, error: ok ? undefined : String(data.error || 'failed') })
     }
 
