@@ -60,8 +60,8 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
 
   if (!performance) {
     return (
-      <div className="text-center py-12 text-gray-400">
-        <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
+      <div className="text-center py-12 text-gray-300">
+        <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-300" aria-hidden />
         <p>No analytics data available</p>
       </div>
     )
@@ -71,18 +71,19 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Advanced Analytics</h2>
-          <p className="text-gray-400">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Advanced Analytics</h2>
+          <p className="text-gray-300 text-sm sm:text-base">
             Performance insights, predictions, and detailed metrics
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <select
             value={days}
             onChange={(e) => setDays(parseInt(e.target.value))}
-            className="px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+            aria-label="Select date range"
+            className="w-full sm:w-auto px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
           >
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
@@ -91,7 +92,8 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
           <select
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
-            className="px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+            aria-label="Select platform"
+            className="w-full sm:w-auto px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
           >
             <option value="all">All Platforms</option>
             <option value="instagram">Instagram</option>
@@ -107,7 +109,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-sm">Total Posts</span>
+            <span className="text-gray-300 text-sm">Total Posts</span>
             <BarChart3 className="w-5 h-5 text-purple-400" />
           </div>
           <div className="text-3xl font-bold text-white">{overview?.totalPosts || 0}</div>
@@ -115,7 +117,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
 
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-sm">Total Engagement</span>
+            <span className="text-gray-300 text-sm">Total Engagement</span>
             <Heart className="w-5 h-5 text-red-400" />
           </div>
           <div className="text-3xl font-bold text-white">
@@ -135,24 +137,24 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
 
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-sm">Avg Engagement</span>
+            <span className="text-gray-300 text-sm">Avg Engagement</span>
             <MessageCircle className="w-5 h-5 text-blue-400" />
           </div>
           <div className="text-3xl font-bold text-white">
             {overview?.avgEngagement?.toLocaleString() || 0}
           </div>
-          <div className="text-sm text-gray-400 mt-1">per post</div>
+          <div className="text-sm text-gray-300 mt-1">per post</div>
         </div>
 
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-sm">Total Reach</span>
+            <span className="text-gray-300 text-sm">Total Reach</span>
             <Eye className="w-5 h-5 text-green-400" />
           </div>
           <div className="text-3xl font-bold text-white">
             {overview?.totalReach?.toLocaleString() || 0}
           </div>
-          <div className="text-sm text-gray-400 mt-1">impressions</div>
+          <div className="text-sm text-gray-300 mt-1">impressions</div>
         </div>
       </div>
 
@@ -169,7 +171,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
                   </div>
                   <div>
                     <div className="text-white font-medium capitalize">{platform}</div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-gray-300">
                       {count} posts • {byPlatform.engagement?.[platform]?.toLocaleString() || 0} engagement
                     </div>
                   </div>
@@ -180,7 +182,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
                       ? Math.round((byPlatform.engagement[platform] / count) || 0)
                       : 0}
                   </div>
-                  <div className="text-xs text-gray-400">avg per post</div>
+                  <div className="text-xs text-gray-300">avg per post</div>
                 </div>
               </div>
             ))}
@@ -200,14 +202,14 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
                     <div className="text-white font-medium mb-1">
                       {post.content?.substring(0, 100)}...
                     </div>
-                    <div className="text-sm text-gray-400 capitalize">{post.platform}</div>
+                    <div className="text-sm text-gray-300 capitalize">{post.platform}</div>
                   </div>
                   <div className="text-right ml-4">
                     <div className="text-white font-semibold">{post.engagement?.toLocaleString()}</div>
-                    <div className="text-xs text-gray-400">engagement</div>
+                    <div className="text-xs text-gray-300">engagement</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-gray-400">
+                <div className="flex items-center gap-4 text-sm text-gray-300">
                   <span className="flex items-center gap-1">
                     <Heart className="w-4 h-4" />
                     {post.likes?.toLocaleString() || 0}
@@ -239,16 +241,16 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
                     <div className="text-white font-medium mb-1">
                       {pred.content?.substring(0, 80)}...
                     </div>
-                    <div className="text-sm text-gray-400 capitalize">{pred.platform}</div>
+                    <div className="text-sm text-gray-300 capitalize">{pred.platform}</div>
                   </div>
                   <div className="text-right ml-4">
                     <div className="text-white font-semibold">
                       {pred.predictedEngagement?.toLocaleString()}
                     </div>
-                    <div className="text-xs text-gray-400">predicted</div>
+                    <div className="text-xs text-gray-300">predicted</div>
                   </div>
                 </div>
-                <div className="text-xs text-gray-400">
+                <div className="text-xs text-gray-300">
                   Confidence: {pred.confidence} • Factors: {pred.factors?.join(', ')}
                 </div>
               </div>

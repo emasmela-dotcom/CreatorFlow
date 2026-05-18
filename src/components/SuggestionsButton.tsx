@@ -98,7 +98,7 @@ function SuggestionsModal({
             <p className="text-gray-300 mb-1">
               Your suggestion was sent to the CreatorFlow365 team.
             </p>
-            <p className="text-sm text-gray-400">This window will close automatically...</p>
+            <p className="text-sm text-gray-300">This window will close automatically...</p>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@ function SuggestionsModal({
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-300 hover:text-white transition-colors"
             aria-label="Close suggestions form"
           >
             <X className="w-6 h-6" />
@@ -167,7 +167,7 @@ function SuggestionsModal({
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 min-h-[140px] resize-y"
               required
             />
-            <p className="text-xs text-gray-400 mt-1">Be as specific as possible.</p>
+            <p className="text-xs text-gray-300 mt-1">Be as specific as possible.</p>
           </div>
 
           {error && (

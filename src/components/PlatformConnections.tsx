@@ -125,7 +125,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-white mb-2">Platform Connections</h2>
-        <p className="text-gray-400">
+        <p className="text-gray-300">
           Connect your social media accounts to post directly from CreatorFlow
         </p>
       </div>
@@ -157,7 +157,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                 {connected ? (
                   <CheckCircle2 className="w-6 h-6 text-green-400" />
                 ) : (
-                  <XCircle className="w-6 h-6 text-gray-400" />
+                  <XCircle className="w-6 h-6 text-gray-300" />
                 )}
               </div>
 
@@ -173,24 +173,25 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                     </p>
                   )}
                   {connection.platform_account_name && (
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-300">
                       {connection.platform_account_name}
                     </p>
                   )}
                   {connection.last_used_at && (
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-300">
                       Last used: {new Date(connection.last_used_at).toLocaleDateString()}
                     </p>
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-gray-400 mb-4">
+                <p className="text-sm text-gray-300 mb-4">
                   Not connected
                 </p>
               )}
 
               {connected ? (
                 <button
+                  type="button"
                   onClick={() => handleDisconnect(platform.id)}
                   className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
@@ -199,6 +200,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                 </button>
               ) : (
                 <button
+                  type="button"
                   onClick={() => handleConnect(platform.id)}
                   disabled={connecting === platform.id || !token}
                   className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"

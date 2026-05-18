@@ -131,7 +131,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
           </p>
           {trialFeatures && (
             <div className="mt-3 pt-3 border-t border-purple-500/20">
-              <p className="text-xs text-gray-400 mb-2">Trial includes:</p>
+              <p className="text-xs text-gray-300 mb-2">Trial includes:</p>
               <ul className="text-sm text-gray-300 space-y-1">
                 <li>• {trialFeatures.socialAccounts === -1 ? 'Unlimited' : trialFeatures.socialAccounts} social accounts (locked in monthly)</li>
                 <li>• {trialFeatures.postsPerMonth === -1 ? 'Unlimited' : trialFeatures.postsPerMonth} posts per month (shared across all accounts)</li>
@@ -219,7 +219,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
         </div>
 
         <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
-          <p className="text-xs text-gray-400 leading-relaxed mb-2">
+          <p className="text-xs text-gray-300 leading-relaxed mb-2">
             By proceeding, you agree that CreatorFlow will create a secure snapshot of your current project state before the trial begins. 
             This lets us restore your account to its pre‑trial view if you decide not to continue, while safely keeping anything you created 
             during the trial available to reconnect if you later upgrade.

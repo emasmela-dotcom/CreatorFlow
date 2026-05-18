@@ -144,11 +144,11 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
               <HelpCircle className="w-6 h-6 text-purple-400" />
               Help Center
             </h2>
-            <p className="text-sm text-gray-400 mt-1">Find answers to common questions</p>
+            <p className="text-sm text-gray-300 mt-1">Find answers to common questions</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors text-2xl"
+            className="text-gray-300 hover:text-white transition-colors text-2xl"
           >
             ×
           </button>
@@ -157,7 +157,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         {/* Search & Filters */}
         <div className="p-6 border-b border-gray-700 space-y-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
             <input
               type="text"
               placeholder="Search for help..."
@@ -197,8 +197,8 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         <div className="flex-1 overflow-y-auto p-6">
           {filteredFAQs.length === 0 ? (
             <div className="text-center py-12">
-              <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" aria-hidden />
-              <p className="text-gray-400">No results found. Try a different search term.</p>
+              <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" aria-hidden />
+              <p className="text-gray-300">No results found. Try a different search term.</p>
             </div>
           ) : (
             <div className="space-y-8">
@@ -216,7 +216,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
                       >
                         <summary className="cursor-pointer text-white font-medium flex items-center justify-between">
                           <span>{faq.q}</span>
-                          <span className="text-gray-400 text-sm">Click to expand</span>
+                          <span className="text-gray-300 text-sm">Click to expand</span>
                         </summary>
                         <p className="mt-3 text-gray-300 text-sm leading-relaxed pl-4 border-l-2 border-purple-500/30">
                           {faq.a}
@@ -233,7 +233,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         {/* Footer */}
         <div className="p-6 border-t border-gray-700 bg-gray-900/50">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
+            <div className="flex items-center gap-4 text-sm text-gray-300 flex-wrap">
               <div className="flex items-center gap-2">
                 <Lightbulb className="w-4 h-4" />
                 <span>Tip: Click the help icon (?) next to any feature for quick info</span>

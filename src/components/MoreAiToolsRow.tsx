@@ -69,14 +69,14 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
             onChange={(e) => setDraft(e.target.value)}
             placeholder="Paste a caption draft to review…"
             rows={3}
-            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-300"
+            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-400"
           />
           <input
             type="text"
             value={hashtags}
             onChange={(e) => setHashtags(e.target.value)}
             placeholder="Optional hashtags"
-            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-300"
+            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-400"
           />
           {draft.trim() ? (
             <ContentAssistantBot content={draft} platform={platform} hashtags={hashtags} token={token} />

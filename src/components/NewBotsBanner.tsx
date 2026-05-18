@@ -46,7 +46,7 @@ export default function NewBotsBanner() {
             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
             aria-label="Dismiss banner"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 text-gray-300 hover:text-white" />
           </button>
         </div>
 
@@ -58,7 +58,7 @@ export default function NewBotsBanner() {
               <CheckCircle className="w-5 h-5 text-green-400" />
               <h4 className="font-semibold text-white">Content Assistant</h4>
             </div>
-            <p className="text-xs text-gray-400 mb-3">
+            <p className="text-xs text-gray-300 mb-3">
               Real-time content analysis and optimization suggestions
             </p>
             <div className="flex items-center gap-2 text-xs text-purple-400">
@@ -73,7 +73,7 @@ export default function NewBotsBanner() {
               <Clock className="w-5 h-5 text-blue-400" />
               <h4 className="font-semibold text-white">Scheduling Assistant</h4>
             </div>
-            <p className="text-xs text-gray-400 mb-3">
+            <p className="text-xs text-gray-300 mb-3">
               Smart scheduling recommendations based on your data
             </p>
             <div className="flex items-center gap-2 text-xs text-purple-400">
@@ -88,7 +88,7 @@ export default function NewBotsBanner() {
               <TrendingUp className="w-5 h-5 text-yellow-400" />
               <h4 className="font-semibold text-white">Engagement Analyzer</h4>
             </div>
-            <p className="text-xs text-gray-400 mb-3">
+            <p className="text-xs text-gray-300 mb-3">
               Analyze your post performance and find what works best
             </p>
             <div className="flex items-center gap-2 text-xs text-purple-400">

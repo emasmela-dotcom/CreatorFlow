@@ -145,7 +145,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
   const getSentimentColor = (sentiment: string | null) => {
     if (sentiment === 'positive') return 'text-green-400'
     if (sentiment === 'negative') return 'text-red-400'
-    return 'text-gray-400'
+    return 'text-gray-300'
   }
 
   if (loading) {
@@ -158,18 +158,19 @@ export default function SocialListening({ token }: SocialListeningProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Social Listening</h2>
-          <p className="text-gray-400">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Social Listening</h2>
+          <p className="text-gray-300 text-sm sm:text-base">
             Track mentions, hashtags, keywords, and competitors across platforms
           </p>
         </div>
         <button
+          type="button"
           onClick={() => setShowAddRule(!showAddRule)}
-          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center gap-2"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" aria-hidden />
           Add Rule
         </button>
       </div>
@@ -248,19 +249,19 @@ export default function SocialListening({ token }: SocialListeningProps) {
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-            <div className="text-gray-400 text-sm">Total Mentions</div>
+            <div className="text-gray-300 text-sm">Total Mentions</div>
             <div className="text-2xl font-bold text-white">{stats.totalMentions || 0}</div>
           </div>
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-            <div className="text-gray-400 text-sm">Positive</div>
+            <div className="text-gray-300 text-sm">Positive</div>
             <div className="text-2xl font-bold text-green-400">{stats.bySentiment?.positive || 0}</div>
           </div>
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-            <div className="text-gray-400 text-sm">Neutral</div>
-            <div className="text-2xl font-bold text-gray-400">{stats.bySentiment?.neutral || 0}</div>
+            <div className="text-gray-300 text-sm">Neutral</div>
+            <div className="text-2xl font-bold text-gray-300">{stats.bySentiment?.neutral || 0}</div>
           </div>
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-            <div className="text-gray-400 text-sm">Negative</div>
+            <div className="text-gray-300 text-sm">Negative</div>
             <div className="text-2xl font-bold text-red-400">{stats.bySentiment?.negative || 0}</div>
           </div>
         </div>
@@ -271,8 +272,8 @@ export default function SocialListening({ token }: SocialListeningProps) {
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-white mb-4">Listening Rules</h3>
           {rules.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">
-              <Search className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+            <div className="text-center py-8 text-gray-300">
+              <Search className="w-12 h-12 mx-auto mb-2 text-gray-300" />
               <p>No listening rules yet</p>
               <p className="text-sm">Add a rule to start tracking</p>
             </div>
@@ -286,7 +287,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
                       <TypeIcon className="w-5 h-5 text-purple-400" />
                       <div>
                         <div className="text-white font-medium">{rule.name}</div>
-                        <div className="text-sm text-gray-400">
+                        <div className="text-sm text-gray-300">
                           {rule.type} • {rule.platform} • {rule.query}
                         </div>
                       </div>
@@ -332,8 +333,8 @@ export default function SocialListening({ token }: SocialListeningProps) {
             </div>
           </div>
           {mentions.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">
-              <MessageSquare className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+            <div className="text-center py-8 text-gray-300">
+              <MessageSquare className="w-12 h-12 mx-auto mb-2 text-gray-300" />
               <p>No mentions found</p>
               <p className="text-sm">Mentions will appear here when found</p>
             </div>
@@ -345,7 +346,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
                     <div>
                       <div className="text-white font-medium capitalize">{mention.platform}</div>
                       {mention.author_handle && (
-                        <div className="text-sm text-gray-400">@{mention.author_handle}</div>
+                        <div className="text-sm text-gray-300">@{mention.author_handle}</div>
                       )}
                     </div>
                     {mention.sentiment && (
@@ -355,7 +356,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
                     )}
                   </div>
                   <p className="text-gray-300 text-sm mb-2">{mention.content}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-400">
+                  <div className="flex items-center gap-4 text-xs text-gray-300">
                     <span>Query: {mention.query}</span>
                     {mention.engagement_count > 0 && (
                       <span>{mention.engagement_count} engagements</span>
