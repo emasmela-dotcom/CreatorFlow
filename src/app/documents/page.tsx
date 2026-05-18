@@ -184,7 +184,7 @@ function DocumentsContent() {
               <FileText className="w-6 h-6 shrink-0" aria-hidden />
               My Documents
             </h1>
-            <span className="text-sm text-gray-400 shrink-0">
+            <span className="text-sm text-gray-300 shrink-0">
               {documents.length} document{documents.length !== 1 ? 's' : ''}
             </span>
           </div>
@@ -204,7 +204,7 @@ function DocumentsContent() {
         {/* Search and Filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
             <input
               type="search"
               placeholder="Search documents..."
@@ -238,7 +238,7 @@ function DocumentsContent() {
                 <button
                   type="button"
                   onClick={() => setShowEditor(false)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-gray-300 hover:text-white"
                   aria-label="Close editor"
                 >
                   <X className="w-6 h-6" />
@@ -288,7 +288,7 @@ function DocumentsContent() {
                     className="w-full h-64 sm:h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm text-white placeholder:text-gray-400"
                     placeholder="Write your content here... You can paste from Google Docs, Notion, Word, etc."
                   />
-                  <div className="mt-2 flex items-center justify-between text-sm text-gray-400">
+                  <div className="mt-2 flex items-center justify-between text-sm text-gray-300">
                     <span>{content.trim().split(/\s+/).filter(w => w.length > 0).length} words</span>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
@@ -325,12 +325,12 @@ function DocumentsContent() {
 
         {/* Documents List */}
         {loading ? (
-          <div className="text-center py-12 text-gray-400">Loading documents...</div>
+          <div className="text-center py-12 text-gray-300">Loading documents...</div>
         ) : documents.length === 0 ? (
           <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" aria-hidden />
+            <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" aria-hidden />
             <h3 className="text-lg font-semibold mb-2">No documents yet</h3>
-            <p className="text-gray-400 mb-6">Create your first document to get started!</p>
+            <p className="text-gray-300 mb-6">Create your first document to get started!</p>
             <button
               onClick={handleNew}
               className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
@@ -354,7 +354,7 @@ function DocumentsContent() {
                       <h3 className="font-semibold text-lg">{doc.title}</h3>
                     </div>
                     {doc.category && (
-                      <div className="flex items-center gap-1 text-xs text-gray-400 mb-2">
+                      <div className="flex items-center gap-1 text-xs text-gray-300 mb-2">
                         <Folder className="w-3 h-3" />
                         {doc.category}
                       </div>
@@ -371,7 +371,7 @@ function DocumentsContent() {
                       {doc.is_pinned ? (
                         <Pin className="w-4 h-4 text-yellow-400" />
                       ) : (
-                        <PinOff className="w-4 h-4 text-gray-400" />
+                        <PinOff className="w-4 h-4 text-gray-300" />
                       )}
                     </button>
                     <button
@@ -400,7 +400,7 @@ function DocumentsContent() {
                   {doc.content.length > 150 ? '...' : ''}
                 </p>
                 
-                <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
+                <div className="flex items-center justify-between text-xs text-gray-300 mb-4">
                   <span>{doc.word_count || 0} words</span>
                   <span>{new Date(doc.updated_at).toLocaleDateString()}</span>
                 </div>

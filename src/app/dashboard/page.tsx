@@ -720,7 +720,7 @@ function ProductRecommendationUI({ token, onClose }: { token: string, onClose: (
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
           placeholder="e.g., wireless, portable, budget-friendly"
         />
-        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+        <p className="text-xs text-gray-300 mt-1">Separate with commas</p>
       </div>
       {error && <div className="text-red-400 text-sm">{error}</div>}
       {result && (
@@ -1095,7 +1095,7 @@ function MeetingSchedulerUI({ token, onClose }: { token: string, onClose: () => 
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
           placeholder="email1@example.com, email2@example.com"
         />
-        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+        <p className="text-xs text-gray-300 mt-1">Separate with commas</p>
       </div>
       <div>
         <label className="block text-sm text-gray-300 mb-1">Location (Optional)</label>
@@ -1221,7 +1221,7 @@ function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () =
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
           placeholder="#hashtag1, #hashtag2, #hashtag3"
         />
-        <p className="text-xs text-gray-400 mt-1">Separate with commas</p>
+        <p className="text-xs text-gray-300 mt-1">Separate with commas</p>
       </div>
       <div>
         <label className="block text-sm text-gray-300 mb-1">Schedule For (Optional)</label>
@@ -1231,7 +1231,7 @@ function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () =
           onChange={(e) => setScheduledAt(e.target.value)}
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
         />
-        <p className="text-xs text-gray-400 mt-1">Leave empty to post immediately</p>
+        <p className="text-xs text-gray-300 mt-1">Leave empty to post immediately</p>
       </div>
       {error && (
         <div className="bg-red-500/10 border border-red-500/30 rounded p-3 text-sm">
@@ -1386,7 +1386,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
             <div key={index} className="bg-gray-800/50 border border-gray-700 rounded p-4">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-white capitalize">{item.platform}</h4>
-                <span className="text-xs text-gray-400">{item.formatType} • {item.characterCount} chars</span>
+                <span className="text-xs text-gray-300">{item.formatType} • {item.characterCount} chars</span>
               </div>
               <div className="bg-gray-900/50 rounded p-3 text-sm text-gray-300 whitespace-pre-wrap mb-2">
                 {item.content}
@@ -1558,7 +1558,7 @@ function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => v
             <div className="flex flex-wrap gap-2">
               {result.trending?.map((h: any, i: number) => (
                 <span key={i} className="px-2 py-1 bg-gray-700 rounded text-sm">
-                  {h.hashtag} <span className="text-gray-400">({h.reach})</span>
+                  {h.hashtag} <span className="text-gray-300">({h.reach})</span>
                 </span>
               ))}
             </div>
@@ -1638,7 +1638,7 @@ function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => v
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <div className="font-semibold">{set.name}</div>
-                    {set.platform && <div className="text-xs text-gray-400">{set.platform}</div>}
+                    {set.platform && <div className="text-xs text-gray-300">{set.platform}</div>}
                   </div>
                   <button
                     onClick={async () => {
@@ -1852,7 +1852,7 @@ function ContentTemplatesUI({ token, onClose }: { token: string, onClose: () => 
 
       <div className="space-y-2">
         {templates.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-gray-300">
             No templates yet. Create your first template!
           </div>
         ) : (
@@ -1862,10 +1862,10 @@ function ContentTemplatesUI({ token, onClose }: { token: string, onClose: () => 
                 <div>
                   <div className="font-semibold">{template.name}</div>
                   {template.platform && (
-                    <div className="text-xs text-gray-400">{template.platform}</div>
+                    <div className="text-xs text-gray-300">{template.platform}</div>
                   )}
                   {template.category && (
-                    <div className="text-xs text-gray-400">Category: {template.category}</div>
+                    <div className="text-xs text-gray-300">Category: {template.category}</div>
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -1894,7 +1894,7 @@ function ContentTemplatesUI({ token, onClose }: { token: string, onClose: () => 
               </div>
               <div className="text-sm text-gray-300 whitespace-pre-wrap">{template.content}</div>
               {template.description && (
-                <div className="text-xs text-gray-400 mt-2">{template.description}</div>
+                <div className="text-xs text-gray-300 mt-2">{template.description}</div>
               )}
             </div>
           ))
@@ -2006,9 +2006,9 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
       </div>
 
       {loading ? (
-        <div className="text-center py-8 text-gray-400">Loading...</div>
+        <div className="text-center py-8 text-gray-300">Loading...</div>
       ) : engagements.length === 0 ? (
-        <div className="text-center py-8 text-gray-400">
+        <div className="text-center py-8 text-gray-300">
           No engagements found. Add engagements manually or integrate with social platforms.
         </div>
       ) : (
@@ -2025,7 +2025,7 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
                   <div className="font-semibold">
                     {eng.author_name || eng.author_handle || 'Anonymous'}
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-gray-300">
                     {eng.platform} • {eng.type} • {new Date(eng.created_at).toLocaleString()}
                   </div>
                 </div>
@@ -2156,7 +2156,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
           rows={5}
           required
         />
-        <p className="text-xs text-gray-400 mt-1">One topic per line</p>
+        <p className="text-xs text-gray-300 mt-1">One topic per line</p>
       </div>
       <div>
         <label className="block text-sm text-gray-300 mb-1">Your Topics (Optional)</label>
@@ -2167,7 +2167,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
           placeholder="Enter your existing topics, one per line:&#10;Social media marketing&#10;Content creation"
           rows={4}
         />
-        <p className="text-xs text-gray-400 mt-1">One topic per line</p>
+        <p className="text-xs text-gray-300 mt-1">One topic per line</p>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -2179,7 +2179,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
             className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
             placeholder="blog-post, video, carousel"
           />
-          <p className="text-xs text-gray-400 mt-1">Comma-separated</p>
+          <p className="text-xs text-gray-300 mt-1">Comma-separated</p>
         </div>
         <div>
           <label className="block text-sm text-gray-300 mb-1">Your Formats (Optional)</label>
@@ -2190,7 +2190,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
             className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
             placeholder="blog-post, video"
           />
-          <p className="text-xs text-gray-400 mt-1">Comma-separated</p>
+          <p className="text-xs text-gray-300 mt-1">Comma-separated</p>
         </div>
       </div>
       {error && (
@@ -2230,13 +2230,13 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
                       <h5 className="text-sm font-semibold text-white">{suggestion.topic}</h5>
                       <span className="text-xs text-purple-400">Priority: {suggestion.priorityScore}</span>
                     </div>
-                    <div className="text-xs text-gray-400 mb-1">
+                    <div className="text-xs text-gray-300 mb-1">
                       Format: <span className="text-gray-300 capitalize">{suggestion.format?.replace('-', ' ')}</span>
                     </div>
-                    <div className="text-xs text-gray-400 mb-1">
+                    <div className="text-xs text-gray-300 mb-1">
                       Angle: <span className="text-gray-300">{suggestion.angle}</span>
                     </div>
-                    <div className="text-xs text-gray-400">{suggestion.reason}</div>
+                    <div className="text-xs text-gray-300">{suggestion.reason}</div>
                   </div>
                 ))}
               </div>
@@ -2366,11 +2366,11 @@ function CalendarView({ token }: { token: string }) {
         </h3>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-400">Loading calendar...</div>
+          <div className="text-center py-12 text-gray-300">Loading calendar...</div>
         ) : (
           <div className="grid grid-cols-7 gap-2">
             {dayNames.map(day => (
-              <div key={day} className="text-center font-semibold text-gray-400 py-2">
+              <div key={day} className="text-center font-semibold text-gray-300 py-2">
                 {day}
               </div>
             ))}
@@ -2391,7 +2391,7 @@ function CalendarView({ token }: { token: string }) {
                         </div>
                       ))}
                       {dayEvents.length > 2 && (
-                        <div className="text-xs text-gray-400">+{dayEvents.length - 2} more</div>
+                        <div className="text-xs text-gray-300">+{dayEvents.length - 2} more</div>
                       )}
                     </>
                   )}
@@ -2410,9 +2410,9 @@ function CalendarView({ token }: { token: string }) {
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="font-semibold">{event.title}</div>
-                      <div className="text-sm text-gray-400">{event.platform} • {event.status}</div>
+                      <div className="text-sm text-gray-300">{event.platform} • {event.status}</div>
                       {event.scheduledAt && (
-                        <div className="text-xs text-gray-400 mt-1">
+                        <div className="text-xs text-gray-300 mt-1">
                           {new Date(event.scheduledAt).toLocaleTimeString()}
                         </div>
                       )}
@@ -2421,7 +2421,7 @@ function CalendarView({ token }: { token: string }) {
                 </div>
               ))}
               {getEventsForDate(parseInt(selectedDate.split('-')[2])).length === 0 && (
-                <div className="text-gray-400 text-center py-4">No events scheduled</div>
+                <div className="text-gray-300 text-center py-4">No events scheduled</div>
               )}
             </div>
             <button
@@ -2465,11 +2465,11 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
   }
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-400">Loading analytics...</div>
+    return <div className="text-center py-12 text-gray-300">Loading analytics...</div>
   }
 
   if (!analytics) {
-    return <div className="text-center py-12 text-gray-400">No analytics data available</div>
+    return <div className="text-center py-12 text-gray-300">No analytics data available</div>
   }
 
   return (
@@ -2492,7 +2492,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Total Posts</p>
+              <p className="text-gray-300 text-sm">Total Posts</p>
               <p className="text-2xl font-bold">{analytics.overview.totalPosts}</p>
             </div>
             <FileText className="w-8 h-8 text-blue-400" />
@@ -2501,7 +2501,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Total Engagement</p>
+              <p className="text-gray-300 text-sm">Total Engagement</p>
               <p className="text-2xl font-bold">{analytics.overview.totalEngagement.toLocaleString()}</p>
             </div>
             <Heart className="w-8 h-8 text-red-400" />
@@ -2510,7 +2510,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Avg Engagement</p>
+              <p className="text-gray-300 text-sm">Avg Engagement</p>
               <p className="text-2xl font-bold">{analytics.overview.avgEngagement}</p>
             </div>
             <TrendingUp className="w-8 h-8 text-green-400" />
@@ -2519,7 +2519,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Growth Rate</p>
+              <p className="text-gray-300 text-sm">Growth Rate</p>
               <p className={`text-2xl font-bold ${analytics.overview.growthRate >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {analytics.overview.growthRate >= 0 ? '+' : ''}{analytics.overview.growthRate}%
               </p>
@@ -2540,8 +2540,8 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
           {Object.entries(analytics.byPlatform.posts).map(([platform, count]: [string, any]) => (
             <div key={platform} className="text-center">
               <div className="text-2xl font-bold">{count}</div>
-              <div className="text-sm text-gray-400 capitalize">{platform}</div>
-              <div className="text-xs text-gray-400">
+              <div className="text-sm text-gray-300 capitalize">{platform}</div>
+              <div className="text-xs text-gray-300">
                 {analytics.byPlatform.engagement[platform] || 0} engagement
               </div>
             </div>
@@ -2559,16 +2559,16 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-purple-400 font-bold">#{idx + 1}</span>
-                    <span className="text-sm text-gray-400 capitalize">{post.platform}</span>
+                    <span className="text-sm text-gray-300 capitalize">{post.platform}</span>
                   </div>
                   <div className="text-sm text-gray-300 truncate">{post.content}</div>
-                  <div className="text-xs text-gray-400 mt-1">
+                  <div className="text-xs text-gray-300 mt-1">
                     {new Date(post.publishedAt).toLocaleDateString()}
                   </div>
                 </div>
                 <div className="text-right ml-4">
                   <div className="text-lg font-bold text-green-400">{post.engagement.toLocaleString()}</div>
-                  <div className="text-xs text-gray-400">engagement</div>
+                  <div className="text-xs text-gray-300">engagement</div>
                 </div>
               </div>
             ))}
@@ -2729,7 +2729,7 @@ export default function Dashboard() {
             <div className="flex flex-col gap-0.5 shrink-0">
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
               <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
-                <Search className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none shrink-0" aria-hidden />
+                <Search className="absolute left-3 w-4 h-4 text-gray-300 pointer-events-none shrink-0" aria-hidden />
                 <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
               </form>
             </div>
@@ -2744,9 +2744,9 @@ export default function Dashboard() {
               >
                 {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
-              <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-              <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
-              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+              <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+              <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
+              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
               <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
             </div>
           </div>
@@ -2757,7 +2757,7 @@ export default function Dashboard() {
               <div className="flex flex-col gap-0.5 shrink-0">
                 <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
                 <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
-                  <Search className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none shrink-0" aria-hidden />
+                  <Search className="absolute left-3 w-4 h-4 text-gray-300 pointer-events-none shrink-0" aria-hidden />
                   <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search within the app" />
                 </form>
               </div>
@@ -2771,10 +2771,10 @@ export default function Dashboard() {
                 >
                   {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
-                <button type="button" onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app" aria-label="Focus search"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
-                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+                <button type="button" onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app" aria-label="Focus search"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
+                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
                 <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
               </div>
             </div>
@@ -2880,11 +2880,11 @@ export default function Dashboard() {
               <div className="space-y-2 text-sm">
                 <div className="p-2 bg-gray-700 rounded">
                   <p className="text-gray-300">Post scheduled for Instagram</p>
-                  <p className="text-xs text-gray-400">2 hours ago</p>
+                  <p className="text-xs text-gray-300">2 hours ago</p>
                 </div>
                 <div className="p-2 bg-gray-700 rounded">
                   <p className="text-gray-300">New collaboration request</p>
-                  <p className="text-xs text-gray-400">5 hours ago</p>
+                  <p className="text-xs text-gray-300">5 hours ago</p>
                 </div>
               </div>
             </div>
@@ -2921,7 +2921,7 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Total Followers</p>
+                      <p className="text-gray-300 text-sm">Total Followers</p>
                       <p className="text-2xl font-bold">{analytics.totalFollowers.toLocaleString()}</p>
                     </div>
                     <Users className="w-8 h-8 text-blue-400" />
@@ -2935,7 +2935,7 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Engagement Rate</p>
+                      <p className="text-gray-300 text-sm">Engagement Rate</p>
                       <p className="text-2xl font-bold">{analytics.engagementRate}%</p>
                     </div>
                     <BarChart3 className="w-8 h-8 text-purple-400" />
@@ -2949,7 +2949,7 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Reach</p>
+                      <p className="text-gray-300 text-sm">Reach</p>
                       <p className="text-2xl font-bold">{analytics.reach.toLocaleString()}</p>
                     </div>
                     <TrendingUp className="w-8 h-8 text-green-400" />
@@ -2963,7 +2963,7 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Impressions</p>
+                      <p className="text-gray-300 text-sm">Impressions</p>
                       <p className="text-2xl font-bold">{analytics.impressions.toLocaleString()}</p>
                     </div>
                     <BarChart3 className="w-8 h-8 text-indigo-400" />
@@ -2995,16 +2995,16 @@ export default function Dashboard() {
                               <p className="font-medium">{post.platform}</p>
                               {post.isLocked && <LockedContentIcon />}
                             </div>
-                            <p className="text-sm text-gray-400 truncate max-w-xs">{post.content}</p>
+                            <p className="text-sm text-gray-300 truncate max-w-xs">{post.content}</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm text-gray-400">
+                          <p className="text-sm text-gray-300">
                             {post.scheduled_at 
                               ? new Date(post.scheduled_at).toLocaleDateString() 
                               : new Date(post.created_at).toLocaleDateString()}
                           </p>
-                          <p className="text-xs text-gray-400">{post.status}</p>
+                          <p className="text-xs text-gray-300">{post.status}</p>
                         </div>
                       </div>
                     ))}
@@ -3017,7 +3017,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium">Sunset Photography</p>
-                        <p className="text-sm text-gray-400">Instagram • 2 days ago</p>
+                        <p className="text-sm text-gray-300">Instagram • 2 days ago</p>
                       </div>
                       <div className="text-right">
                         <p className="font-semibold">2.4K likes</p>
@@ -3027,7 +3027,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium">Course Launch</p>
-                        <p className="text-sm text-gray-400">Twitter • 1 week ago</p>
+                        <p className="text-sm text-gray-300">Twitter • 1 week ago</p>
                       </div>
                       <div className="text-right">
                         <p className="font-semibold">1.8K retweets</p>
@@ -3061,7 +3061,7 @@ export default function Dashboard() {
 
               {posts.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-400 mb-4">No posts yet. Create your first post!</p>
+                  <p className="text-gray-300 mb-4">No posts yet. Create your first post!</p>
                   <button
                     onClick={() => router.push('/create')}
                     className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
@@ -3105,7 +3105,7 @@ export default function Dashboard() {
                       
                       <p className="text-gray-300 mb-4 mt-4">{post.content}</p>
                       
-                      <div className="flex justify-between items-center text-sm text-gray-400 mb-4">
+                      <div className="flex justify-between items-center text-sm text-gray-300 mb-4">
                         <span>
                           {post.scheduled_at 
                             ? new Date(post.scheduled_at).toLocaleDateString() 
@@ -3126,7 +3126,7 @@ export default function Dashboard() {
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                             post.isLocked
-                              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                              ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
                               : 'bg-blue-600 hover:bg-blue-700'
                           }`}
                         >
@@ -3144,7 +3144,7 @@ export default function Dashboard() {
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                             post.isLocked
-                              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                              ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
                               : 'bg-purple-600 hover:bg-purple-700'
                           }`}
                         >
@@ -3228,8 +3228,8 @@ export default function Dashboard() {
               <h2 className="text-2xl font-bold">Brand Collaborations</h2>
               <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                 <h3 className="text-lg font-semibold mb-4">Active Partnerships</h3>
-                <div className="text-center py-12 text-gray-400">
-                  <Users className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
+                <div className="text-center py-12 text-gray-300">
+                  <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" aria-hidden />
                   <p>No active collaborations yet</p>
                   <p className="text-sm">Start reaching out to brands to grow your partnerships</p>
                 </div>
@@ -3578,11 +3578,11 @@ export default function Dashboard() {
                   <div className="p-6 border-b border-gray-700 flex items-center justify-between sticky top-0 bg-gray-800">
                     <div>
                       <h2 className="text-2xl font-bold text-white">{doc.title}</h2>
-                      <p className="text-sm text-gray-400 mt-1">{doc.tier}</p>
+                      <p className="text-sm text-gray-300 mt-1">{doc.tier}</p>
                     </div>
                     <button
                       onClick={() => setSelectedBot(null)}
-                      className="text-gray-400 hover:text-white transition-colors text-2xl"
+                      className="text-gray-300 hover:text-white transition-colors text-2xl"
                     >
                       ×
                     </button>

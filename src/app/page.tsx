@@ -255,7 +255,7 @@ The CreatorFlow365 Team`,
               </button>
             </div>
           </div>
-          <p className="text-sm text-gray-400 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
+          <p className="text-sm text-gray-300 mt-4">14-day free trial • No credit card required • Content is kept when you sign up for the plan you trialed</p>
           {/* Publishing callout — kept from 3b6544d; replaces older "How it works" (dashboard-first) copy */}
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
@@ -335,10 +335,10 @@ The CreatorFlow365 Team`,
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Your full creator OS—not a single trick pony</h2>
-            <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 mb-6 max-w-3xl mx-auto">
               AI captions, a content calendar, reusable templates, hashtag sets, batch content drafting, multi-platform scheduling, and analytics—all in one flow.
             </p>
-            <p className="text-sm text-gray-400 mb-4">Everything in your dashboard—scheduling, AI drafting tools, Follow Thru CRM, and more. Premium features included in every plan.</p>
+            <p className="text-sm text-gray-300 mb-4">Everything in your dashboard—scheduling, AI drafting tools, Follow Thru CRM, and more. Premium features included in every plan.</p>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
@@ -414,7 +414,7 @@ The CreatorFlow365 Team`,
               <li><strong className="text-white">Professional ($79)</strong> — Includes white-label options, expanded team capacity, predictive analytics, and advanced API access.</li>
               <li><strong className="text-white">Business ($149)</strong> — Unlimited team, full white-label, and a dedicated account manager for onboarding and escalation support.</li>
             </ul>
-            <p className="text-xs text-gray-400 mt-4">
+            <p className="text-xs text-gray-300 mt-4">
               Feature and pricing comparisons are based on publicly listed competitor pages at time of writing and may change.
             </p>
           </div>
@@ -435,8 +435,8 @@ The CreatorFlow365 Team`,
           <div className="flex flex-wrap justify-center gap-6">
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Starter</h3>
-              <p className="text-xs text-gray-400 mb-4">Remove limits</p>
-              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-400">/month</span></div>
+              <p className="text-xs text-gray-300 mb-4">Remove limits</p>
+              <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-300">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>3 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited documents</span></li>
@@ -453,12 +453,12 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
-              <a href="/select-plan?plan=starter" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
+              <a href="/select-plan?plan=starter" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Essential</h3>
-              <p className="text-xs text-gray-400 mb-4">For creators building their workflow</p>
-              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-400">/month</span></div>
+              <p className="text-xs text-gray-300 mb-4">For creators building their workflow</p>
+              <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-300">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>5 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
@@ -473,15 +473,15 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
-              <a href="/select-plan?plan=growth" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
+              <a href="/select-plan?plan=growth" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-2">Creator</h3>
-              <p className="text-xs text-gray-400 mb-4">For serious creators who want everything</p>
-              <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-400">/month</span></div>
+              <p className="text-xs text-gray-300 mb-4">For serious creators who want everything</p>
+              <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-300">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>10 social accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited AI calls</span></li>
@@ -497,12 +497,12 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
-              <a href="/select-plan?plan=pro" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
+              <a href="/select-plan?plan=pro" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <h3 className="text-2xl font-bold mb-2">Professional</h3>
-              <p className="text-xs text-gray-400 mb-4">Complete toolkit for professional creators</p>
-              <div className="text-4xl font-bold mb-6">$79<span className="text-lg text-gray-400">/month</span></div>
+              <p className="text-xs text-gray-300 mb-4">Complete toolkit for professional creators</p>
+              <div className="text-4xl font-bold mb-6">$79<span className="text-lg text-gray-300">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited accounts</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
@@ -518,15 +518,15 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
-              <a href="/select-plan?plan=business" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
+              <a href="/select-plan?plan=business" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
             </div>
             <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">
                 Teams &amp; agencies
               </div>
               <h3 className="text-2xl font-bold mb-2">Business</h3>
-              <p className="text-xs text-gray-400 mb-4">For teams and agencies</p>
-              <div className="text-4xl font-bold mb-6">$149<span className="text-lg text-gray-400">/month</span></div>
+              <p className="text-xs text-gray-300 mb-4">For teams and agencies</p>
+              <div className="text-4xl font-bold mb-6">$149<span className="text-lg text-gray-300">/month</span></div>
               <ul className="space-y-2 mb-8 text-sm">
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
                 <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
@@ -543,7 +543,7 @@ The CreatorFlow365 Team`,
               >
                 Get Started
               </button>
-              <a href="/select-plan?plan=agency" className="block text-center text-sm text-gray-400 hover:text-white mt-2">Tools offered</a>
+              <a href="/select-plan?plan=agency" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
             </div>
           </div>
         </div>
@@ -635,7 +635,7 @@ The CreatorFlow365 Team`,
       <section className="py-16 px-6 bg-gray-900/20">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-4">Explore creator growth guides</h2>
-          <p className="text-gray-400 text-center mb-8">
+          <p className="text-gray-300 text-center mb-8">
             Start with the guide that matches what you need right now.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -679,7 +679,7 @@ The CreatorFlow365 Team`,
               <h2 className="text-3xl font-bold text-white">Credit Bundles</h2>
             </div>
             <p className="text-gray-300 text-lg mb-2">All plans include <strong className="text-white">25 free credits</strong> for your first month as a gift to try premium tools.</p>
-            <p className="text-gray-400 text-sm mb-4">Lower plans: Premium tools cost credits per use. Higher plans: Premium tools included in your plan have unlimited use (no credits needed). Purchase additional credits to unlock more premium tool uses. Purchased credits roll over month to month.</p>
+            <p className="text-gray-300 text-sm mb-4">Lower plans: Premium tools cost credits per use. Higher plans: Premium tools included in your plan have unlimited use (no credits needed). Purchase additional credits to unlock more premium tool uses. Purchased credits roll over month to month.</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               {CREDIT_BUNDLES.map((bundle, i) => (
                 <div key={bundle.id} className={`bg-gray-800/50 rounded-xl p-6 text-center ${bundle.id === 'popular' ? 'border-2 border-white relative' : 'border border-gray-700'}`}>
@@ -687,13 +687,13 @@ The CreatorFlow365 Team`,
                   <h3 className="text-xl font-bold text-white mb-2">{bundle.name}</h3>
                   <div className="text-3xl font-bold text-white mb-1">${bundle.price}</div>
                   {'savings' in bundle && bundle.savings && <div className="text-sm text-green-400 mb-1">{bundle.savings}</div>}
-                  <div className="text-sm text-gray-400 mb-3">{bundle.credits} credits · {bundle.perCredit}</div>
-                  <p className="text-xs text-gray-400 mb-6">{bundle.description}</p>
+                  <div className="text-sm text-gray-300 mb-3">{bundle.credits} credits · {bundle.perCredit}</div>
+                  <p className="text-xs text-gray-300 mb-6">{bundle.description}</p>
                   <button onClick={() => handleBuyCredits(bundle.id)} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors">Buy credits</button>
                 </div>
               ))}
             </div>
-            <p className="text-sm text-gray-400 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
+            <p className="text-sm text-gray-300 text-center"><strong className="text-gray-300">How credits work:</strong> Free credits: 25 credits during your first month only (one-time trial credits).</p>
           </div>
         </div>
       </section>
@@ -746,7 +746,7 @@ The CreatorFlow365 Team`,
             </div>
 
             <div className="mt-6 pt-6 border-t border-gray-700">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-300">
                 <strong className="text-gray-300">Free Trial:</strong> Start your 14-day free trial with <strong className="text-white">no credit card required</strong>. 
                 Create content, schedule posts, and use all features. When you sign up for the plan you trialed, all your content is kept. If you don't subscribe, your changes will be reverted to your original state.
               </p>
@@ -780,7 +780,7 @@ The CreatorFlow365 Team`,
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Your content workflow, finally in one place.</h2>
-          <p className="text-xl text-gray-400 mb-8">Solo creators and content teams use CreatorFlow365 to batch drafts, schedule across platforms, and keep every piece of content moving forward.</p>
+          <p className="text-xl text-gray-300 mb-8">Solo creators and content teams use CreatorFlow365 to batch drafts, schedule across platforms, and keep every piece of content moving forward.</p>
           <button 
             onClick={() => window.location.href = '/signup'}
             className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"

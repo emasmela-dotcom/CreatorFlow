@@ -33,7 +33,7 @@ function TrialSuccessContent() {
           </p>
 
           {sessionId && (
-            <p className="text-xs text-gray-400 mb-4 break-all">Reference: {sessionId}</p>
+            <p className="text-xs text-gray-300 mb-4 break-all">Reference: {sessionId}</p>
           )}
 
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6 text-left">
@@ -54,7 +54,7 @@ function TrialSuccessContent() {
             <ArrowRight className="w-5 h-5" />
           </button>
 
-          <p className="text-xs text-gray-400 mt-4">Redirecting in 3 seconds…</p>
+          <p className="text-xs text-gray-300 mt-4">Redirecting in 3 seconds…</p>
         </div>
       </div>
       <SeoSiteFooter />

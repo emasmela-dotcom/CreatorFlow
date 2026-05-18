@@ -436,7 +436,7 @@ function CreatePostInner() {
                 <div className="space-y-2 mb-2">
                   {publishResults.failed.map((name) => (
                     <div key={`${name}-formatted`} className="rounded bg-gray-900/60 border border-gray-700 p-3">
-                      <p className="text-xs uppercase tracking-wide text-gray-400 mb-2">{name} formatted copy</p>
+                      <p className="text-xs uppercase tracking-wide text-gray-300 mb-2">{name} formatted copy</p>
                       <pre className="text-xs whitespace-pre-wrap break-words text-gray-200">
                         {publishResults.formattedByPlatform[name]}
                       </pre>
@@ -446,7 +446,7 @@ function CreatePostInner() {
                 <button
                   type="button"
                   onClick={() => setPublishResults(null)}
-                  className="text-xs text-gray-400 hover:text-gray-300"
+                  className="text-xs text-gray-300 hover:text-gray-300"
                 >
                   Dismiss
                 </button>
@@ -464,7 +464,7 @@ function CreatePostInner() {
                       The <strong className="text-white">free plan</strong> is designed for <strong className="text-purple-300">learning and exploring</strong> CreatorFlow tools. 
                       You can use all AI bots, create content, and explore features, but <strong className="text-white">post creation and publishing are not available</strong> on the free plan.
                     </p>
-                    <p className="text-sm text-gray-400 mb-4">
+                    <p className="text-sm text-gray-300 mb-4">
                       Upgrade to a paid plan to unlock post creation, scheduling, and publishing capabilities.
                     </p>
                     <button
@@ -524,12 +524,12 @@ function CreatePostInner() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Select Platforms for Content Creation</h3>
                 {selectedPlatforms.length > 0 && (
-                  <span className="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">
+                  <span className="text-xs text-gray-300 bg-gray-700 px-2 py-1 rounded">
                     {selectedPlatforms.length} selected
                   </span>
                 )}
               </div>
-              <p className="text-sm text-gray-400 mb-4">
+              <p className="text-sm text-gray-300 mb-4">
                 Choose which social media platforms you want to create content for. Your selection will be saved as your default.
               </p>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -560,7 +560,7 @@ function CreatePostInner() {
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Content</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-400">
+                <div className="flex items-center gap-2 text-xs text-gray-300">
                   <span className="flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     AI Assistant Active
@@ -585,7 +585,7 @@ function CreatePostInner() {
                 </button>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <span className="text-sm text-gray-400">{content.length}/280 characters</span>
+                <span className="text-sm text-gray-300">{content.length}/280 characters</span>
                 <div className="flex gap-2">
                   <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
                     <Hash className="w-4 h-4" />
@@ -640,11 +640,11 @@ function CreatePostInner() {
                 <label htmlFor="media-upload" className="cursor-pointer">
                   <div className="flex flex-col items-center gap-4">
                     <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center">
-                      <Image className="w-8 h-8 text-gray-400" />
+                      <Image className="w-8 h-8 text-gray-300" />
                     </div>
                     <div>
                       <p className="font-medium">Upload photos or videos</p>
-                      <p className="text-sm text-gray-400">Drag and drop or click to browse</p>
+                      <p className="text-sm text-gray-300">Drag and drop or click to browse</p>
                     </div>
                   </div>
                 </label>
@@ -654,7 +654,7 @@ function CreatePostInner() {
                   {mediaFiles.map((file, index) => (
                     <div key={index} className="relative">
                       <div className="aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
-                        <Image className="w-8 h-8 text-gray-400" />
+                        <Image className="w-8 h-8 text-gray-300" />
                       </div>
                       <button className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">
                         ×
@@ -675,7 +675,7 @@ function CreatePostInner() {
                 placeholder="#hashtag1 #hashtag2 #hashtag3"
                 className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
-              <p className="text-sm text-gray-400 mt-2">
+              <p className="text-sm text-gray-300 mt-2">
                 Separate hashtags with spaces. Use 3-5 hashtags for best engagement.
               </p>
             </div>
@@ -684,7 +684,7 @@ function CreatePostInner() {
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Schedule</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-400">
+                <div className="flex items-center gap-2 text-xs text-gray-300">
                   <span className="flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     AI Assistant Active
@@ -745,7 +745,7 @@ function CreatePostInner() {
                   <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"></div>
                   <div>
                     <p className="font-medium text-sm">Your Name</p>
-                    <p className="text-xs text-gray-400">2h ago</p>
+                    <p className="text-xs text-gray-300">2h ago</p>
                   </div>
                 </div>
                 <p className="text-sm mb-2">{content || 'Your content will appear here...'}</p>

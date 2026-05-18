@@ -53,9 +53,9 @@ function SelectPlanContent() {
         <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
           <nav className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm" aria-label="Site">
-            <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
+            <Link href="/" className="text-gray-300 hover:text-white">Home</Link>
             <Link href="/#pricing" className="text-gray-300 hover:text-white">Pricing</Link>
-            <Link href="/signin" className="text-gray-400 hover:text-white">Sign In</Link>
+            <Link href="/signin" className="text-gray-300 hover:text-white">Sign In</Link>
             <Link href="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</Link>
           </nav>
         </div>
@@ -140,7 +140,7 @@ function SelectPlanContent() {
             type="button"
             onClick={goToSignup}
             disabled={!understood}
-            className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-400"
+            className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
           >
             Subscribe now
           </button>
@@ -191,7 +191,7 @@ export default function SelectPlanPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <span className="text-gray-400">Loading...</span>
+        <span className="text-gray-300">Loading...</span>
       </div>
     }>
       <SelectPlanContent />

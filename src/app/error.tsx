@@ -24,7 +24,7 @@ export default function Error({
         <div className="mb-8">
           <AlertCircle className="w-20 h-20 text-red-500 mx-auto mb-4" />
           <h1 className="text-4xl font-bold mb-4">Something went wrong!</h1>
-          <p className="text-gray-400 mb-2">
+          <p className="text-gray-300 mb-2">
             An unexpected error occurred. Please try again.
           </p>
           {process.env.NODE_ENV === 'development' && error.message && (

@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => router.push('/signin')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors shrink-0"
+            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors shrink-0"
             aria-label="Back to sign in"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
       <div className="max-w-md mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Reset Password</h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-300">
             Enter your email and new password
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
               <input
                 id="forgot-email"
                 type="email"
@@ -118,7 +118,7 @@ export default function ForgotPasswordPage() {
               New Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
               <input
                 id="forgot-password"
                 type="password"
@@ -131,7 +131,7 @@ export default function ForgotPasswordPage() {
                 minLength={8}
               />
             </div>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-300 mt-1">
               Must be at least 8 characters with uppercase, lowercase, and number
             </p>
           </div>

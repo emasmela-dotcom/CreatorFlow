@@ -120,11 +120,11 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-gray-900/50 p-4 rounded-lg">
-              <p className="text-sm text-gray-400 mb-1">Brand Voice Score</p>
+              <p className="text-sm text-gray-300 mb-1">Brand Voice Score</p>
               <p className="text-3xl font-bold text-purple-400">{result.brandVoiceScore}%</p>
             </div>
             <div className="bg-gray-900/50 p-4 rounded-lg">
-              <p className="text-sm text-gray-400 mb-1">Consistency Level</p>
+              <p className="text-sm text-gray-300 mb-1">Consistency Level</p>
               <p className="text-xl font-semibold text-indigo-400">{result.consistencyLevel}</p>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
               {Object.entries(result.toneAnalysis).map(([tone, score]: [string, any]) => (
                 <div key={tone}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-400 capitalize">{tone}</span>
+                    <span className="text-gray-300 capitalize">{tone}</span>
                     <span className="text-white font-semibold">{score}%</span>
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">

@@ -299,7 +299,7 @@ export default function CreatorToolsPage() {
               This page maps what creators type into search—calendar apps, schedulers, hashtags, repurposing, analytics,
               lightweight CRM—to how those jobs fit one workspace.
             </p>
-            <p className="text-base text-gray-400 leading-relaxed">
+            <p className="text-base text-gray-300 leading-relaxed">
               Skim by section, share a heading link, or jump to the three guides at the bottom when one intent is all you
               need.
             </p>
@@ -351,8 +351,8 @@ export default function CreatorToolsPage() {
               <section key={s.id} id={s.id} className="scroll-mt-24">
                 <h2 className="text-2xl font-bold text-white mb-4">{s.title}</h2>
                 {s.queries.length > 0 && (
-                  <p className="text-xs text-gray-400 mb-3">
-                    <span className="text-gray-400">Example searches this section matches:</span>{' '}
+                  <p className="text-xs text-gray-300 mb-3">
+                    <span className="text-gray-300">Example searches this section matches:</span>{' '}
                     {s.queries.join(' · ')}
                   </p>
                 )}
@@ -411,7 +411,7 @@ export default function CreatorToolsPage() {
           </section>
 
           <nav
-            className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400"
+            className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-300"
             aria-label="Site"
           >
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -427,7 +427,7 @@ export default function CreatorToolsPage() {
           <div className="mt-16 pt-10 border-t border-gray-800 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-white">Ready to try the workspace?</p>
-              <p className="text-sm text-gray-400 mt-1">Demo without signup, or start your trial from pricing.</p>
+              <p className="text-sm text-gray-300 mt-1">Demo without signup, or start your trial from pricing.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link

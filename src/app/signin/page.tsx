@@ -57,7 +57,7 @@ export default function SignInPage() {
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors shrink-0"
+            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors shrink-0"
             aria-label="Back to home"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -73,7 +73,7 @@ export default function SignInPage() {
       <div className="max-w-md mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Sign In</h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-300">
             Welcome back to CreatorFlow365
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function SignInPage() {
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
               <input
                 id="signin-email"
                 type="email"
@@ -109,7 +109,7 @@ export default function SignInPage() {
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
               <input
                 id="signin-password"
                 type={showPassword ? 'text' : 'password'}
@@ -123,7 +123,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white transition-colors"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -147,7 +147,7 @@ export default function SignInPage() {
             >
               Forgot password?
             </button>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-300">
               Don't have an account?{' '}
               <button
                 type="button"

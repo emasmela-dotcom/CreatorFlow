@@ -59,7 +59,7 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
       {showTooltip && (
         <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-gray-800 border-2 border-purple-500 rounded-lg shadow-xl p-4">
           {loading ? (
-            <div className="text-center text-gray-400 py-4">Loading...</div>
+            <div className="text-center text-gray-300 py-4">Loading...</div>
           ) : profile ? (
             <div className="space-y-3">
               {/* Header */}
@@ -77,14 +77,14 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-white truncate">{displayName}</div>
-                  <div className="text-xs text-gray-400 capitalize">{profile.subscriptionTier} Plan</div>
+                  <div className="text-xs text-gray-300 capitalize">{profile.subscriptionTier} Plan</div>
                 </div>
               </div>
 
               {/* Content Types */}
               {profile.contentTypes && profile.contentTypes.length > 0 ? (
                 <div>
-                  <div className="text-xs text-gray-400 mb-2 flex items-center gap-1">
+                  <div className="text-xs text-gray-300 mb-2 flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     Creates:
                   </div>
@@ -100,13 +100,13 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
                   </div>
                 </div>
               ) : (
-                <div className="text-xs text-gray-400 italic">
+                <div className="text-xs text-gray-300 italic">
                   No content types set
                 </div>
               )}
             </div>
           ) : (
-            <div className="text-center text-gray-400 py-4">Profile not found</div>
+            <div className="text-center text-gray-300 py-4">Profile not found</div>
           )}
         </div>
       )}

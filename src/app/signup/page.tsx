@@ -107,7 +107,7 @@ function SignupPageContent() {
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors shrink-0"
+            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors shrink-0"
             aria-label="Back to home"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -124,7 +124,7 @@ function SignupPageContent() {
         {/* Progress: Create Account → Payment (plan is optional, from dashboard/pricing) */}
         <div className="flex items-center justify-center mb-8 sm:mb-12 overflow-x-auto">
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className={`flex items-center ${step === 'account' ? 'text-purple-400' : step === 'payment' ? 'text-green-400' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step === 'account' ? 'text-purple-400' : step === 'payment' ? 'text-green-400' : 'text-gray-300'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'account' ? 'border-purple-400 bg-purple-400/10' : step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
@@ -133,7 +133,7 @@ function SignupPageContent() {
               <span className="ml-2 font-medium hidden sm:inline">Create Account</span>
             </div>
             <div className="w-8 sm:w-16 h-0.5 bg-gray-700 shrink-0" />
-            <div className={`flex items-center ${step === 'payment' ? 'text-purple-400' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step === 'payment' ? 'text-purple-400' : 'text-gray-300'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'payment' ? 'border-purple-400 bg-purple-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
@@ -154,7 +154,7 @@ function SignupPageContent() {
               <p className="text-sm text-green-400 mt-2">
                 No credit card required to start your trial.
               </p>
-              <p className="text-xs text-gray-400 mt-1 max-w-xl mx-auto">
+              <p className="text-xs text-gray-300 mt-1 max-w-xl mx-auto">
                 When you subscribe after the trial, content you created during the trial is kept.
               </p>
               <p className="text-sm text-gray-200 mt-3 font-medium max-w-xl mx-auto">
@@ -214,7 +214,7 @@ function SignupPageContent() {
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
                   <input
                     id="signup-email"
                     type="email"
@@ -233,7 +233,7 @@ function SignupPageContent() {
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
                   <input
                     id="signup-password"
                     type={showPassword ? 'text' : 'password'}
@@ -248,13 +248,13 @@ function SignupPageContent() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">Minimum 6 characters</p>
+                <p className="text-xs text-gray-300 mt-2">Minimum 6 characters</p>
               </div>
 
               <div className="flex gap-4">
@@ -284,7 +284,7 @@ function SignupPageContent() {
                 </button>
               </div>
 
-              <p className="text-xs text-center text-gray-400">
+              <p className="text-xs text-center text-gray-300">
                 By creating an account, you agree to our Terms of Service and Privacy Policy.
               </p>
             </form>
@@ -407,7 +407,7 @@ function SignupPageContent() {
                       ? router.push(`/select-plan?plan=${selectedPlan}`)
                       : setStep('account')
                   }
-                  className="mt-4 text-gray-400 hover:text-white transition-colors text-sm"
+                  className="mt-4 text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   {selectedPlan ? '← Back to plan details' : '← Back to account'}
                 </button>

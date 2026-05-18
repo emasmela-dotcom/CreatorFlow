@@ -65,7 +65,7 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
               <feature.icon className={`w-6 h-6 text-${feature.color}-400`} />
               <h3 className="font-semibold text-white">{feature.name}</h3>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-300">
               {getFeatureDescription(feature.id)}
             </p>
           </button>
@@ -169,7 +169,7 @@ function PerformancePredictorUI({ token }: { token: string }) {
         <TrendingUp className="w-6 h-6 text-purple-400" />
         AI Performance Predictor
       </h3>
-      <p className="text-gray-400">Predict how your content will perform before posting</p>
+      <p className="text-gray-300">Predict how your content will perform before posting</p>
 
       <div className="space-y-3">
         <div>
@@ -210,15 +210,15 @@ function PerformancePredictorUI({ token }: { token: string }) {
           <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <div className="text-sm text-gray-400">Predicted Engagement</div>
+                <div className="text-sm text-gray-300">Predicted Engagement</div>
                 <div className="text-2xl font-bold text-white">{prediction.predictedEngagement}</div>
               </div>
               <div>
-                <div className="text-sm text-gray-400">Predicted Reach</div>
+                <div className="text-sm text-gray-300">Predicted Reach</div>
                 <div className="text-2xl font-bold text-white">{prediction.predictedReach}</div>
               </div>
               <div>
-                <div className="text-sm text-gray-400">Confidence</div>
+                <div className="text-sm text-gray-300">Confidence</div>
                 <div className="text-2xl font-bold text-white">{prediction.confidenceScore}%</div>
               </div>
             </div>
@@ -228,7 +228,7 @@ function PerformancePredictorUI({ token }: { token: string }) {
                 <div className="text-sm font-semibold text-gray-300 mb-2">Suggestions:</div>
                 <ul className="space-y-1">
                   {prediction.improvementSuggestions.map((suggestion: string, i: number) => (
-                    <li key={i} className="text-sm text-gray-400 flex items-start gap-2">
+                    <li key={i} className="text-sm text-gray-300 flex items-start gap-2">
                       <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
                       {suggestion}
                     </li>
@@ -307,16 +307,16 @@ function BrandVoiceUI({ token }: { token: string }) {
       {profile && (
         <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
           <div className="mb-3">
-            <div className="text-sm text-gray-400">Consistency Score</div>
+            <div className="text-sm text-gray-300">Consistency Score</div>
             <div className="text-3xl font-bold text-white">{profile.consistencyScore}%</div>
           </div>
           <div className="space-y-2">
             <div>
-              <div className="text-sm text-gray-400">Tone</div>
+              <div className="text-sm text-gray-300">Tone</div>
               <div className="text-white">{profile.tone?.join(', ') || 'Not detected'}</div>
             </div>
             <div>
-              <div className="text-sm text-gray-400">Style</div>
+              <div className="text-sm text-gray-300">Style</div>
               <div className="text-white">{profile.style?.join(', ') || 'Not detected'}</div>
             </div>
           </div>
@@ -401,7 +401,7 @@ function CrossPlatformSyncUI({ token }: { token: string }) {
         <ArrowLeftRight className="w-6 h-6 text-green-400" />
         Cross-Platform Sync
       </h3>
-      <p className="text-gray-400">Post once, automatically adapts to all platforms</p>
+      <p className="text-gray-300">Post once, automatically adapts to all platforms</p>
 
       <div className="space-y-3">
         <div>
@@ -512,20 +512,20 @@ function ContentRecyclingUI({ token }: { token: string }) {
       </div>
 
       {loading ? (
-        <div className="text-center text-gray-400 py-8">Loading...</div>
+        <div className="text-center text-gray-300 py-8">Loading...</div>
       ) : recyclable.length === 0 ? (
-        <div className="text-center text-gray-400 py-8">No recyclable content found</div>
+        <div className="text-center text-gray-300 py-8">No recyclable content found</div>
       ) : (
         <div className="space-y-3">
           {recyclable.map((item: any) => (
             <div key={item.postId} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <div className="text-sm text-gray-400">{item.platform}</div>
+                  <div className="text-sm text-gray-300">{item.platform}</div>
                   <div className="text-white font-semibold">{item.originalEngagement} engagement</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm text-gray-400">Suggested Repost</div>
+                  <div className="text-sm text-gray-300">Suggested Repost</div>
                   <div className="text-white">{new Date(item.suggestedRepostDate).toLocaleDateString()}</div>
                 </div>
               </div>
@@ -580,22 +580,22 @@ function RevenueTrackerUI({ token }: { token: string }) {
 
       {summary && (
         <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-          <div className="text-sm text-gray-400 mb-1">Total Revenue</div>
+          <div className="text-sm text-gray-300 mb-1">Total Revenue</div>
           <div className="text-3xl font-bold text-white">${summary.totalRevenue.toFixed(2)}</div>
-          <div className="text-sm text-gray-400 mt-2">{summary.transactionCount} transactions</div>
+          <div className="text-sm text-gray-300 mt-2">{summary.transactionCount} transactions</div>
         </div>
       )}
 
       <div>
         <div className="text-sm font-semibold text-gray-300 mb-2">Revenue Sources</div>
         {sources.length === 0 ? (
-          <div className="text-sm text-gray-400">No revenue sources added yet</div>
+          <div className="text-sm text-gray-300">No revenue sources added yet</div>
         ) : (
           <div className="space-y-2">
             {sources.map((source: any) => (
               <div key={source.id} className="bg-gray-800/50 rounded p-3">
                 <div className="text-white font-semibold">{source.sourceName}</div>
-                <div className="text-sm text-gray-400">{source.sourceType}</div>
+                <div className="text-sm text-gray-300">{source.sourceType}</div>
               </div>
             ))}
           </div>
@@ -638,15 +638,15 @@ function TrendAlertsUI({ token }: { token: string }) {
       </h3>
 
       {loading ? (
-        <div className="text-center text-gray-400 py-8">Loading...</div>
+        <div className="text-center text-gray-300 py-8">Loading...</div>
       ) : alerts.length === 0 ? (
-        <div className="text-center text-gray-400 py-8">No trend alerts yet</div>
+        <div className="text-center text-gray-300 py-8">No trend alerts yet</div>
       ) : (
         <div className="space-y-3">
           {alerts.map((alert: any) => (
             <div key={alert.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
               <div className="font-semibold text-white">#{alert.keyword}</div>
-              <div className="text-sm text-gray-400">{alert.platform}</div>
+              <div className="text-sm text-gray-300">{alert.platform}</div>
             </div>
           ))}
         </div>
@@ -662,8 +662,8 @@ function ABTestingUI({ token }: { token: string }) {
         <TestTube className="w-6 h-6 text-pink-400" />
         A/B Testing
       </h3>
-      <p className="text-gray-400">Test content variations and compare performance</p>
-      <p className="text-sm text-gray-400">Full panel coming soon — backend is ready.</p>
+      <p className="text-gray-300">Test content variations and compare performance</p>
+      <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
     </div>
   )
 }
@@ -675,8 +675,8 @@ function ContentSeriesUI({ token }: { token: string }) {
         <List className="w-6 h-6 text-indigo-400" />
         Content Series Generator
       </h3>
-      <p className="text-gray-400">Create multi-part content series automatically</p>
-      <p className="text-sm text-gray-400">Full panel coming soon — backend is ready.</p>
+      <p className="text-gray-300">Create multi-part content series automatically</p>
+      <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
     </div>
   )
 }
@@ -797,15 +797,15 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
       </h3>
 
       {loading ? (
-        <div className="text-center text-gray-400 py-8">Loading...</div>
+        <div className="text-center text-gray-300 py-8">Loading...</div>
       ) : opportunities.length === 0 ? (
-        <div className="text-center text-gray-400 py-8">No opportunities available</div>
+        <div className="text-center text-gray-300 py-8">No opportunities available</div>
       ) : (
         <div className="space-y-3">
           {opportunities.map((opp: any) => (
             <div key={opp.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
               <div className="font-semibold text-white mb-1">{opp.opportunityTitle}</div>
-              <div className="text-sm text-gray-400 mb-2">{opp.brandName}</div>
+              <div className="text-sm text-gray-300 mb-2">{opp.brandName}</div>
               <div className="text-sm text-gray-300 line-clamp-2">{opp.description}</div>
               {opp.compensationAmount && (
                 <div className="text-sm text-green-400 mt-2">

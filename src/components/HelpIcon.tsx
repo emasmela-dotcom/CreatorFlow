@@ -27,7 +27,7 @@ export default function HelpIcon({ content, title, position = 'top', className =
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip(!showTooltip)}
-        className="text-gray-400 hover:text-purple-400 transition-colors"
+        className="text-gray-300 hover:text-purple-400 transition-colors"
         aria-label="Help"
       >
         <HelpCircle className="w-4 h-4" />
