@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Wrench, DollarSign } from 'lucide-react'
+import { BarChart3, Calendar, Users, TrendingUp, Plus, Settings, Bell, Search, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, LogOut, Clock, TrendingDown, Eye, Heart, MessageCircle, Share2, HelpCircle, Link2, Sparkles, Wrench, DollarSign, Menu, X } from 'lucide-react'
 import TrialStatusBanner from './components/TrialStatusBanner'
 import HelpCenter from '@/components/HelpCenter'
 import HelpIcon from '@/components/HelpIcon'
@@ -2603,6 +2603,7 @@ export default function Dashboard() {
   const headerSearchInputRef = useRef<HTMLInputElement>(null)
   const [userId, setUserId] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -2677,6 +2678,26 @@ export default function Dashboard() {
     }
   }, [])
 
+  const setTab = (tab: typeof activeTab) => {
+    setActiveTab(tab)
+    setMobileNavOpen(false)
+  }
+
+  const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string }[] = [
+    { label: 'Overview', tab: 'overview' },
+    { label: 'Content', tab: 'content' },
+    { label: 'Calendar', tab: 'calendar' },
+    { label: 'Analytics', tab: 'analytics' },
+    { label: 'Collaborations', tab: 'collaborations' },
+    { label: 'Connections', tab: 'connections' },
+    { label: 'Tools', tab: 'game-changers' },
+    { label: 'Listening', tab: 'social-listening' },
+    { label: 'Community', tab: 'community' },
+    { label: 'Create', href: '/create' },
+    { label: 'Documents', href: '/documents' },
+    { label: 'Pricing', href: '/pricing' },
+  ]
+
   const navButtons = (
     <>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
@@ -2712,12 +2733,21 @@ export default function Dashboard() {
                 <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
               </form>
             </div>
-            <nav className="flex flex-col gap-0.5 items-center flex-1 min-w-0 justify-center shrink-0">{navButtons}</nav>
+            <nav className="hidden lg:flex flex-col gap-0.5 items-center flex-1 min-w-0 justify-center shrink-0">{navButtons}</nav>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <button onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-              <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-              <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span>Sign Out</span></button>
+              <button
+                type="button"
+                className="lg:hidden p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
+                onClick={() => setMobileNavOpen((open) => !open)}
+                aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileNavOpen}
+              >
+                {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+              <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+              <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+              <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+              <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
             </div>
           </div>
         ) : (
@@ -2732,15 +2762,24 @@ export default function Dashboard() {
                 </form>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <button onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                <button onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" />
-                <button onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span>Sign Out</span></button>
+                <button
+                  type="button"
+                  className="lg:hidden p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
+                  onClick={() => setMobileNavOpen((open) => !open)}
+                  aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
+                  aria-expanded={mobileNavOpen}
+                >
+                  {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+                <button type="button" onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app" aria-label="Focus search"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-400 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white cursor-pointer" aria-hidden />
+                <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
               </div>
             </div>
-            <div className="w-full">
-              <nav className="flex flex-col gap-0.5">
+            <div className="hidden lg:block w-full">
+              <nav className="flex flex-col gap-0.5" aria-label="Dashboard sections">
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
                   <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
@@ -2762,11 +2801,38 @@ export default function Dashboard() {
             </div>
           </>
         )}
+        {mobileNavOpen && (
+          <nav className="lg:hidden border-t border-gray-700 bg-gray-800 px-4 py-3" aria-label="Dashboard navigation">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {mobileNavLinks.map((item) => {
+                const isActive = item.tab ? activeTab === item.tab : false
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => {
+                      if (item.tab) setTab(item.tab)
+                      else if (item.href) {
+                        setMobileNavOpen(false)
+                        router.push(item.href)
+                      }
+                    }}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      isActive ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                )
+              })}
+            </div>
+          </nav>
+        )}
       </header>
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6">
+        <aside className="hidden lg:block w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6 shrink-0">
           <div className="space-y-6">
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg">
               <h3 className="font-semibold mb-2">Quick Stats</h3>
@@ -2838,7 +2904,7 @@ export default function Dashboard() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 min-w-0 p-4 sm:p-6">
           {(subscribeError || subscribeDebug) && (
             <div className="mb-6 p-4 rounded-lg bg-red-900/60 border-2 border-red-500 text-red-100">
               <p className="font-bold text-lg text-red-50">Could not open checkout</p>
