@@ -148,8 +148,8 @@ export default function TrialStatusBanner() {
 
       {checkoutError && (
         <div className="mb-4 p-4 rounded-lg bg-red-900/40 border-2 border-red-500 text-red-100">
-          <p className="font-semibold">Subscribe button failed</p>
-          <p className="text-sm mt-1">{checkoutError}</p>
+          <p className="font-semibold">Could not open checkout</p>
+          <p className="text-sm mt-1 text-red-50">{checkoutError}</p>
         </div>
       )}
       {checkoutDebug && (

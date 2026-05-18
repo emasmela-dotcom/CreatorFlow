@@ -15,7 +15,7 @@ export default function ToolsInPackageCard() {
           <span className="text-gray-400"> — Track what you’re waiting on. Setup: Neon (free), optional Resend. Paid APIs: optional for higher limits.</span>
         </li>
       </ul>
-      <p className="text-gray-500 text-xs mt-4">Free setup → full functionality. Paid APIs → greater functionality when you need it.</p>
+      <p className="text-gray-400 text-xs mt-4">Free setup → full functionality. Paid APIs → greater functionality when you need it.</p>
     </div>
   )
 }

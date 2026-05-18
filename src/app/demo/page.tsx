@@ -3,23 +3,18 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Sparkles } from 'lucide-react'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function DemoPage() {
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    // Auto-login as demo user - NO INPUT REQUIRED
     const activateDemo = async () => {
       try {
-        // No body needed - completely automatic
         const response = await fetch('/api/demo/activate', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // NO BODY - nothing required from user
+          headers: { 'Content-Type': 'application/json' },
         })
 
         const data = await response.json()
@@ -28,39 +23,39 @@ export default function DemoPage() {
           throw new Error(data.error || 'Failed to activate demo')
         }
 
-        // Store demo token automatically
         if (data.token) {
           localStorage.setItem('token', data.token)
           localStorage.setItem('user', JSON.stringify(data.user))
           localStorage.setItem('isDemo', 'true')
         }
 
-        // Auto-redirect to dashboard - no clicks needed
         setTimeout(() => {
           router.push('/dashboard?demo=true')
-        }, 500) // Small delay to show loading
-      } catch (err: any) {
-        setError(err.message || 'Failed to load demo')
-        setLoading(false)
+        }, 500)
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to load demo')
       }
     }
 
-    // Auto-run immediately - no user interaction
     activateDemo()
   }, [router])
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-400 mb-4">{error}</p>
-          <button
-            onClick={() => router.push('/')}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg"
-          >
-            Go to Home
-          </button>
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+        <div className="flex-1 flex items-center justify-center px-6">
+          <div className="text-center">
+            <p className="text-red-300 mb-4">{error}</p>
+            <button
+              type="button"
+              onClick={() => router.push('/')}
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg text-white"
+            >
+              Go to Home
+            </button>
+          </div>
         </div>
+        <SeoSiteFooter />
       </div>
     )
   }
@@ -76,4 +71,3 @@ export default function DemoPage() {
     </div>
   )
 }
-

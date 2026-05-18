@@ -42,6 +42,7 @@ export default function NotFound() {
           <Link href="/signup" className="text-purple-400 hover:underline">Free trial</Link>
           <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">AI captions</Link>
           <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">Scheduler</Link>
+          <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">Analytics</Link>
           <Link href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">Support</Link>
         </p>
       </div>

@@ -663,7 +663,7 @@ function ABTestingUI({ token }: { token: string }) {
         A/B Testing
       </h3>
       <p className="text-gray-400">Test content variations and compare performance</p>
-      <div className="text-sm text-gray-500">UI coming soon - API ready</div>
+      <p className="text-sm text-gray-400">Full panel coming soon — backend is ready.</p>
     </div>
   )
 }
@@ -676,7 +676,7 @@ function ContentSeriesUI({ token }: { token: string }) {
         Content Series Generator
       </h3>
       <p className="text-gray-400">Create multi-part content series automatically</p>
-      <div className="text-sm text-gray-500">UI coming soon - API ready</div>
+      <p className="text-sm text-gray-400">Full panel coming soon — backend is ready.</p>
     </div>
   )
 }

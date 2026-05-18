@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Search, Filter, Mail, Calendar, DollarSign, Star, CheckCircle, Clock, X } from 'lucide-react'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function CollaborationsPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -337,6 +338,7 @@ export default function CollaborationsPage() {
           </div>
         </div>
       )}
+      <SeoSiteFooter />
     </div>
   )
 }

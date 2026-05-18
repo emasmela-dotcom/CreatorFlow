@@ -12,7 +12,7 @@ export default function ReviewsPage() {
       platform: 'Instagram',
       followers: '125K',
       rating: 5,
-      text: 'CreatorFlow has completely transformed how I manage my content. The analytics are incredibly detailed and the scheduling feature saves me hours every week. Best investment I\'ve made for my creator business!',
+      text: 'CreatorFlow365 has completely transformed how I manage my content. The analytics are incredibly detailed and the scheduling feature saves me hours every week. Best investment I\'ve made for my creator business!',
       verified: true,
       date: '2 weeks ago'
     },
@@ -23,7 +23,7 @@ export default function ReviewsPage() {
       platform: 'YouTube',
       followers: '450K',
       rating: 5,
-      text: 'The brand collaboration management tool is a game-changer. I\'ve secured 3 new partnerships since using CreatorFlow. The ROI is incredible - paid for itself in the first month.',
+      text: 'The brand collaboration management tool is a game-changer. I\'ve secured 3 new partnerships since using CreatorFlow365. The ROI is incredible - paid for itself in the first month.',
       verified: true,
       date: '1 month ago'
     },
@@ -34,7 +34,7 @@ export default function ReviewsPage() {
       platform: 'TikTok',
       followers: '890K',
       rating: 5,
-      text: 'I love how easy it is to schedule across all platforms. The hashtag research feature helps me find trending tags that actually work. My engagement has increased by 40% since switching to CreatorFlow.',
+      text: 'I love how easy it is to schedule across all platforms. The hashtag research feature helps me find trending tags that actually work. My engagement has increased by 40% since switching to CreatorFlow365.',
       verified: true,
       date: '3 weeks ago'
     },
@@ -45,7 +45,7 @@ export default function ReviewsPage() {
       platform: 'LinkedIn',
       followers: '65K',
       rating: 5,
-      text: 'As someone who manages multiple client accounts, CreatorFlow\'s unified dashboard is a lifesaver. The performance insights help me make data-driven decisions for my clients. Highly recommend!',
+      text: 'As someone who manages multiple client accounts, CreatorFlow365\'s unified dashboard is a lifesaver. The performance insights help me make data-driven decisions for my clients. Highly recommend!',
       verified: true,
       date: '1 week ago'
     },
@@ -67,7 +67,7 @@ export default function ReviewsPage() {
       platform: 'Twitter',
       followers: '180K',
       rating: 5,
-      text: 'CreatorFlow\'s analytics dashboard gives me insights I never had before. I can see exactly which content performs best and optimize accordingly. My follower growth has accelerated significantly.',
+      text: 'CreatorFlow365\'s analytics dashboard gives me insights I never had before. I can see exactly which content performs best and optimize accordingly. My follower growth has accelerated significantly.',
       verified: true,
       date: '3 weeks ago'
     },
@@ -100,7 +100,7 @@ export default function ReviewsPage() {
       platform: 'Instagram',
       followers: '380K',
       rating: 5,
-      text: 'I\'ve tried many creator tools, but CreatorFlow is by far the best. The combination of scheduling, analytics, and collaboration management in one platform is exactly what I needed. My productivity has doubled!',
+      text: 'I\'ve tried many creator tools, but CreatorFlow365 is by far the best. The combination of scheduling, analytics, and collaboration management in one platform is exactly what I needed. My productivity has doubled!',
       verified: true,
       date: '1 week ago'
     },
@@ -111,7 +111,7 @@ export default function ReviewsPage() {
       platform: 'LinkedIn',
       followers: '95K',
       rating: 5,
-      text: 'The ROI tracking for brand partnerships is a game-changer. I can now show brands exactly what value I\'m delivering, which has helped me negotiate better rates. CreatorFlow pays for itself.',
+      text: 'The ROI tracking for brand partnerships is a game-changer. I can now show brands exactly what value I\'m delivering, which has helped me negotiate better rates. CreatorFlow365 pays for itself.',
       verified: true,
       date: '3 weeks ago'
     }

@@ -216,7 +216,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
                       >
                         <summary className="cursor-pointer text-white font-medium flex items-center justify-between">
                           <span>{faq.q}</span>
-                          <span className="text-gray-500 text-sm">Click to expand</span>
+                          <span className="text-gray-400 text-sm">Click to expand</span>
                         </summary>
                         <p className="mt-3 text-gray-300 text-sm leading-relaxed pl-4 border-l-2 border-purple-500/30">
                           {faq.a}
