@@ -9,9 +9,9 @@ export default function PricingPage() {
     router.replace('/#pricing')
   }, [router])
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center text-gray-400">
-      <main id="main-content">
-        <p>Redirecting to pricing...</p>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+      <main id="main-content" aria-live="polite">
+        <p className="text-gray-300">Redirecting to pricing…</p>
       </main>
     </div>
   )

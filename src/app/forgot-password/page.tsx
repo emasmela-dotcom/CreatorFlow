@@ -51,33 +51,36 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto gap-2">
           <button
+            type="button"
             onClick={() => router.push('/signin')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors shrink-0"
+            aria-label="Back to sign in"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Back to Sign In</span>
+            <span className="hidden sm:inline">Back to Sign In</span>
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent truncate">
             CreatorFlow365
           </h1>
-          <div className="w-24" />
+          <div className="w-9 sm:w-24 shrink-0" aria-hidden />
         </div>
       </header>
 
-      <div className="max-w-md mx-auto px-6 py-12">
+      <div className="max-w-md mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold mb-4">Reset Password</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Reset Password</h2>
           <p className="text-lg text-gray-400">
             Enter your email and new password
           </p>
         </div>
 
-        <form 
-          onSubmit={handleResetPassword} 
-          className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6"
+        <form
+          onSubmit={handleResetPassword}
+          className="bg-gray-800 rounded-xl border border-gray-700 p-6 sm:p-8 space-y-6"
+          aria-label="Reset password"
         >
           {error && (
             <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg text-sm">
@@ -92,16 +95,18 @@ export default function ForgotPasswordPage() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="forgot-email" className="block text-sm font-medium text-gray-300 mb-2">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
               <input
+                id="forgot-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                autoComplete="email"
+                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                 placeholder="Enter your email"
                 required
               />
@@ -109,16 +114,18 @@ export default function ForgotPasswordPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="forgot-password" className="block text-sm font-medium text-gray-300 mb-2">
               New Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
               <input
+                id="forgot-password"
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                autoComplete="new-password"
+                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                 placeholder="Enter new password"
                 required
                 minLength={8}

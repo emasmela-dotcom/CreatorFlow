@@ -12,7 +12,8 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: `${origin}/pricing` },
+  robots: { index: false, follow: true },
+  alternates: { canonical: `${origin}/#pricing` },
   openGraph: {
     title,
     description,
