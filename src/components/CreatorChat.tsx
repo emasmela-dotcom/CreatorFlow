@@ -139,6 +139,9 @@ export default function CreatorChat({ token }: CreatorChatProps) {
         {/* Channels Sidebar */}
         <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-700 overflow-x-auto md:overflow-y-auto shrink-0 max-h-40 md:max-h-none">
           <div className="p-3 flex md:flex-col gap-2 md:gap-0 md:space-y-1">
+            {channels.length === 0 ? (
+              <p className="text-sm text-gray-400 px-2 py-3 md:py-4">No chat channels yet. Check back soon.</p>
+            ) : null}
             {channels.map((channel) => (
               <button
                 key={channel.id}
@@ -169,6 +172,9 @@ export default function CreatorChat({ token }: CreatorChatProps) {
             <>
               {/* Messages */}
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {messages.length === 0 ? (
+                  <p className="text-sm text-gray-400 text-center py-8">No messages yet. Say hello to the channel.</p>
+                ) : null}
                 {messages.map((msg) => {
                   const displayName = msg.user?.fullName || msg.user?.email?.split('@')[0] || 'Creator'
                   return (

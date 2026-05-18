@@ -35,17 +35,17 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <header className="border-b border-gray-700 px-6 py-4">
+      <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            Back to Home
+          <Link href="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors" aria-label="Back to home">
+            <ArrowLeft className="w-5 h-5" aria-hidden />
+            <span className="hidden sm:inline">Back to Home</span>
           </Link>
         </div>
       </header>
-      <main id="main-content" className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>
-        <p className="text-gray-400 text-sm mb-10">Last updated: February 2026</p>
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-white">Terms of Service</h1>
+        <p className="text-gray-300 text-sm mb-10">Last updated: February 2026</p>
 
         <div className="prose prose-invert prose-gray max-w-none space-y-6 text-gray-300">
           <section>
@@ -74,7 +74,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">7. Contact</h2>
-            <p>For questions about these Terms, contact us at <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.</p>
+            <p>For questions about these Terms, contact us at <a href="mailto:support@creatorflow365.com" className="text-purple-300 hover:text-purple-200 underline">support@creatorflow365.com</a>.</p>
           </section>
         </div>
       </main>

@@ -313,10 +313,20 @@ function SignupPageContent() {
             <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 sm:p-8 space-y-6">
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Ready to add payment?</h3>
-                <p className="text-gray-300 mb-6 text-sm sm:text-base">
+                <p className="text-gray-300 mb-4 text-sm sm:text-base">
                   When you’re ready, you’ll be redirected to secure Stripe checkout to add your payment method. 
                   Your card will not be charged until after your 14-day trial ends.
                 </p>
+
+                {selectedPlan && (
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/select-plan?plan=${selectedPlan}`)}
+                    className="mb-4 text-sm text-purple-400 hover:text-purple-300 underline"
+                  >
+                    Review what&apos;s included in your plan
+                  </button>
+                )}
                 
                 <button
                   type="button"
@@ -392,10 +402,14 @@ function SignupPageContent() {
 
                 <button
                   type="button"
-                  onClick={() => setStep('account')}
+                  onClick={() =>
+                    selectedPlan
+                      ? router.push(`/select-plan?plan=${selectedPlan}`)
+                      : setStep('account')
+                  }
                   className="mt-4 text-gray-400 hover:text-white transition-colors text-sm"
                 >
-                  ← Back to account
+                  {selectedPlan ? '← Back to plan details' : '← Back to account'}
                 </button>
               </div>
             </div>
