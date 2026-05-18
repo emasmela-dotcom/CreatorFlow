@@ -2586,6 +2586,7 @@ export default function Dashboard() {
   // Subscription feedback (used by the "Subscribe button failed" UI)
   const [subscribeError, setSubscribeError] = useState<string | null>(null)
   const [subscribeDebug, setSubscribeDebug] = useState<string | null>(null)
+  const [dashboardNotice, setDashboardNotice] = useState<string | null>(null)
   const [posts, setPosts] = useState<Array<{
     id: string
     platform: string
@@ -2910,7 +2911,29 @@ export default function Dashboard() {
               <p className="font-bold text-lg text-red-50">Could not open checkout</p>
               {subscribeError && <p className="mt-2 text-sm text-red-100">{decodeURIComponent(subscribeError)}</p>}
               {subscribeDebug && <pre className="mt-2 text-xs font-mono whitespace-pre-wrap break-all bg-black/40 text-amber-100 p-2 rounded">{decodeURIComponent(subscribeDebug)}</pre>}
-              <button type="button" onClick={() => router.replace('/dashboard')} className="mt-3 px-4 py-2 bg-red-700 hover:bg-red-600 rounded font-medium">Dismiss</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSubscribeError(null)
+                  setSubscribeDebug(null)
+                  router.replace('/dashboard')
+                }}
+                className="mt-3 px-4 py-2 bg-red-700 hover:bg-red-600 rounded font-medium"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+          {dashboardNotice && (
+            <div className="mb-6 p-4 rounded-lg bg-blue-900/40 border border-blue-600/60 text-blue-100" role="status">
+              <p className="text-sm sm:text-base">{dashboardNotice}</p>
+              <button
+                type="button"
+                onClick={() => setDashboardNotice(null)}
+                className="mt-3 text-sm text-blue-200 hover:text-white underline"
+              >
+                Dismiss
+              </button>
             </div>
           )}
           <TrialStatusBanner />

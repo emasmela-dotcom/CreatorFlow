@@ -35,13 +35,26 @@ function SignupPageContent() {
       setSelectedPlan(plan)
       setHadPlanInUrl(true)
     }
+    if (params.get('canceled') === 'true') {
+      setCheckoutCanceled(true)
+      const hasToken = !!localStorage.getItem('token')
+      if (hasToken && (plan || selectedPlan)) {
+        setStep('payment')
+      }
+    }
+    if (params.has('canceled')) {
+      params.delete('canceled')
+      const qs = params.toString()
+      window.history.replaceState({}, '', qs ? `/signup?${qs}` : '/signup')
+    }
     setPlanFromUrlApplied(true)
-  }, [planFromUrlApplied])
+  }, [planFromUrlApplied, selectedPlan])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [checkoutCanceled, setCheckoutCanceled] = useState(false)
 
   const handlePlanSelect = (plan: PlanType) => {
     setSelectedPlan(plan)
@@ -143,6 +156,15 @@ function SignupPageContent() {
             </div>
           </div>
         </div>
+
+        {checkoutCanceled && (
+          <div
+            className="mb-6 p-4 rounded-lg bg-amber-900/40 border border-amber-600/60 text-amber-100 text-sm sm:text-base"
+            role="status"
+          >
+            Checkout was canceled. No charge was made—you can try secure checkout again when you&apos;re ready.
+          </div>
+        )}
 
         {step === 'plan' && (
           <div className="max-w-5xl mx-auto">

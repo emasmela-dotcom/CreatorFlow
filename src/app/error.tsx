@@ -19,11 +19,11 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-6">
+    <main id="main-content" className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4 sm:px-6">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
           <AlertCircle className="w-20 h-20 text-red-500 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold mb-4">Something went wrong!</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold mb-4 text-white">Something went wrong!</h1>
           <p className="text-gray-300 mb-2">
             An unexpected error occurred. Please try again.
           </p>
@@ -36,22 +36,23 @@ export default function Error({
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
+            type="button"
             onClick={reset}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
           >
-            <RefreshCw className="w-5 h-5" />
+            <RefreshCw className="w-5 h-5" aria-hidden />
             Try Again
           </button>
           <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
           >
-            <Home className="w-5 h-5" />
+            <Home className="w-5 h-5" aria-hidden />
             Go Home
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 
