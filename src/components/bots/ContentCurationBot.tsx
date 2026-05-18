@@ -128,7 +128,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
         </div>
         <div className="text-center py-4">
           <p className="text-sm text-gray-400 mb-2">Generating content ideas...</p>
-          <p className="text-xs text-gray-500">Analyzing your content patterns</p>
+          <p className="text-xs text-gray-400">Analyzing your content patterns</p>
         </div>
       </div>
     )
@@ -164,7 +164,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
           </div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs text-gray-400">{analysis.contentIdeas[0].type}</span>
-            <span className="text-xs text-gray-500">•</span>
+            <span className="text-xs text-gray-400">•</span>
             <span className="text-xs text-purple-300">{analysis.contentIdeas[0].engagement}</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -218,8 +218,8 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
                       </div>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs text-gray-500">{idea.type}</span>
-                      <span className="text-xs text-gray-500">•</span>
+                      <span className="text-xs text-gray-400">{idea.type}</span>
+                      <span className="text-xs text-gray-400">•</span>
                       <span className="text-xs text-purple-300">{idea.engagement}</span>
                     </div>
                     <div className="text-xs text-gray-400 mb-2">{idea.reason}</div>

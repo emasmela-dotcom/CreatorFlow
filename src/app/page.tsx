@@ -23,6 +23,7 @@
 
 import { useState } from 'react'
 import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles, CheckSquare } from 'lucide-react'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { CREDIT_BUNDLES } from '@/lib/creditBundles'
@@ -792,24 +793,11 @@ The CreatorFlow365 Team`,
 
       </main>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
-          <p className="text-gray-400 mb-6">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
-          <div className="flex justify-center gap-6 text-sm text-gray-500 flex-wrap">
-            <a href="/creator-tools" className="hover:text-white transition-colors">Creator tools</a>
-            <a href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</a>
-            <a href="/social-media-scheduler-for-creators" className="hover:text-white transition-colors">Scheduler</a>
-            <a href="/content-creator-analytics-platform" className="hover:text-white transition-colors">Analytics</a>
-            <a href="/demo" className="hover:text-white transition-colors">Demo</a>
-            <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
-            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
-            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Support</a>
-          </div>
-        </div>
-      </footer>
+      <div className="text-center py-8 px-6 border-t border-gray-800">
+        <h3 className="text-2xl font-bold mb-2">CreatorFlow365</h3>
+        <p className="text-gray-400 mb-2">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
+      </div>
+      <SeoSiteFooter className="!pt-0" />
       </div>
     </>
   )

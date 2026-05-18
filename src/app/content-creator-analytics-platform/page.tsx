@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 import { ANALYTICS_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
@@ -166,16 +167,7 @@ export default function ContentCreatorAnalyticsPage() {
           </Link>
         </section>
 
-        <footer className="pt-6 text-sm text-gray-500 flex flex-wrap gap-x-4 gap-y-2">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <Link href="/creator-tools" className="hover:text-white transition-colors">Creator tools</Link>
-          <Link href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</Link>
-          <Link href="/social-media-scheduler-for-creators" className="hover:text-white transition-colors">Scheduler</Link>
-          <Link href="/demo" className="hover:text-white transition-colors">Demo</Link>
-          <Link href="/reviews" className="hover:text-white transition-colors">Reviews</Link>
-          <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-          <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
-        </footer>
+        <SeoSiteFooter className="!py-6 !border-t-0" />
       </div>
     </main>
   )

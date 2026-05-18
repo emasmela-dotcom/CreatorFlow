@@ -146,7 +146,7 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
     <div className="space-y-3" style={{ minHeight: '50px' }}>
       {/* Debug info in development */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-500 mb-2">
+        <div className="text-xs text-gray-400 mb-2">
           Debug: loading={loading ? 'true' : 'false'}, analysis={analysis ? 'present' : 'null'}, error={error || 'none'}
         </div>
       )}

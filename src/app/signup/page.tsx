@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 const VALID_PLANS: PlanType[] = ['starter', 'growth', 'pro', 'business', 'agency']
 function normalizePlan(plan: string | null): PlanType | null {
@@ -388,6 +389,7 @@ function SignupPageContent() {
           </div>
         )}
       </div>
+      <SeoSiteFooter />
     </div>
   )
 }

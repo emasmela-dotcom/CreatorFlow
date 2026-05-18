@@ -126,7 +126,7 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
         </div>
         <div className="text-center py-4">
           <p className="text-sm text-gray-400 mb-2">No published posts found yet</p>
-          <p className="text-xs text-gray-500">Start posting to get engagement insights!</p>
+          <p className="text-xs text-gray-400">Start posting to get engagement insights!</p>
         </div>
       </div>
     )

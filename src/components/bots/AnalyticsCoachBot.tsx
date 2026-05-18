@@ -130,7 +130,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
         </div>
         <div className="text-center py-4">
           <p className="text-sm text-gray-400 mb-2">Analyzing your growth metrics...</p>
-          <p className="text-xs text-gray-500">Start posting to get personalized insights</p>
+          <p className="text-xs text-gray-400">Start posting to get personalized insights</p>
         </div>
       </div>
     )

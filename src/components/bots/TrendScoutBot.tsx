@@ -120,7 +120,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
         </div>
         <div className="text-center py-4">
           <p className="text-sm text-gray-400 mb-2">Loading trending topics...</p>
-          <p className="text-xs text-gray-500">Analyzing your niche for opportunities</p>
+          <p className="text-xs text-gray-400">Analyzing your niche for opportunities</p>
         </div>
       </div>
     )
@@ -203,7 +203,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
                       <span className="text-sm text-orange-300">{trend.hashtag}</span>
                     </div>
                     <div className="text-xs text-gray-400 mb-1">{trend.reason}</div>
-                    <div className="text-xs text-gray-500">{trend.engagement}</div>
+                    <div className="text-xs text-gray-400">{trend.engagement}</div>
                   </div>
                 ))}
               </div>
