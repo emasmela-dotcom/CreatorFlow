@@ -102,7 +102,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
         {recommendations && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="text-xs text-gray-400 hover:text-gray-300"
+            className="text-xs text-gray-300 hover:text-gray-300"
           >
             {expanded ? 'Show Less' : 'Show All Times'}
           </button>
@@ -111,13 +111,13 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
 
       {loading ? (
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-700/50 border border-gray-600">
-          <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
-          <span className="text-sm text-gray-400">Analyzing best times...</span>
+          <Loader2 className="w-4 h-4 text-gray-300 animate-spin" />
+          <span className="text-sm text-gray-300">Analyzing best times...</span>
         </div>
       ) : error ? (
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
           <p className="text-xs text-yellow-400 mb-2">⚠️ Using default recommendations</p>
-          <p className="text-xs text-gray-400">Industry best times for {platform}</p>
+          <p className="text-xs text-gray-300">Industry best times for {platform}</p>
           {/* Show fallback data */}
           <div className="mt-3 space-y-2">
             <div className="text-xs text-gray-300">
@@ -137,7 +137,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
                 <Clock className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-xs text-gray-400 mb-1">Next Best Time to Post</p>
+                <p className="text-xs text-gray-300 mb-1">Next Best Time to Post</p>
                 <p className="text-lg font-bold text-white mb-1">
                   {recommendations.nextBestTime.date} at {recommendations.nextBestTime.time}
                 </p>
@@ -164,7 +164,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
           {/* Top 3 Best Times */}
           {!expanded && (
             <div className="space-y-2">
-              <p className="text-xs text-gray-400 font-medium">Top Times This Week:</p>
+              <p className="text-xs text-gray-300 font-medium">Top Times This Week:</p>
               {recommendations.optimalTimes
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 3)
@@ -174,12 +174,12 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
                     className="flex items-center justify-between p-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-400" />
+                      <Calendar className="w-4 h-4 text-gray-300" />
                       <div>
                         <p className="text-xs font-medium text-white">
                           {time.day} at {time.time}
                         </p>
-                        <p className="text-xs text-gray-400">{time.reason}</p>
+                        <p className="text-xs text-gray-300">{time.reason}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
@@ -194,7 +194,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
           {/* Expanded View - Full Weekly Schedule */}
           {expanded && (
             <div className="space-y-3">
-              <p className="text-xs text-gray-400 font-medium">Weekly Schedule:</p>
+              <p className="text-xs text-gray-300 font-medium">Weekly Schedule:</p>
               <div className="space-y-2">
                 {recommendations.weeklySchedule.map((day, index) => (
                   <div

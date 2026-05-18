@@ -76,7 +76,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-300">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>Scouting trending topics...</span>
       </div>
@@ -94,7 +94,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
         </div>
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
           <p className="text-xs text-yellow-400 mb-2">⚠️ Showing general trends</p>
-          <p className="text-xs text-gray-400 mb-3">Post more content to get personalized trend recommendations</p>
+          <p className="text-xs text-gray-300 mb-3">Post more content to get personalized trend recommendations</p>
           <div className="space-y-2">
             <div className="text-xs text-gray-300">
               <strong>Popular:</strong> #MotivationMonday, #Lifestyle, #WeekendVibes
@@ -119,8 +119,8 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
           </div>
         </div>
         <div className="text-center py-4">
-          <p className="text-sm text-gray-400 mb-2">Loading trending topics...</p>
-          <p className="text-xs text-gray-400">Analyzing your niche for opportunities</p>
+          <p className="text-sm text-gray-300 mb-2">Loading trending topics...</p>
+          <p className="text-xs text-gray-300">Analyzing your niche for opportunities</p>
         </div>
       </div>
     )
@@ -135,7 +135,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
         </div>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-gray-300 hover:text-white transition-colors"
         >
           {expanded ? 'Show Less' : 'Show All Trends'}
         </button>
@@ -155,7 +155,7 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
             <Hash className="w-3 h-3 text-orange-300" />
             <span className="text-sm text-orange-300">{analysis.trendingTopics[0].hashtag}</span>
           </div>
-          <div className="text-xs text-gray-400">
+          <div className="text-xs text-gray-300">
             {analysis.trendingTopics[0].reason} • {analysis.trendingTopics[0].engagement}
           </div>
         </div>
@@ -202,8 +202,8 @@ export default function TrendScoutBot({ platform, token }: TrendScoutBotProps) {
                       <Hash className="w-3 h-3 text-orange-300" />
                       <span className="text-sm text-orange-300">{trend.hashtag}</span>
                     </div>
-                    <div className="text-xs text-gray-400 mb-1">{trend.reason}</div>
-                    <div className="text-xs text-gray-400">{trend.engagement}</div>
+                    <div className="text-xs text-gray-300 mb-1">{trend.reason}</div>
+                    <div className="text-xs text-gray-300">{trend.engagement}</div>
                   </div>
                 ))}
               </div>

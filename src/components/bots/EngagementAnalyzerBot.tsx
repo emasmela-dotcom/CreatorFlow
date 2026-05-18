@@ -80,7 +80,7 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-300">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>Analyzing your engagement...</span>
       </div>
@@ -98,16 +98,16 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
         </div>
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 mb-3">
           <p className="text-xs text-yellow-400 mb-2">⚠️ Using default insights</p>
-          <p className="text-xs text-gray-400">Start posting to see your personalized engagement data</p>
+          <p className="text-xs text-gray-300">Start posting to see your personalized engagement data</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-800/50 rounded-lg p-3">
-            <div className="text-xs text-gray-400 mb-1">Average Engagement</div>
-            <div className="text-2xl font-bold text-gray-400">-</div>
+            <div className="text-xs text-gray-300 mb-1">Average Engagement</div>
+            <div className="text-2xl font-bold text-gray-300">-</div>
           </div>
           <div className="bg-gray-800/50 rounded-lg p-3">
-            <div className="text-xs text-gray-400 mb-1">Best Post</div>
-            <div className="text-lg font-semibold text-gray-400">-</div>
+            <div className="text-xs text-gray-300 mb-1">Best Post</div>
+            <div className="text-lg font-semibold text-gray-300">-</div>
           </div>
         </div>
       </div>
@@ -125,8 +125,8 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
           </div>
         </div>
         <div className="text-center py-4">
-          <p className="text-sm text-gray-400 mb-2">No published posts found yet</p>
-          <p className="text-xs text-gray-400">Start posting to get engagement insights!</p>
+          <p className="text-sm text-gray-300 mb-2">No published posts found yet</p>
+          <p className="text-xs text-gray-300">Start posting to get engagement insights!</p>
         </div>
       </div>
     )
@@ -141,7 +141,7 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
         </div>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-gray-300 hover:text-white transition-colors"
         >
           {expanded ? 'Show Less' : 'Show Details'}
         </button>
@@ -150,13 +150,13 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
       {/* Key Metrics */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="bg-gray-800/50 rounded-lg p-3">
-          <div className="text-xs text-gray-400 mb-1">Average Engagement</div>
+          <div className="text-xs text-gray-300 mb-1">Average Engagement</div>
           <div className="text-2xl font-bold text-yellow-400">
             {analysis.averageEngagement}
           </div>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-3">
-          <div className="text-xs text-gray-400 mb-1">Best Post</div>
+          <div className="text-xs text-gray-300 mb-1">Best Post</div>
           <div className="text-lg font-semibold text-white">
             {analysis.bestPerformingPost.engagement} points
           </div>
@@ -253,7 +253,7 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
               </div>
               <div className="bg-gray-800/50 rounded-lg p-3">
                 <p className="text-sm text-gray-300 mb-2">{analysis.bestPerformingPost.content}</p>
-                <div className="flex items-center justify-between text-xs text-gray-400">
+                <div className="flex items-center justify-between text-xs text-gray-300">
                   <span>{analysis.bestPerformingPost.engagement} engagement</span>
                   {analysis.bestPerformingPost.date && (
                     <span>{new Date(analysis.bestPerformingPost.date).toLocaleDateString()}</span>

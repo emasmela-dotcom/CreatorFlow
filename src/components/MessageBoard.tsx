@@ -203,7 +203,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
         <div className="p-6 border-b border-gray-700">
           <button
             onClick={() => setSelectedPost(null)}
-            className="text-gray-400 hover:text-white mb-4 text-sm"
+            className="text-gray-300 hover:text-white mb-4 text-sm"
           >
             ← Back to Posts
           </button>
@@ -230,7 +230,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                   </h2>
                 </UserTooltip>
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+              <div className="flex items-center gap-4 text-sm text-gray-300 mb-4">
                 <UserTooltip userId={selectedPost.userId} token={token}>
                   <span className="hover:text-purple-400 cursor-pointer">{displayName}</span>
                 </UserTooltip>
@@ -272,23 +272,23 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                         {replyDisplayName}
                       </span>
                     </UserTooltip>
-                    <span className="text-xs text-gray-400">{formatDate(reply.createdAt)}</span>
+                    <span className="text-xs text-gray-300">{formatDate(reply.createdAt)}</span>
                   </div>
                   <div className="text-gray-300 mb-2 whitespace-pre-wrap">{reply.content}</div>
                   {reply.reactions && (
                     <div className="flex gap-2">
                       {reply.reactions.like > 0 && (
-                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                        <span className="text-xs text-gray-300 flex items-center gap-1">
                           <ThumbsUp className="w-3 h-3" /> {reply.reactions.like}
                         </span>
                       )}
                       {reply.reactions.helpful > 0 && (
-                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                        <span className="text-xs text-gray-300 flex items-center gap-1">
                           <HelpCircle className="w-3 h-3" /> {reply.reactions.helpful}
                         </span>
                       )}
                       {reply.reactions.insightful > 0 && (
-                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                        <span className="text-xs text-gray-300 flex items-center gap-1">
                           <Lightbulb className="w-3 h-3" /> {reply.reactions.insightful}
                         </span>
                       )}
@@ -331,7 +331,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
             <MessageSquare className="w-6 h-6 text-purple-400" />
             Message Board
           </h3>
-          <p className="text-gray-400 mt-1">Share ideas, ask questions, and connect with creators</p>
+          <p className="text-gray-300 mt-1">Share ideas, ask questions, and connect with creators</p>
         </div>
         <button
           onClick={() => setShowNewPost(!showNewPost)}
@@ -422,8 +422,8 @@ export default function MessageBoard({ token }: MessageBoardProps) {
         {/* Posts List */}
         <div className="flex-1 p-6">
           {posts.length === 0 ? (
-            <div className="text-center text-gray-400 py-12">
-              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
+            <div className="text-center text-gray-300 py-12">
+              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-gray-300" aria-hidden />
               <p>No posts yet. Be the first to post!</p>
             </div>
           ) : (
@@ -448,7 +448,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                           )}
                         </div>
                         <div className="text-gray-300 line-clamp-2 mb-3">{post.content}</div>
-                        <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <div className="flex items-center gap-4 text-sm text-gray-300">
                           <UserTooltip userId={post.userId} token={token}>
                             <span className="hover:text-purple-400 cursor-pointer">{displayName}</span>
                           </UserTooltip>

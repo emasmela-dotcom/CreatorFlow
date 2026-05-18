@@ -109,8 +109,8 @@ export default function WhosOn({ token }: WhosOnProps) {
       </div>
 
       {activeUsers.length === 0 ? (
-        <div className="text-center text-gray-400 py-8">
-          <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" aria-hidden />
+        <div className="text-center text-gray-300 py-8">
+          <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" aria-hidden />
           <p>No active users right now</p>
         </div>
       ) : (
@@ -138,7 +138,7 @@ export default function WhosOn({ token }: WhosOnProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-white truncate">{displayName}</div>
-                    <div className="text-xs text-gray-400">{getTimeAgo(user.lastActiveAt)}</div>
+                    <div className="text-xs text-gray-300">{getTimeAgo(user.lastActiveAt)}</div>
                   </div>
                   <div className="text-xs px-2 py-1 bg-purple-600/20 text-purple-300 rounded capitalize">
                     {user.subscriptionTier}

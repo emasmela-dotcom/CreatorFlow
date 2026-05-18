@@ -19,7 +19,7 @@ export default function SeoSiteFooter({ className = '' }: { className?: string }
   return (
     <footer className={`py-10 px-6 border-t border-gray-800 ${className}`}>
       <nav
-        className="max-w-4xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-gray-400"
+        className="max-w-4xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-gray-300"
         aria-label="Site"
       >
         {LINKS.map(({ href, label }) => (

@@ -85,7 +85,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-300">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>Analyzing your growth...</span>
       </div>
@@ -103,10 +103,10 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
         </div>
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
           <p className="text-xs text-yellow-400 mb-2">⚠️ Using default insights</p>
-          <p className="text-xs text-gray-400 mb-3">Start posting to get personalized growth coaching</p>
+          <p className="text-xs text-gray-300 mb-3">Start posting to get personalized growth coaching</p>
           <div className="bg-gray-800/50 rounded-lg p-4 mb-3 text-center">
-            <div className="text-xs text-gray-400 mb-2">Growth Score</div>
-            <div className="text-4xl font-bold text-gray-400">-</div>
+            <div className="text-xs text-gray-300 mb-2">Growth Score</div>
+            <div className="text-4xl font-bold text-gray-300">-</div>
           </div>
           <div className="space-y-2 text-xs text-gray-300">
             <div>💡 Post consistently (3x/week) for best results</div>
@@ -129,8 +129,8 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
           </div>
         </div>
         <div className="text-center py-4">
-          <p className="text-sm text-gray-400 mb-2">Analyzing your growth metrics...</p>
-          <p className="text-xs text-gray-400">Start posting to get personalized insights</p>
+          <p className="text-sm text-gray-300 mb-2">Analyzing your growth metrics...</p>
+          <p className="text-xs text-gray-300">Start posting to get personalized insights</p>
         </div>
       </div>
     )
@@ -162,7 +162,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
         </div>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-gray-300 hover:text-white transition-colors"
         >
           {expanded ? 'Show Less' : 'Show Details'}
         </button>
@@ -170,7 +170,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
 
       {/* Growth Score */}
       <div className="bg-gray-800/50 rounded-lg p-4 mb-4 text-center">
-        <div className="text-xs text-gray-400 mb-2">Growth Score</div>
+        <div className="text-xs text-gray-300 mb-2">Growth Score</div>
         <div className={`text-4xl font-bold ${getScoreColor(analysis.growthScore)} mb-2`}>
           {analysis.growthScore}
         </div>
@@ -203,7 +203,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
                   </div>
                   <span className="text-sm text-blue-400 font-bold">{insight.value}</span>
                 </div>
-                <div className="text-xs text-gray-400 mb-1">{insight.explanation}</div>
+                <div className="text-xs text-gray-300 mb-1">{insight.explanation}</div>
                 <div className="text-xs text-blue-300">💡 {insight.action}</div>
               </div>
             ))}
@@ -231,7 +231,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
                       </div>
                       <span className="text-sm text-blue-400 font-bold">{insight.value}</span>
                     </div>
-                    <div className="text-xs text-gray-400 mb-1">{insight.explanation}</div>
+                    <div className="text-xs text-gray-300 mb-1">{insight.explanation}</div>
                     <div className="text-xs text-blue-300">💡 {insight.action}</div>
                   </div>
                 ))}
@@ -251,9 +251,9 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
                   <div key={idx} className="bg-gray-800/50 rounded-lg p-3">
                     <div className="text-sm font-semibold text-white mb-2">{strategy.area}</div>
                     <div className="flex items-center gap-2 mb-2 text-xs">
-                      <span className="text-gray-400">Current:</span>
+                      <span className="text-gray-300">Current:</span>
                       <span className="text-red-300">{strategy.current}</span>
-                      <span className="text-gray-400">→</span>
+                      <span className="text-gray-300">→</span>
                       <span className="text-green-300">{strategy.target}</span>
                     </div>
                     <div className="text-xs text-gray-300 mb-2">{strategy.strategy}</div>

@@ -132,7 +132,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
           <MessageSquare className="w-5 h-5 text-purple-400" />
           <h3 className="text-lg font-bold text-white">Creator Chat</h3>
         </div>
-        <p className="text-sm text-gray-400">Connect and chat with other creators</p>
+        <p className="text-sm text-gray-300">Connect and chat with other creators</p>
       </div>
 
       <div className="flex flex-1 overflow-hidden flex-col md:flex-row min-h-0">
@@ -140,7 +140,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
         <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-700 overflow-x-auto md:overflow-y-auto shrink-0 max-h-40 md:max-h-none">
           <div className="p-3 flex md:flex-col gap-2 md:gap-0 md:space-y-1">
             {channels.length === 0 ? (
-              <p className="text-sm text-gray-400 px-2 py-3 md:py-4">No chat channels yet. Check back soon.</p>
+              <p className="text-sm text-gray-300 px-2 py-3 md:py-4">No chat channels yet. Check back soon.</p>
             ) : null}
             {channels.map((channel) => (
               <button
@@ -173,7 +173,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
               {/* Messages */}
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.length === 0 ? (
-                  <p className="text-sm text-gray-400 text-center py-8">No messages yet. Say hello to the channel.</p>
+                  <p className="text-sm text-gray-300 text-center py-8">No messages yet. Say hello to the channel.</p>
                 ) : null}
                 {messages.map((msg) => {
                   const displayName = msg.user?.fullName || msg.user?.email?.split('@')[0] || 'Creator'
@@ -199,7 +199,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
                               {displayName}
                             </span>
                           </UserTooltip>
-                          <span className="text-xs text-gray-400">{formatTime(msg.createdAt)}</span>
+                          <span className="text-xs text-gray-300">{formatTime(msg.createdAt)}</span>
                         </div>
                         <div className="text-gray-300 whitespace-pre-wrap">{msg.message}</div>
                       </div>
@@ -234,7 +234,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
               </form>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-gray-400">
+            <div className="flex-1 flex items-center justify-center text-gray-300">
               Select a channel to start chatting
             </div>
           )}

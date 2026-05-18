@@ -138,7 +138,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
             <p className="text-gray-300 mb-4">
               Your feedback has been submitted. We appreciate you helping us improve CreatorFlow!
             </p>
-            <p className="text-sm text-gray-400">This window will close automatically...</p>
+            <p className="text-sm text-gray-300">This window will close automatically...</p>
           </div>
         </div>
       </div>
@@ -159,10 +159,10 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-300 hover:text-white transition-colors"
             aria-label="Close feedback form"
           >
-            <X className="w-6 h-6" />
+            <X className="w-6 h-6" aria-hidden />
           </button>
         </div>
 
@@ -226,7 +226,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
                   type="button"
                   onClick={() => setRating(rating === star ? null : star)}
                   className={`text-2xl transition-transform hover:scale-110 ${
-                    rating && star <= rating ? 'text-yellow-400' : 'text-gray-400'
+                    rating && star <= rating ? 'text-yellow-400' : 'text-gray-500'
                   }`}
                   aria-label={`Rate ${star} out of 5`}
                 >
@@ -234,7 +234,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
                 </button>
               ))}
               {rating && (
-                <span className="ml-2 text-gray-400 text-sm">
+                <span className="ml-2 text-gray-300 text-sm">
                   {rating === 5 ? 'Excellent' : rating === 4 ? 'Good' : rating === 3 ? 'Okay' : rating === 2 ? 'Poor' : 'Very Poor'}
                 </span>
               )}
@@ -253,7 +253,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 min-h-[150px] resize-y"
               required
             />
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-300 mt-1">
               Be as detailed as possible. Your feedback helps us improve!
             </p>
           </div>

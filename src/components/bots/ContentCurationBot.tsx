@@ -84,7 +84,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-400">
+      <div className="flex items-center gap-2 text-sm text-gray-300">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>Curating content ideas...</span>
       </div>
@@ -102,7 +102,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
         </div>
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
           <p className="text-xs text-yellow-400 mb-2">⚠️ Showing general content ideas</p>
-          <p className="text-xs text-gray-400 mb-3">Post more content to get personalized suggestions</p>
+          <p className="text-xs text-gray-300 mb-3">Post more content to get personalized suggestions</p>
           <div className="space-y-2">
             <div className="text-sm font-semibold text-purple-400">Content Ideas:</div>
             <ul className="space-y-1 text-xs text-gray-300 ml-4">
@@ -127,8 +127,8 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
           </div>
         </div>
         <div className="text-center py-4">
-          <p className="text-sm text-gray-400 mb-2">Generating content ideas...</p>
-          <p className="text-xs text-gray-400">Analyzing your content patterns</p>
+          <p className="text-sm text-gray-300 mb-2">Generating content ideas...</p>
+          <p className="text-xs text-gray-300">Analyzing your content patterns</p>
         </div>
       </div>
     )
@@ -143,7 +143,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
         </div>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-gray-300 hover:text-white transition-colors"
         >
           {expanded ? 'Show Less' : 'Show All Ideas'}
         </button>
@@ -163,8 +163,8 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
             {analysis.contentIdeas[0].description}
           </div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs text-gray-400">{analysis.contentIdeas[0].type}</span>
-            <span className="text-xs text-gray-400">•</span>
+            <span className="text-xs text-gray-300">{analysis.contentIdeas[0].type}</span>
+            <span className="text-xs text-gray-300">•</span>
             <span className="text-xs text-purple-300">{analysis.contentIdeas[0].engagement}</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -214,15 +214,15 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <div className="text-sm font-semibold text-white mb-1">{idea.title}</div>
-                        <div className="text-xs text-gray-400 mb-2">{idea.description}</div>
+                        <div className="text-xs text-gray-300 mb-2">{idea.description}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs text-gray-400">{idea.type}</span>
-                      <span className="text-xs text-gray-400">•</span>
+                      <span className="text-xs text-gray-300">{idea.type}</span>
+                      <span className="text-xs text-gray-300">•</span>
                       <span className="text-xs text-purple-300">{idea.engagement}</span>
                     </div>
-                    <div className="text-xs text-gray-400 mb-2">{idea.reason}</div>
+                    <div className="text-xs text-gray-300 mb-2">{idea.reason}</div>
                     <div className="flex flex-wrap gap-2">
                       {idea.hashtags.map((tag, tagIdx) => (
                         <span
@@ -250,7 +250,7 @@ export default function ContentCurationBot({ platform, token }: ContentCurationB
                 {analysis.contentGaps.map((gap, idx) => (
                   <div key={idx} className="bg-gray-800/50 rounded-lg p-3">
                     <div className="text-sm font-semibold text-white mb-1">{gap.category}</div>
-                    <div className="text-xs text-gray-400 mb-2">{gap.description}</div>
+                    <div className="text-xs text-gray-300 mb-2">{gap.description}</div>
                     <div className="text-xs text-orange-300 mb-2">
                       💡 {gap.opportunity}
                     </div>

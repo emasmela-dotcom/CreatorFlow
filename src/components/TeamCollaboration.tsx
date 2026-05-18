@@ -155,7 +155,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
     if (role === 'owner') return 'text-purple-400'
     if (role === 'admin') return 'text-blue-400'
     if (role === 'editor') return 'text-green-400'
-    return 'text-gray-400'
+    return 'text-gray-300'
   }
 
   if (loading) {
@@ -168,18 +168,19 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Team Collaboration</h2>
-          <p className="text-gray-400">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Team Collaboration</h2>
+          <p className="text-gray-300 text-sm sm:text-base">
             Create teams, manage members, and collaborate on content
           </p>
         </div>
         <button
+          type="button"
           onClick={() => setShowCreateTeam(true)}
-          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center gap-2"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" aria-hidden />
           Create Team
         </button>
       </div>
@@ -232,8 +233,8 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-white mb-4">Your Teams</h3>
             {teams.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
-                <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+              <div className="text-center py-8 text-gray-300">
+                <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                 <p>No teams yet</p>
                 <p className="text-sm">Create a team to get started</p>
               </div>
@@ -323,8 +324,8 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                 )}
 
                 {members.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                  <div className="text-center py-8 text-gray-300">
+                    <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                     <p>No members yet</p>
                   </div>
                 ) : (
@@ -337,7 +338,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                             {member.role}
                           </div>
                         </div>
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs text-gray-300">
                           Joined {new Date(member.joined_at).toLocaleDateString()}
                         </div>
                       </div>
@@ -349,8 +350,8 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
               <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
                 {activity.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <Activity className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                  <div className="text-center py-8 text-gray-300">
+                    <Activity className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                     <p>No activity yet</p>
                   </div>
                 ) : (
@@ -365,8 +366,8 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
               </div>
             </>
           ) : (
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-12 text-center text-gray-400">
-              <Users className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-12 text-center text-gray-300">
+              <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <p>Select a team to view details</p>
             </div>
           )}

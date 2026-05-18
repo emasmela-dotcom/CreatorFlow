@@ -146,15 +146,15 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
     <div className="space-y-3" style={{ minHeight: '50px' }}>
       {/* Debug info in development */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-400 mb-2">
+        <div className="text-xs text-gray-300 mb-2">
           Debug: loading={loading ? 'true' : 'false'}, analysis={analysis ? 'present' : 'null'}, error={error || 'none'}
         </div>
       )}
       {/* Real-time Status Badge */}
       {loading ? (
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-700/50 border border-gray-600">
-          <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
-          <span className="text-sm text-gray-400">Analyzing...</span>
+          <Loader2 className="w-4 h-4 text-gray-300 animate-spin" />
+          <span className="text-sm text-gray-300">Analyzing...</span>
         </div>
       ) : analysis ? (
         <div className="space-y-2">
@@ -162,7 +162,7 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
           {getStatusDisplay()}
 
           {/* Quick Metrics */}
-          <div className="flex items-center gap-4 text-xs text-gray-400">
+          <div className="flex items-center gap-4 text-xs text-gray-300">
             <span>{analysis.metrics.length} chars</span>
             <span>{analysis.metrics.wordCount} words</span>
             <span>{analysis.metrics.hashtagCount} hashtags</span>
@@ -196,9 +196,9 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
                 </span>
               </span>
               {showFullAnalysis ? (
-                <ChevronUp className="w-4 h-4 text-gray-400" />
+                <ChevronUp className="w-4 h-4 text-gray-300" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-4 h-4 text-gray-300" />
               )}
             </button>
           )}
