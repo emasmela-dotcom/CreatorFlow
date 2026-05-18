@@ -265,25 +265,26 @@ export default function CreatorToolsPage() {
       />
 
       <header className="border-b border-gray-800 bg-gray-950/95 backdrop-blur sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4 flex-wrap">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-medium"
+            className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors text-sm font-medium"
+            aria-label="Back to home"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4" aria-hidden />
             Home
           </Link>
-          <span className="text-gray-400" aria-hidden>|</span>
-          <Link href="/pricing" className="text-sm text-gray-400 hover:text-white transition-colors">
+          <span className="text-gray-500" aria-hidden>|</span>
+          <Link href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
             Pricing
           </Link>
-          <Link href="/signup" className="text-sm text-gray-400 hover:text-white transition-colors ml-auto">
+          <Link href="/signup" className="text-sm text-gray-300 hover:text-white transition-colors ml-auto">
             Start free trial
           </Link>
         </div>
       </header>
 
-      <main id="main-content" className="max-w-3xl mx-auto px-6 py-12 pb-24">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-12 pb-24">
         <article>
           <p className="text-sm font-semibold text-purple-400 uppercase tracking-wide mb-2">CreatorFlow365</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">

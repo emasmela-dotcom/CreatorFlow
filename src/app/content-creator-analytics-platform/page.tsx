@@ -34,23 +34,23 @@ export const metadata: Metadata = {
 
 export default function ContentCreatorAnalyticsPage() {
   return (
-    <main id="main-content" className="min-h-screen bg-black text-white px-6 py-16">
+    <main id="main-content" className="min-h-screen bg-black text-white px-4 sm:px-6 py-12 sm:py-16">
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold">Content Creator Analytics Platform</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Content Creator Analytics Platform</h1>
           <p className="text-lg text-gray-300">
             CreatorFlow365 gives creators one place to review content performance and plan what to
             post next without bouncing between disconnected analytics tools.
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-300">
             Use analytics in the same workflow where you write, organize, and schedule content so
             your strategy decisions happen faster.
           </p>
-          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+          <p className="text-gray-300 border-l-2 border-purple-500/50 pl-4">
             Starter includes analytics support; Essential and higher tiers expand reporting depth. Every plan includes a
             14-day free trial with no credit card required.
           </p>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-300">
             Browse every mapped topic in one place:{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview
@@ -96,7 +96,7 @@ export default function ContentCreatorAnalyticsPage() {
             and{' '}
             <Link href="/terms" className="text-purple-400 hover:underline">Terms</Link>.
           </p>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-300 text-sm">
             We label analytics as plan-based support or expanded reporting—not guaranteed rankings or viral outcomes. Questions:{' '}
             <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.
           </p>

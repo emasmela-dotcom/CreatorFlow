@@ -20,20 +20,22 @@ export default function FollowThruPage() {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
         <main id="main-content">
-          <p className="text-gray-400">Redirecting to Follow Thru…</p>
+          <p className="text-gray-300">Redirecting to Follow Thru…</p>
         </main>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white px-4 sm:px-6 py-6">
       <main id="main-content" className="max-w-lg mx-auto">
         <button
+          type="button"
           onClick={() => router.push('/dashboard')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-8"
+          className="flex items-center gap-2 text-gray-300 hover:text-white mb-8"
+          aria-label="Back to dashboard"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4" aria-hidden />
           Back to Dashboard
         </button>
         <div className="flex items-center gap-3 mb-6">
@@ -43,7 +45,7 @@ export default function FollowThruPage() {
         <p className="text-gray-300 mb-6">
           Follow Thru is the CRM app for tracking people and promises. It’s part of the CreatorFlow365 suite.
         </p>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-300">
           To open Follow Thru from here, set <code className="bg-gray-800 px-1 rounded text-gray-200">NEXT_PUBLIC_FOLLOW_THRU_APP_URL</code> in your environment to the Follow Thru app URL. Once set, this page will redirect there automatically.
         </p>
       </main>

@@ -34,25 +34,25 @@ export const metadata: Metadata = {
 
 export default function AICaptionWriterPage() {
   return (
-    <main id="main-content" className="min-h-screen bg-black text-white px-6 py-16">
+    <main id="main-content" className="min-h-screen bg-black text-white px-4 sm:px-6 py-12 sm:py-16">
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
             AI Caption Writer for Instagram and TikTok
           </h1>
           <p className="text-lg text-gray-300">
             CreatorFlow365 helps you draft Instagram and TikTok captions quickly with AI, then
             save everything in one organized content library.
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-300">
             If you post Reels, Shorts, Stories, or TikToks and want faster first drafts without losing your voice, this
             workflow keeps writing, editing, and scheduling in one place.
           </p>
-          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+          <p className="text-gray-300 border-l-2 border-purple-500/50 pl-4">
             Plans start at $9/month with a 14-day free trial and no credit card required. Starter includes analytics
             support; compare tiers on the homepage pricing section before you commit.
           </p>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-300">
             Pillar hub for every search intent:{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview
@@ -97,7 +97,7 @@ export default function AICaptionWriterPage() {
             and describes plans the same way here as on the homepage and in our{' '}
             <Link href="/privacy" className="text-purple-400 hover:underline">Privacy Policy</Link>. We do not promise results we cannot measure inside the product.
           </p>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-300 text-sm">
             Proof you can check yourself: published pricing and trials on the homepage, plan-by-plan tools on{' '}
             <Link href="/select-plan" className="text-purple-400 hover:underline">select-plan</Link>, and product questions via{' '}
             <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.

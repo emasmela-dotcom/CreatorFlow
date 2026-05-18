@@ -34,23 +34,23 @@ export const metadata: Metadata = {
 
 export default function SocialSchedulerPage() {
   return (
-    <main id="main-content" className="min-h-screen bg-black text-white px-6 py-16">
+    <main id="main-content" className="min-h-screen bg-black text-white px-4 sm:px-6 py-12 sm:py-16">
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold">Social Media Scheduler for Content Creators</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Social Media Scheduler for Content Creators</h1>
           <p className="text-lg text-gray-300">
             CreatorFlow365 gives creators a single scheduling workflow for multi-platform posting
             plans, so you can organize content without managing separate tools.
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-300">
             Use one calendar to plan what goes live next, keep your drafts aligned to campaigns,
             and maintain consistency week after week.
           </p>
-          <p className="text-gray-400 border-l-2 border-purple-500/50 pl-4">
+          <p className="text-gray-300 border-l-2 border-purple-500/50 pl-4">
             Essential ($19/month) adds five accounts and content analytics on top of Starter scheduling workflows—all with a
             14-day trial and no credit card to start.
           </p>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-300">
             Full creator hub (calendar, hashtags, CRM):{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview
@@ -94,7 +94,7 @@ export default function SocialSchedulerPage() {
             (“How publishing works”) and in dashboard Connections after signup—same operator as our{' '}
             <Link href="/privacy" className="text-purple-400 hover:underline">Privacy Policy</Link>.
           </p>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-300 text-sm">
             For definitions of plans and limits, use homepage pricing and{' '}
             <Link href="/select-plan" className="text-purple-400 hover:underline">select-plan</Link>; reach us at{' '}
             <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Star, Quote, ArrowLeft } from 'lucide-react'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
 
@@ -121,47 +122,49 @@ export default function ReviewsPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            onClick={() => window.location.href = '/'}
-            className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-indigo-300 transition-colors flex items-center gap-2"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <Link
+            href="/"
+            className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-indigo-300 transition-colors flex items-center gap-2 shrink-0"
+            aria-label="Back to home"
           >
-            <ArrowLeft className="w-5 h-5 text-purple-400" />
-            CreatorFlow365
-          </button>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.location.href = '/signin'}
-              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            <ArrowLeft className="w-5 h-5 text-purple-400 shrink-0" aria-hidden />
+            <span className="hidden sm:inline">CreatorFlow365</span>
+            <span className="sm:hidden">Home</span>
+          </Link>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link
+              href="/signin"
+              className="px-3 sm:px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
             >
               Sign In
-            </button>
-            <button
-              onClick={() => window.location.href = '/signup'}
-              className="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+            </Link>
+            <Link
+              href="/signup"
+              className="px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all text-sm sm:text-base whitespace-nowrap"
             >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </header>
 
       <main id="main-content">
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-full text-sm font-semibold mb-6">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
             <span className="text-purple-300">Creator feedback</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
             What Creators Are Saying
           </h1>
-          <p className="text-xl text-gray-400 mb-4 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
             Quotes highlight workflows creators use inside CreatorFlow365—your results will depend on your niche and
             consistency.
           </p>
-          <p className="text-sm text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
             Not audited third-party reviews; treat stories as illustrative examples. Start your own trial to judge fit for your stack.
           </p>
           <div className="flex items-center justify-center gap-2 mb-8">
@@ -171,15 +174,15 @@ export default function ReviewsPage() {
               ))}
             </div>
             <span className="text-2xl font-bold text-white">5.0</span>
-            <span className="text-gray-400">/ 5.0</span>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-400">{reviews.length}+ Reviews</span>
+            <span className="text-gray-300">/ 5.0</span>
+            <span className="text-gray-300" aria-hidden>•</span>
+            <span className="text-gray-300">{reviews.length}+ Reviews</span>
           </div>
         </div>
       </section>
 
       {/* Reviews Grid */}
-      <section className="py-12 px-6 pb-20">
+      <section className="py-12 px-4 sm:px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((review) => (
@@ -197,8 +200,8 @@ export default function ReviewsPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-400">{review.role}</p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-sm text-gray-300">{review.role}</p>
+                    <p className="text-xs text-gray-300 mt-1">
                       {review.platform} • {review.followers} followers
                     </p>
                   </div>
@@ -214,10 +217,10 @@ export default function ReviewsPage() {
                 <p className="text-gray-300 mb-4 leading-relaxed">{review.text}</p>
                 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-                  <span className="text-xs text-gray-400">{review.date}</span>
+                  <span className="text-xs text-gray-300">{review.date}</span>
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                    <span className="text-xs text-gray-400">{review.rating}.0</span>
+                    <span className="text-xs text-gray-300">{review.rating}.0</span>
                   </div>
                 </div>
               </div>
@@ -227,10 +230,10 @@ export default function ReviewsPage() {
       </section>
 
       {/* Internal links — hub + guides */}
-      <section className="py-12 px-6 border-t border-gray-800 bg-black/40">
+      <section className="py-12 px-4 sm:px-6 border-t border-gray-800 bg-black/40">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-4 text-center">See how the product maps to searches</h2>
-          <p className="text-gray-400 text-center mb-6 text-sm">
+          <p className="text-gray-300 text-center mb-6 text-sm">
             Jump back into structured guides when one workflow matters most.
           </p>
           <ul className="space-y-2 text-gray-300 text-center sm:text-left sm:list-disc sm:pl-8 leading-relaxed">
@@ -264,18 +267,18 @@ export default function ReviewsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-gray-900/50 to-black">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-gray-900/50 to-black">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to try CreatorFlow365 yourself?</h2>
-          <p className="text-xl text-gray-400 mb-8">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-6 text-white">Ready to try CreatorFlow365 yourself?</h2>
+          <p className="text-lg sm:text-xl text-gray-300 mb-8">
             Start your 14-day free trial today. No credit card required during trial.
           </p>
-          <button
-            onClick={() => window.location.href = '/signup'}
-            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all text-lg"
+          <Link
+            href="/signup"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all text-lg"
           >
             Start Your Free Trial
-          </button>
+          </Link>
         </div>
       </section>
 
