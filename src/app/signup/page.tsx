@@ -201,7 +201,7 @@ function SignupPageContent() {
 
             <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
               {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm">
+                <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg text-sm">
                   {error}
                 </div>
               )}
@@ -367,7 +367,7 @@ function SignupPageContent() {
                 </button>
 
                 {error && (
-                  <div className="mt-4 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-sm space-y-2">
+                  <div className="mt-4 bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg text-sm space-y-2">
                     <p>{error}</p>
                     {(error.includes('session expired') || error.includes('Unauthorized')) && (
                       <div className="flex gap-3 mt-2">

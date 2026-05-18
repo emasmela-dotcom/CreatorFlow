@@ -355,7 +355,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
                     )}
                   </div>
                   <p className="text-gray-300 text-sm mb-2">{mention.content}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <div className="flex items-center gap-4 text-xs text-gray-400">
                     <span>Query: {mention.query}</span>
                     {mention.engagement_count > 0 && (
                       <span>{mention.engagement_count} engagements</span>

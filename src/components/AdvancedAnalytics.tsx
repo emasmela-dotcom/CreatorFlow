@@ -248,7 +248,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
                     <div className="text-xs text-gray-400">predicted</div>
                   </div>
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-400">
                   Confidence: {pred.confidence} • Factors: {pred.factors?.join(', ')}
                 </div>
               </div>

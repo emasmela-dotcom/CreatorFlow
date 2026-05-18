@@ -337,7 +337,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                             {member.role}
                           </div>
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-400">
                           Joined {new Date(member.joined_at).toLocaleDateString()}
                         </div>
                       </div>

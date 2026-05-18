@@ -100,7 +100,7 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
                   </div>
                 </div>
               ) : (
-                <div className="text-xs text-gray-500 italic">
+                <div className="text-xs text-gray-400 italic">
                   No content types set
                 </div>
               )}
