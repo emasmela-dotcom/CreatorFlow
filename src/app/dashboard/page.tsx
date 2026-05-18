@@ -17,6 +17,7 @@ import WhosOn from '@/components/WhosOn'
 import CreatorChat from '@/components/CreatorChat'
 import MessageBoard from '@/components/MessageBoard'
 import ContentTypesSettings from '@/components/ContentTypesSettings'
+import MoreAiToolsRow from '@/components/MoreAiToolsRow'
 
 // Simple UI Components for Bots
 function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -2906,7 +2907,9 @@ export default function Dashboard() {
                     +25% this month
                   </div>
                 </div>
-              </div>
+              </motion.div>
+
+              <MoreAiToolsRow token={token} />
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
