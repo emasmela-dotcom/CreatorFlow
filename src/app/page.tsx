@@ -165,18 +165,18 @@ The CreatorFlow365 Team`,
             CreatorFlow365
           </a>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.location.href = '/#pricing'}
+            <a
+              href="#pricing"
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
               Compare plans
-            </button>
-            <button
-              onClick={() => window.location.href = '/#tools'}
+            </a>
+            <a
+              href="#tools"
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
               Tools
-            </button>
+            </a>
             <button
               onClick={() => window.location.href = '/creator-tools'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
@@ -331,7 +331,7 @@ The CreatorFlow365 Team`,
       </section>
 
       {/* #tools — c6c1f2e: ten name pills; removed "53+ tools" + feature grid. b058c8b table was added then reverted. */}
-      <section id="tools" className="pt-8 pb-20 px-6">
+      <section id="tools" className="pt-8 pb-20 px-6 scroll-mt-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Your full creator OS—not a single trick pony</h2>
@@ -400,7 +400,7 @@ The CreatorFlow365 Team`,
 
 
       {/* #pricing — plan snapshot + glossary added in May 2026 SEO/clarity pass (not hero restore) */}
-      <section id="pricing" className="py-20 px-6 bg-gray-900/30">
+      <section id="pricing" className="py-20 px-6 bg-gray-900/30 scroll-mt-24">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
 
@@ -793,9 +793,11 @@ The CreatorFlow365 Team`,
 
       </main>
 
-      <div className="text-center py-8 px-6 border-t border-gray-800">
-        <h3 className="text-2xl font-bold mb-2">CreatorFlow365</h3>
-        <p className="text-gray-400 mb-2">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
+      <div className="text-center py-8 px-4 sm:px-6 border-t border-gray-800">
+        <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">CreatorFlow365</h3>
+        <p className="text-gray-300 mb-2 max-w-xl mx-auto text-sm sm:text-base">
+          The creator workspace for planning, AI drafting, and multi-platform publishing.
+        </p>
       </div>
       <SeoSiteFooter className="!pt-0" />
       </div>

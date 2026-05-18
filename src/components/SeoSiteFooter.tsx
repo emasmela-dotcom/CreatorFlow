@@ -2,12 +2,15 @@ import Link from 'next/link'
 
 const LINKS = [
   { href: '/', label: 'Home' },
+  { href: '/#pricing', label: 'Pricing' },
   { href: '/creator-tools', label: 'Creator tools' },
   { href: '/ai-caption-writer-instagram-tiktok', label: 'AI captions' },
   { href: '/social-media-scheduler-for-creators', label: 'Scheduler' },
   { href: '/content-creator-analytics-platform', label: 'Analytics' },
   { href: '/demo', label: 'Demo' },
   { href: '/reviews', label: 'Reviews' },
+  { href: '/signin', label: 'Sign in' },
+  { href: '/signup', label: 'Sign up' },
   { href: '/privacy', label: 'Privacy' },
   { href: '/terms', label: 'Terms' },
 ] as const

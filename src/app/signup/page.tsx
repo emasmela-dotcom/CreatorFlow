@@ -192,12 +192,12 @@ function SignupPageContent() {
         )}
 
         {step === 'account' && (
-          <div className="max-w-md mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4">Create Your Account</h2>
+          <div className="max-w-md mx-auto w-full px-1 sm:px-0">
+            <div className="text-center mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4">Create your account</h2>
               {selectedPlan && (
-                <p className="text-lg text-gray-400">
-                  You're signing up for the <span className="text-purple-400 font-semibold">{selectedPlan}</span> plan
+                <p className="text-base sm:text-lg text-gray-300">
+                  Plan: <span className="text-purple-400 font-semibold">{selectedPlan}</span>
                 </p>
               )}
             </div>

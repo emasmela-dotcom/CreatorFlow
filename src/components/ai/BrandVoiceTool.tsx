@@ -79,7 +79,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Paste your content here to analyze brand voice consistency..."
-              className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[200px]"
+              className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[200px]"
             />
           </div>
 
@@ -90,9 +90,11 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
           )}
 
           <button
+            type="button"
             onClick={handleAnalyze}
             disabled={loading || !content.trim()}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            aria-label="Analyze brand voice"
+            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold text-white hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

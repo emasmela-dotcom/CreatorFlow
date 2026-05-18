@@ -14,9 +14,11 @@ export default function FeedbackButton({ token }: FeedbackButtonProps) {
     <>
       {/* Floating Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
         title="Send Feedback"
+        aria-label="Send feedback"
       >
         <MessageSquare className="w-5 h-5" />
         <span className="hidden sm:inline-block font-semibold">Feedback</span>
@@ -155,8 +157,10 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
             Send Feedback
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-400 hover:text-white transition-colors"
+            aria-label="Close feedback form"
           >
             <X className="w-6 h-6" />
           </button>
@@ -201,6 +205,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+              aria-label="Feedback category"
             >
               <option value="">Select a category...</option>
               {categories.map((cat) => (
@@ -223,6 +228,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
                   className={`text-2xl transition-transform hover:scale-110 ${
                     rating && star <= rating ? 'text-yellow-400' : 'text-gray-400'
                   }`}
+                  aria-label={`Rate ${star} out of 5`}
                 >
                   ★
                 </button>
@@ -244,7 +250,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tell us what you think, what you'd like to see, or any issues you've encountered..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white min-h-[150px] resize-y"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 min-h-[150px] resize-y"
               required
             />
             <p className="text-xs text-gray-400 mt-1">
@@ -271,7 +277,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="your.email@example.com"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 text-sm"
               />
             )}
           </div>

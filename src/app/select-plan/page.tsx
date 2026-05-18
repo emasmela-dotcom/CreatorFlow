@@ -54,7 +54,7 @@ function SelectPlanContent() {
           <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
           <nav className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm" aria-label="Site">
             <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
-            <Link href="/#pricing" className="text-gray-400 hover:text-white">Pricing</Link>
+            <Link href="/#pricing" className="text-gray-300 hover:text-white">Pricing</Link>
             <Link href="/signin" className="text-gray-400 hover:text-white">Sign In</Link>
             <Link href="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</Link>
           </nav>
@@ -134,24 +134,26 @@ function SelectPlanContent() {
           </div>
         </div>
 
-        <p className="text-sm text-gray-400 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <p className="text-sm text-gray-300 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <button
+            type="button"
             onClick={goToSignup}
             disabled={!understood}
-            className="bg-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-400"
           >
             Subscribe now
           </button>
           <button
+            type="button"
             onClick={goToSignup}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500"
+            className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500"
           >
             Start free trial
           </button>
           <Link
             href="/"
-            className="bg-gray-700/50 text-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-gray-600/50 text-center"
+            className="w-full sm:w-auto bg-gray-700 text-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-600 hover:text-white text-center border border-gray-600"
           >
             Cancel
           </Link>

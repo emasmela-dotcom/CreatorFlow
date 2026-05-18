@@ -15,9 +15,11 @@ export default function SuggestionsButton({ token }: SuggestionsButtonProps) {
   return (
     <>
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-20 z-50 bg-amber-500 hover:bg-amber-400 text-black rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-20 z-50 bg-amber-500 hover:bg-amber-400 text-black rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
         title="Suggest an add-on / change"
+        aria-label="Suggest an add-on or change"
       >
         <Lightbulb className="w-5 h-5" />
         <span className="hidden sm:inline-block font-semibold">Suggestions</span>
@@ -118,9 +120,10 @@ function SuggestionsModal({
             Suggest an add-on / change
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-400 hover:text-white transition-colors"
-            type="button"
+            aria-label="Close suggestions form"
           >
             <X className="w-6 h-6" />
           </button>
@@ -161,7 +164,7 @@ function SuggestionsModal({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Describe the add-on, change, or concern. Include any context so we can act on it."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white min-h-[140px] resize-y"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 min-h-[140px] resize-y"
               required
             />
             <p className="text-xs text-gray-400 mt-1">Be as specific as possible.</p>

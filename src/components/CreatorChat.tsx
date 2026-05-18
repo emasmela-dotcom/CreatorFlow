@@ -125,7 +125,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
   }
 
   return (
-    <div className="bg-gray-800/50 rounded-xl border border-gray-700 flex flex-col h-[600px]">
+    <div className="bg-gray-800/50 rounded-xl border border-gray-700 flex flex-col h-[min(70vh,600px)] min-h-[360px]">
       {/* Header */}
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center gap-2 mb-2">
@@ -135,15 +135,17 @@ export default function CreatorChat({ token }: CreatorChatProps) {
         <p className="text-sm text-gray-400">Connect and chat with other creators</p>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden flex-col md:flex-row min-h-0">
         {/* Channels Sidebar */}
-        <div className="w-64 border-r border-gray-700 overflow-y-auto">
-          <div className="p-3 space-y-1">
+        <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-700 overflow-x-auto md:overflow-y-auto shrink-0 max-h-40 md:max-h-none">
+          <div className="p-3 flex md:flex-col gap-2 md:gap-0 md:space-y-1">
             {channels.map((channel) => (
               <button
                 key={channel.id}
+                type="button"
                 onClick={() => setSelectedChannel(channel.id)}
-                className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                aria-pressed={selectedChannel === channel.id}
+                className={`shrink-0 md:w-full text-left px-3 py-2 rounded-lg transition-colors ${
                   selectedChannel === channel.id
                     ? 'bg-purple-600 text-white'
                     : 'text-gray-300 hover:bg-gray-700'
@@ -162,7 +164,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0 min-w-0">
           {selectedChannel ? (
             <>
               {/* Messages */}
@@ -202,23 +204,25 @@ export default function CreatorChat({ token }: CreatorChatProps) {
               </div>
 
               {/* Message Input */}
-              <form onSubmit={sendMessage} className="p-4 border-t border-gray-700">
+              <form onSubmit={sendMessage} className="p-3 sm:p-4 border-t border-gray-700" aria-label="Send chat message">
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
-                    className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+                    aria-label="Message"
+                    className="flex-1 min-w-0 px-3 sm:px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500"
                     disabled={loading}
                   />
                   <button
                     type="submit"
                     disabled={loading || !newMessage.trim()}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    aria-label="Send message"
+                    className="px-3 sm:px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shrink-0"
                   >
-                    <Send className="w-4 h-4" />
-                    Send
+                    <Send className="w-4 h-4" aria-hidden />
+                    <span className="hidden sm:inline">Send</span>
                   </button>
                 </div>
               </form>

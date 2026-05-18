@@ -109,7 +109,7 @@ interface PlanSelectionProps {
 
 export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: PlanSelectionProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
       {plans.map((plan) => {
         const isSelected = selectedPlan === plan.id
         const isPopular = plan.popular
@@ -123,9 +123,19 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
               </div>
             )}
             <div
+              role="button"
+              tabIndex={disabled ? -1 : 0}
               onClick={() => !disabled && onSelectPlan(plan.id)}
+              onKeyDown={(e) => {
+                if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault()
+                  onSelectPlan(plan.id)
+                }
+              }}
+              aria-pressed={isSelected}
+              aria-label={`Select ${plan.name} plan, $${plan.price} per month`}
               className={`
-                relative p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
+                relative p-4 sm:p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
                 ${isSelected 
                   ? 'border-white bg-white/10' 
                   : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
@@ -177,13 +187,15 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             </div>
 
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation()
                 if (!disabled) onSelectPlan(plan.id)
               }}
               disabled={disabled}
+              aria-label={isSelected ? `${plan.name} plan selected` : `Select ${plan.name} plan`}
               className={`
-                w-full mt-6 py-3 rounded-lg font-semibold transition-all
+                w-full mt-6 py-3 rounded-lg font-semibold transition-all text-white
                 ${isSelected
                   ? 'bg-white text-black hover:bg-gray-200'
                   : 'bg-gray-700 hover:bg-gray-600'
