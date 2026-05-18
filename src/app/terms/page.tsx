@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 const baseUrl =
   (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
@@ -77,6 +78,7 @@ export default function TermsPage() {
           </section>
         </div>
       </main>
+      <SeoSiteFooter />
     </div>
   )
 }

@@ -124,7 +124,7 @@ function renderFeatureUI(featureId: string, token: string, onClose: () => void) 
       return (
         <div className="space-y-4">
           <p className="text-gray-300">Track promises, people, and follow-ups. They owe you / You owe them / Overdue / Upcoming.</p>
-          <Link href="/crm" className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-500">Open Follow Thru CRM →</Link>
+          <Link href="/follow-thru" className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-500">Open Follow Thru CRM →</Link>
         </div>
       )
     default:

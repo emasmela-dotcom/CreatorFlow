@@ -2235,7 +2235,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
                     <div className="text-xs text-gray-400 mb-1">
                       Angle: <span className="text-gray-300">{suggestion.angle}</span>
                     </div>
-                    <div className="text-xs text-gray-500">{suggestion.reason}</div>
+                    <div className="text-xs text-gray-400">{suggestion.reason}</div>
                   </div>
                 ))}
               </div>
@@ -2411,7 +2411,7 @@ function CalendarView({ token }: { token: string }) {
                       <div className="font-semibold">{event.title}</div>
                       <div className="text-sm text-gray-400">{event.platform} • {event.status}</div>
                       {event.scheduledAt && (
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-xs text-gray-400 mt-1">
                           {new Date(event.scheduledAt).toLocaleTimeString()}
                         </div>
                       )}
@@ -2540,7 +2540,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
             <div key={platform} className="text-center">
               <div className="text-2xl font-bold">{count}</div>
               <div className="text-sm text-gray-400 capitalize">{platform}</div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-400">
                 {analytics.byPlatform.engagement[platform] || 0} engagement
               </div>
             </div>
@@ -2561,7 +2561,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
                     <span className="text-sm text-gray-400 capitalize">{post.platform}</span>
                   </div>
                   <div className="text-sm text-gray-300 truncate">{post.content}</div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-gray-400 mt-1">
                     {new Date(post.publishedAt).toLocaleDateString()}
                   </div>
                 </div>
@@ -2813,11 +2813,11 @@ export default function Dashboard() {
               <div className="space-y-2 text-sm">
                 <div className="p-2 bg-gray-700 rounded">
                   <p className="text-gray-300">Post scheduled for Instagram</p>
-                  <p className="text-xs text-gray-500">2 hours ago</p>
+                  <p className="text-xs text-gray-400">2 hours ago</p>
                 </div>
                 <div className="p-2 bg-gray-700 rounded">
                   <p className="text-gray-300">New collaboration request</p>
-                  <p className="text-xs text-gray-500">5 hours ago</p>
+                  <p className="text-xs text-gray-400">5 hours ago</p>
                 </div>
               </div>
             </div>
@@ -2935,7 +2935,7 @@ export default function Dashboard() {
                               ? new Date(post.scheduled_at).toLocaleDateString() 
                               : new Date(post.created_at).toLocaleDateString()}
                           </p>
-                          <p className="text-xs text-gray-500">{post.status}</p>
+                          <p className="text-xs text-gray-400">{post.status}</p>
                         </div>
                       </div>
                     ))}

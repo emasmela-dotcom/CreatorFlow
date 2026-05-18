@@ -409,6 +409,20 @@ export default function CreatorToolsPage() {
             </ul>
           </section>
 
+          <nav
+            className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500"
+            aria-label="Site"
+          >
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</Link>
+            <Link href="/social-media-scheduler-for-creators" className="hover:text-white transition-colors">Scheduler</Link>
+            <Link href="/content-creator-analytics-platform" className="hover:text-white transition-colors">Analytics</Link>
+            <Link href="/demo" className="hover:text-white transition-colors">Demo</Link>
+            <Link href="/reviews" className="hover:text-white transition-colors">Reviews</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+          </nav>
+
           <div className="mt-16 pt-10 border-t border-gray-800 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-white">Ready to try the workspace?</p>

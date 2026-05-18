@@ -11,7 +11,7 @@ export default function ToolsInPackageCard() {
       </p>
       <ul className="space-y-2 text-sm">
         <li>
-          <Link href="/crm" className="text-purple-400 hover:underline">Follow Thru CRM</Link>
+          <Link href="/follow-thru" className="text-purple-400 hover:underline">Follow Thru CRM</Link>
           <span className="text-gray-400"> — Track what you’re waiting on. Setup: Neon (free), optional Resend. Paid APIs: optional for higher limits.</span>
         </li>
       </ul>

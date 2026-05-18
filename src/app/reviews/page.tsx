@@ -1,6 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { Star, Quote, ArrowLeft } from 'lucide-react'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function ReviewsPage() {
   const reviews = [
@@ -280,20 +282,7 @@ export default function ReviewsPage() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-4">CreatorFlow365</h3>
-          <p className="text-gray-400 mb-6">The ultimate platform for content creators</p>
-          <div className="flex justify-center gap-6 text-sm text-gray-500">
-            <a href="/" className="hover:text-white transition-colors">Home</a>
-            <a href="/reviews" className="hover:text-white transition-colors">Reviews</a>
-            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
-            <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">Support</a>
-          </div>
-        </div>
-      </footer>
+      <SeoSiteFooter />
     </div>
   )
 }

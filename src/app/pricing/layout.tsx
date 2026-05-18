@@ -5,20 +5,18 @@ const baseUrl =
   'https://www.creatorflow365.com'
 const origin = baseUrl.replace(/\/$/, '')
 
-const title = 'Pricing | CreatorFlow365'
+const title = 'Pricing – Plans from $9/mo | CreatorFlow365'
 const description =
-  'Pricing lives on the homepage (#pricing). Compare tiers & trials—Starter through Business—before signup.'
+  'Starter, Growth, Pro & more—14-day free trial, no credit card. AI captions, calendar & analytics in one workspace.'
 
 export const metadata: Metadata = {
   title,
   description,
-  // Thin redirect to /#pricing — avoid indexing duplicate stub; canonical is homepage.
-  robots: { index: false, follow: true },
-  alternates: { canonical: `${origin}/` },
+  alternates: { canonical: `${origin}/pricing` },
   openGraph: {
     title,
     description,
-    url: `${origin}/`,
+    url: `${origin}/pricing`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
     type: 'website',

@@ -36,16 +36,13 @@ export default function NotFound() {
           <NotFoundBackButton />
         </div>
 
-        <p className="text-sm text-gray-500 leading-relaxed">
-          Try the{' '}
-          <Link href="/creator-tools" className="text-purple-400 hover:underline">
-            creator tools overview
-          </Link>{' '}
-          or{' '}
-          <Link href="/signup" className="text-purple-400 hover:underline">
-            start a free trial
-          </Link>
-          .
+        <p className="text-sm text-gray-500 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
+          <Link href="/creator-tools" className="text-purple-400 hover:underline">Creator tools</Link>
+          <Link href="/demo" className="text-purple-400 hover:underline">Demo</Link>
+          <Link href="/signup" className="text-purple-400 hover:underline">Free trial</Link>
+          <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">AI captions</Link>
+          <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">Scheduler</Link>
+          <Link href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">Support</Link>
         </p>
       </div>
     </div>
