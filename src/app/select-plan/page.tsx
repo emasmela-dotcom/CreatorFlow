@@ -49,10 +49,10 @@ function SelectPlanContent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <header className="border-b border-gray-700 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
-          <nav className="flex items-center gap-6 text-sm">
+      <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
+          <nav className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm" aria-label="Site">
             <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
             <Link href="/#pricing" className="text-gray-400 hover:text-white">Pricing</Link>
             <Link href="/signin" className="text-gray-400 hover:text-white">Sign In</Link>
