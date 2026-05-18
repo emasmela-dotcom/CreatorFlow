@@ -12,10 +12,10 @@ export default function ToolsInPackageCard() {
       <ul className="space-y-2 text-sm">
         <li>
           <Link href="/follow-thru" className="text-purple-400 hover:underline">Follow Thru CRM</Link>
-          <span className="text-gray-400"> — Track what you’re waiting on. Setup: Neon (free), optional Resend. Paid APIs: optional for higher limits.</span>
+          <span className="text-gray-300"> — Track what you’re waiting on. Setup: Neon (free), optional Resend. Paid APIs: optional for higher limits.</span>
         </li>
       </ul>
-      <p className="text-gray-400 text-xs mt-4">Free setup → full functionality. Paid APIs → greater functionality when you need it.</p>
+      <p className="text-gray-300 text-xs mt-4">Free setup → full functionality. Paid APIs → greater functionality when you need it.</p>
     </div>
   )
 }

@@ -78,29 +78,31 @@ export default function CollaborationsPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold">Brand Collaborations</h1>
-            <div className="text-sm text-gray-400">
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Brand Collaborations</h1>
+            <div className="text-sm text-gray-300">
               {filteredCollaborations.length} collaboration{filteredCollaborations.length !== 1 ? 's' : ''}
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+            <div className="relative w-full sm:w-auto">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" aria-hidden />
               <input
-                type="text"
+                type="search"
                 placeholder="Search collaborations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-64"
+                aria-label="Search collaborations"
+                className="w-full sm:w-64 pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              aria-label="Filter by status"
+              className="w-full sm:w-auto bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -109,23 +111,24 @@ export default function CollaborationsPage() {
               <option value="cancelled">Cancelled</option>
             </select>
             <button
+              type="button"
               onClick={() => setShowNewCollaboration(true)}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
+              className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4" aria-hidden />
               New Collaboration
             </button>
           </div>
         </div>
       </header>
 
-      <div className="p-6 space-y-6">
+      <main id="main-content" className="p-4 sm:p-6 space-y-6">
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Value</p>
+                <p className="text-gray-300 text-sm">Total Value</p>
                 <p className="text-2xl font-bold">$9,000</p>
               </div>
               <DollarSign className="w-8 h-8 text-green-400" />
@@ -136,34 +139,34 @@ export default function CollaborationsPage() {
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Active Deals</p>
+                <p className="text-gray-300 text-sm">Active Deals</p>
                 <p className="text-2xl font-bold">2</p>
               </div>
               <Clock className="w-8 h-8 text-blue-400" />
             </div>
-            <p className="text-sm text-gray-400 mt-2">In progress</p>
+            <p className="text-sm text-gray-300 mt-2">In progress</p>
           </div>
 
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Completed</p>
+                <p className="text-gray-300 text-sm">Completed</p>
                 <p className="text-2xl font-bold">1</p>
               </div>
               <CheckCircle className="w-8 h-8 text-green-400" />
             </div>
-            <p className="text-sm text-gray-400 mt-2">This month</p>
+            <p className="text-sm text-gray-300 mt-2">This month</p>
           </div>
 
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Avg. Deal Size</p>
+                <p className="text-gray-300 text-sm">Avg. Deal Size</p>
                 <p className="text-2xl font-bold">$3,000</p>
               </div>
               <Star className="w-8 h-8 text-yellow-400" />
             </div>
-            <p className="text-sm text-gray-400 mt-2">Per collaboration</p>
+            <p className="text-sm text-gray-300 mt-2">Per collaboration</p>
           </div>
         </div>
 
@@ -178,7 +181,7 @@ export default function CollaborationsPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{collab.brand}</h3>
-                    <p className="text-gray-400">{collab.type} • {collab.platform}</p>
+                    <p className="text-gray-300">{collab.type} • {collab.platform}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -187,7 +190,7 @@ export default function CollaborationsPage() {
                   </span>
                   <div className="text-right">
                     <p className="text-lg font-bold text-green-400">${collab.value.toLocaleString()}</p>
-                    <p className="text-sm text-gray-400">Total value</p>
+                    <p className="text-sm text-gray-300">Total value</p>
                   </div>
                 </div>
               </div>
@@ -196,18 +199,18 @@ export default function CollaborationsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Requirements</p>
+                  <p className="text-sm text-gray-300 mb-1">Requirements</p>
                   <p className="text-sm">{collab.requirements}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Deadline</p>
+                  <p className="text-sm text-gray-300 mb-1">Deadline</p>
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gray-400" />
+                    <Calendar className="w-4 h-4 text-gray-300" />
                     <span className="text-sm">{new Date(collab.deadline).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400 mb-1">Progress</p>
+                  <p className="text-sm text-gray-300 mb-1">Progress</p>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-gray-700 rounded-full h-2">
                       <div 
@@ -245,10 +248,10 @@ export default function CollaborationsPage() {
         {filteredCollaborations.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-gray-400" />
+              <Search className="w-8 h-8 text-gray-300" />
             </div>
             <h3 className="text-lg font-semibold mb-2">No collaborations found</h3>
-            <p className="text-gray-400 mb-6">Try adjusting your search or filter criteria</p>
+            <p className="text-gray-300 mb-6">Try adjusting your search or filter criteria</p>
             <button
               onClick={() => setShowNewCollaboration(true)}
               className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
@@ -257,7 +260,7 @@ export default function CollaborationsPage() {
             </button>
           </div>
         )}
-      </div>
+      </main>
 
       {/* New Collaboration Modal */}
       {showNewCollaboration && (
@@ -266,10 +269,12 @@ export default function CollaborationsPage() {
             <div className="flex items-center justify-between p-6 border-b border-gray-700">
               <h2 className="text-xl font-semibold">New Collaboration</h2>
               <button
+                type="button"
                 onClick={() => setShowNewCollaboration(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-300 hover:text-white transition-colors"
+                aria-label="Close new collaboration dialog"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6" aria-hidden />
               </button>
             </div>
 

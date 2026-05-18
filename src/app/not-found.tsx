@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-6">
+    <main id="main-content" className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4 sm:px-6">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-7xl sm:text-9xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
             404
           </h1>
         </div>
 
-        <h2 className="text-3xl font-bold mb-4">Page Not Found</h2>
-        <p className="text-gray-400 mb-8 text-lg">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-white">Page Not Found</h2>
+        <p className="text-gray-300 mb-8 text-base sm:text-lg">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
 
@@ -36,16 +36,16 @@ export default function NotFound() {
           <NotFoundBackButton />
         </div>
 
-        <p className="text-sm text-gray-400 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
-          <Link href="/creator-tools" className="text-purple-400 hover:underline">Creator tools</Link>
-          <Link href="/demo" className="text-purple-400 hover:underline">Demo</Link>
-          <Link href="/signup" className="text-purple-400 hover:underline">Free trial</Link>
-          <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">AI captions</Link>
-          <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">Scheduler</Link>
-          <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">Analytics</Link>
-          <Link href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">Support</Link>
+        <p className="text-sm text-gray-300 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
+          <Link href="/creator-tools" className="text-purple-300 hover:text-purple-200 underline">Creator tools</Link>
+          <Link href="/demo" className="text-purple-300 hover:text-purple-200 underline">Demo</Link>
+          <Link href="/signup" className="text-purple-300 hover:text-purple-200 underline">Free trial</Link>
+          <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-300 hover:text-purple-200 underline">AI captions</Link>
+          <Link href="/social-media-scheduler-for-creators" className="text-purple-300 hover:text-purple-200 underline">Scheduler</Link>
+          <Link href="/content-creator-analytics-platform" className="text-purple-300 hover:text-purple-200 underline">Analytics</Link>
+          <Link href="mailto:support@creatorflow365.com" className="text-purple-300 hover:text-purple-200 underline">Support</Link>
         </p>
       </div>
-    </div>
+    </main>
   )
 }

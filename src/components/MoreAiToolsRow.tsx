@@ -27,7 +27,7 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
     <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 space-y-4">
       <div>
         <h3 className="text-sm font-semibold text-white">More AI tools</h3>
-        <p className="text-xs text-gray-400 mt-1">Quick access — not the full tools list.</p>
+        <p className="text-xs text-gray-300 mt-1">Quick access — not the full tools list.</p>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -46,7 +46,7 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <label className="text-xs text-gray-400">
+        <label className="text-xs text-gray-300">
           Platform
           <select
             value={platform}
@@ -69,19 +69,19 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
             onChange={(e) => setDraft(e.target.value)}
             placeholder="Paste a caption draft to review…"
             rows={3}
-            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-400"
+            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-300"
           />
           <input
             type="text"
             value={hashtags}
             onChange={(e) => setHashtags(e.target.value)}
             placeholder="Optional hashtags"
-            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-400"
+            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder:text-gray-300"
           />
           {draft.trim() ? (
             <ContentAssistantBot content={draft} platform={platform} hashtags={hashtags} token={token} />
           ) : (
-            <p className="text-xs text-gray-400">Add caption text above to run the coach.</p>
+            <p className="text-xs text-gray-300">Add caption text above to run the coach.</p>
           )}
         </div>
       )}

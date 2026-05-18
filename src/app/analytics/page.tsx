@@ -80,20 +80,21 @@ export default function AnalyticsPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Analytics Dashboard</h1>
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-gray-400" />
-              <span className="text-sm text-gray-400">Last updated: 2 minutes ago</span>
+              <Calendar className="w-5 h-5 text-gray-500" aria-hidden />
+              <span className="text-sm text-gray-300">Last updated: 2 minutes ago</span>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              aria-label="Select time period"
+              className="w-full sm:w-auto bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               {periods.map(period => (
                 <option key={period.id} value={period.id}>{period.label}</option>
@@ -102,26 +103,27 @@ export default function AnalyticsPage() {
             <select
               value={selectedPlatform}
               onChange={(e) => setSelectedPlatform(e.target.value)}
-              className="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              aria-label="Select platform"
+              className="w-full sm:w-auto bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               {platforms.map(platform => (
                 <option key={platform.id} value={platform.id}>{platform.label}</option>
               ))}
             </select>
-            <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-              <Filter className="w-5 h-5" />
+            <button type="button" className="p-2 hover:bg-gray-700 rounded-lg transition-colors self-end sm:self-auto" aria-label="More filters">
+              <Filter className="w-5 h-5 text-gray-300" aria-hidden />
             </button>
           </div>
         </div>
       </header>
 
-      <div className="p-6 space-y-6">
+      <main id="main-content" className="p-4 sm:p-6 space-y-6">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Followers</p>
+                <p className="text-gray-300 text-sm">Total Followers</p>
                 <p className="text-3xl font-bold">{metrics.totalFollowers.toLocaleString()}</p>
               </div>
               <Users className="w-8 h-8 text-blue-400" />
@@ -135,7 +137,7 @@ export default function AnalyticsPage() {
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Engagement Rate</p>
+                <p className="text-gray-300 text-sm">Engagement Rate</p>
                 <p className="text-3xl font-bold">{metrics.engagementRate}%</p>
               </div>
               <Heart className="w-8 h-8 text-indigo-400" />
@@ -149,7 +151,7 @@ export default function AnalyticsPage() {
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Reach</p>
+                <p className="text-gray-300 text-sm">Total Reach</p>
                 <p className="text-3xl font-bold">{metrics.totalReach.toLocaleString()}</p>
               </div>
               <Eye className="w-8 h-8 text-green-400" />
@@ -163,7 +165,7 @@ export default function AnalyticsPage() {
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Impressions</p>
+                <p className="text-gray-300 text-sm">Impressions</p>
                 <p className="text-3xl font-bold">{metrics.totalImpressions.toLocaleString()}</p>
               </div>
               <BarChart3 className="w-8 h-8 text-purple-400" />
@@ -180,9 +182,9 @@ export default function AnalyticsPage() {
           {/* Engagement Chart */}
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
             <h3 className="text-lg font-semibold mb-4">Engagement Over Time</h3>
-            <div className="h-64 flex items-center justify-center text-gray-400">
+            <div className="h-64 flex items-center justify-center text-gray-300">
               <div className="text-center">
-                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
+                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-300" aria-hidden />
                 <p>Engagement chart will be displayed here</p>
                 <p className="text-sm">Real-time data integration coming soon</p>
               </div>
@@ -201,12 +203,12 @@ export default function AnalyticsPage() {
                     </div>
                     <div>
                       <p className="font-medium">{stat.platform}</p>
-                      <p className="text-sm text-gray-400">{stat.followers.toLocaleString()} followers</p>
+                      <p className="text-sm text-gray-300">{stat.followers.toLocaleString()} followers</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold">{stat.engagement}%</p>
-                    <p className="text-sm text-gray-400">{stat.posts} posts</p>
+                    <p className="text-sm text-gray-300">{stat.posts} posts</p>
                   </div>
                 </div>
               ))}
@@ -225,10 +227,10 @@ export default function AnalyticsPage() {
                     <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded-full">
                       {post.platform}
                     </span>
-                    <span className="text-sm text-gray-400">{post.date}</span>
+                    <span className="text-sm text-gray-300">{post.date}</span>
                   </div>
                   <p className="text-gray-300 mb-2">{post.content}</p>
-                  <div className="flex items-center gap-6 text-sm text-gray-400">
+                  <div className="flex items-center gap-6 text-sm text-gray-300">
                     <div className="flex items-center gap-1">
                       <Heart className="w-4 h-4" />
                       {post.likes.toLocaleString()}
@@ -249,7 +251,7 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-semibold text-green-400">{post.engagement}%</p>
-                  <p className="text-sm text-gray-400">engagement</p>
+                  <p className="text-sm text-gray-300">engagement</p>
                 </div>
               </div>
             ))}
@@ -285,7 +287,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
       <SeoSiteFooter />
     </div>
   )
