@@ -157,7 +157,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                 {connected ? (
                   <CheckCircle2 className="w-6 h-6 text-green-400" />
                 ) : (
-                  <XCircle className="w-6 h-6 text-gray-500" />
+                  <XCircle className="w-6 h-6 text-gray-400" />
                 )}
               </div>
 

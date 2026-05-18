@@ -2730,7 +2730,7 @@ export default function Dashboard() {
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
               <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
                 <Search className="absolute left-3 w-4 h-4 text-gray-600 pointer-events-none shrink-0" aria-hidden />
-                <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
+                <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
               </form>
             </div>
             <nav className="hidden lg:flex flex-col gap-0.5 items-center flex-1 min-w-0 justify-center shrink-0">{navButtons}</nav>
@@ -2758,7 +2758,7 @@ export default function Dashboard() {
                 <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
                 <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
                   <Search className="absolute left-3 w-4 h-4 text-gray-600 pointer-events-none shrink-0" aria-hidden />
-                  <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search within the app" />
+                  <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search within the app" />
                 </form>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
