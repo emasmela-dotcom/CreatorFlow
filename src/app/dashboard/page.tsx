@@ -2840,9 +2840,9 @@ export default function Dashboard() {
         <main className="flex-1 p-6">
           {(subscribeError || subscribeDebug) && (
             <div className="mb-6 p-4 rounded-lg bg-red-900/60 border-2 border-red-500 text-red-100">
-              <p className="font-bold text-lg">Subscribe button failed – server response:</p>
-              {subscribeError && <p className="mt-2 text-sm">{decodeURIComponent(subscribeError)}</p>}
-              {subscribeDebug && <pre className="mt-2 text-xs font-mono whitespace-pre-wrap break-all bg-black/30 p-2 rounded">{decodeURIComponent(subscribeDebug)}</pre>}
+              <p className="font-bold text-lg text-red-50">Could not open checkout</p>
+              {subscribeError && <p className="mt-2 text-sm text-red-100">{decodeURIComponent(subscribeError)}</p>}
+              {subscribeDebug && <pre className="mt-2 text-xs font-mono whitespace-pre-wrap break-all bg-black/40 text-amber-100 p-2 rounded">{decodeURIComponent(subscribeDebug)}</pre>}
               <button type="button" onClick={() => router.replace('/dashboard')} className="mt-3 px-4 py-2 bg-red-700 hover:bg-red-600 rounded font-medium">Dismiss</button>
             </div>
           )}

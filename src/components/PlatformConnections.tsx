@@ -178,7 +178,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                     </p>
                   )}
                   {connection.last_used_at && (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-400">
                       Last used: {new Date(connection.last_used_at).toLocaleDateString()}
                     </p>
                   )}
