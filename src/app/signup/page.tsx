@@ -102,42 +102,44 @@ function SignupPageContent() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto gap-2">
           <button
+            type="button"
             onClick={() => router.push('/')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors shrink-0"
+            aria-label="Back to home"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Back to Home</span>
+            <span className="hidden sm:inline">Back to Home</span>
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent truncate">
             CreatorFlow365
           </h1>
-          <div className="w-24" /> {/* Spacer for centering */}
+          <div className="w-9 sm:w-24 shrink-0" aria-hidden />
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Progress: Create Account → Payment (plan is optional, from dashboard/pricing) */}
-        <div className="flex items-center justify-center mb-12">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center mb-8 sm:mb-12 overflow-x-auto">
+          <div className="flex items-center gap-2 sm:gap-4">
             <div className={`flex items-center ${step === 'account' ? 'text-purple-400' : step === 'payment' ? 'text-green-400' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'account' ? 'border-purple-400 bg-purple-400/10' : step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
                 {step === 'payment' ? '✓' : '1'}
               </div>
-              <span className="ml-2 font-medium">Create Account</span>
+              <span className="ml-2 font-medium hidden sm:inline">Create Account</span>
             </div>
-            <div className="w-16 h-0.5 bg-gray-700" />
+            <div className="w-8 sm:w-16 h-0.5 bg-gray-700 shrink-0" />
             <div className={`flex items-center ${step === 'payment' ? 'text-purple-400' : 'text-gray-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                 step === 'payment' ? 'border-purple-400 bg-purple-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
                 2
               </div>
-              <span className="ml-2 font-medium">Payment</span>
+              <span className="ml-2 font-medium hidden sm:inline">Payment</span>
             </div>
           </div>
         </div>
@@ -199,7 +201,7 @@ function SignupPageContent() {
               )}
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
+            <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl border border-gray-700 p-6 sm:p-8 space-y-6" aria-label="Create account">
               {error && (
                 <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg text-sm">
                   {error}
@@ -207,16 +209,18 @@ function SignupPageContent() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="signup-email" className="block text-sm font-medium text-gray-300 mb-2">
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
                   <input
+                    id="signup-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                    autoComplete="email"
+                    className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                     placeholder="Enter your email"
                     required
                   />
@@ -224,16 +228,18 @@ function SignupPageContent() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="signup-password" className="block text-sm font-medium text-gray-300 mb-2">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
                   <input
+                    id="signup-password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                    autoComplete="new-password"
+                    className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                     placeholder="Create a password"
                     required
                     minLength={6}
@@ -242,6 +248,7 @@ function SignupPageContent() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>

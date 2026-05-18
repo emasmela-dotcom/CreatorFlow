@@ -177,20 +177,22 @@ function DocumentsContent() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold flex items-center gap-2">
-              <FileText className="w-6 h-6" />
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 truncate">
+              <FileText className="w-6 h-6 shrink-0" aria-hidden />
               My Documents
             </h1>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-400 shrink-0">
               {documents.length} document{documents.length !== 1 ? 's' : ''}
             </span>
           </div>
           <button
+            type="button"
             onClick={handleNew}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
+            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
+            aria-label="New document"
           >
             <Plus className="w-4 h-4" />
             New Document
@@ -198,23 +200,25 @@ function DocumentsContent() {
         </div>
       </header>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {/* Search and Filters */}
-        <div className="mb-6 flex gap-4">
+        <div className="mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" aria-hidden />
             <input
-              type="text"
+              type="search"
               placeholder="Search documents..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              aria-label="Search documents"
+              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
             />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            aria-label="Filter by category"
+            className="w-full sm:w-auto px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
           >
             <option value="all">All Categories</option>
             {categories.map(cat => (
@@ -232,8 +236,10 @@ function DocumentsContent() {
                   {editingDoc ? 'Edit Document' : 'New Document'}
                 </h2>
                 <button
+                  type="button"
                   onClick={() => setShowEditor(false)}
                   className="text-gray-400 hover:text-white"
+                  aria-label="Close editor"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -246,19 +252,19 @@ function DocumentsContent() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                     placeholder="Document title..."
                   />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">Category (optional)</label>
                     <input
                       type="text"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                       placeholder="e.g., Blog Posts, Ideas, Notes"
                     />
                   </div>
@@ -268,7 +274,7 @@ function DocumentsContent() {
                       type="text"
                       value={tags}
                       onChange={(e) => setTags(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
                       placeholder="tag1, tag2, tag3"
                     />
                   </div>
@@ -279,7 +285,7 @@ function DocumentsContent() {
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
+                    className="w-full h-64 sm:h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm text-white placeholder:text-gray-400"
                     placeholder="Write your content here... You can paste from Google Docs, Notion, Word, etc."
                   />
                   <div className="mt-2 flex items-center justify-between text-sm text-gray-400">
@@ -322,7 +328,7 @@ function DocumentsContent() {
           <div className="text-center py-12 text-gray-400">Loading documents...</div>
         ) : documents.length === 0 ? (
           <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" aria-hidden />
             <h3 className="text-lg font-semibold mb-2">No documents yet</h3>
             <p className="text-gray-400 mb-6">Create your first document to get started!</p>
             <button
@@ -356,9 +362,11 @@ function DocumentsContent() {
                   </div>
                   <div className="flex gap-1">
                     <button
+                      type="button"
                       onClick={() => handleTogglePin(doc)}
                       className="p-1.5 hover:bg-gray-700 rounded transition-colors"
                       title={doc.is_pinned ? 'Unpin' : 'Pin'}
+                      aria-label={doc.is_pinned ? 'Unpin document' : 'Pin document'}
                     >
                       {doc.is_pinned ? (
                         <Pin className="w-4 h-4 text-yellow-400" />
@@ -367,16 +375,20 @@ function DocumentsContent() {
                       )}
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleEdit(doc)}
                       className="p-1.5 hover:bg-gray-700 rounded transition-colors"
                       title="Edit"
+                      aria-label={`Edit ${doc.title}`}
                     >
                       <Edit className="w-4 h-4 text-blue-400" />
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(doc.id)}
                       className="p-1.5 hover:bg-gray-700 rounded transition-colors"
                       title="Delete"
+                      aria-label={`Delete ${doc.title}`}
                     >
                       <Trash2 className="w-4 h-4 text-red-400" />
                     </button>
