@@ -2907,7 +2907,7 @@ export default function Dashboard() {
                     +25% this month
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               <MoreAiToolsRow token={token} />
 
@@ -3060,7 +3060,7 @@ export default function Dashboard() {
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                             post.isLocked
-                              ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
                               : 'bg-blue-600 hover:bg-blue-700'
                           }`}
                         >
@@ -3078,7 +3078,7 @@ export default function Dashboard() {
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                             post.isLocked
-                              ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
                               : 'bg-purple-600 hover:bg-purple-700'
                           }`}
                         >
