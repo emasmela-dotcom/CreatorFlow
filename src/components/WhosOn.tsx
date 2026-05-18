@@ -110,7 +110,7 @@ export default function WhosOn({ token }: WhosOnProps) {
 
       {activeUsers.length === 0 ? (
         <div className="text-center text-gray-400 py-8">
-          <Users className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+          <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" aria-hidden />
           <p>No active users right now</p>
         </div>
       ) : (

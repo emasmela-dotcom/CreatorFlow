@@ -423,7 +423,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
         <div className="flex-1 p-6">
           {posts.length === 0 ? (
             <div className="text-center text-gray-400 py-12">
-              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
               <p>No posts yet. Be the first to post!</p>
             </div>
           ) : (

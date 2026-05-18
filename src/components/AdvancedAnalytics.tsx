@@ -61,7 +61,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
   if (!performance) {
     return (
       <div className="text-center py-12 text-gray-400">
-        <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+        <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
         <p>No analytics data available</p>
       </div>
     )

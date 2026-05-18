@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
             <h3 className="text-lg font-semibold mb-4">Engagement Over Time</h3>
             <div className="h-64 flex items-center justify-center text-gray-400">
               <div className="text-center">
-                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" aria-hidden />
                 <p>Engagement chart will be displayed here</p>
                 <p className="text-sm">Real-time data integration coming soon</p>
               </div>

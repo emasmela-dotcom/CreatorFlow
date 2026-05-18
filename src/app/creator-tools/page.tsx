@@ -273,7 +273,7 @@ export default function CreatorToolsPage() {
             <ArrowLeft className="w-4 h-4" />
             Home
           </Link>
-          <span className="text-gray-600">|</span>
+          <span className="text-gray-400" aria-hidden>|</span>
           <Link href="/pricing" className="text-sm text-gray-400 hover:text-white transition-colors">
             Pricing
           </Link>

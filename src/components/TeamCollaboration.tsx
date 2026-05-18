@@ -233,7 +233,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
             <h3 className="text-lg font-semibold text-white mb-4">Your Teams</h3>
             {teams.length === 0 ? (
               <div className="text-center py-8 text-gray-400">
-                <Users className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+                <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" />
                 <p>No teams yet</p>
                 <p className="text-sm">Create a team to get started</p>
               </div>
@@ -324,7 +324,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
 
                 {members.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
-                    <Users className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+                    <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" />
                     <p>No members yet</p>
                   </div>
                 ) : (
@@ -350,7 +350,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                 <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
                 {activity.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
-                    <Activity className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+                    <Activity className="w-12 h-12 mx-auto mb-2 text-gray-400" />
                     <p>No activity yet</p>
                   </div>
                 ) : (
@@ -366,7 +366,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
             </>
           ) : (
             <div className="bg-gray-800 border border-gray-700 rounded-lg p-12 text-center text-gray-400">
-              <Users className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+              <Users className="w-16 h-16 mx-auto mb-4 text-gray-400" />
               <p>Select a team to view details</p>
             </div>
           )}

@@ -146,19 +146,19 @@ function SignupPageContent() {
 
         {step === 'plan' && (
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Choose Your Plan</h2>
-              <p className="text-xl text-gray-400">
-                Start your free trial with 14 days of any plan.
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4">Choose your plan</h2>
+              <p className="text-base sm:text-xl text-gray-300">
+                Start your free trial with 14 days on any plan.
               </p>
               <p className="text-sm text-green-400 mt-2">
-                ✅ No credit card required to start your trial.
+                No credit card required to start your trial.
               </p>
-              <p className="text-xs text-gray-400 mt-1">
-                When you sign up for the plan you trialed, all content you created during the trial is kept.
+              <p className="text-xs text-gray-400 mt-1 max-w-xl mx-auto">
+                When you subscribe after the trial, content you created during the trial is kept.
               </p>
-              <p className="text-sm text-white/90 mt-3 font-medium">
-                Your work here is yours. Subscribe after trial to keep what you've created or changed—no payment required to start—and keep access to more tools than the competition.
+              <p className="text-sm text-gray-200 mt-3 font-medium max-w-xl mx-auto">
+                Your work stays yours—subscribe after trial to keep what you created and full tool access.
               </p>
             </div>
 
@@ -177,12 +177,13 @@ function SignupPageContent() {
                   />
                 </div>
                 
-                <div className="mt-8 text-center">
+                <div className="mt-6 sm:mt-8 text-center px-1">
                   <button
+                    type="button"
                     onClick={() => setStep('account')}
-                    className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold text-white hover:from-purple-600 hover:to-indigo-600 transition-all"
                   >
-                    Continue to Account Creation
+                    Continue to account
                   </button>
                 </div>
               </>
@@ -291,15 +292,17 @@ function SignupPageContent() {
         )}
 
         {step === 'payment' && selectedPlan && (
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4">Keep Your Plan After the Trial</h2>
-              <p className="text-lg text-gray-400">
-                Your free trial is active. Everything you've created or changed here stays with you when you subscribe. Without a subscription, that work won't be available—subscribe to keep it and to keep using far more tools than most creator platforms.              </p>
+          <div className="max-w-3xl mx-auto px-1 sm:px-0">
+            <div className="text-center mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4">Keep your plan after the trial</h2>
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                Your free trial is active. What you create here stays with you when you subscribe.
+                Without a subscription, that work will not stay available—subscribe to keep it and full tool access.
+              </p>
             </div>
 
             {/* Trial Terms Display */}
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <TrialTerms 
                 planName={plans.find(p => p.id === selectedPlan)?.name || selectedPlan}
                 planPrice={plans.find(p => p.id === selectedPlan)?.price || 0}
@@ -307,15 +310,17 @@ function SignupPageContent() {
             </div>
 
             {/* Payment Button */}
-            <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 space-y-6">
+            <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 sm:p-8 space-y-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold mb-2">Ready to Become a Paying Member?</h3>
-                <p className="text-gray-400 mb-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Ready to add payment?</h3>
+                <p className="text-gray-300 mb-6 text-sm sm:text-base">
                   When you’re ready, you’ll be redirected to secure Stripe checkout to add your payment method. 
                   Your card will not be charged until after your 14-day trial ends.
                 </p>
                 
                 <button
+                  type="button"
+                  aria-label="Proceed to secure Stripe checkout"
                   onClick={async () => {
                     setLoading(true)
                     setError('')
@@ -386,10 +391,11 @@ function SignupPageContent() {
                 )}
 
                 <button
+                  type="button"
                   onClick={() => setStep('account')}
                   className="mt-4 text-gray-400 hover:text-white transition-colors text-sm"
                 >
-                  ← Back to Account
+                  ← Back to account
                 </button>
               </div>
             </div>

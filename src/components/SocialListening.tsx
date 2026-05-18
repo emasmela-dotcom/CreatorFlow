@@ -272,7 +272,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
           <h3 className="text-lg font-semibold text-white mb-4">Listening Rules</h3>
           {rules.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              <Search className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+              <Search className="w-12 h-12 mx-auto mb-2 text-gray-400" />
               <p>No listening rules yet</p>
               <p className="text-sm">Add a rule to start tracking</p>
             </div>
@@ -333,7 +333,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
           </div>
           {mentions.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              <MessageSquare className="w-12 h-12 mx-auto mb-2 text-gray-600" />
+              <MessageSquare className="w-12 h-12 mx-auto mb-2 text-gray-400" />
               <p>No mentions found</p>
               <p className="text-sm">Mentions will appear here when found</p>
             </div>
