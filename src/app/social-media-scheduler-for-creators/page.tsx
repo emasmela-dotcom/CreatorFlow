@@ -50,7 +50,7 @@ export default function SocialSchedulerPage() {
             Essential ($19/month) adds five accounts and content analytics on top of Starter scheduling workflows—all with a
             14-day trial and no credit card to start.
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Full creator hub (calendar, hashtags, CRM):{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview

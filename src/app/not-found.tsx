@@ -36,7 +36,7 @@ export default function NotFound() {
           <NotFoundBackButton />
         </div>
 
-        <p className="text-sm text-gray-500 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
+        <p className="text-sm text-gray-400 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
           <Link href="/creator-tools" className="text-purple-400 hover:underline">Creator tools</Link>
           <Link href="/demo" className="text-purple-400 hover:underline">Demo</Link>
           <Link href="/signup" className="text-purple-400 hover:underline">Free trial</Link>

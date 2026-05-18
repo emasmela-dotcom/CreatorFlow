@@ -189,7 +189,13 @@ function CreatePostInner() {
       const failedPlatformIds: string[] = []
       selectedPlatforms.forEach((platform, i) => {
         if (results[i]?.success) succeeded.push(getPlatformName(platform))
-        else failedPlatformIds.push(platform)
+        else {
+          failedPlatformIds.push(platform)
+          const errMsg = results[i]?.error
+          if (errMsg && responses[i] && !responses[i].ok) {
+            console.error(`Post failed for ${platform}:`, errMsg)
+          }
+        }
       })
 
       if (status === 'draft') {
@@ -350,41 +356,52 @@ function CreatePostInner() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.push('/dashboard')} className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4 min-w-0">
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard')}
+              className="p-2 hover:bg-gray-700 rounded-lg transition-colors shrink-0"
+              aria-label="Back to dashboard"
+            >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <h1 className="text-2xl font-bold">Create New Post</h1>
+            <h1 className="text-xl sm:text-2xl font-bold truncate">Create New Post</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
+              type="button"
               onClick={handleSave}
               disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
+              aria-label="Save draft"
             >
               <Save className="w-4 h-4" />
-              {isSaving ? 'Saving...' : 'Save Draft'}
+              <span>{isSaving ? 'Saving...' : 'Save Draft'}</span>
             </button>
             <button
+              type="button"
               onClick={handleSchedule}
               disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
+              aria-label="Schedule post"
             >
               <Calendar className="w-4 h-4" />
-              {isScheduling ? 'Scheduling...' : 'Schedule'}
+              <span>{isScheduling ? 'Scheduling...' : 'Schedule'}</span>
             </button>
             <button
+              type="button"
               onClick={handlePublish}
               disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
+              aria-label="Publish now"
             >
               <Send className="w-4 h-4" />
-              {isPublishing ? 'Publishing...' : 'Publish Now'}
+              <span>{isPublishing ? 'Publishing...' : 'Publish'}</span>
             </button>
           </div>
         </div>
@@ -392,7 +409,7 @@ function CreatePostInner() {
 
       <div className="flex">
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 min-w-0 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Copy to post - when some platforms don't support direct post yet */}
             {publishResults && publishResults.failed.length > 0 && (

@@ -350,7 +350,7 @@ export default function CreatorToolsPage() {
               <section key={s.id} id={s.id} className="scroll-mt-24">
                 <h2 className="text-2xl font-bold text-white mb-4">{s.title}</h2>
                 {s.queries.length > 0 && (
-                  <p className="text-xs text-gray-500 mb-3">
+                  <p className="text-xs text-gray-400 mb-3">
                     <span className="text-gray-400">Example searches this section matches:</span>{' '}
                     {s.queries.join(' · ')}
                   </p>
@@ -410,7 +410,7 @@ export default function CreatorToolsPage() {
           </section>
 
           <nav
-            className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500"
+            className="mt-12 pt-8 border-t border-gray-800 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400"
             aria-label="Site"
           >
             <Link href="/" className="hover:text-white transition-colors">Home</Link>

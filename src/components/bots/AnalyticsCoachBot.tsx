@@ -106,7 +106,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
           <p className="text-xs text-gray-400 mb-3">Start posting to get personalized growth coaching</p>
           <div className="bg-gray-800/50 rounded-lg p-4 mb-3 text-center">
             <div className="text-xs text-gray-400 mb-2">Growth Score</div>
-            <div className="text-4xl font-bold text-gray-500">-</div>
+            <div className="text-4xl font-bold text-gray-400">-</div>
           </div>
           <div className="space-y-2 text-xs text-gray-300">
             <div>💡 Post consistently (3x/week) for best results</div>
@@ -253,7 +253,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
                     <div className="flex items-center gap-2 mb-2 text-xs">
                       <span className="text-gray-400">Current:</span>
                       <span className="text-red-300">{strategy.current}</span>
-                      <span className="text-gray-500">→</span>
+                      <span className="text-gray-400">→</span>
                       <span className="text-green-300">{strategy.target}</span>
                     </div>
                     <div className="text-xs text-gray-300 mb-2">{strategy.strategy}</div>

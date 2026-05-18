@@ -88,7 +88,7 @@ export default function ContentTypesSettings({ token }: ContentTypesSettingsProp
                   ? 'bg-purple-600 text-white'
                   : canSelect
                   ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-800 text-gray-500 cursor-not-allowed opacity-50'
+                  : 'bg-gray-800 text-gray-400 cursor-not-allowed opacity-50'
               }`}
             >
               <div className="flex items-center justify-between">

@@ -50,7 +50,7 @@ export default function ContentCreatorAnalyticsPage() {
             Starter includes analytics support; Essential and higher tiers expand reporting depth. Every plan includes a
             14-day free trial with no credit card required.
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Browse every mapped topic in one place:{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview

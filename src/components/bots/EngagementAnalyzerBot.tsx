@@ -103,11 +103,11 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-800/50 rounded-lg p-3">
             <div className="text-xs text-gray-400 mb-1">Average Engagement</div>
-            <div className="text-2xl font-bold text-gray-500">-</div>
+            <div className="text-2xl font-bold text-gray-400">-</div>
           </div>
           <div className="bg-gray-800/50 rounded-lg p-3">
             <div className="text-xs text-gray-400 mb-1">Best Post</div>
-            <div className="text-lg font-semibold text-gray-500">-</div>
+            <div className="text-lg font-semibold text-gray-400">-</div>
           </div>
         </div>
       </div>

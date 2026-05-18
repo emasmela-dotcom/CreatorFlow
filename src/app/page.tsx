@@ -338,7 +338,7 @@ The CreatorFlow365 Team`,
             <p className="text-xl text-gray-400 mb-6 max-w-3xl mx-auto">
               AI captions, a content calendar, reusable templates, hashtag sets, batch content drafting, multi-platform scheduling, and analytics—all in one flow.
             </p>
-            <p className="text-sm text-gray-500 mb-4">Everything in your dashboard—scheduling, AI drafting tools, Follow Thru CRM, and more. Premium features included in every plan.</p>
+            <p className="text-sm text-gray-400 mb-4">Everything in your dashboard—scheduling, AI drafting tools, Follow Thru CRM, and more. Premium features included in every plan.</p>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg mb-8">
               <Star className="w-5 h-5 text-white" />
               <span className="text-white font-semibold">Premium value included - no hidden fees, no upsells</span>
@@ -414,7 +414,7 @@ The CreatorFlow365 Team`,
               <li><strong className="text-white">Professional ($79)</strong> — Includes white-label options, expanded team capacity, predictive analytics, and advanced API access.</li>
               <li><strong className="text-white">Business ($149)</strong> — Unlimited team, full white-label, and a dedicated account manager for onboarding and escalation support.</li>
             </ul>
-            <p className="text-xs text-gray-500 mt-4">
+            <p className="text-xs text-gray-400 mt-4">
               Feature and pricing comparisons are based on publicly listed competitor pages at time of writing and may change.
             </p>
           </div>

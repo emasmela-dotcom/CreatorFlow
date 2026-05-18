@@ -52,7 +52,7 @@ export default function AICaptionWriterPage() {
             Plans start at $9/month with a 14-day free trial and no credit card required. Starter includes analytics
             support; compare tiers on the homepage pricing section before you commit.
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Pillar hub for every search intent:{' '}
             <Link href="/creator-tools" className="text-purple-400 hover:underline">
               creator tools &amp; workspace overview

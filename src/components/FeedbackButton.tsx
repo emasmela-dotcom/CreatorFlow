@@ -221,7 +221,7 @@ function FeedbackModal({ token, onClose }: FeedbackModalProps) {
                   type="button"
                   onClick={() => setRating(rating === star ? null : star)}
                   className={`text-2xl transition-transform hover:scale-110 ${
-                    rating && star <= rating ? 'text-yellow-400' : 'text-gray-500'
+                    rating && star <= rating ? 'text-yellow-400' : 'text-gray-400'
                   }`}
                 >
                   ★

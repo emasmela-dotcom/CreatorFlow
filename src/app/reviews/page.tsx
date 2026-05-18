@@ -161,7 +161,7 @@ export default function ReviewsPage() {
             Quotes highlight workflows creators use inside CreatorFlow365—your results will depend on your niche and
             consistency.
           </p>
-          <p className="text-sm text-gray-500 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
             Not audited third-party reviews; treat stories as illustrative examples. Start your own trial to judge fit for your stack.
           </p>
           <div className="flex items-center justify-center gap-2 mb-8">
@@ -172,7 +172,7 @@ export default function ReviewsPage() {
             </div>
             <span className="text-2xl font-bold text-white">5.0</span>
             <span className="text-gray-400">/ 5.0</span>
-            <span className="text-gray-500">•</span>
+            <span className="text-gray-400">•</span>
             <span className="text-gray-400">{reviews.length}+ Reviews</span>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function ReviewsPage() {
                       )}
                     </div>
                     <p className="text-sm text-gray-400">{review.role}</p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       {review.platform} • {review.followers} followers
                     </p>
                   </div>
@@ -214,7 +214,7 @@ export default function ReviewsPage() {
                 <p className="text-gray-300 mb-4 leading-relaxed">{review.text}</p>
                 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-                  <span className="text-xs text-gray-500">{review.date}</span>
+                  <span className="text-xs text-gray-400">{review.date}</span>
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                     <span className="text-xs text-gray-400">{review.rating}.0</span>
