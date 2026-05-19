@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Mail, Lock, Eye, EyeOff } from 'lucide-react'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
@@ -12,6 +12,26 @@ export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [infoMessage, setInfoMessage] = useState('')
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const p = new URLSearchParams(window.location.search)
+    if (p.get('signed_out') === '1') {
+      setInfoMessage('You have been signed out.')
+    } else if (p.get('reset') === 'success') {
+      setInfoMessage('Password updated. Sign in with your new password.')
+    } else if (p.get('session') === 'expired') {
+      setInfoMessage('Your session expired. Please sign in again.')
+    }
+    if (p.has('signed_out') || p.has('reset') || p.has('session')) {
+      p.delete('signed_out')
+      p.delete('reset')
+      p.delete('session')
+      const qs = p.toString()
+      window.history.replaceState({}, '', qs ? `/signin?${qs}` : '/signin')
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -79,6 +99,11 @@ export default function SignInPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl border border-gray-700 p-6 sm:p-8 space-y-6" aria-label="Sign in">
+          {infoMessage && (
+            <div className="bg-blue-900/40 border border-blue-600/60 text-blue-100 px-4 py-3 rounded-lg text-sm" role="status">
+              {infoMessage}
+            </div>
+          )}
           {error && (
             <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg text-sm">
               {error}

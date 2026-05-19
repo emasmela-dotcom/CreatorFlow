@@ -2607,9 +2607,81 @@ export default function Dashboard() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const p = new URLSearchParams(window.location.search)
-      setHeaderVariant(p.get('header') === 'full' ? 'full' : 'center')
+    if (typeof window === 'undefined') return
+    const p = new URLSearchParams(window.location.search)
+    setHeaderVariant(p.get('header') === 'full' ? 'full' : 'center')
+
+    const subErr = p.get('subscribe_error')
+    const subDbg = p.get('subscribe_debug')
+    if (subErr) setSubscribeError(subErr)
+    if (subDbg) setSubscribeDebug(subDbg)
+
+    const connected = p.get('connected')
+    if (p.get('error') === 'oauth_cancelled') {
+      setDashboardNotice('Platform connection was canceled. Try again under Connections.')
+      setActiveTab('connections')
+    } else if (connected) {
+      const label = connected.charAt(0).toUpperCase() + connected.slice(1)
+      setDashboardNotice(`${label} connected successfully.`)
+      setActiveTab('connections')
+    } else if (p.get('trial_started') === 'true') {
+      setDashboardNotice('Your 14-day trial is active. Create a post, connect a platform, or explore tools below.')
+      setActiveTab('overview')
+    } else if (p.get('new') === '1') {
+      setDashboardNotice(
+        'Welcome to CreatorFlow365! Create a post, connect a platform, or choose a plan when you are ready.'
+      )
+      setActiveTab('overview')
+    } else if (p.get('canceled') === 'true') {
+      setDashboardNotice(
+        'Checkout was canceled. No charge was made—you can subscribe anytime from the trial banner or Pricing.'
+      )
+    } else if (p.get('credits') === 'canceled') {
+      setDashboardNotice('Credit bundle purchase was canceled. No charges were made.')
+    } else if (p.get('credits') === 'success' || p.getAll('credits').includes('success')) {
+      const added =
+        p.get('amount') || p.getAll('credits').find((v) => v !== 'success' && !Number.isNaN(Number(v)))
+      setDashboardNotice(
+        added && !Number.isNaN(Number(added))
+          ? `${added} credits were added to your account.`
+          : 'Credits were added to your account.'
+      )
+    } else if (p.get('purchase') === 'canceled') {
+      setDashboardNotice('Post purchase was canceled. No charges were made.')
+    } else if (p.get('purchase') === 'success') {
+      const posts = p.get('posts')
+      setDashboardNotice(
+        posts ? `Purchase complete—${posts} post allowance updated.` : 'Purchase complete.'
+      )
+    } else if (p.get('success') === 'true') {
+      setDashboardNotice('Payment setup complete. Your subscription is active—thank you!')
+    }
+
+    const stripKeys = [
+      'subscribe_error',
+      'subscribe_debug',
+      'header',
+      'success',
+      'trial_started',
+      'new',
+      'canceled',
+      'credits',
+      'amount',
+      'purchase',
+      'posts',
+      'error',
+      'connected',
+    ]
+    let stripped = false
+    for (const key of stripKeys) {
+      if (p.has(key)) {
+        p.delete(key)
+        stripped = true
+      }
+    }
+    if (stripped) {
+      const qs = p.toString()
+      window.history.replaceState({}, '', qs ? `/dashboard?${qs}` : '/dashboard')
     }
   }, [])
 
@@ -2748,7 +2820,7 @@ export default function Dashboard() {
               <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
               <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
               <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
-              <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+              <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
             </div>
           </div>
         ) : (
@@ -2776,7 +2848,7 @@ export default function Dashboard() {
                 <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
                 <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
                 <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
-                <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+                <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
               </div>
             </div>
             <div className="hidden lg:block w-full">
@@ -2891,14 +2963,15 @@ export default function Dashboard() {
             </div>
 
             <button
+              type="button"
               onClick={() => {
                 localStorage.removeItem('token')
                 localStorage.removeItem('user')
-                router.push('/signin')
+                router.push('/signin?signed_out=1')
               }}
               className="w-full flex items-center justify-center gap-2 p-3 mt-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-4 h-4" aria-hidden />
               Sign Out
             </button>
           </div>

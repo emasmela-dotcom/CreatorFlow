@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
 
       setMessage('Password reset successfully! Redirecting to sign in...')
       setTimeout(() => {
-        router.push('/signin')
+        router.push('/signin?reset=success')
       }, 2000)
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')

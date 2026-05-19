@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${appUrl}/dashboard?credits=success&credits=${bundleConfig.credits}`,
+      success_url: `${appUrl}/dashboard?credits=success&amount=${bundleConfig.credits}`,
       cancel_url: `${appUrl}/dashboard?credits=canceled`,
       metadata: {
         userId: decoded.userId,

@@ -63,7 +63,7 @@ Redeploy after saving.
 ### 5. Smoke tests
 
 - [ ] Sign up → trial / checkout → webhook fired → user row updated  
-- [ ] Cancel checkout returns to a sane URL (`/signup?canceled=true` on trial flow)  
+- [x] Cancel checkout returns to a sane URL (`/signup?canceled=true` on trial flow; dashboard cancel/subscribe params)  
 - [ ] Credits/add-ons if you sell them
 
 ---
