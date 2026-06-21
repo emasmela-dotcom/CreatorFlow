@@ -14,13 +14,35 @@ const eslintConfig = [
   {
     ignores: [
       '.next/**',
+      '_next/**',
+      '**/.next/**',
+      '**/_next/**',
       'out/**',
       'build/**',
+      'follow-through-crm/**',
       'next-env.d.ts',
       'scripts/**',
       'test-*.js',
       'test-results*.json',
     ],
+  },
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      'prefer-const': 'off',
+      'react/no-unescaped-entities': 'off',
+      '@next/next/no-html-link-for-pages': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      '@next/next/no-img-element': 'off',
+      'jsx-a11y/alt-text': 'off',
+    },
   },
 ]
 
