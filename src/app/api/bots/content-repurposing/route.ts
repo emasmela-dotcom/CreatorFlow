@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const platforms = targetPlatforms || ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube']
+    const platforms = targetPlatforms || ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit']
 
     // Ensure table exists (fallback)
     try {
@@ -127,11 +127,39 @@ export async function POST(request: NextRequest) {
           characterCount = repurposed.length
           break
 
+        case 'facebook':
+          repurposed = `📘 Facebook Post\n\n${originalContent.substring(0, 400)}...\n\n💬 Question for your audience:\nWhat has worked best for you so far?`
+          formatType = 'feed-post'
+          hashtags = '#FacebookCreators #ContentMarketing'
+          characterCount = repurposed.length
+          break
+
         case 'pinterest':
           // Pinterest: Pin description format
           repurposed = `${originalContent.substring(0, 100)}...\n\n📌 Save this for later!\n\n${originalContent.split('.').slice(0, 3).map((p: string) => `• ${p.trim()}`).join('\n')}`
           formatType = 'pin-description'
           hashtags = '#Pinterest #DIY #Tips #Ideas'
+          characterCount = repurposed.length
+          break
+
+        case 'threads':
+          repurposed = `🧵 Threads Post\n\n${originalContent.substring(0, 350)}...\n\nWhat do you think?`
+          formatType = 'text-post'
+          hashtags = '#Threads #CreatorTalk'
+          characterCount = repurposed.length
+          break
+
+        case 'snapchat':
+          repurposed = `👻 Snapchat Caption\n\n${originalContent.substring(0, 180)}...`
+          formatType = 'story-caption'
+          hashtags = '#Snapchat #Creator'
+          characterCount = repurposed.length
+          break
+
+        case 'reddit':
+          repurposed = `Reddit title: ${originalContent.substring(0, 120)}...\n\nPost body:\n${originalContent.substring(0, 5000)}`
+          formatType = 'discussion-post'
+          hashtags = '#Reddit #Community'
           characterCount = repurposed.length
           break
 

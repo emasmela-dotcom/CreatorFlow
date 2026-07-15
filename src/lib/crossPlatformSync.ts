@@ -159,6 +159,44 @@ function adaptContentForPlatform(content: string, platform: string): string {
         adapted += '\n\nLike and subscribe for more!'
       }
       break
+
+    case 'facebook':
+      // Facebook: Keep it conversational, preserve moderate length
+      if (adapted.length > 63206) {
+        adapted = adapted.substring(0, 63203) + '...'
+      }
+      break
+
+    case 'pinterest':
+      // Pinterest: Keep concise and idea-forward
+      if (adapted.length > 500) {
+        adapted = adapted.substring(0, 497) + '...'
+      }
+      if (!adapted.includes('#')) {
+        adapted += '\n\n#PinterestTips'
+      }
+      break
+
+    case 'threads':
+      // Threads: short conversational text-first format
+      if (adapted.length > 500) {
+        adapted = adapted.substring(0, 497) + '...'
+      }
+      break
+
+    case 'snapchat':
+      // Snapchat: very short caption style copy
+      if (adapted.length > 250) {
+        adapted = adapted.substring(0, 247) + '...'
+      }
+      break
+
+    case 'reddit':
+      // Reddit: allow longer body with a clear lead
+      if (adapted.length > 40000) {
+        adapted = adapted.substring(0, 39997) + '...'
+      }
+      break
   }
 
   return adapted

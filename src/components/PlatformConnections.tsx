@@ -19,18 +19,41 @@ interface PlatformConnectionsProps {
 
 const PLATFORMS = [
   { id: 'instagram', name: 'Instagram', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+  { id: 'facebook', name: 'Facebook', color: 'bg-gradient-to-r from-blue-600 to-blue-800' },
+  { id: 'threads', name: 'Threads', color: 'bg-gradient-to-r from-gray-700 to-black' },
   { id: 'twitter', name: 'Twitter/X', color: 'bg-gradient-to-r from-blue-400 to-blue-600' },
   { id: 'linkedin', name: 'LinkedIn', color: 'bg-gradient-to-r from-blue-600 to-blue-800' },
   { id: 'tiktok', name: 'TikTok', color: 'bg-gradient-to-r from-black to-gray-800' },
-  { id: 'youtube', name: 'YouTube', color: 'bg-gradient-to-r from-red-500 to-red-700' }
+  { id: 'youtube', name: 'YouTube', color: 'bg-gradient-to-r from-red-500 to-red-700' },
+  { id: 'pinterest', name: 'Pinterest', color: 'bg-gradient-to-r from-red-600 to-rose-700' },
+  { id: 'snapchat', name: 'Snapchat', color: 'bg-gradient-to-r from-yellow-400 to-yellow-600' },
+  { id: 'reddit', name: 'Reddit', color: 'bg-gradient-to-r from-orange-500 to-red-600' }
 ]
 
 const PLATFORM_USER_MESSAGE: Record<string, string> = {
   twitter: "Connect your Twitter/X account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into Twitter.",
   linkedin: "Connect your LinkedIn account to post and schedule directly from CreatorFlow. If not connected, create your post here and use Copy to paste into LinkedIn.",
-  instagram: "Connect Instagram for future direct posting. For now, create your post here and use Copy to paste into the Instagram app.",
+  instagram: "Direct posting works when your Instagram account is Business/Creator, connected to a Facebook Page, and app scopes are approved. Otherwise use Copy/paste fallback.",
+  facebook: "Connect Facebook Page access to publish directly where supported. If not connected, use Copy and paste into Facebook.",
+  threads: "Connect Threads to publish directly where supported. If not connected, use Copy and paste into Threads.",
   tiktok: "Connect TikTok to publish videos directly from CreatorFlow. TikTok direct publishing requires approved API access and media URLs.",
-  youtube: "Plan and write here; use Copy to paste into YouTube Studio or the app. Video uploads use YouTube Studio."
+  youtube: "YouTube direct posting works when your Google OAuth app is configured and you include a public video URL. If not, use copy/export fallback.",
+  pinterest: "Connect Pinterest for publishing where supported. If not connected, use Copy and paste into Pinterest.",
+  snapchat: "Snapchat direct posting works when your Snapchat publish endpoint is configured and you include media. If not, use copy/export fallback.",
+  reddit: "Connect Reddit for account-level access. Publishing may still require subreddit selection per post."
+}
+
+const DIRECT_POST_STATUS: Record<string, 'direct' | 'fallback'> = {
+  instagram: 'direct',
+  twitter: 'direct',
+  linkedin: 'direct',
+  tiktok: 'direct',
+  facebook: 'direct',
+  threads: 'direct',
+  pinterest: 'direct',
+  reddit: 'direct',
+  youtube: 'direct',
+  snapchat: 'direct'
 }
 
 export default function PlatformConnections({ token }: PlatformConnectionsProps) {
@@ -164,6 +187,9 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
               <h3 className="text-lg font-semibold text-white mb-2 capitalize">
                 {platform.name}
               </h3>
+              <p className={`text-xs mb-2 ${DIRECT_POST_STATUS[platform.id] === 'direct' ? 'text-green-400' : 'text-amber-400'}`}>
+                {DIRECT_POST_STATUS[platform.id] === 'direct' ? 'Direct posting available' : 'Copy/export fallback'}
+              </p>
 
               {connected && connection ? (
                 <div className="space-y-2 mb-4">
@@ -230,8 +256,46 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
           <li>• Click "Connect" to authorize CreatorFlow</li>
           <li>• You'll be redirected to the platform to log in</li>
           <li>• Grant permissions to allow CreatorFlow to post</li>
-          <li>• Once connected, you can post directly from CreatorFlow</li>
+          <li>• Direct-post platforms publish from CreatorFlow once connected</li>
+          <li>• Fallback platforms still work via copy/export in Create Post</li>
         </ul>
+      </div>
+
+      <div className="bg-purple-900/20 border border-purple-500 rounded-lg p-4">
+        <h3 className="text-purple-300 font-semibold mb-2">Instagram Direct Post Requirements</h3>
+        <ul className="text-sm text-purple-200 space-y-1">
+          <li>• Instagram account must be Business or Creator (not Personal)</li>
+          <li>• Instagram must be connected to a Facebook Page</li>
+          <li>• Meta app permissions must be approved (including content publish scope)</li>
+          <li>• Post must include at least one public image or video URL</li>
+        </ul>
+        <p className="text-xs text-purple-200 mt-3">
+          If all requirements are met, CreatorFlow publishes directly to Instagram. If not, you can still use copy/export fallback.
+        </p>
+      </div>
+
+      <div className="bg-red-900/20 border border-red-500 rounded-lg p-4">
+        <h3 className="text-red-300 font-semibold mb-2">YouTube Direct Post Requirements</h3>
+        <ul className="text-sm text-red-200 space-y-1">
+          <li>• YouTube account must be connected in Platform Connections</li>
+          <li>• Google OAuth app must include YouTube upload scope and valid client keys</li>
+          <li>• Post must include at least one public video URL CreatorFlow can download</li>
+        </ul>
+        <p className="text-xs text-red-200 mt-3">
+          If all requirements are met, CreatorFlow uploads directly to YouTube. If not, use copy/export fallback.
+        </p>
+      </div>
+
+      <div className="bg-yellow-900/20 border border-yellow-500 rounded-lg p-4">
+        <h3 className="text-yellow-300 font-semibold mb-2">Snapchat Direct Post Requirements</h3>
+        <ul className="text-sm text-yellow-200 space-y-1">
+          <li>• Snapchat account must be connected in Platform Connections</li>
+          <li>• Snapchat publish endpoint must be configured (SNAPCHAT_PUBLISH_ENDPOINT)</li>
+          <li>• Post must include at least one uploaded image or video</li>
+        </ul>
+        <p className="text-xs text-yellow-200 mt-3">
+          If all requirements are met, CreatorFlow publishes directly to Snapchat. If not, use copy/export fallback.
+        </p>
       </div>
     </div>
   )

@@ -61,6 +61,38 @@ export async function POST(request: NextRequest) {
             suggestions: ['Shorter, punchier captions work best', 'Use trending sounds']
           }
           break
+        case 'facebook':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 63206),
+            suggestions: ['Lead with a strong first sentence', 'Use a clear CTA to drive comments or shares']
+          }
+          break
+        case 'pinterest':
+          reformattedContent[platform] = {
+            title: originalContent.substring(0, 100),
+            description: originalContent.substring(0, 500),
+            suggestions: ['Front-load searchable keywords', 'Add one clear idea per pin']
+          }
+          break
+        case 'threads':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 500),
+            suggestions: ['Keep it conversational', 'Ask a simple opinion question to boost replies']
+          }
+          break
+        case 'snapchat':
+          reformattedContent[platform] = {
+            caption: originalContent.substring(0, 250),
+            suggestions: ['Keep text short and direct', 'Pair with visual-first storytelling']
+          }
+          break
+        case 'reddit':
+          reformattedContent[platform] = {
+            title: originalContent.substring(0, 140),
+            body: originalContent.substring(0, 40000),
+            suggestions: ['Use a plain, specific title', 'Focus on value and context before promotion']
+          }
+          break
         default:
           reformattedContent[platform] = {
             content: originalContent,

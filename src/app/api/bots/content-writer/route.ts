@@ -68,6 +68,26 @@ function generateContent(
     case 'youtube':
     case 'youtube-description':
       return generateYouTubeDescription(topic, tone, keywords)
+
+    case 'facebook':
+    case 'facebook-post':
+      return generateFacebookPost(topic, tone, keywords)
+
+    case 'pinterest':
+    case 'pin':
+      return generatePinterestPost(topic, tone, keywords)
+
+    case 'threads':
+    case 'threads-post':
+      return generateThreadsPost(topic, tone, keywords)
+
+    case 'snapchat':
+    case 'snapchat-caption':
+      return generateSnapchatCaption(topic, tone, keywords)
+
+    case 'reddit':
+    case 'reddit-post':
+      return generateRedditPost(topic, tone, keywords)
     
     case 'email':
     case 'newsletter':
@@ -94,7 +114,12 @@ function getDefaultLength(type: string, platform: string | null): number {
       instagram: 500,
       linkedin: 1300,
       tiktok: 300,
-      youtube: 5000
+      youtube: 5000,
+      facebook: 63206,
+      pinterest: 500,
+      threads: 500,
+      snapchat: 250,
+      reddit: 40000
     }
     return platformLimits[platform.toLowerCase()] || 500
   }
@@ -139,6 +164,16 @@ function generateSocialMediaPost(topic: string, tone: string, platform: string, 
       return generateTikTokCaption(topic, tone, keywords)
     case 'youtube':
       return generateYouTubeDescription(topic, tone, keywords)
+    case 'facebook':
+      return generateFacebookPost(topic, tone, keywords)
+    case 'pinterest':
+      return generatePinterestPost(topic, tone, keywords)
+    case 'threads':
+      return generateThreadsPost(topic, tone, keywords)
+    case 'snapchat':
+      return generateSnapchatCaption(topic, tone, keywords)
+    case 'reddit':
+      return generateRedditPost(topic, tone, keywords)
     default:
       return generateInstagramPost(topic, tone, keywords)
   }
@@ -217,6 +252,33 @@ function generateYouTubeDescription(topic: string, tone: string, keywords: strin
   const outro = `Don't forget to like, subscribe, and hit the notification bell for more content!`
   
   return `${intro}\n\n${content}\n\n${outro}`
+}
+
+function generateFacebookPost(topic: string, tone: string, keywords: string[]): string {
+  const intro = `Quick take on ${topic.toLowerCase()}:`
+  const content = generateShortContent(topic, keywords, 450)
+  return `${intro}\n\n${content}\n\nWhat would you add?`
+}
+
+function generatePinterestPost(topic: string, tone: string, keywords: string[]): string {
+  const title = `${topic} ideas to try`
+  const description = generateShortContent(topic, keywords, 300)
+  return `Pin title: ${title}\n\nPin description:\n${description}`
+}
+
+function generateThreadsPost(topic: string, tone: string, keywords: string[]): string {
+  const content = generateShortContent(topic, keywords, 280)
+  return `${topic}: ${content}\n\nThoughts?`
+}
+
+function generateSnapchatCaption(topic: string, tone: string, keywords: string[]): string {
+  return generateShortContent(topic, keywords, 180)
+}
+
+function generateRedditPost(topic: string, tone: string, keywords: string[]): string {
+  const title = topic.slice(0, 120)
+  const body = generateShortContent(topic, keywords, 1200)
+  return `Title: ${title}\n\n${body}`
 }
 
 /**

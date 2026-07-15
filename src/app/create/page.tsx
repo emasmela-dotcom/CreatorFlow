@@ -32,6 +32,11 @@ function CreatePostInner() {
     { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-600' },
     { id: 'tiktok', name: 'TikTok', icon: Video, color: 'bg-black' },
     { id: 'youtube', name: 'YouTube', icon: Youtube, color: 'bg-red-500' },
+    { id: 'facebook', name: 'Facebook', icon: FileText, color: 'bg-blue-700' },
+    { id: 'pinterest', name: 'Pinterest', icon: Image, color: 'bg-rose-600' },
+    { id: 'threads', name: 'Threads', icon: Link, color: 'bg-gray-700' },
+    { id: 'snapchat', name: 'Snapchat', icon: Sparkles, color: 'bg-yellow-500' },
+    { id: 'reddit', name: 'Reddit', icon: AlertCircle, color: 'bg-orange-600' },
   ]
 
   const togglePlatform = async (platformId: string) => {
@@ -110,6 +115,29 @@ function CreatePostInner() {
         const hashtagBlock = normalizedHashtags.slice(0, 15).join(' ')
         return `Title: ${title}\n\nDescription:\n${descriptionBody}${hashtagBlock ? `\n\n${hashtagBlock}` : ''}`
       }
+      case 'facebook': {
+        const hashtagBlock = normalizedHashtags.slice(0, 10).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n${hashtagBlock}` : baseContent
+      }
+      case 'pinterest': {
+        const hashtagBlock = normalizedHashtags.slice(0, 8).join(' ')
+        const short = baseContent.slice(0, 500)
+        return `Pin title: ${short.slice(0, 100)}\n\nPin description:\n${short}${hashtagBlock ? `\n\n${hashtagBlock}` : ''}`
+      }
+      case 'threads': {
+        const hashtagBlock = normalizedHashtags.slice(0, 5).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n${hashtagBlock}` : baseContent
+      }
+      case 'snapchat': {
+        const short = baseContent.slice(0, 250)
+        const hashtagBlock = normalizedHashtags.slice(0, 4).join(' ')
+        return hashtagBlock ? `${short}\n\n${hashtagBlock}` : short
+      }
+      case 'reddit': {
+        const title = baseContent.split('\n')[0].slice(0, 140)
+        const body = baseContent.slice(0, 40000)
+        return `Reddit title: ${title}\n\nPost body:\n${body}`
+      }
       default:
         return normalizedHashtags.length > 0 ? `${baseContent}\n\n${normalizedHashtags.join(' ')}` : baseContent
     }
@@ -164,35 +192,90 @@ function CreatePostInner() {
     }
 
     try {
-      // Create post for each selected platform
-      const promises = selectedPlatforms.map(platform => 
-        fetch('/api/posts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            platform,
-            content: fullContent,
-            media_urls: [], // TODO: Handle media uploads
-            scheduled_at,
-            status
+      // Create post for each selected platform.
+      // YouTube direct publishing uses the upload endpoint with a real file.
+      const platformResults = await Promise.all(
+        selectedPlatforms.map(async (platform) => {
+          if (platform === 'youtube' && status === 'published') {
+            const firstVideo = mediaFiles.find((file) => file.type.startsWith('video/'))
+            if (!firstVideo) {
+              return {
+                platform,
+                ok: false,
+                result: { success: false, error: 'YouTube direct posting requires a video file upload.' }
+              }
+            }
+
+            const titleLine = content.trim().split('\n').find((line) => line.trim().length > 0) || 'CreatorFlow Upload'
+            const formData = new FormData()
+            formData.append('file', firstVideo)
+            formData.append('title', titleLine.slice(0, 100))
+            formData.append('description', fullContent.slice(0, 5000))
+            formData.append('privacyStatus', 'private')
+
+            const response = await fetch('/api/publish/youtube', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              },
+              body: formData
+            })
+            const result = await response.json()
+            return { platform, ok: response.ok, result }
+          }
+
+          if (platform === 'snapchat' && status === 'published') {
+            const firstMedia = mediaFiles[0]
+            if (!firstMedia) {
+              return {
+                platform,
+                ok: false,
+                result: { success: false, error: 'Snapchat direct posting requires an image or video file upload.' }
+              }
+            }
+
+            const formData = new FormData()
+            formData.append('file', firstMedia)
+            formData.append('caption', fullContent.slice(0, 250))
+
+            const response = await fetch('/api/publish/snapchat', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              },
+              body: formData
+            })
+            const result = await response.json()
+            return { platform, ok: response.ok, result }
+          }
+
+          const response = await fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              platform,
+              content: fullContent,
+              media_urls: [],
+              scheduled_at,
+              status
+            })
           })
+          const result = await response.json()
+          return { platform, ok: response.ok, result }
         })
       )
 
-      const responses = await Promise.all(promises)
-      const results = await Promise.all(responses.map(res => res.json()))
-
       const succeeded: string[] = []
       const failedPlatformIds: string[] = []
-      selectedPlatforms.forEach((platform, i) => {
-        if (results[i]?.success) succeeded.push(getPlatformName(platform))
+      platformResults.forEach(({ platform, ok, result }) => {
+        if (result?.success) succeeded.push(getPlatformName(platform))
         else {
           failedPlatformIds.push(platform)
-          const errMsg = results[i]?.error
-          if (errMsg && responses[i] && !responses[i].ok) {
+          const errMsg = result?.error
+          if (errMsg && !ok) {
             console.error(`Post failed for ${platform}:`, errMsg)
           }
         }
@@ -531,6 +614,9 @@ function CreatePostInner() {
               </div>
               <p className="text-sm text-gray-300 mb-4">
                 Choose which social media platforms you want to create content for. Your selection will be saved as your default.
+              </p>
+              <p className="text-xs text-gray-300 mb-4">
+                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload). Copy/export fallback: any platform without active API permissions.
               </p>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {platforms.map((platform) => {

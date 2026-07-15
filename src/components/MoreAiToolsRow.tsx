@@ -7,7 +7,18 @@ import TrendScoutBot from '@/components/bots/TrendScoutBot'
 
 type ToolId = 'assistant' | 'schedule' | 'trends'
 
-const PLATFORMS = ['instagram', 'tiktok', 'twitter', 'linkedin', 'youtube'] as const
+const PLATFORMS = [
+  'instagram',
+  'tiktok',
+  'twitter',
+  'linkedin',
+  'youtube',
+  'facebook',
+  'pinterest',
+  'threads',
+  'snapchat',
+  'reddit'
+] as const
 
 export default function MoreAiToolsRow({ token }: { token: string }) {
   const [active, setActive] = useState<ToolId | null>(null)

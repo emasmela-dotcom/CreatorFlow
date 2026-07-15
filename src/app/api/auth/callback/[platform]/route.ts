@@ -119,6 +119,8 @@ async function exchangeCodeForToken(
 
   switch (platform) {
     case 'instagram':
+    case 'facebook':
+    case 'threads':
       // Instagram uses Facebook Graph API
       const fbResponse = await fetch('https://graph.facebook.com/v18.0/oauth/access_token', {
         method: 'POST',
@@ -203,6 +205,62 @@ async function exchangeCodeForToken(
       return await googleResponse.json()
     }
 
+    case 'pinterest': {
+      const pinterestResponse = await fetch('https://api.pinterest.com/v5/oauth/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          redirect_uri: redirectUri
+        }).toString()
+      })
+      const data = await pinterestResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.message || 'Pinterest token exchange failed')
+      }
+      return data
+    }
+
+    case 'snapchat': {
+      const snapchatResponse = await fetch('https://accounts.snapchat.com/accounts/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          redirect_uri: redirectUri,
+          client_id: clientId,
+          client_secret: clientSecret
+        })
+      })
+      const data = await snapchatResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error_description || 'Snapchat token exchange failed')
+      }
+      return data
+    }
+
+    case 'reddit': {
+      const redditResponse = await fetch('https://www.reddit.com/api/v1/access_token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`
+        },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          redirect_uri: redirectUri
+        })
+      })
+      const data = await redditResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error || 'Reddit token exchange failed')
+      }
+      return data
+    }
+
     default:
       throw new Error(`Token exchange not implemented for ${platform}`)
   }
@@ -219,9 +277,38 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
   try {
     switch (platform) {
       case 'instagram':
-        // Instagram requires Facebook Page and Instagram Business Account
-        // This is simplified - actual implementation needs more steps
-        return { id: null, username: null, name: null }
+        // Instagram direct publishing requires a Business/Creator account
+        // connected to a Facebook Page.
+        const pagesResponse = await fetch(
+          'https://graph.facebook.com/v20.0/me/accounts?fields=id,name,instagram_business_account{id,username}',
+          {
+            headers: { 'Authorization': `Bearer ${accessToken}` }
+          }
+        )
+        const pagesData = await pagesResponse.json().catch(() => null)
+        const pages = Array.isArray(pagesData?.data) ? pagesData.data : []
+        const pageWithInstagram = pages.find((p: any) => p?.instagram_business_account?.id)
+
+        if (!pageWithInstagram?.instagram_business_account?.id) {
+          return { id: null, username: null, name: null }
+        }
+
+        return {
+          id: String(pageWithInstagram.instagram_business_account.id),
+          username: pageWithInstagram.instagram_business_account.username || null,
+          name: pageWithInstagram.name || null
+        }
+
+      case 'facebook':
+      case 'threads': {
+        const fbResponse = await fetch('https://graph.facebook.com/me?fields=id,name&access_token=' + encodeURIComponent(accessToken))
+        const fbData = await fbResponse.json()
+        return {
+          id: fbData.id || null,
+          username: null,
+          name: fbData.name || null
+        }
+      }
 
       case 'twitter':
         const twitterResponse = await fetch('https://api.twitter.com/2/users/me', {
@@ -270,6 +357,41 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
         }
       }
 
+      case 'pinterest': {
+        const pinterestResponse = await fetch('https://api.pinterest.com/v5/user_account', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const pinterestData = await pinterestResponse.json()
+        return {
+          id: pinterestData?.id || null,
+          username: pinterestData?.username || null,
+          name: pinterestData?.business_name || pinterestData?.username || null
+        }
+      }
+
+      case 'snapchat': {
+        return {
+          id: null,
+          username: null,
+          name: 'Snapchat Account'
+        }
+      }
+
+      case 'reddit': {
+        const redditResponse = await fetch('https://oauth.reddit.com/api/v1/me', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'User-Agent': 'creatorflow365/1.0'
+          }
+        })
+        const redditData = await redditResponse.json()
+        return {
+          id: redditData?.id || null,
+          username: redditData?.name || null,
+          name: redditData?.subreddit?.title || redditData?.name || null
+        }
+      }
+
       default:
         return { id: null, username: null, name: null }
     }
@@ -282,10 +404,15 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
 function getClientId(platform: string): string {
   const envVars: Record<string, string> = {
     instagram: process.env.FACEBOOK_APP_ID || '',
+    facebook: process.env.FACEBOOK_APP_ID || '',
+    threads: process.env.FACEBOOK_APP_ID || '',
     twitter: process.env.TWITTER_CLIENT_ID || '',
     linkedin: process.env.LINKEDIN_CLIENT_ID || '',
     tiktok: process.env.TIKTOK_CLIENT_KEY || '',
-    youtube: process.env.GOOGLE_CLIENT_ID || ''
+    youtube: process.env.GOOGLE_CLIENT_ID || '',
+    pinterest: process.env.PINTEREST_APP_ID || '',
+    snapchat: process.env.SNAPCHAT_CLIENT_ID || '',
+    reddit: process.env.REDDIT_CLIENT_ID || ''
   }
   return envVars[platform] || ''
 }
@@ -293,10 +420,15 @@ function getClientId(platform: string): string {
 function getClientSecret(platform: string): string {
   const envVars: Record<string, string> = {
     instagram: process.env.FACEBOOK_APP_SECRET || '',
+    facebook: process.env.FACEBOOK_APP_SECRET || '',
+    threads: process.env.FACEBOOK_APP_SECRET || '',
     twitter: process.env.TWITTER_CLIENT_SECRET || '',
     linkedin: process.env.LINKEDIN_CLIENT_SECRET || '',
     tiktok: process.env.TIKTOK_CLIENT_SECRET || '',
-    youtube: process.env.GOOGLE_CLIENT_SECRET || ''
+    youtube: process.env.GOOGLE_CLIENT_SECRET || '',
+    pinterest: process.env.PINTEREST_APP_SECRET || '',
+    snapchat: process.env.SNAPCHAT_CLIENT_SECRET || '',
+    reddit: process.env.REDDIT_CLIENT_SECRET || ''
   }
   return envVars[platform] || ''
 }

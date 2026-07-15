@@ -1195,10 +1195,15 @@ function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () =
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
         >
           <option value="instagram">Instagram</option>
-          <option value="twitter">Twitter</option>
+          <option value="twitter">Twitter/X</option>
           <option value="linkedin">LinkedIn</option>
           <option value="tiktok">TikTok</option>
           <option value="youtube">YouTube</option>
+          <option value="facebook">Facebook</option>
+          <option value="pinterest">Pinterest</option>
+          <option value="threads">Threads</option>
+          <option value="snapchat">Snapchat</option>
+          <option value="reddit">Reddit</option>
         </select>
       </div>
       <div>
@@ -1261,7 +1266,18 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
   const router = useRouter()
   const [originalContent, setOriginalContent] = useState('')
   const [contentType, setContentType] = useState('blog-post')
-  const [targetPlatforms, setTargetPlatforms] = useState<string[]>(['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube'])
+  const [targetPlatforms, setTargetPlatforms] = useState<string[]>([
+    'instagram',
+    'twitter',
+    'linkedin',
+    'tiktok',
+    'youtube',
+    'facebook',
+    'pinterest',
+    'threads',
+    'snapchat',
+    'reddit'
+  ])
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState('')
@@ -1358,7 +1374,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
       <div>
         <label className="block text-sm text-gray-300 mb-2">Target Platforms</label>
         <div className="grid grid-cols-3 gap-2">
-          {['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'pinterest'].map((platform) => (
+          {['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit'].map((platform) => (
             <label key={platform} className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -1519,6 +1535,11 @@ function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => v
             <option value="tiktok">TikTok</option>
             <option value="linkedin">LinkedIn</option>
             <option value="youtube">YouTube</option>
+            <option value="facebook">Facebook</option>
+            <option value="pinterest">Pinterest</option>
+            <option value="threads">Threads</option>
+            <option value="snapchat">Snapchat</option>
+            <option value="reddit">Reddit</option>
           </select>
         </div>
         <div>
@@ -1804,6 +1825,11 @@ function ContentTemplatesUI({ token, onClose }: { token: string, onClose: () => 
             <option value="linkedin">LinkedIn</option>
             <option value="tiktok">TikTok</option>
             <option value="youtube">YouTube</option>
+            <option value="facebook">Facebook</option>
+            <option value="pinterest">Pinterest</option>
+            <option value="threads">Threads</option>
+            <option value="snapchat">Snapchat</option>
+            <option value="reddit">Reddit</option>
           </select>
           <textarea
             value={content}
@@ -1987,10 +2013,15 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
         >
           <option value="all">All Platforms</option>
           <option value="instagram">Instagram</option>
-          <option value="twitter">Twitter</option>
+          <option value="twitter">Twitter/X</option>
           <option value="linkedin">LinkedIn</option>
           <option value="tiktok">TikTok</option>
           <option value="youtube">YouTube</option>
+          <option value="facebook">Facebook</option>
+          <option value="pinterest">Pinterest</option>
+          <option value="threads">Threads</option>
+          <option value="snapchat">Snapchat</option>
+          <option value="reddit">Reddit</option>
         </select>
         <select
           value={filter.type}

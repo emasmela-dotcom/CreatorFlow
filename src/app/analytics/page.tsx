@@ -18,9 +18,15 @@ export default function AnalyticsPage() {
   const platforms = [
     { id: 'all', label: 'All Platforms' },
     { id: 'instagram', label: 'Instagram' },
-    { id: 'twitter', label: 'Twitter' },
+    { id: 'twitter', label: 'Twitter/X' },
     { id: 'linkedin', label: 'LinkedIn' },
-    { id: 'youtube', label: 'YouTube' }
+    { id: 'tiktok', label: 'TikTok' },
+    { id: 'youtube', label: 'YouTube' },
+    { id: 'facebook', label: 'Facebook' },
+    { id: 'pinterest', label: 'Pinterest' },
+    { id: 'threads', label: 'Threads' },
+    { id: 'snapchat', label: 'Snapchat' },
+    { id: 'reddit', label: 'Reddit' }
   ]
 
   const metrics = {

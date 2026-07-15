@@ -51,7 +51,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate platforms
-    const validPlatforms = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube']
+    const validPlatforms = [
+      'instagram',
+      'twitter',
+      'linkedin',
+      'tiktok',
+      'youtube',
+      'facebook',
+      'pinterest',
+      'threads',
+      'snapchat',
+      'reddit'
+    ]
     const invalidPlatforms = preferredPlatforms.filter((p: string) => !validPlatforms.includes(p.toLowerCase()))
     
     if (invalidPlatforms.length > 0) {

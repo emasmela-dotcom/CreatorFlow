@@ -11,10 +11,15 @@ export const dynamic = 'force-dynamic'
 function getPlatformClientId(platform: string): string | undefined {
   const env: Record<string, string | undefined> = {
     instagram: process.env.FACEBOOK_APP_ID,
+    facebook: process.env.FACEBOOK_APP_ID,
+    threads: process.env.FACEBOOK_APP_ID,
     twitter: process.env.TWITTER_CLIENT_ID,
     linkedin: process.env.LINKEDIN_CLIENT_ID,
     tiktok: process.env.TIKTOK_CLIENT_KEY,
-    youtube: process.env.GOOGLE_CLIENT_ID
+    youtube: process.env.GOOGLE_CLIENT_ID,
+    pinterest: process.env.PINTEREST_APP_ID,
+    snapchat: process.env.SNAPCHAT_CLIENT_ID,
+    reddit: process.env.REDDIT_CLIENT_ID
   }
   return env[platform]
 }
@@ -23,7 +28,17 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
   instagram: (redirectUri, state) => {
     const clientId = process.env.FACEBOOK_APP_ID
     if (!clientId) throw new Error('FACEBOOK_APP_ID not configured')
-    return `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=instagram_basic,pages_show_list&state=${state}`
+    return `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=instagram_basic,instagram_content_publish,pages_show_list,pages_read_engagement&state=${state}`
+  },
+  facebook: (redirectUri, state) => {
+    const clientId = process.env.FACEBOOK_APP_ID
+    if (!clientId) throw new Error('FACEBOOK_APP_ID not configured')
+    return `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=pages_show_list,pages_manage_posts,pages_read_engagement&state=${state}`
+  },
+  threads: (redirectUri, state) => {
+    const clientId = process.env.FACEBOOK_APP_ID
+    if (!clientId) throw new Error('FACEBOOK_APP_ID not configured')
+    return `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=threads_basic,threads_content_publish&state=${state}`
   },
   twitter: (redirectUri, state) => {
     const clientId = process.env.TWITTER_CLIENT_ID
@@ -44,6 +59,21 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
     const clientId = process.env.GOOGLE_CLIENT_ID
     if (!clientId) throw new Error('GOOGLE_CLIENT_ID not configured')
     return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=https://www.googleapis.com/auth/youtube.upload&response_type=code&state=${state}`
+  },
+  pinterest: (redirectUri, state) => {
+    const clientId = process.env.PINTEREST_APP_ID
+    if (!clientId) throw new Error('PINTEREST_APP_ID not configured')
+    return `https://www.pinterest.com/oauth/?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user_accounts:read,pins:read,pins:write,boards:read,boards:write&response_type=code&state=${state}`
+  },
+  snapchat: (redirectUri, state) => {
+    const clientId = process.env.SNAPCHAT_CLIENT_ID
+    if (!clientId) throw new Error('SNAPCHAT_CLIENT_ID not configured')
+    return `https://accounts.snapchat.com/accounts/oauth2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=snapchat-marketing-api&state=${state}`
+  },
+  reddit: (redirectUri, state) => {
+    const clientId = process.env.REDDIT_CLIENT_ID
+    if (!clientId) throw new Error('REDDIT_CLIENT_ID not configured')
+    return `https://www.reddit.com/api/v1/authorize?client_id=${clientId}&response_type=code&state=${state}&redirect_uri=${encodeURIComponent(redirectUri)}&duration=permanent&scope=identity,submit,read`
   }
 }
 
@@ -68,7 +98,7 @@ export async function GET(
     
     if (!PLATFORM_OAUTH_URLS[platform]) {
       return NextResponse.json({ 
-        error: 'Invalid platform. Supported: instagram, twitter, linkedin, tiktok, youtube' 
+        error: 'Invalid platform. Supported: instagram, facebook, threads, twitter, linkedin, tiktok, youtube, pinterest, snapchat, reddit' 
       }, { status: 400 })
     }
 

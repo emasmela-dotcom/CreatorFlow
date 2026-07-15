@@ -77,7 +77,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         },
         {
           q: 'Can CreatorFlow post directly to Instagram/Twitter/LinkedIn?',
-          a: 'Yes! Once you connect your account via OAuth, CreatorFlow can post directly. Connect your account in Platform Connections, then create posts and click "Post Now" or schedule them.'
+          a: 'Direct posting currently works on Instagram (Business/Creator account + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook Pages, Threads, Pinterest, Reddit (with required setup like board/subreddit defaults), YouTube (connected account + upload-ready video URL), and Snapchat (connected account + publish endpoint setup + media upload).'
         },
         {
           q: 'What if my scheduled post didn\'t post?',

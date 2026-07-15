@@ -259,7 +259,13 @@ The CreatorFlow365 Team`,
           {/* Publishing callout — kept from 3b6544d; replaces older "How it works" (dashboard-first) copy */}
           <div className="mt-4 bg-gray-800/50 border border-gray-700 rounded-lg p-4 max-w-2xl mx-auto">
             <p className="text-sm text-gray-300">
-              <strong className="text-white">How publishing works:</strong> Connect your accounts and schedule directly to Instagram, Twitter/X, LinkedIn, TikTok, and YouTube—or copy and export content to paste anywhere else. Both work.
+              <strong className="text-white">How publishing works:</strong> Connect and publish directly where API publishing is available. Use copy/export fallback everywhere else.
+            </p>
+            <p className="text-xs text-gray-300 mt-2">
+              <strong className="text-white">Direct post available:</strong> Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok (media URL required), Facebook Pages, Threads, Pinterest (media + default board), Reddit (default subreddit).
+            </p>
+            <p className="text-xs text-gray-300 mt-1">
+              <strong className="text-white">Fallback copy/export:</strong> Any platform without active API permissions.
             </p>
           </div>
         </div>

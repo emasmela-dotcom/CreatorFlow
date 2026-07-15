@@ -64,7 +64,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate platform
-    const validPlatforms = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube']
+    const validPlatforms = [
+      'instagram',
+      'twitter',
+      'linkedin',
+      'tiktok',
+      'youtube',
+      'facebook',
+      'pinterest',
+      'threads',
+      'snapchat',
+      'reddit'
+    ]
     if (!validPlatforms.includes(platform.toLowerCase())) {
       return NextResponse.json({ error: 'Invalid platform' }, { status: 400 })
     }
