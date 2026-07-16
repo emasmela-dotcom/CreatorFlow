@@ -367,7 +367,7 @@ function CrossPlatformSyncUI({ token }: { token: string }) {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
 
-  const platforms = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit']
+  const platforms = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress']
 
   const sync = async () => {
     if (!content.trim() || selectedPlatforms.length === 0) return

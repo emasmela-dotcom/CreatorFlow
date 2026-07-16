@@ -74,7 +74,13 @@ export async function POST(request: NextRequest) {
       'pinterest',
       'threads',
       'snapchat',
-      'reddit'
+      'reddit',
+      'bluesky',
+      'mastodon',
+      'discord',
+      'telegram',
+      'tumblr',
+      'wordpress'
     ]
     if (!validPlatforms.includes(platform.toLowerCase())) {
       return NextResponse.json({ error: 'Invalid platform' }, { status: 400 })

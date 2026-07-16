@@ -19,10 +19,17 @@ function getPlatformClientId(platform: string): string | undefined {
     youtube: process.env.GOOGLE_CLIENT_ID,
     pinterest: process.env.PINTEREST_APP_ID,
     snapchat: process.env.SNAPCHAT_CLIENT_ID,
-    reddit: process.env.REDDIT_CLIENT_ID
+    reddit: process.env.REDDIT_CLIENT_ID,
+    mastodon: process.env.MASTODON_CLIENT_ID,
+    discord: process.env.DISCORD_CLIENT_ID,
+    tumblr: process.env.TUMBLR_CLIENT_ID,
+    wordpress: process.env.WORDPRESS_CLIENT_ID
   }
   return env[platform]
 }
+
+// Bluesky and Telegram use manual credential connection routes.
+const MANUAL_CONNECT_PLATFORMS = new Set(['bluesky', 'telegram'])
 
 const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) => string> = {
   instagram: (redirectUri, state) => {
@@ -74,6 +81,28 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
     const clientId = process.env.REDDIT_CLIENT_ID
     if (!clientId) throw new Error('REDDIT_CLIENT_ID not configured')
     return `https://www.reddit.com/api/v1/authorize?client_id=${clientId}&response_type=code&state=${state}&redirect_uri=${encodeURIComponent(redirectUri)}&duration=permanent&scope=identity,submit,read`
+  },
+  mastodon: (redirectUri, state) => {
+    const clientId = process.env.MASTODON_CLIENT_ID
+    const instanceUrl = process.env.MASTODON_INSTANCE_URL
+    if (!clientId) throw new Error('MASTODON_CLIENT_ID not configured')
+    if (!instanceUrl) throw new Error('MASTODON_INSTANCE_URL not configured')
+    return `${instanceUrl.replace(/\/$/, '')}/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=write:statuses%20read:accounts&state=${state}`
+  },
+  discord: (redirectUri, state) => {
+    const clientId = process.env.DISCORD_CLIENT_ID
+    if (!clientId) throw new Error('DISCORD_CLIENT_ID not configured')
+    return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=bot%20identify&permissions=2048&state=${state}`
+  },
+  tumblr: (redirectUri, state) => {
+    const clientId = process.env.TUMBLR_CLIENT_ID
+    if (!clientId) throw new Error('TUMBLR_CLIENT_ID not configured')
+    return `https://www.tumblr.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=write%20offline_access&state=${state}`
+  },
+  wordpress: (redirectUri, state) => {
+    const clientId = process.env.WORDPRESS_CLIENT_ID
+    if (!clientId) throw new Error('WORDPRESS_CLIENT_ID not configured')
+    return `https://public-api.wordpress.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=global&state=${state}`
   }
 }
 
@@ -95,14 +124,17 @@ export async function GET(
 
     const { platform: platformParam } = await params
     const platform = platformParam.toLowerCase()
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
+
+    if (MANUAL_CONNECT_PLATFORMS.has(platform)) {
+      return NextResponse.redirect(`${baseUrl}/dashboard?tab=connections&manualConnect=${platform}`)
+    }
     
     if (!PLATFORM_OAUTH_URLS[platform]) {
       return NextResponse.json({ 
-        error: 'Invalid platform. Supported: instagram, facebook, threads, twitter, linkedin, tiktok, youtube, pinterest, snapchat, reddit' 
+        error: 'Invalid platform. Supported: instagram, facebook, threads, twitter, linkedin, tiktok, youtube, pinterest, snapchat, reddit, bluesky, mastodon, discord, telegram, tumblr, wordpress' 
       }, { status: 400 })
     }
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creatorflow365.com'
 
     if (!getPlatformClientId(platform)) {
       return NextResponse.redirect(

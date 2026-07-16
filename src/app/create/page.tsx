@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useState, useEffect, useRef } from 'react'
-import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText } from 'lucide-react'
+import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText, Cloud, AtSign, MessageSquare, BookOpen, Newspaper } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
@@ -37,6 +37,12 @@ function CreatePostInner() {
     { id: 'threads', name: 'Threads', icon: Link, color: 'bg-gray-700' },
     { id: 'snapchat', name: 'Snapchat', icon: Sparkles, color: 'bg-yellow-500' },
     { id: 'reddit', name: 'Reddit', icon: AlertCircle, color: 'bg-orange-600' },
+    { id: 'bluesky', name: 'Bluesky', icon: Cloud, color: 'bg-sky-500' },
+    { id: 'mastodon', name: 'Mastodon', icon: AtSign, color: 'bg-indigo-600' },
+    { id: 'discord', name: 'Discord', icon: MessageSquare, color: 'bg-indigo-700' },
+    { id: 'telegram', name: 'Telegram', icon: Send, color: 'bg-cyan-600' },
+    { id: 'tumblr', name: 'Tumblr', icon: BookOpen, color: 'bg-blue-900' },
+    { id: 'wordpress', name: 'WordPress', icon: Newspaper, color: 'bg-slate-700' },
   ]
 
   const togglePlatform = async (platformId: string) => {
@@ -137,6 +143,38 @@ function CreatePostInner() {
         const title = baseContent.split('\n')[0].slice(0, 140)
         const body = baseContent.slice(0, 40000)
         return `Reddit title: ${title}\n\nPost body:\n${body}`
+      }
+      case 'bluesky': {
+        const maxChars = 300
+        const hashtagBlock = normalizedHashtags.slice(0, 3).join(' ')
+        const suffix = hashtagBlock ? `\n\n${hashtagBlock}` : ''
+        const available = Math.max(0, maxChars - suffix.length)
+        const text = baseContent.length > available ? `${baseContent.slice(0, Math.max(0, available - 1))}...` : baseContent
+        return `${text}${suffix}`
+      }
+      case 'mastodon': {
+        const hashtagBlock = normalizedHashtags.slice(0, 5).join(' ')
+        const short = baseContent.slice(0, 500)
+        return hashtagBlock ? `${short}\n\n${hashtagBlock}` : short
+      }
+      case 'discord': {
+        const hashtagBlock = normalizedHashtags.slice(0, 5).join(' ')
+        const short = baseContent.slice(0, 2000)
+        return hashtagBlock ? `${short}\n\n${hashtagBlock}` : short
+      }
+      case 'telegram': {
+        const hashtagBlock = normalizedHashtags.slice(0, 5).join(' ')
+        const short = baseContent.slice(0, 4096)
+        return hashtagBlock ? `${short}\n\n${hashtagBlock}` : short
+      }
+      case 'tumblr': {
+        const hashtagBlock = normalizedHashtags.slice(0, 10).join(' ')
+        return hashtagBlock ? `${baseContent}\n\n${hashtagBlock}` : baseContent
+      }
+      case 'wordpress': {
+        const title = baseContent.split('\n')[0].slice(0, 100)
+        const body = baseContent.slice(0, 50000)
+        return `Title: ${title}\n\nContent:\n${body}`
       }
       default:
         return normalizedHashtags.length > 0 ? `${baseContent}\n\n${normalizedHashtags.join(' ')}` : baseContent

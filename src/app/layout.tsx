@@ -7,9 +7,10 @@ import HomeButton from '@/components/HomeButton'
 const SITE_URL =
   (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
   'https://www.creatorflow365.com'
+const SITE_ORIGIN = SITE_URL.replace(/\/$/, '')
 
 const siteDescription =
-  'CreatorFlow365: one workspace for Instagram, X, LinkedIn, TikTok & YouTube—plan, draft, schedule & analytics. 14-day free trial, no credit card. Plans from $9/mo.'
+  'CreatorFlow365 is the creator workspace to plan, draft, schedule, publish, and track content across your social channels with AI tools, analytics, and collaboration workflows.'
 
 const schemaOrgJsonLd = {
   '@context': 'https://schema.org',
@@ -17,22 +18,41 @@ const schemaOrgJsonLd = {
     {
       '@type': 'WebSite',
       name: 'CreatorFlow365',
-      url: SITE_URL.replace(/\/$/, ''),
+      url: SITE_ORIGIN,
       description: siteDescription,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_ORIGIN}/?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
     },
     {
       '@type': 'Organization',
       name: 'CreatorFlow365',
-      url: SITE_URL.replace(/\/$/, ''),
+      url: SITE_ORIGIN,
+      sameAs: [SITE_ORIGIN],
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'CreatorFlow365',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      url: SITE_ORIGIN,
+      description: siteDescription,
+      offers: {
+        '@type': 'Offer',
+        price: '9',
+        priceCurrency: 'USD',
+      },
     },
   ],
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL.replace(/\/$/, '')),
-  title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
+  metadataBase: new URL(SITE_ORIGIN),
+  title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
   description: siteDescription,
-  keywords: 'creator OS, content creator workspace, AI captions, content calendar, social media scheduling, templates, hashtag sets, batch content, multi-platform publishing, repurpose content, creator tools',
+  keywords: 'creator workspace, social media scheduling, AI content writer, creator analytics, content calendar, multi-platform publishing, creator collaboration, creator CRM, social media management, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
   publisher: 'CreatorFlow365',
@@ -49,21 +69,21 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
+    title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
     description: siteDescription,
     type: 'website',
-    url: SITE_URL.replace(/\/$/, ''),
+    url: SITE_ORIGIN,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow365 – Free Trial & Plans from $9/mo',
+    title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
     description: siteDescription,
     creator: '@creatorflow365',
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com',
+    canonical: SITE_ORIGIN,
   },
   appleWebApp: {
     capable: true,

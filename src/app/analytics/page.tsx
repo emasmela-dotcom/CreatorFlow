@@ -26,7 +26,13 @@ export default function AnalyticsPage() {
     { id: 'pinterest', label: 'Pinterest' },
     { id: 'threads', label: 'Threads' },
     { id: 'snapchat', label: 'Snapchat' },
-    { id: 'reddit', label: 'Reddit' }
+    { id: 'reddit', label: 'Reddit' },
+    { id: 'bluesky', label: 'Bluesky' },
+    { id: 'mastodon', label: 'Mastodon' },
+    { id: 'discord', label: 'Discord' },
+    { id: 'telegram', label: 'Telegram' },
+    { id: 'tumblr', label: 'Tumblr' },
+    { id: 'wordpress', label: 'WordPress' }
   ]
 
   const metrics = {

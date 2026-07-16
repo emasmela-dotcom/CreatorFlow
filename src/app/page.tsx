@@ -262,7 +262,7 @@ The CreatorFlow365 Team`,
               <strong className="text-white">How publishing works:</strong> Connect and publish directly where API publishing is available. Use copy/export fallback everywhere else.
             </p>
             <p className="text-xs text-gray-300 mt-2">
-              <strong className="text-white">Direct post available:</strong> Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok (media URL required), Facebook Pages, Threads, Pinterest (media + default board), Reddit (default subreddit).
+              <strong className="text-white">Direct post available:</strong> Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok (media URL required), Facebook Pages, Threads, Pinterest (media + default board), Reddit (default subreddit), YouTube (connected account + upload-ready video URL), Snapchat (publish endpoint + media), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress.
             </p>
             <p className="text-xs text-gray-300 mt-1">
               <strong className="text-white">Fallback copy/export:</strong> Any platform without active API permissions.

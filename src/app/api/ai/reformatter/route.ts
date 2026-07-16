@@ -93,6 +93,44 @@ export async function POST(request: NextRequest) {
             suggestions: ['Use a plain, specific title', 'Focus on value and context before promotion']
           }
           break
+        case 'bluesky':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 300),
+            suggestions: ['Keep it concise', 'Use one clear point per post']
+          }
+          break
+        case 'mastodon':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 500),
+            suggestions: ['Use conversational tone', 'Add alt text when attaching media']
+          }
+          break
+        case 'discord':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 2000),
+            suggestions: ['Use short paragraphs', 'Use one direct call to action']
+          }
+          break
+        case 'telegram':
+          reformattedContent[platform] = {
+            content: originalContent.substring(0, 4096),
+            suggestions: ['Front-load key message', 'Keep formatting simple']
+          }
+          break
+        case 'tumblr':
+          reformattedContent[platform] = {
+            title: originalContent.substring(0, 100),
+            body: originalContent.substring(0, 10000),
+            suggestions: ['Use a hook in first line', 'Add tags for discovery']
+          }
+          break
+        case 'wordpress':
+          reformattedContent[platform] = {
+            title: originalContent.substring(0, 100),
+            body: originalContent.substring(0, 50000),
+            suggestions: ['Use headings for structure', 'Add internal links and CTA']
+          }
+          break
         default:
           reformattedContent[platform] = {
             content: originalContent,

@@ -197,6 +197,42 @@ function adaptContentForPlatform(content: string, platform: string): string {
         adapted = adapted.substring(0, 39997) + '...'
       }
       break
+
+    case 'bluesky':
+      if (adapted.length > 300) {
+        adapted = adapted.substring(0, 297) + '...'
+      }
+      break
+
+    case 'mastodon':
+      if (adapted.length > 500) {
+        adapted = adapted.substring(0, 497) + '...'
+      }
+      break
+
+    case 'discord':
+      if (adapted.length > 2000) {
+        adapted = adapted.substring(0, 1997) + '...'
+      }
+      break
+
+    case 'telegram':
+      if (adapted.length > 4096) {
+        adapted = adapted.substring(0, 4093) + '...'
+      }
+      break
+
+    case 'tumblr':
+      if (adapted.length > 10000) {
+        adapted = adapted.substring(0, 9997) + '...'
+      }
+      break
+
+    case 'wordpress':
+      if (adapted.length > 50000) {
+        adapted = adapted.substring(0, 49997) + '...'
+      }
+      break
   }
 
   return adapted

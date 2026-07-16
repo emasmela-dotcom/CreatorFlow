@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const platforms = targetPlatforms || ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit']
+    const platforms = targetPlatforms || ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress']
 
     // Ensure table exists (fallback)
     try {
@@ -160,6 +160,48 @@ export async function POST(request: NextRequest) {
           repurposed = `Reddit title: ${originalContent.substring(0, 120)}...\n\nPost body:\n${originalContent.substring(0, 5000)}`
           formatType = 'discussion-post'
           hashtags = '#Reddit #Community'
+          characterCount = repurposed.length
+          break
+
+        case 'bluesky':
+          repurposed = `☁️ Bluesky Post\n\n${originalContent.substring(0, 260)}...`
+          formatType = 'short-post'
+          hashtags = '#Bluesky #CreatorCommunity'
+          characterCount = repurposed.length
+          break
+
+        case 'mastodon':
+          repurposed = `🐘 Mastodon Post\n\n${originalContent.substring(0, 450)}...`
+          formatType = 'status'
+          hashtags = '#Mastodon #Fediverse'
+          characterCount = repurposed.length
+          break
+
+        case 'discord':
+          repurposed = `💬 Discord Announcement\n\n${originalContent.substring(0, 1800)}`
+          formatType = 'channel-message'
+          hashtags = '#Discord #Community'
+          characterCount = repurposed.length
+          break
+
+        case 'telegram':
+          repurposed = `📨 Telegram Post\n\n${originalContent.substring(0, 3500)}`
+          formatType = 'channel-post'
+          hashtags = '#Telegram #Updates'
+          characterCount = repurposed.length
+          break
+
+        case 'tumblr':
+          repurposed = `📝 Tumblr Post\n\n${originalContent.substring(0, 2500)}`
+          formatType = 'blog-post'
+          hashtags = '#Tumblr #Creator'
+          characterCount = repurposed.length
+          break
+
+        case 'wordpress':
+          repurposed = `Title: ${originalContent.substring(0, 100)}\n\nContent:\n${originalContent.substring(0, 10000)}`
+          formatType = 'article'
+          hashtags = '#WordPress #Blogging'
           characterCount = repurposed.length
           break
 

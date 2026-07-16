@@ -94,6 +94,18 @@ export async function postToPlatform(
         return await postToSnapchat(connection.access_token, postData)
       case 'reddit':
         return await postToReddit(connection.access_token, postData)
+      case 'bluesky':
+        return await postToBluesky(connection.access_token, postData)
+      case 'mastodon':
+        return await postToMastodon(connection.access_token, postData)
+      case 'discord':
+        return await postToDiscord(connection.access_token, connection.platform_user_id, postData)
+      case 'telegram':
+        return await postToTelegram(connection.access_token, connection.platform_user_id, postData)
+      case 'tumblr':
+        return await postToTumblr(connection.access_token, connection.platform_user_id, postData)
+      case 'wordpress':
+        return await postToWordPress(connection.access_token, connection.platform_user_id, postData)
       default:
         return {
           success: false,
@@ -281,6 +293,69 @@ async function refreshPlatformToken(userId: string, platform: string): Promise<b
           return false
         }
 
+        const refreshedToken = data?.refresh_token || refreshToken
+        const expiresIn = Number(data?.expires_in || 0)
+        const expiresAt = expiresIn > 0 ? new Date(Date.now() + expiresIn * 1000).toISOString() : null
+        await db.execute({
+          sql: `
+            UPDATE platform_connections
+            SET access_token = ?,
+                refresh_token = ?,
+                token_expires_at = ?,
+                updated_at = NOW()
+            WHERE user_id = ? AND platform = ?
+          `,
+          args: [refreshedAccessToken, refreshedToken, expiresAt, userId, platform]
+        })
+        return true
+      }
+
+      case 'bluesky': {
+        const service = process.env.BLUESKY_SERVICE_URL || 'https://bsky.social'
+        const response = await fetch(`${service}/xrpc/com.atproto.server.refreshSession`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${refreshToken}` }
+        })
+        const data = await response.json().catch(() => null)
+        const refreshedAccessToken = data?.accessJwt
+        if (!response.ok || !refreshedAccessToken) {
+          return false
+        }
+        const refreshedToken = data?.refreshJwt || refreshToken
+        await db.execute({
+          sql: `
+            UPDATE platform_connections
+            SET access_token = ?,
+                refresh_token = ?,
+                updated_at = NOW()
+            WHERE user_id = ? AND platform = ?
+          `,
+          args: [refreshedAccessToken, refreshedToken, userId, platform]
+        })
+        return true
+      }
+
+      case 'tumblr': {
+        const clientId = process.env.TUMBLR_CLIENT_ID
+        const clientSecret = process.env.TUMBLR_CLIENT_SECRET
+        if (!clientId || !clientSecret) {
+          return false
+        }
+        const response = await fetch('https://api.tumblr.com/v2/oauth2/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: clientId,
+            client_secret: clientSecret
+          })
+        })
+        const data = await response.json().catch(() => null)
+        const refreshedAccessToken = data?.access_token
+        if (!response.ok || !refreshedAccessToken) {
+          return false
+        }
         const refreshedToken = data?.refresh_token || refreshToken
         const expiresIn = Number(data?.expires_in || 0)
         const expiresAt = expiresIn > 0 ? new Date(Date.now() + expiresIn * 1000).toISOString() : null
@@ -971,6 +1046,231 @@ async function postToReddit(accessToken: string, postData: PostData): Promise<Po
     }
   } catch (error: any) {
     return { success: false, error: error.message || 'Failed to post to Reddit', errorCode: 'REDDIT_ERROR' }
+  }
+}
+
+async function postToBluesky(accessToken: string, postData: PostData): Promise<PostResult> {
+  try {
+    const service = process.env.BLUESKY_SERVICE_URL || 'https://bsky.social'
+    const profileResponse = await fetch(`${service}/xrpc/com.atproto.repo.describeRepo?repo=self`, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    })
+    const profileData = await profileResponse.json().catch(() => null)
+    const did = profileData?.did
+    if (!profileResponse.ok || !did) {
+      return { success: false, error: 'Failed to resolve Bluesky repo DID.', errorCode: 'BLUESKY_REPO_ERROR' }
+    }
+
+    const text = postData.content.slice(0, 300)
+    const body: any = {
+      repo: did,
+      collection: 'app.bsky.feed.post',
+      record: {
+        $type: 'app.bsky.feed.post',
+        text,
+        createdAt: new Date().toISOString()
+      }
+    }
+
+    const createResponse = await fetch(`${service}/xrpc/com.atproto.repo.createRecord`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    const createData = await createResponse.json().catch(() => null)
+    const uri = createData?.uri
+    if (!createResponse.ok || !uri) {
+      return { success: false, error: createData?.message || 'Bluesky API rejected the post.', errorCode: 'BLUESKY_API_ERROR' }
+    }
+    return { success: true, platformPostId: uri, postId: uri }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to Bluesky', errorCode: 'BLUESKY_ERROR' }
+  }
+}
+
+async function postToMastodon(accessToken: string, postData: PostData): Promise<PostResult> {
+  try {
+    const instanceUrl = process.env.MASTODON_INSTANCE_URL
+    if (!instanceUrl) {
+      return { success: false, error: 'MASTODON_INSTANCE_URL env var is required.', errorCode: 'MASTODON_INSTANCE_REQUIRED' }
+    }
+    const response = await fetch(`${instanceUrl.replace(/\/$/, '')}/api/v1/statuses`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        status: postData.content.slice(0, 500),
+        visibility: 'public'
+      })
+    })
+    const data = await response.json().catch(() => null)
+    const statusId = data?.id
+    if (!response.ok || !statusId) {
+      return { success: false, error: data?.error || 'Mastodon API rejected the publish request.', errorCode: 'MASTODON_API_ERROR' }
+    }
+    return { success: true, platformPostId: statusId, postId: statusId }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to Mastodon', errorCode: 'MASTODON_ERROR' }
+  }
+}
+
+async function postToDiscord(accessToken: string, storedChannelId: string | null, postData: PostData): Promise<PostResult> {
+  try {
+    const channelId = storedChannelId || process.env.DISCORD_DEFAULT_CHANNEL_ID || null
+    if (!channelId) {
+      return { success: false, error: 'Discord direct posting requires DISCORD_DEFAULT_CHANNEL_ID.', errorCode: 'DISCORD_CHANNEL_REQUIRED' }
+    }
+    const botToken = process.env.DISCORD_BOT_TOKEN
+    if (!botToken) {
+      return { success: false, error: 'Discord direct posting requires DISCORD_BOT_TOKEN env var.', errorCode: 'DISCORD_BOT_TOKEN_REQUIRED' }
+    }
+    const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bot ${botToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: postData.content.slice(0, 2000)
+      })
+    })
+    const data = await response.json().catch(() => null)
+    const messageId = data?.id
+    if (!response.ok || !messageId) {
+      return { success: false, error: data?.message || 'Discord API rejected the message.', errorCode: 'DISCORD_API_ERROR' }
+    }
+    return { success: true, platformPostId: messageId, postId: messageId }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to Discord', errorCode: 'DISCORD_ERROR' }
+  }
+}
+
+async function postToTelegram(accessToken: string, chatId: string | null, postData: PostData): Promise<PostResult> {
+  try {
+    if (!chatId) {
+      return { success: false, error: 'Telegram connection missing chat ID. Reconnect Telegram.', errorCode: 'TELEGRAM_CHAT_REQUIRED' }
+    }
+    const botToken = process.env.TELEGRAM_BOT_TOKEN || accessToken
+    const mediaUrl = postData.mediaUrls?.[0]
+    const endpoint = mediaUrl
+      ? `https://api.telegram.org/bot${botToken}/sendPhoto`
+      : `https://api.telegram.org/bot${botToken}/sendMessage`
+    const payload = mediaUrl
+      ? { chat_id: chatId, photo: mediaUrl, caption: postData.content.slice(0, 1024) }
+      : { chat_id: chatId, text: postData.content.slice(0, 4096) }
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json().catch(() => null)
+    const messageId = data?.result?.message_id
+    if (!response.ok || !data?.ok || !messageId) {
+      return { success: false, error: data?.description || 'Telegram API rejected the message.', errorCode: 'TELEGRAM_API_ERROR' }
+    }
+    return { success: true, platformPostId: String(messageId), postId: String(messageId) }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to Telegram', errorCode: 'TELEGRAM_ERROR' }
+  }
+}
+
+async function postToTumblr(accessToken: string, blogNameOrId: string | null, postData: PostData): Promise<PostResult> {
+  try {
+    let blogIdentifier = blogNameOrId
+    if (!blogIdentifier) {
+      const meRes = await fetch('https://api.tumblr.com/v2/user/info', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      const meData = await meRes.json().catch(() => null)
+      blogIdentifier = meData?.response?.user?.blogs?.find((b: any) => b.primary)?.name || meData?.response?.user?.blogs?.[0]?.name || null
+    }
+
+    if (!blogIdentifier) {
+      return { success: false, error: 'Tumblr account has no available blog for posting.', errorCode: 'TUMBLR_BLOG_REQUIRED' }
+    }
+
+    const response = await fetch(`https://api.tumblr.com/v2/blog/${blogIdentifier}.tumblr.com/posts`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: [{ type: 'text', text: postData.content.slice(0, 10000) }],
+        state: 'published'
+      })
+    })
+    const data = await response.json().catch(() => null)
+    const postId = data?.response?.id
+    if (!response.ok || !postId) {
+      return { success: false, error: data?.meta?.msg || 'Tumblr API rejected the post.', errorCode: 'TUMBLR_API_ERROR' }
+    }
+    return { success: true, platformPostId: String(postId), postId: String(postId) }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to Tumblr', errorCode: 'TUMBLR_ERROR' }
+  }
+}
+
+async function postToWordPress(accessToken: string, wpSiteId: string | null, postData: PostData): Promise<PostResult> {
+  try {
+    if (wpSiteId) {
+      const response = await fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${wpSiteId}/posts/new`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: postData.content.split('\n')[0].slice(0, 100) || 'CreatorFlow Post',
+          content: postData.content.slice(0, 50000),
+          status: 'publish'
+        })
+      })
+      const data = await response.json().catch(() => null)
+      const postId = data?.ID
+      if (!response.ok || !postId) {
+        return { success: false, error: data?.message || 'WordPress.com API rejected the post.', errorCode: 'WORDPRESS_API_ERROR' }
+      }
+      return { success: true, platformPostId: String(postId), postId: String(postId) }
+    }
+
+    const siteUrl = process.env.WORDPRESS_SITE_URL
+    const appUser = process.env.WORDPRESS_APP_USERNAME
+    const appPassword = process.env.WORDPRESS_APP_PASSWORD
+    if (!siteUrl || !appUser || !appPassword) {
+      return {
+        success: false,
+        error: 'WordPress direct posting needs a connected site ID or self-hosted credentials env vars.',
+        errorCode: 'WORDPRESS_CONFIG_REQUIRED'
+      }
+    }
+
+    const response = await fetch(`${siteUrl.replace(/\/$/, '')}/wp-json/wp/v2/posts`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${appUser}:${appPassword}`).toString('base64')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: postData.content.split('\n')[0].slice(0, 100) || 'CreatorFlow Post',
+        content: postData.content.slice(0, 50000),
+        status: 'publish'
+      })
+    })
+    const data = await response.json().catch(() => null)
+    const postId = data?.id
+    if (!response.ok || !postId) {
+      return { success: false, error: data?.message || 'WordPress REST API rejected the post.', errorCode: 'WORDPRESS_SELF_HOSTED_ERROR' }
+    }
+    return { success: true, platformPostId: String(postId), postId: String(postId) }
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to post to WordPress', errorCode: 'WORDPRESS_ERROR' }
   }
 }
 

@@ -61,7 +61,13 @@ export async function POST(request: NextRequest) {
       'pinterest',
       'threads',
       'snapchat',
-      'reddit'
+      'reddit',
+      'bluesky',
+      'mastodon',
+      'discord',
+      'telegram',
+      'tumblr',
+      'wordpress'
     ]
     const invalidPlatforms = preferredPlatforms.filter((p: string) => !validPlatforms.includes(p.toLowerCase()))
     

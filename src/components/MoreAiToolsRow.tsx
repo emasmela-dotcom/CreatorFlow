@@ -17,7 +17,13 @@ const PLATFORMS = [
   'pinterest',
   'threads',
   'snapchat',
-  'reddit'
+  'reddit',
+  'bluesky',
+  'mastodon',
+  'discord',
+  'telegram',
+  'tumblr',
+  'wordpress'
 ] as const
 
 export default function MoreAiToolsRow({ token }: { token: string }) {

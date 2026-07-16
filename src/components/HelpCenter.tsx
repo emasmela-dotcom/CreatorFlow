@@ -77,7 +77,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         },
         {
           q: 'Can CreatorFlow post directly to Instagram/Twitter/LinkedIn?',
-          a: 'Direct posting currently works on Instagram (Business/Creator account + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook Pages, Threads, Pinterest, Reddit (with required setup like board/subreddit defaults), YouTube (connected account + upload-ready video URL), and Snapchat (connected account + publish endpoint setup + media upload).'
+          a: 'Direct posting currently works on Instagram (Business/Creator account + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook Pages, Threads, Pinterest, Reddit (with required setup like board/subreddit defaults), YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, and WordPress.'
         },
         {
           q: 'What if my scheduled post didn\'t post?',

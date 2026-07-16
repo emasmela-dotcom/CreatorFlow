@@ -27,7 +27,13 @@ const PLATFORMS = [
   { id: 'youtube', name: 'YouTube', color: 'bg-gradient-to-r from-red-500 to-red-700' },
   { id: 'pinterest', name: 'Pinterest', color: 'bg-gradient-to-r from-red-600 to-rose-700' },
   { id: 'snapchat', name: 'Snapchat', color: 'bg-gradient-to-r from-yellow-400 to-yellow-600' },
-  { id: 'reddit', name: 'Reddit', color: 'bg-gradient-to-r from-orange-500 to-red-600' }
+  { id: 'reddit', name: 'Reddit', color: 'bg-gradient-to-r from-orange-500 to-red-600' },
+  { id: 'bluesky', name: 'Bluesky', color: 'bg-gradient-to-r from-sky-500 to-blue-600' },
+  { id: 'mastodon', name: 'Mastodon', color: 'bg-gradient-to-r from-indigo-600 to-purple-700' },
+  { id: 'discord', name: 'Discord', color: 'bg-gradient-to-r from-indigo-500 to-indigo-700' },
+  { id: 'telegram', name: 'Telegram', color: 'bg-gradient-to-r from-cyan-500 to-blue-600' },
+  { id: 'tumblr', name: 'Tumblr', color: 'bg-gradient-to-r from-blue-900 to-slate-800' },
+  { id: 'wordpress', name: 'WordPress', color: 'bg-gradient-to-r from-slate-600 to-gray-700' }
 ]
 
 const PLATFORM_USER_MESSAGE: Record<string, string> = {
@@ -40,7 +46,13 @@ const PLATFORM_USER_MESSAGE: Record<string, string> = {
   youtube: "YouTube direct posting works when your Google OAuth app is configured and you include a public video URL. If not, use copy/export fallback.",
   pinterest: "Connect Pinterest for publishing where supported. If not connected, use Copy and paste into Pinterest.",
   snapchat: "Snapchat direct posting works when your Snapchat publish endpoint is configured and you include media. If not, use copy/export fallback.",
-  reddit: "Connect Reddit for account-level access. Publishing may still require subreddit selection per post."
+  reddit: "Connect Reddit for account-level access. Publishing may still require subreddit selection per post.",
+  bluesky: "Bluesky direct posting is available after you connect with your Bluesky handle and app password.",
+  mastodon: "Mastodon direct posting is available after OAuth connection and valid instance configuration.",
+  discord: "Discord direct posting uses a bot token and target channel. Connect your Discord app, then set default channel ID.",
+  telegram: "Telegram direct posting uses your bot token and a target chat ID. Connect by saving your chat ID in dashboard.",
+  tumblr: "Tumblr direct posting works when OAuth is connected and your primary blog is available.",
+  wordpress: "WordPress direct posting works for WordPress.com OAuth or self-hosted site credentials."
 }
 
 const DIRECT_POST_STATUS: Record<string, 'direct' | 'fallback'> = {
@@ -53,7 +65,13 @@ const DIRECT_POST_STATUS: Record<string, 'direct' | 'fallback'> = {
   pinterest: 'direct',
   reddit: 'direct',
   youtube: 'direct',
-  snapchat: 'direct'
+  snapchat: 'direct',
+  bluesky: 'direct',
+  mastodon: 'direct',
+  discord: 'direct',
+  telegram: 'direct',
+  tumblr: 'direct',
+  wordpress: 'direct'
 }
 
 export default function PlatformConnections({ token }: PlatformConnectionsProps) {
@@ -62,6 +80,10 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
   const [loading, setLoading] = useState(true)
   const [connecting, setConnecting] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [manualLoading, setManualLoading] = useState<string | null>(null)
+  const [blueskyIdentifier, setBlueskyIdentifier] = useState('')
+  const [blueskyAppPassword, setBlueskyAppPassword] = useState('')
+  const [telegramChatId, setTelegramChatId] = useState('')
 
   useEffect(() => {
     const notConfigured = searchParams.get('error') === 'platform_not_configured'
@@ -105,6 +127,74 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     // If redirect doesn't happen (e.g. blocked or failed), clear "Connecting..." after 5s
     setTimeout(() => setConnecting(null), 5000)
     window.location.href = `/api/auth/connect/${platform}?token=${encodeURIComponent(token)}`
+  }
+
+  const handleConnectBluesky = async () => {
+    if (!token) {
+      setError('Please sign in to connect an account')
+      return
+    }
+    if (!blueskyIdentifier.trim() || !blueskyAppPassword.trim()) {
+      setError('Enter your Bluesky handle and app password to connect.')
+      return
+    }
+    setError('')
+    setManualLoading('bluesky')
+    try {
+      const response = await fetch('/api/auth/connect/bluesky', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          identifier: blueskyIdentifier.trim(),
+          appPassword: blueskyAppPassword.trim()
+        })
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to connect Bluesky')
+      }
+      setBlueskyAppPassword('')
+      await loadConnections()
+    } catch (err: any) {
+      setError(err.message || 'Failed to connect Bluesky')
+    } finally {
+      setManualLoading(null)
+    }
+  }
+
+  const handleConnectTelegram = async () => {
+    if (!token) {
+      setError('Please sign in to connect an account')
+      return
+    }
+    if (!telegramChatId.trim()) {
+      setError('Enter your Telegram chat ID to connect.')
+      return
+    }
+    setError('')
+    setManualLoading('telegram')
+    try {
+      const response = await fetch('/api/auth/connect/telegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ chatId: telegramChatId.trim() })
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to connect Telegram')
+      }
+      await loadConnections()
+    } catch (err: any) {
+      setError(err.message || 'Failed to connect Telegram')
+    } finally {
+      setManualLoading(null)
+    }
   }
 
   const handleDisconnect = async (platform: string) => {
@@ -225,25 +315,96 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                   Disconnect
                 </button>
               ) : (
-                <button
-                  type="button"
-                  onClick={() => handleConnect(platform.id)}
-                  disabled={connecting === platform.id || !token}
-                  className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-                  title={!token ? 'Sign in to connect' : undefined}
-                >
-                  {connecting === platform.id ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Connecting...
-                    </>
-                  ) : (
-                    <>
-                      <Link2 className="w-4 h-4" />
-                      Connect
-                    </>
+                <>
+                  {platform.id === 'bluesky' && (
+                    <div className="space-y-2 mb-3">
+                      <input
+                        type="text"
+                        value={blueskyIdentifier}
+                        onChange={(e) => setBlueskyIdentifier(e.target.value)}
+                        placeholder="Bluesky handle (you.bsky.social)"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-sm text-white"
+                      />
+                      <input
+                        type="password"
+                        value={blueskyAppPassword}
+                        onChange={(e) => setBlueskyAppPassword(e.target.value)}
+                        placeholder="Bluesky app password"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-sm text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleConnectBluesky}
+                        disabled={manualLoading === 'bluesky' || !token}
+                        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      >
+                        {manualLoading === 'bluesky' ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Connecting...
+                          </>
+                        ) : (
+                          <>
+                            <Link2 className="w-4 h-4" />
+                            Connect Bluesky
+                          </>
+                        )}
+                      </button>
+                    </div>
                   )}
-                </button>
+
+                  {platform.id === 'telegram' && (
+                    <div className="space-y-2 mb-3">
+                      <input
+                        type="text"
+                        value={telegramChatId}
+                        onChange={(e) => setTelegramChatId(e.target.value)}
+                        placeholder="Telegram chat ID"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-sm text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleConnectTelegram}
+                        disabled={manualLoading === 'telegram' || !token}
+                        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      >
+                        {manualLoading === 'telegram' ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Connecting...
+                          </>
+                        ) : (
+                          <>
+                            <Link2 className="w-4 h-4" />
+                            Connect Telegram
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+
+                  {platform.id !== 'bluesky' && platform.id !== 'telegram' && (
+                    <button
+                      type="button"
+                      onClick={() => handleConnect(platform.id)}
+                      disabled={connecting === platform.id || !token}
+                      className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      title={!token ? 'Sign in to connect' : undefined}
+                    >
+                      {connecting === platform.id ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Connecting...
+                        </>
+                      ) : (
+                        <>
+                          <Link2 className="w-4 h-4" />
+                          Connect
+                        </>
+                      )}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           )
@@ -296,6 +457,60 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         <p className="text-xs text-yellow-200 mt-3">
           If all requirements are met, CreatorFlow publishes directly to Snapchat. If not, use copy/export fallback.
         </p>
+      </div>
+
+      <div className="bg-sky-900/20 border border-sky-500 rounded-lg p-4">
+        <h3 className="text-sky-300 font-semibold mb-2">Bluesky Direct Post Requirements</h3>
+        <ul className="text-sm text-sky-200 space-y-1">
+          <li>• Enter your Bluesky handle and app password in this page</li>
+          <li>• Bluesky app password must be active in account settings</li>
+          <li>• Include text or media in your post</li>
+        </ul>
+      </div>
+
+      <div className="bg-indigo-900/20 border border-indigo-500 rounded-lg p-4">
+        <h3 className="text-indigo-300 font-semibold mb-2">Mastodon Direct Post Requirements</h3>
+        <ul className="text-sm text-indigo-200 space-y-1">
+          <li>• Mastodon app credentials must be configured</li>
+          <li>• MASTODON_INSTANCE_URL must point to your instance</li>
+          <li>• OAuth scopes must allow write:statuses</li>
+        </ul>
+      </div>
+
+      <div className="bg-indigo-900/20 border border-indigo-500 rounded-lg p-4">
+        <h3 className="text-indigo-300 font-semibold mb-2">Discord Direct Post Requirements</h3>
+        <ul className="text-sm text-indigo-200 space-y-1">
+          <li>• Discord bot token must be configured</li>
+          <li>• Bot must have Send Messages permission in target channel</li>
+          <li>• Set DISCORD_DEFAULT_CHANNEL_ID in environment</li>
+        </ul>
+      </div>
+
+      <div className="bg-cyan-900/20 border border-cyan-500 rounded-lg p-4">
+        <h3 className="text-cyan-300 font-semibold mb-2">Telegram Direct Post Requirements</h3>
+        <ul className="text-sm text-cyan-200 space-y-1">
+          <li>• TELEGRAM_BOT_TOKEN must be configured</li>
+          <li>• Enter your Telegram chat ID in this page</li>
+          <li>• Add the bot to your channel/group and grant post permission</li>
+        </ul>
+      </div>
+
+      <div className="bg-blue-900/20 border border-blue-500 rounded-lg p-4">
+        <h3 className="text-blue-300 font-semibold mb-2">Tumblr Direct Post Requirements</h3>
+        <ul className="text-sm text-blue-200 space-y-1">
+          <li>• Tumblr OAuth app credentials must be configured</li>
+          <li>• Connect Tumblr and ensure a primary blog is available</li>
+          <li>• Content must follow Tumblr API and blog posting rules</li>
+        </ul>
+      </div>
+
+      <div className="bg-slate-900/20 border border-slate-500 rounded-lg p-4">
+        <h3 className="text-slate-300 font-semibold mb-2">WordPress Direct Post Requirements</h3>
+        <ul className="text-sm text-slate-200 space-y-1">
+          <li>• WordPress.com OAuth credentials or self-hosted credentials must be configured</li>
+          <li>• Connect WordPress account and ensure site access permissions</li>
+          <li>• For self-hosted WordPress, configure app password and site URL env vars</li>
+        </ul>
       </div>
     </div>
   )

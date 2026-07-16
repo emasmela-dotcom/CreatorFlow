@@ -177,7 +177,7 @@ export interface User {
 export interface ContentPost {
   id: string
   user_id: string
-  platform: 'instagram' | 'twitter' | 'linkedin' | 'tiktok' | 'youtube'
+  platform: 'instagram' | 'twitter' | 'linkedin' | 'tiktok' | 'youtube' | 'facebook' | 'pinterest' | 'threads' | 'snapchat' | 'reddit' | 'bluesky' | 'mastodon' | 'discord' | 'telegram' | 'tumblr' | 'wordpress'
   content: string
   media_urls: string
   scheduled_at: string | null
@@ -312,7 +312,7 @@ export async function initDatabase() {
       CREATE TABLE IF NOT EXISTS content_posts (
         id VARCHAR(255) PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
-        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube')),
+        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
         content TEXT NOT NULL,
         media_urls TEXT DEFAULT '[]',
         scheduled_at TIMESTAMP,
@@ -358,6 +358,36 @@ export async function initDatabase() {
       )
     `
     })
+
+    try {
+      const contentConstraints = await db.execute({
+        sql: `
+          SELECT con.conname AS constraint_name
+          FROM pg_constraint con
+          INNER JOIN pg_class rel ON rel.oid = con.conrelid
+          INNER JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+          WHERE rel.relname = 'content_posts'
+            AND nsp.nspname = 'public'
+            AND con.contype = 'c'
+            AND pg_get_constraintdef(con.oid) ILIKE '%platform%'
+        `
+      })
+      for (const row of contentConstraints.rows as Array<{ constraint_name?: string }>) {
+        if (!row.constraint_name) continue
+        await db.execute({ sql: `ALTER TABLE content_posts DROP CONSTRAINT IF EXISTS "${row.constraint_name}"` })
+      }
+      await db.execute({
+        sql: `
+          ALTER TABLE content_posts
+          ADD CONSTRAINT content_posts_platform_check
+          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
+        `
+      })
+    } catch (constraintError: any) {
+      if (!constraintError.message?.includes('already exists')) {
+        console.warn('content_posts constraint migration warning:', constraintError.message)
+      }
+    }
 
     // Create project_backups table
     await db.execute({
@@ -741,7 +771,7 @@ export async function initDatabase() {
       CREATE TABLE IF NOT EXISTS platform_connections (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
-        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook')),
+        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
         access_token TEXT NOT NULL,
         refresh_token TEXT,
         token_expires_at TIMESTAMP,
@@ -756,6 +786,42 @@ export async function initDatabase() {
       )
     `
     })
+
+    // Ensure the platform CHECK constraint includes all supported platforms.
+    // Do not depend on hardcoded constraint names; introspect and replace safely.
+    try {
+      const constraintsResult = await db.execute({
+        sql: `
+          SELECT con.conname AS constraint_name
+          FROM pg_constraint con
+          INNER JOIN pg_class rel ON rel.oid = con.conrelid
+          INNER JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+          WHERE rel.relname = 'platform_connections'
+            AND nsp.nspname = 'public'
+            AND con.contype = 'c'
+            AND pg_get_constraintdef(con.oid) ILIKE '%platform%'
+        `
+      })
+
+      for (const row of constraintsResult.rows as Array<{ constraint_name?: string }>) {
+        const constraintName = row.constraint_name
+        if (!constraintName) continue
+        await db.execute({ sql: `ALTER TABLE platform_connections DROP CONSTRAINT IF EXISTS "${constraintName}"` })
+      }
+
+      await db.execute({
+        sql: `
+          ALTER TABLE platform_connections
+          ADD CONSTRAINT platform_connections_platform_check
+          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
+        `
+      })
+    } catch (constraintError: any) {
+      if (!constraintError.message?.includes('already exists')) {
+        console.warn('platform_connections constraint migration warning:', constraintError.message)
+      }
+    }
+
     await db.execute({
       sql: `CREATE INDEX IF NOT EXISTS idx_platform_connections_user_id ON platform_connections(user_id)`
     })

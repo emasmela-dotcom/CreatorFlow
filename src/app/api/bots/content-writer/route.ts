@@ -88,6 +88,30 @@ function generateContent(
     case 'reddit':
     case 'reddit-post':
       return generateRedditPost(topic, tone, keywords)
+
+    case 'bluesky':
+    case 'bluesky-post':
+      return generateBlueskyPost(topic, tone, keywords)
+
+    case 'mastodon':
+    case 'mastodon-post':
+      return generateMastodonPost(topic, tone, keywords)
+
+    case 'discord':
+    case 'discord-post':
+      return generateDiscordPost(topic, tone, keywords)
+
+    case 'telegram':
+    case 'telegram-post':
+      return generateTelegramPost(topic, tone, keywords)
+
+    case 'tumblr':
+    case 'tumblr-post':
+      return generateTumblrPost(topic, tone, keywords)
+
+    case 'wordpress':
+    case 'wordpress-post':
+      return generateWordPressPost(topic, tone, keywords)
     
     case 'email':
     case 'newsletter':
@@ -119,7 +143,13 @@ function getDefaultLength(type: string, platform: string | null): number {
       pinterest: 500,
       threads: 500,
       snapchat: 250,
-      reddit: 40000
+      reddit: 40000,
+      bluesky: 300,
+      mastodon: 500,
+      discord: 2000,
+      telegram: 4096,
+      tumblr: 10000,
+      wordpress: 50000
     }
     return platformLimits[platform.toLowerCase()] || 500
   }
@@ -174,6 +204,18 @@ function generateSocialMediaPost(topic: string, tone: string, platform: string, 
       return generateSnapchatCaption(topic, tone, keywords)
     case 'reddit':
       return generateRedditPost(topic, tone, keywords)
+    case 'bluesky':
+      return generateBlueskyPost(topic, tone, keywords)
+    case 'mastodon':
+      return generateMastodonPost(topic, tone, keywords)
+    case 'discord':
+      return generateDiscordPost(topic, tone, keywords)
+    case 'telegram':
+      return generateTelegramPost(topic, tone, keywords)
+    case 'tumblr':
+      return generateTumblrPost(topic, tone, keywords)
+    case 'wordpress':
+      return generateWordPressPost(topic, tone, keywords)
     default:
       return generateInstagramPost(topic, tone, keywords)
   }
@@ -278,6 +320,33 @@ function generateSnapchatCaption(topic: string, tone: string, keywords: string[]
 function generateRedditPost(topic: string, tone: string, keywords: string[]): string {
   const title = topic.slice(0, 120)
   const body = generateShortContent(topic, keywords, 1200)
+  return `Title: ${title}\n\n${body}`
+}
+
+function generateBlueskyPost(topic: string, tone: string, keywords: string[]): string {
+  const body = generateShortContent(topic, keywords, 260)
+  return `${topic}: ${body}`
+}
+
+function generateMastodonPost(topic: string, tone: string, keywords: string[]): string {
+  return generateShortContent(topic, keywords, 450)
+}
+
+function generateDiscordPost(topic: string, tone: string, keywords: string[]): string {
+  return `Announcement: ${topic}\n\n${generateShortContent(topic, keywords, 1700)}`
+}
+
+function generateTelegramPost(topic: string, tone: string, keywords: string[]): string {
+  return `${topic}\n\n${generateShortContent(topic, keywords, 3000)}`
+}
+
+function generateTumblrPost(topic: string, tone: string, keywords: string[]): string {
+  return `Tumblr Post: ${topic}\n\n${generateShortContent(topic, keywords, 1800)}`
+}
+
+function generateWordPressPost(topic: string, tone: string, keywords: string[]): string {
+  const title = topic.slice(0, 100)
+  const body = generateBodyContent(topic, keywords, 1200)
   return `Title: ${title}\n\n${body}`
 }
 

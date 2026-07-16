@@ -261,6 +261,85 @@ async function exchangeCodeForToken(
       return data
     }
 
+    case 'mastodon': {
+      const instanceUrl = process.env.MASTODON_INSTANCE_URL
+      if (!instanceUrl) throw new Error('MASTODON_INSTANCE_URL not configured')
+      const mastodonResponse = await fetch(`${instanceUrl.replace(/\/$/, '')}/oauth/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          scope: 'write:statuses read:accounts'
+        })
+      })
+      const data = await mastodonResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error_description || data.error || 'Mastodon token exchange failed')
+      }
+      return data
+    }
+
+    case 'discord': {
+      const discordResponse = await fetch('https://discord.com/api/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri
+        })
+      })
+      const data = await discordResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error_description || data.error || 'Discord token exchange failed')
+      }
+      return data
+    }
+
+    case 'tumblr': {
+      const tumblrResponse = await fetch('https://api.tumblr.com/v2/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri
+        })
+      })
+      const data = await tumblrResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error_description || data.error || 'Tumblr token exchange failed')
+      }
+      return data
+    }
+
+    case 'wordpress': {
+      const wordpressResponse = await fetch('https://public-api.wordpress.com/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri
+        })
+      })
+      const data = await wordpressResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.error_description || data.error || 'WordPress token exchange failed')
+      }
+      return data
+    }
+
     default:
       throw new Error(`Token exchange not implemented for ${platform}`)
   }
@@ -392,6 +471,62 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
         }
       }
 
+      case 'mastodon': {
+        const instanceUrl = process.env.MASTODON_INSTANCE_URL
+        if (!instanceUrl) return { id: null, username: null, name: null }
+        const mastodonResponse = await fetch(`${instanceUrl.replace(/\/$/, '')}/api/v1/accounts/verify_credentials`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const mastodonData = await mastodonResponse.json()
+        return {
+          id: mastodonData?.id || null,
+          username: mastodonData?.username || null,
+          name: mastodonData?.display_name || mastodonData?.username || null
+        }
+      }
+
+      case 'discord': {
+        const discordResponse = await fetch('https://discord.com/api/v10/users/@me', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const discordData = await discordResponse.json()
+        return {
+          id: discordData?.id || null,
+          username: discordData?.username || null,
+          name: discordData?.global_name || discordData?.username || null
+        }
+      }
+
+      case 'tumblr': {
+        const tumblrResponse = await fetch('https://api.tumblr.com/v2/user/info', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const tumblrData = await tumblrResponse.json()
+        const primaryBlog = tumblrData?.response?.user?.blogs?.find((b: any) => b.primary) || tumblrData?.response?.user?.blogs?.[0]
+        return {
+          id: primaryBlog?.name || null,
+          username: primaryBlog?.name || null,
+          name: primaryBlog?.title || primaryBlog?.name || null
+        }
+      }
+
+      case 'wordpress': {
+        const meResponse = await fetch('https://public-api.wordpress.com/rest/v1.1/me', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const meData = await meResponse.json()
+        const sitesResponse = await fetch('https://public-api.wordpress.com/rest/v1.1/me/sites', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+        const sitesData = await sitesResponse.json().catch(() => null)
+        const primarySite = sitesData?.sites?.[0]
+        return {
+          id: primarySite?.ID ? String(primarySite.ID) : null,
+          username: meData?.username || null,
+          name: primarySite?.name || meData?.display_name || meData?.username || null
+        }
+      }
+
       default:
         return { id: null, username: null, name: null }
     }
@@ -412,7 +547,11 @@ function getClientId(platform: string): string {
     youtube: process.env.GOOGLE_CLIENT_ID || '',
     pinterest: process.env.PINTEREST_APP_ID || '',
     snapchat: process.env.SNAPCHAT_CLIENT_ID || '',
-    reddit: process.env.REDDIT_CLIENT_ID || ''
+    reddit: process.env.REDDIT_CLIENT_ID || '',
+    mastodon: process.env.MASTODON_CLIENT_ID || '',
+    discord: process.env.DISCORD_CLIENT_ID || '',
+    tumblr: process.env.TUMBLR_CLIENT_ID || '',
+    wordpress: process.env.WORDPRESS_CLIENT_ID || ''
   }
   return envVars[platform] || ''
 }
@@ -428,7 +567,11 @@ function getClientSecret(platform: string): string {
     youtube: process.env.GOOGLE_CLIENT_SECRET || '',
     pinterest: process.env.PINTEREST_APP_SECRET || '',
     snapchat: process.env.SNAPCHAT_CLIENT_SECRET || '',
-    reddit: process.env.REDDIT_CLIENT_SECRET || ''
+    reddit: process.env.REDDIT_CLIENT_SECRET || '',
+    mastodon: process.env.MASTODON_CLIENT_SECRET || '',
+    discord: process.env.DISCORD_CLIENT_SECRET || '',
+    tumblr: process.env.TUMBLR_CLIENT_SECRET || '',
+    wordpress: process.env.WORDPRESS_CLIENT_SECRET || ''
   }
   return envVars[platform] || ''
 }

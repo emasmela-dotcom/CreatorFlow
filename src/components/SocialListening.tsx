@@ -31,7 +31,7 @@ interface SocialListeningProps {
   token: string
 }
 
-const PLATFORMS = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit']
+const PLATFORMS = ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress']
 const MENTION_TYPES = [
   { id: 'username', label: 'Username', icon: Users },
   { id: 'hashtag', label: 'Hashtag', icon: Hash },

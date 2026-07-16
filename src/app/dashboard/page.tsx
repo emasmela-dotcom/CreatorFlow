@@ -1204,6 +1204,12 @@ function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () =
           <option value="threads">Threads</option>
           <option value="snapchat">Snapchat</option>
           <option value="reddit">Reddit</option>
+          <option value="bluesky">Bluesky</option>
+          <option value="mastodon">Mastodon</option>
+          <option value="discord">Discord</option>
+          <option value="telegram">Telegram</option>
+          <option value="tumblr">Tumblr</option>
+          <option value="wordpress">WordPress</option>
         </select>
       </div>
       <div>
@@ -1276,7 +1282,13 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
     'pinterest',
     'threads',
     'snapchat',
-    'reddit'
+    'reddit',
+    'bluesky',
+    'mastodon',
+    'discord',
+    'telegram',
+    'tumblr',
+    'wordpress'
   ])
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
@@ -1374,7 +1386,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
       <div>
         <label className="block text-sm text-gray-300 mb-2">Target Platforms</label>
         <div className="grid grid-cols-3 gap-2">
-          {['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit'].map((platform) => (
+          {['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'].map((platform) => (
             <label key={platform} className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -1540,6 +1552,12 @@ function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => v
             <option value="threads">Threads</option>
             <option value="snapchat">Snapchat</option>
             <option value="reddit">Reddit</option>
+            <option value="bluesky">Bluesky</option>
+            <option value="mastodon">Mastodon</option>
+            <option value="discord">Discord</option>
+            <option value="telegram">Telegram</option>
+            <option value="tumblr">Tumblr</option>
+            <option value="wordpress">WordPress</option>
           </select>
         </div>
         <div>
@@ -1830,6 +1848,12 @@ function ContentTemplatesUI({ token, onClose }: { token: string, onClose: () => 
             <option value="threads">Threads</option>
             <option value="snapchat">Snapchat</option>
             <option value="reddit">Reddit</option>
+            <option value="bluesky">Bluesky</option>
+            <option value="mastodon">Mastodon</option>
+            <option value="discord">Discord</option>
+            <option value="telegram">Telegram</option>
+            <option value="tumblr">Tumblr</option>
+            <option value="wordpress">WordPress</option>
           </select>
           <textarea
             value={content}
