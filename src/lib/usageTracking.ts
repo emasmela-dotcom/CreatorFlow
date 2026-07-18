@@ -186,6 +186,22 @@ export async function canMakeAICall(userId: string): Promise<{
   message?: string
 }> {
   try {
+    // Demo account should never hit AI-call caps during seed/burn runs.
+    const demoCheck = await db.execute({
+      sql: 'SELECT email FROM users WHERE id = ?',
+      args: [userId]
+    })
+    const email = (demoCheck.rows[0] as { email?: string } | undefined)?.email?.toLowerCase() || ''
+
+    if (email === 'demo@creatorflow365.com') {
+      const current = await getCurrentMonthAICalls(userId)
+      return {
+        allowed: true,
+        current,
+        limit: -1
+      }
+    }
+
     const planTier = await getUserPlanTier(userId)
     const limits = getPlanLimits(planTier)
     const current = await getCurrentMonthAICalls(userId)
