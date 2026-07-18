@@ -654,7 +654,7 @@ function CreatePostInner() {
                 Choose which social media platforms you want to create content for. Your selection will be saved as your default.
               </p>
               <p className="text-xs text-gray-300 mb-4">
-                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload). Copy/export fallback: any platform without active API permissions.
+                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress. Copy/export fallback: any platform without active API permissions.
               </p>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {platforms.map((platform) => {

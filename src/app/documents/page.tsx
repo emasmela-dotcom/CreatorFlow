@@ -28,7 +28,7 @@ function DocumentsContent() {
       setToken(storedToken)
       
       if (!storedToken) {
-        router.push('/signin')
+        setLoading(false)
       } else {
         loadDocuments()
       }
@@ -191,16 +191,30 @@ function DocumentsContent() {
           <button
             type="button"
             onClick={handleNew}
+            disabled={!token}
             className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
             aria-label="New document"
           >
             <Plus className="w-4 h-4" />
-            New Document
+            {token ? 'New Document' : 'Sign in to create'}
           </button>
         </div>
       </header>
 
       <div className="p-4 sm:p-6">
+        {!token && (
+          <div className="mb-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4 text-sm text-yellow-300">
+            Browse mode is active. Sign in to save or edit documents.
+            <button
+              type="button"
+              onClick={() => router.push('/signin')}
+              className="ml-3 rounded bg-purple-600 px-3 py-1 text-xs font-medium text-white hover:bg-purple-500"
+            >
+              Sign In
+            </button>
+          </div>
+        )}
+
         {/* Search and Filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">

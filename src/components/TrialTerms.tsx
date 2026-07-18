@@ -229,7 +229,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             Trial content is preserved, your pre‑trial state is protected, and you choose when (or if) to turn your trial into a paid subscription.
           </p>
           <p className="text-xs text-yellow-300/80 leading-relaxed">
-            <strong>Important:</strong> Your selected social accounts (Facebook, Twitter, Instagram, etc.) will be locked in and cannot be changed each month. 
+            <strong>Important:</strong> Your selected social accounts (Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, WordPress) will be locked in and cannot be changed each month. 
             All features including posts, analytics, support, and AI tools renew monthly for your selected social accounts.
           </p>
         </div>

@@ -28,7 +28,7 @@ async function ensureDemoTrialAccess(userId: string) {
   await db.execute({
     sql: `
       UPDATE users
-      SET subscription_tier = 'starter',
+      SET subscription_tier = 'pro',
           trial_end_at = NOW() + INTERVAL '30 days'
       WHERE id = ?
     `,

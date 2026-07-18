@@ -429,7 +429,7 @@ The CreatorFlow365 Team`,
           <div className="mb-12 max-w-3xl mx-auto bg-gray-800/50 border border-gray-700 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-white mb-4">What these features mean</h3>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li><strong className="text-white">Social accounts</strong> — How many platforms (e.g. Instagram, X, LinkedIn, TikTok, YouTube) you can connect and manage in one place.</li>
+              <li><strong className="text-white">Social accounts</strong> — How many platforms (Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, WordPress) you can connect and manage in one place.</li>
               <li><strong className="text-white">Documents</strong> — Your content library: scripts, captions, and drafts stored in your personal cloud.</li>
               <li><strong className="text-white">Hashtag sets</strong> — Saved groups of hashtags you can reuse for posts (research once, use everywhere).</li>
               <li><strong className="text-white">Templates</strong> — Reusable post and caption layouts so you don&apos;t start from scratch each time. Great for batch content sessions.</li>

@@ -7,7 +7,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.c
 export const metadata: Metadata = {
   title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
   description:
-    'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for Instagram, X, LinkedIn, TikTok & YouTube. 14-day trial, no card.',
+    'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, and WordPress. 14-day trial, no card.',
   keywords: [
     'creator tools',
     'content creator software',
@@ -106,7 +106,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
   },
   {
     id: 'multi-platform-workflow',
-    title: 'Instagram, X (Twitter), LinkedIn, TikTok & YouTube—in one workflow',
+    title: 'All supported platforms in one workflow',
     queries: [
       'post to multiple platforms from one app',
       'creator workflow Instagram TikTok YouTube',

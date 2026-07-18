@@ -2757,12 +2757,9 @@ export default function Dashboard() {
         }
       }
       
-      // Redirect to signin if no token (unless coming from demo)
+      // Allow browse mode without signup; writing actions still require signin.
       if (!storedToken) {
-        const urlParams = new URLSearchParams(window.location.search)
-        if (urlParams.get('demo') !== 'true') {
-          router.push('/signin')
-        }
+        setDashboardNotice('Browse mode: explore tools and features freely. Sign in to connect accounts and publish.')
       }
     }
   }, [router])
@@ -2875,7 +2872,11 @@ export default function Dashboard() {
               <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
               <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
               <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
-              <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+              {token ? (
+                <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+              ) : (
+                <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
+              )}
             </div>
           </div>
         ) : (
@@ -3537,7 +3538,7 @@ export default function Dashboard() {
                 useCase: 'Essential for social media managers, marketers, and businesses that manage multiple social media accounts and need to schedule content in advance.',
                 tier: 'All Plans',
                 howToUse: [
-                  'Create posts for Instagram, Twitter, LinkedIn, TikTok, or YouTube',
+                  'Create posts for any supported platform (Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, WordPress)',
                   'Add media (images, videos) and hashtags',
                   'Schedule posts for optimal posting times',
                   'View all posts in calendar view',
@@ -3548,13 +3549,13 @@ export default function Dashboard() {
               },
               'content-repurposing': {
                 title: 'Content Repurposing Bot',
-                description: 'Automatically transform one piece of content into multiple platform-specific formats. Save hours of manual work by repurposing blog posts, articles, videos, and more across Instagram, Twitter, LinkedIn, TikTok, YouTube, and Pinterest.',
+                description: 'Automatically transform one piece of content into multiple platform-specific formats. Save hours of manual work by repurposing blog posts, articles, videos, and more across all supported media platforms.',
                 useCase: 'Perfect for content creators, marketers, and businesses that create content once but need to adapt it for multiple platforms. Maximize your content ROI by getting 5-6 platform variations from a single piece of content.',
                 tier: 'All Plans',
                 howToUse: [
                   'Paste your original content (blog post, article, video script, etc.)',
                   'Select the content type (blog-post, article, video-script, etc.)',
-                  'Choose target platforms (Instagram, Twitter, LinkedIn, TikTok, YouTube, Pinterest)',
+                  'Choose target platforms across all supported media',
                   'Bot automatically formats content for each platform with appropriate hooks, CTAs, and hashtags',
                   'Copy and use the repurposed content directly on each platform',
                   'View repurposing history in your dashboard'
@@ -3583,7 +3584,7 @@ export default function Dashboard() {
                 useCase: 'Perfect for content creators who want to optimize their hashtag strategy. Save time researching hashtags and build a library of proven hashtag sets for different content types and platforms.',
                 tier: 'All Plans',
                 howToUse: [
-                  'Select your platform (Instagram, Twitter, TikTok, LinkedIn, YouTube)',
+                  'Select your platform from all supported media',
                   'Enter your niche (optional - auto-detected from your content)',
                   'Paste your content to get personalized hashtag recommendations',
                   'View trending hashtags in your niche with reach and engagement data',
@@ -3630,7 +3631,7 @@ export default function Dashboard() {
                 howToUse: [
                   'Navigate to Create Post page or use in dashboard',
                   'Type or paste your content',
-                  'Select your platform (Instagram, Twitter, LinkedIn, etc.)',
+                  'Select your platform from the full supported media list',
                   'Bot analyzes in real-time and provides a content score (0-100)',
                   'Review suggestions: Green = Good, Yellow = Needs improvement, Red = Important fixes',
                   'Follow actionable recommendations to improve your content',

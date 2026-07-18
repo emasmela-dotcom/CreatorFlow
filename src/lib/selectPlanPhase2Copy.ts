@@ -50,7 +50,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   growth: {
     headline: 'Essential — Schedule and analyze across five accounts',
     blocks: [
-      'Essential connects five social accounts—Instagram, X, LinkedIn, TikTok, and YouTube—and keeps your posting plan and content analytics in one dashboard for $19/month. 14-day trial, no credit card required.',
+      'Essential lets you choose any five supported social accounts—Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, or WordPress—and keeps your posting plan and content analytics in one dashboard for $19/month. 14-day trial, no credit card required.',
       'For creators posting regularly who want visibility into what works instead of guessing across separate apps.',
       'Includes 1,000 AI calls per month, content analytics, unlimited documents and templates, and faster email support than Starter.',
     ],
