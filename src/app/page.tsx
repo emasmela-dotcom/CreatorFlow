@@ -21,7 +21,7 @@
  *   — <main id="main-content"> wrapper (a2a41c4)
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight, Play, Star, Users, Zap, Shield, BarChart3, FileText, FileSearch, Activity, Radio, Tag, Layers, Handshake, Brain, AlertCircle, Check, X, Clock, TrendingUp, CheckCircle, Sparkles, CheckSquare } from 'lucide-react'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
@@ -33,6 +33,12 @@ import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 export default function HomePage() {
   const [email, setEmail] = useState('')
   const { trackEvent, trackConversionEvent } = useAnalytics()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.location.replace('/dashboard')
+    }
+  }, [])
 
   const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
     trackEvent('pricing_click', 'conversion', plan)
