@@ -184,6 +184,12 @@ The CreatorFlow365 Team`,
               Creator tools
             </button>
             <button
+              onClick={() => window.location.href = '/dashboard'}
+              className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+            >
+              Browse app
+            </button>
+            <button
               onClick={() => window.location.href = '/reviews'}
               className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
             >
@@ -239,6 +245,13 @@ The CreatorFlow365 Team`,
               style={{ willChange: 'auto' }}
             />
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button
+                onClick={() => window.location.href = '/dashboard'}
+                className="px-8 py-4 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition-all flex items-center gap-2 border border-gray-600"
+              >
+                <Sparkles className="w-5 h-5" />
+                Browse Full App (No Signup)
+              </button>
               <button
                 onClick={() => window.location.href = '/signup'}
                 className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2"

@@ -55,7 +55,21 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const platforms = targetPlatforms || ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress']
+    if (targetPlatforms !== undefined && !Array.isArray(targetPlatforms)) {
+      return NextResponse.json({
+        error: 'targetPlatforms must be an array of platform ids'
+      }, { status: 400 })
+    }
+
+    if (Array.isArray(targetPlatforms) && targetPlatforms.some((p) => typeof p !== 'string' || !p.trim())) {
+      return NextResponse.json({
+        error: 'targetPlatforms must contain non-empty platform ids'
+      }, { status: 400 })
+    }
+
+    const platforms = (Array.isArray(targetPlatforms) && targetPlatforms.length > 0)
+      ? targetPlatforms
+      : ['instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress']
 
     // Ensure table exists (fallback)
     try {

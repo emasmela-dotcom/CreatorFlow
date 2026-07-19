@@ -2904,7 +2904,11 @@ export default function Dashboard() {
                 <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
                 <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
                 <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
-                <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+                {token ? (
+                  <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
+                ) : (
+                  <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
+                )}
               </div>
             </div>
             <div className="hidden lg:block w-full">
