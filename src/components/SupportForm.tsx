@@ -51,8 +51,8 @@ export default function SupportForm() {
             </>
           ) : (
             <>
-              Your message was sent to support@creatorflow365.com. We could not email a confirmation
-              to {email} yet — we will still reply to that address.
+              Your message was sent to support. We could not email a confirmation to {email} yet —
+              we will still reply to that address.
             </>
           )}
         </p>

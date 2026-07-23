@@ -3,8 +3,8 @@ import { Resend } from 'resend'
 
 export const dynamic = 'force-dynamic'
 
-const SUPPORT_TO = 'support@creatorflow365.com'
-const DEFAULT_FROM = 'CreatorFlow365 <support@creatorflow365.com>'
+const SUPPORT_TO = process.env.SUPPORT_TO_EMAIL || 'apputilitybuilder@gmail.com'
+const DEFAULT_FROM = 'CreatorFlow365 Support <support@creatorflow365.com>'
 const MAX_MESSAGE_LENGTH = 5000
 
 function getResend() {
@@ -21,8 +21,8 @@ function isValidEmail(email: string): boolean {
 }
 
 /**
- * Public support form — emails support@creatorflow365.com via Resend.
- * Optional confirmation email back to the user.
+ * Public support form — emails apputilitybuilder@gmail.com via Resend
+ * (same inbox as ReadAI support). Optional confirmation email back to the user.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            'Support mail is not set up on the server yet. Email support@creatorflow365.com directly.',
+            'Support mail is not set up on the server yet. Please try again later or email apputilitybuilder@gmail.com.',
         },
         { status: 503 }
       )
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
           <div style="font-family: Arial, sans-serif;">
             <p>Thanks for contacting CreatorFlow365 support.</p>
             <p>We received your message and will reply to this email address.</p>
-            <p style="color:#6b7280;font-size:12px;">If you need to follow up, email support@creatorflow365.com.</p>
+            <p style="color:#6b7280;font-size:12px;">If you need to follow up, reply to this email thread.</p>
           </div>
         `,
       })

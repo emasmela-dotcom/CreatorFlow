@@ -27,14 +27,7 @@ export default function SupportPage() {
               the address you enter when mail is configured, and we will reply there too.
             </p>
             <p className="mt-2 text-sm text-gray-400">
-              Messages go to{' '}
-              <a
-                href="mailto:support@creatorflow365.com"
-                className="text-purple-400 hover:underline"
-              >
-                support@creatorflow365.com
-              </a>
-              .
+              We reply to the email address you enter below.
             </p>
           </header>
 
