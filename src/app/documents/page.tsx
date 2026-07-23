@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FileText, Plus, Search, Tag, Pin, PinOff, Edit, Trash2, Folder, X, Save } from 'lucide-react'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
+import AppSignedInFooter from '@/components/AppSignedInFooter'
 
 function DocumentsContent() {
   const router = useRouter()
@@ -448,7 +449,7 @@ function DocumentsContent() {
           </div>
         )}
       </div>
-      <SeoSiteFooter />
+      {token ? <AppSignedInFooter /> : <SeoSiteFooter />}
     </div>
   )
 }

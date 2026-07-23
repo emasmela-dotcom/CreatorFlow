@@ -27,9 +27,9 @@ export default function SeoSiteFooter({ className = '' }: { className?: string }
             {label}
           </Link>
         ))}
-        <a href="mailto:support@creatorflow365.com" className="hover:text-white transition-colors">
+        <Link href="/support" className="hover:text-white transition-colors">
           Support
-        </a>
+        </Link>
       </nav>
     </footer>
   )
