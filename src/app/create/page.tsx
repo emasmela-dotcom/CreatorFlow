@@ -644,7 +644,7 @@ function CreatePostInner() {
             {/* Platform Selection */}
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Select Platforms for Content Creation</h3>
+                <h3 className="text-lg font-semibold">Select Platforms to Format Your Content For</h3>
                 {selectedPlatforms.length > 0 && (
                   <span className="text-xs text-gray-300 bg-gray-700 px-2 py-1 rounded">
                     {selectedPlatforms.length} selected
@@ -652,7 +652,7 @@ function CreatePostInner() {
                 )}
               </div>
               <p className="text-sm text-gray-300 mb-4">
-                Choose which social media platforms you want to create content for. Your selection will be saved as your default.
+                Choose the media sources you want. CreatorFlow formats the content you insert for each selected platform. Your selection is saved as your default.
               </p>
               <p className="text-xs text-gray-300 mb-4">
                 Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress. Copy/export fallback: any platform without active API permissions.
