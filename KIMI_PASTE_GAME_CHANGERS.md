@@ -1,5 +1,12 @@
 # PASTE EVERYTHING BELOW INTO KIMI (select all in this file)
 
+## STOP — wrong answers not allowed
+- DO NOT return the homepage "How it works" section (Bring your content / Select platforms / Publish formatted).
+- That homepage block is ALREADY DONE and is NOT this task.
+- This task is ONLY the dashboard Game-Changer Features page.
+- You MUST return the full file: src/components/GameChangerFeatures.tsx
+- The file MUST start with `'use client'` and include `GameChangerFeatures`, `Performance Predictor`, `getFeatureDescription`.
+
 CreatorFlow365 — Game-Changer Features page
 File to update: src/components/GameChangerFeatures.tsx
 
@@ -27,7 +34,7 @@ Users see short one-line blurbs only. They do not know WHEN or WHY to use each t
 7) Do not change dashboard routing or other files.
 
 ## Return
-Return the COMPLETE updated src/components/GameChangerFeatures.tsx file only, ready to copy-paste. No partial diffs. No other files.
+Return the COMPLETE updated src/components/GameChangerFeatures.tsx file only, ready to copy-paste. No partial diffs. No other files. No homepage sections.
 
 ## Current file starts below
 
