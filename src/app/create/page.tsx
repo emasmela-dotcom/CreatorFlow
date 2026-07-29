@@ -527,6 +527,11 @@ function CreatePostInner() {
             </button>
           </div>
         </div>
+        <p className="mt-3 text-sm text-gray-200 max-w-3xl">
+          You must be signed in. Formatting alone does not keep your post — click{' '}
+          <span className="font-semibold text-white">Save Draft</span> (or Schedule / Publish) to pull it up later.
+          Free plan cannot create posts.
+        </p>
       </header>
 
       <div className="flex">
