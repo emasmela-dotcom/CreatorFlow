@@ -21,8 +21,8 @@ function isValidEmail(email: string): boolean {
 }
 
 /**
- * Public support form — emails apputilitybuilder@gmail.com via Resend
- * (same inbox as ReadAI support). Optional confirmation email back to the user.
+ * Public support form — emails apputilitybuilder@gmail.com via Resend.
+ * Optional confirmation email back to the user.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
 
-    await resend.emails.send({
+    const supportSend = await resend.emails.send({
       from,
       to: SUPPORT_TO,
       replyTo: email,
@@ -73,26 +73,43 @@ export async function POST(request: NextRequest) {
       `,
     })
 
-    let confirmationSent = false
-    try {
-      await resend.emails.send({
-        from,
-        to: email,
-        subject: 'We received your CreatorFlow365 support message',
-        html: `
-          <div style="font-family: Arial, sans-serif;">
-            <p>Thanks for contacting CreatorFlow365 support.</p>
-            <p>We received your message and will reply to this email address.</p>
-            <p style="color:#6b7280;font-size:12px;">If you need to follow up, reply to this email thread.</p>
-          </div>
-        `,
-      })
-      confirmationSent = true
-    } catch (confirmError) {
-      console.error('Support confirmation email failed:', confirmError)
+    if (supportSend.error) {
+      console.error('Support email Resend error:', supportSend.error)
+      return NextResponse.json(
+        {
+          error:
+            supportSend.error.message ||
+            'Could not send your message. Check Resend domain / from address setup.',
+        },
+        { status: 502 }
+      )
     }
 
-    return NextResponse.json({ ok: true, confirmationSent })
+    let confirmationSent = false
+    const confirmSend = await resend.emails.send({
+      from,
+      to: email,
+      subject: 'We received your CreatorFlow365 support message',
+      html: `
+        <div style="font-family: Arial, sans-serif;">
+          <p>Thanks for contacting CreatorFlow365 support.</p>
+          <p>We received your message and will reply to this email address.</p>
+          <p style="color:#6b7280;font-size:12px;">If you need to follow up, reply to this email thread.</p>
+        </div>
+      `,
+    })
+
+    if (confirmSend.error) {
+      console.error('Support confirmation Resend error:', confirmSend.error)
+    } else {
+      confirmationSent = true
+    }
+
+    return NextResponse.json({
+      ok: true,
+      confirmationSent,
+      id: supportSend.data?.id ?? null,
+    })
   } catch (error: unknown) {
     console.error('Support route error:', error)
     return NextResponse.json({ error: 'Could not send your message.' }, { status: 500 })
