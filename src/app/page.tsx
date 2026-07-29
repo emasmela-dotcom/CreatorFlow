@@ -265,11 +265,7 @@ export default function HomePage() {
           </section>
         </main>
 
-        <div className="text-center py-8 px-4 sm:px-6 border-t border-gray-800">
-          <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">CreatorFlow365</h3>
-          <p className="text-gray-300 mb-2 max-w-xl mx-auto text-sm sm:text-base">The creator workspace for planning, AI drafting, and multi-platform publishing.</p>
-        </div>
-        <SeoSiteFooter className="!pt-0" />
+        <SeoSiteFooter />
       </div>
     </>
   )
