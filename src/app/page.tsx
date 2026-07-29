@@ -73,8 +73,8 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">1</div>
-                  <h3 className="font-semibold mb-1">Draft once</h3>
-                  <p className="text-sm text-gray-400">Write with AI assistance, templates, and your brand voice.</p>
+                  <h3 className="font-semibold mb-1">Bring your content</h3>
+                  <p className="text-sm text-gray-400">Paste or drop in what you already wrote.</p>
                 </div>
                 <div>
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">2</div>
