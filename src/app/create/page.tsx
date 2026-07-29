@@ -5,7 +5,6 @@ import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Link
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
-import AppSignedInFooter from '@/components/AppSignedInFooter'
 
 function CreatePostInner() {
   const router = useRouter()
@@ -960,7 +959,6 @@ function CreatePostInner() {
           </div>
         </aside>
       </div>
-      {token ? <AppSignedInFooter /> : null}
     </div>
   )
 }

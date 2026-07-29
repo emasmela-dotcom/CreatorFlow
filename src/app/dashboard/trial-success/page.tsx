@@ -3,7 +3,6 @@
 import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CheckCircle, ArrowRight } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 function TrialSuccessContent() {
   const router = useRouter()
@@ -57,7 +56,6 @@ function TrialSuccessContent() {
           <p className="text-xs text-gray-300 mt-4">Redirecting in 3 seconds…</p>
         </div>
       </div>
-      <SeoSiteFooter />
     </div>
   )
 }

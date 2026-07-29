@@ -3,7 +3,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckSquare, ArrowLeft } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 const FOLLOW_THRU_URL = process.env.NEXT_PUBLIC_FOLLOW_THRU_APP_URL || ''
 
@@ -49,7 +48,6 @@ export default function FollowThruPage() {
           To open Follow Thru from here, set <code className="bg-gray-800 px-1 rounded text-gray-200">NEXT_PUBLIC_FOLLOW_THRU_APP_URL</code> in your environment to the Follow Thru app URL. Once set, this page will redirect there automatically.
         </p>
       </main>
-      <SeoSiteFooter />
     </div>
   )
 }

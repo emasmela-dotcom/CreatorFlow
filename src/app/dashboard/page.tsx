@@ -18,7 +18,6 @@ import CreatorChat from '@/components/CreatorChat'
 import MessageBoard from '@/components/MessageBoard'
 import ContentTypesSettings from '@/components/ContentTypesSettings'
 import MoreAiToolsRow from '@/components/MoreAiToolsRow'
-import AppSignedInFooter from '@/components/AppSignedInFooter'
 
 // Simple UI Components for Bots
 function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -3858,8 +3857,6 @@ export default function Dashboard() {
 
       {/* Suggestions Button */}
       <SuggestionsButton token={token} />
-
-      {token ? <AppSignedInFooter /> : null}
     </div>
   )
 }

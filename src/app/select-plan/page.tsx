@@ -7,7 +7,6 @@ import type { PlanType } from '@/components/PlanSelection'
 import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
 import { PHASE2_BY_PLAN } from '@/lib/selectPlanPhase2Copy'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 const PLAN_NAMES: Record<string, string> = {
   free: 'Free',
@@ -179,7 +178,6 @@ function SelectPlanContent() {
           </section>
         </article>
       </main>
-      <SeoSiteFooter />
     </div>
   )
 }

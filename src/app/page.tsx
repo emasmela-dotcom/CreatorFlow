@@ -1,7 +1,6 @@
 'use client'
 
 import { Play, Star } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
@@ -264,8 +263,6 @@ export default function HomePage() {
             </div>
           </section>
         </main>
-
-        <SeoSiteFooter />
       </div>
     </>
   )

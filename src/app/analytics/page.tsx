@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { BarChart3, TrendingUp, Users, Eye, Heart, MessageCircle, Share, Calendar, Filter } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function AnalyticsPage() {
   const [selectedPeriod, setSelectedPeriod] = useState('30d')
@@ -300,7 +299,6 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </main>
-      <SeoSiteFooter />
     </div>
   )
 }

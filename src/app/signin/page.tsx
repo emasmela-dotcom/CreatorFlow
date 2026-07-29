@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -185,7 +184,6 @@ export default function SignInPage() {
           </div>
         </form>
       </div>
-      <SeoSiteFooter />
     </div>
   )
 }

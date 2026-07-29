@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import SupportForm from '@/components/SupportForm'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export const metadata: Metadata = {
   title: 'Support | CreatorFlow365',
@@ -34,7 +33,6 @@ export default function SupportPage() {
           <SupportForm />
         </div>
       </main>
-      <SeoSiteFooter />
     </div>
   )
 }

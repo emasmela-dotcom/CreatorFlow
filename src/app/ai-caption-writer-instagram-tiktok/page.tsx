@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 import { AI_CAPTION_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
@@ -169,8 +168,6 @@ export default function AICaptionWriterPage() {
             Starter Plan Details
           </Link>
         </section>
-
-        <SeoSiteFooter className="!py-6 !border-t-0" />
       </div>
     </main>
   )

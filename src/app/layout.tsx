@@ -3,6 +3,7 @@ import './globals.css'
 import Script from 'next/script'
 import { GA_TRACKING_ID, META_PIXEL_ID, isValidMetaPixelId } from '@/lib/analytics'
 import HomeButton from '@/components/HomeButton'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 const SITE_URL =
   (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
@@ -183,6 +184,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <SeoSiteFooter />
         <HomeButton />
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`

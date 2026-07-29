@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Mail, Lock } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
@@ -145,7 +144,6 @@ export default function ForgotPasswordPage() {
           </button>
         </form>
       </div>
-      <SeoSiteFooter />
     </div>
   )
 }

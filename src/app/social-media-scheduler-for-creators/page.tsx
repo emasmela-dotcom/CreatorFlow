@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 import { SCHEDULER_GUIDE_FAQ } from '@/lib/seo/guidePageFaqs'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
@@ -165,8 +164,6 @@ export default function SocialSchedulerPage() {
             Growth Plan Details
           </Link>
         </section>
-
-        <SeoSiteFooter className="!py-6 !border-t-0" />
       </div>
     </main>
   )

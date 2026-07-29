@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Sparkles } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function DemoPage() {
   const router = useRouter()
@@ -57,7 +56,6 @@ export default function DemoPage() {
             </button>
           </div>
         </main>
-        <SeoSiteFooter />
       </div>
     )
   }

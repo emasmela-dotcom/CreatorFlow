@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { Star, Quote, ArrowLeft } from 'lucide-react'
-import SeoSiteFooter from '@/components/SeoSiteFooter'
 
 export default function ReviewsPage() {
   const reviews = [
@@ -283,8 +282,6 @@ export default function ReviewsPage() {
       </section>
 
       </main>
-
-      <SeoSiteFooter />
     </div>
   )
 }
