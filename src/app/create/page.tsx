@@ -357,9 +357,51 @@ function CreatePostInner() {
   }
 
   const handleSave = async () => {
+    if (!content.trim()) {
+      alert('Please enter content to save')
+      return
+    }
+    if (!token) {
+      alert('You must be logged in to save')
+      router.push('/signin')
+      return
+    }
+
+    const title = window.prompt('Name this content (required — so you can find it later in Documents):')
+    if (title === null) return
+    const trimmedTitle = title.trim()
+    if (!trimmedTitle) {
+      alert('A name is required to save your original content.')
+      return
+    }
+
     setIsSaving(true)
     try {
-      await createPost('draft')
+      // Original text only — once — into Documents. Do not write formatted copies to content_posts.
+      const originalText = hashtags.trim()
+        ? `${content.trim()}\n\n${hashtags.trim()}`
+        : content.trim()
+
+      const response = await fetch('/api/documents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: trimmedTitle,
+          content: originalText,
+        }),
+      })
+      const result = await response.json()
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to save document')
+      }
+      alert(`Saved "${trimmedTitle}" to Documents. Open Documents anytime to reuse this original.`)
+      router.push('/documents')
+    } catch (error: any) {
+      console.error('Save original error:', error)
+      alert(error.message || 'Failed to save. Please try again.')
     } finally {
       setIsSaving(false)
     }
@@ -495,10 +537,10 @@ function CreatePostInner() {
             <button
               type="button"
               onClick={handleSave}
-              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
+              disabled={isSaving || isScheduling || isPublishing}
               className="px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
-              aria-label="Save draft"
+              title="Save original content to Documents by name"
+              aria-label="Save original to Documents"
             >
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Draft'}</span>
@@ -528,9 +570,10 @@ function CreatePostInner() {
           </div>
         </div>
         <p className="mt-3 text-sm text-gray-200 max-w-3xl">
-          You must be signed in. Formatting alone does not keep your post — click{' '}
-          <span className="font-semibold text-white">Save Draft</span> (or Schedule / Publish) to pull it up later.
-          Free plan cannot create posts.
+          You must be signed in.{' '}
+          <span className="font-semibold text-white">Save Draft</span> stores your{' '}
+          <span className="font-semibold text-white">original</span> by name in Documents for later — not formatted copies.
+          Schedule / Publish is separate. Free plan cannot schedule or publish posts.
         </p>
       </header>
 
