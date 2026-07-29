@@ -235,6 +235,9 @@ The CreatorFlow365 Team`,
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
             Stop juggling apps. Start growing.
           </p>
+          <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+            You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <input
               type="email"
