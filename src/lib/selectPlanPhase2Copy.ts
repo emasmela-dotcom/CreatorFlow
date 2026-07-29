@@ -34,8 +34,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'No. You get a 14-day free trial without adding a credit card.',
       },
       {
-        q: 'What if a tool shows a credit badge?',
-        a: 'Credit-badge tools are not included in this plan. You can buy credits or upgrade to use them.',
+        q: 'What if a tool is not in Starter?',
+        a: 'Tools not listed for Starter are not included. Upgrade to a higher plan to use them.',
       },
       {
         q: 'Can I upgrade later?',
@@ -78,7 +78,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       },
       {
         q: 'Are all tools in my plan automatically included?',
-        a: 'Only tools listed for Essential apply. Higher-tier or credit-only tools require credits or an upgrade.',
+        a: 'Only tools listed for Essential apply. Higher-tier tools require upgrading to a plan that includes them.',
       },
       {
         q: 'Can I change plans mid-cycle?',
@@ -113,8 +113,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'Each invited collaborator using your Creator workspace counts toward the three-member limit.',
       },
       {
-        q: 'Do I still need credits for some tools?',
-        a: 'Tools outside Creator tier or marked for credits still require credits or a higher plan.',
+        q: 'Are all tools included in Creator?',
+        a: 'Only tools listed for Creator are included. Other tools require a higher plan.',
       },
       {
         q: 'Can agencies use Creator?',
@@ -157,8 +157,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'Compare plans on our pricing section; external competitor pricing changes over time.',
       },
       {
-        q: 'Credits and premium tools?',
-        a: 'Same rule: tools not in your tier may still require credits or upgrade.',
+        q: 'What about tools not in Professional?',
+        a: 'Tools not listed for Professional require upgrading to a plan that includes them.',
       },
       {
         q: 'Trial?',

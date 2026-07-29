@@ -2692,16 +2692,6 @@ export default function Dashboard() {
       setDashboardNotice(
         'Checkout was canceled. No charge was made—you can subscribe anytime from the trial banner or Pricing.'
       )
-    } else if (p.get('credits') === 'canceled') {
-      setDashboardNotice('Credit bundle purchase was canceled. No charges were made.')
-    } else if (p.get('credits') === 'success' || p.getAll('credits').includes('success')) {
-      const added =
-        p.get('amount') || p.getAll('credits').find((v) => v !== 'success' && !Number.isNaN(Number(v)))
-      setDashboardNotice(
-        added && !Number.isNaN(Number(added))
-          ? `${added} credits were added to your account.`
-          : 'Credits were added to your account.'
-      )
     } else if (p.get('purchase') === 'canceled') {
       setDashboardNotice('Post purchase was canceled. No charges were made.')
     } else if (p.get('purchase') === 'success') {
@@ -2721,7 +2711,6 @@ export default function Dashboard() {
       'trial_started',
       'new',
       'canceled',
-      'credits',
       'amount',
       'purchase',
       'posts',

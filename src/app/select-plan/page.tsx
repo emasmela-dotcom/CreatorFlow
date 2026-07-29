@@ -27,7 +27,7 @@ function planParamToId(plan: string): PlanType {
   if (p === 'creator') return 'pro'
   if (p === 'professional') return 'business'
   if (p === 'business') return 'agency'
-  if (p === 'free') return 'starter' // free plan removed; redirect to starter
+  if (p === 'free') return 'starter'
   if (['starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
   return 'pro'
 }
@@ -63,7 +63,6 @@ function SelectPlanContent() {
 
       <main id="main-content" className="max-w-3xl mx-auto px-6 py-12">
         <article className="space-y-10">
-          {/* Phase 2 — answer-first */}
           <header className="space-y-4">
             <p className="text-sm font-medium text-purple-400 uppercase tracking-wide">{planName}</p>
             <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">{phase2.headline}</h1>
@@ -96,68 +95,66 @@ function SelectPlanContent() {
             </ul>
           </section>
 
-        {/* Tools included in this plan */}
-        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h2>
-          <ul className="space-y-2 text-sm text-gray-300">
-            {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-green-400 mt-0.5">✓</span>
-                <span>{tool}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="space-y-6">
-          <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
-            <p><strong>Tools marked with a credit badge</strong> and <strong>tools shown as part of higher-tier plans</strong> are not included in this plan.</p>
-            <p className="mt-2">You can still use these tools by buying credits or upgrading. They were <strong>never part of this plan.</strong></p>
+          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h2>
+            <ul className="space-y-2 text-sm text-gray-300">
+              {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  <span>{tool}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={understood}
-              onChange={(e) => setUnderstood(e.target.checked)}
-              className="mt-1 rounded border-gray-500"
-            />
-            <span className="text-sm text-gray-300">
-              I understand which tools are included in the {planName} plan and that other tools require credits or a higher plan. I will not claim these tools were part of my subscription.
-            </span>
-          </label>
+          <div className="space-y-6">
+            <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
+              <p>Tools shown as part of higher-tier plans are not included in this plan. Upgrade to use them. They were <strong>never part of this plan.</strong></p>
+            </div>
 
-          <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
-            <h3 className="font-semibold text-white mb-2">Content created during trial</h3>
-            <p>If you subscribe before trial ends: You keep all content created during the trial.</p>
-            <p className="mt-2">If you don&apos;t subscribe: Your account is restored to its pre-trial state and content created during the trial will be removed.</p>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={understood}
+                onChange={(e) => setUnderstood(e.target.checked)}
+                className="mt-1 rounded border-gray-500"
+              />
+              <span className="text-sm text-gray-300">
+                I understand which tools are included in the {planName} plan and that other tools require a higher plan. I will not claim those tools were part of my subscription.
+              </span>
+            </label>
+
+            <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
+              <h3 className="font-semibold text-white mb-2">Content created during trial</h3>
+              <p>If you subscribe before trial ends: You keep all content created during the trial.</p>
+              <p className="mt-2">If you don&apos;t subscribe: Your account is restored to its pre-trial state and content created during the trial will be removed.</p>
+            </div>
           </div>
-        </div>
 
-        <p className="text-sm text-gray-300 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-          <button
-            type="button"
-            onClick={goToSignup}
-            disabled={!understood}
-            className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
-          >
-            Subscribe now
-          </button>
-          <button
-            type="button"
-            onClick={goToSignup}
-            className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500"
-          >
-            Start free trial
-          </button>
-          <Link
-            href="/"
-            className="w-full sm:w-auto bg-gray-700 text-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-600 hover:text-white text-center border border-gray-600"
-          >
-            Cancel
-          </Link>
-        </div>
+          <p className="text-sm text-gray-300 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <button
+              type="button"
+              onClick={goToSignup}
+              disabled={!understood}
+              className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+            >
+              Subscribe now
+            </button>
+            <button
+              type="button"
+              onClick={goToSignup}
+              className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500"
+            >
+              Start free trial
+            </button>
+            <Link
+              href="/"
+              className="w-full sm:w-auto bg-gray-700 text-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-600 hover:text-white text-center border border-gray-600"
+            >
+              Cancel
+            </Link>
+          </div>
 
           <section aria-labelledby="faq-heading" className="border-t border-gray-700 pt-10">
             <script

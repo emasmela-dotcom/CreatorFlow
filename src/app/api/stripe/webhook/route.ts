@@ -3,7 +3,6 @@ import Stripe from 'stripe'
 import { db } from '@/lib/db'
 import { getPostLimit } from '@/lib/planLimits'
 
-// Lazy initialize Stripe to avoid build-time errors
 const getStripe = () => {
   const secretKey = process.env.STRIPE_SECRET_KEY
   if (!secretKey) {
@@ -44,7 +43,7 @@ export async function POST(request: NextRequest) {
         const userId = session.metadata?.userId
         const type = session.metadata?.type
 
-        // One-time payment: additional posts or credit bundle
+        // One-time payment: additional posts only
         if (session.mode === 'payment' && userId && type) {
           if (type === 'additional_posts') {
             const quantity = parseInt(session.metadata?.quantity || '0', 10)
@@ -54,15 +53,6 @@ export async function POST(request: NextRequest) {
                 args: [quantity, userId]
               })
               console.log(`✅ Added ${quantity} posts for user ${userId}`)
-            }
-          } else if (type === 'credit_bundle') {
-            const credits = parseInt(session.metadata?.credits || '0', 10)
-            if (credits > 0) {
-              await db.execute({
-                sql: `UPDATE users SET credits_balance = COALESCE(credits_balance, 0) + ? WHERE id = ?`,
-                args: [credits, userId]
-              })
-              console.log(`✅ Added ${credits} credits for user ${userId}`)
             }
           }
           break
@@ -107,7 +97,6 @@ export async function POST(request: NextRequest) {
         const subscription = event.data.object as Stripe.Subscription
         const customerId = subscription.customer as string
 
-        // Find user by Stripe customer ID
         const userResult = await db.execute({
           sql: 'SELECT id FROM users WHERE stripe_customer_id = ?',
           args: [customerId]
@@ -121,7 +110,6 @@ export async function POST(request: NextRequest) {
         const userId = (userResult.rows[0] as any).id
         const planType = subscription.metadata?.planType || 'starter'
 
-        // Update subscription status
         if (subscription.status === 'active') {
           const postLimit = getPostLimit(planType as any)
           await db.execute({
@@ -143,7 +131,6 @@ export async function POST(request: NextRequest) {
         const invoice = event.data.object as Stripe.Invoice
         const customerId = invoice.customer as string
 
-        // Find user and notify (log for now)
         const userResult = await db.execute({
           sql: 'SELECT id, email FROM users WHERE stripe_customer_id = ?',
           args: [customerId]
@@ -152,7 +139,6 @@ export async function POST(request: NextRequest) {
         if (userResult.rows.length > 0) {
           const user = userResult.rows[0] as any
           console.error(`💳 Payment failed for user ${user.id} (${user.email})`)
-          // TODO: Send email notification to user
         }
         break
       }
@@ -168,5 +154,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Disable body parsing for webhook route
 export const runtime = 'nodejs'

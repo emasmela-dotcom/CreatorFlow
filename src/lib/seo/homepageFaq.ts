@@ -17,11 +17,6 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
     answer: 'No. You get 14 days free with no card on file.',
   },
   {
-    question: "What's the difference between AI calls and credits?",
-    answer:
-      "AI calls are included per plan (see pricing cards). Credits are an add-on for premium tools outside your plan's included usage; purchased credits roll over month to month.",
-  },
-  {
     question: 'Can I change plans later?',
     answer: 'Yes. You can upgrade or downgrade as your needs change.',
   },
