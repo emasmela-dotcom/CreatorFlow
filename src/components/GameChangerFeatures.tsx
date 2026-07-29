@@ -26,6 +26,92 @@ export const GAME_CHANGER_FEATURES = [
   { id: 'follow-thru-crm', name: 'Follow Thru CRM', icon: CheckSquare, color: 'purple' }
 ] as const
 
+function getFeatureHelp(id: string): { when: string; why: string; how: string } {
+  switch (id) {
+    case 'performance-predictor':
+      return {
+        when: 'Before you publish, to check if a post is ready.',
+        why: 'Avoid low-engagement posts and know exactly what to tweak.',
+        how: 'Paste your content, pick a platform, and get a predicted score.'
+      }
+    case 'brand-voice':
+      return {
+        when: 'When you want to check if content sounds like you.',
+        why: 'Keep consistency across every platform and post.',
+        how: 'Paste your content and compare it against your saved voice profile.'
+      }
+    case 'cross-platform':
+      return {
+        when: 'After you write content, before scheduling.',
+        why: 'One piece of content, automatically formatted for every platform.',
+        how: 'Paste in what you wrote, select platforms, and CreatorFlow adjusts length, hashtags, and format for each.'
+      }
+    case 'content-recycling':
+      return {
+        when: 'When you want to repurpose old top-performing posts.',
+        why: 'Save time by reusing content that already worked.',
+        how: 'The system surfaces your best posts and suggests the best time to repost them.'
+      }
+    case 'revenue-tracker':
+      return {
+        when: 'When you want to see all income sources in one place.',
+        why: 'Understand which deals and platforms earn the most.',
+        how: 'Add income sources manually; the dashboard shows totals and breakdowns.'
+      }
+    case 'trend-alerts':
+      return {
+        when: 'When you want to catch rising topics early.',
+        why: 'Ride trends before they peak for more reach.',
+        how: 'Set keywords; get notified when they start trending on your platforms.'
+      }
+    case 'ab-testing':
+      return {
+        when: 'When you want to test two versions of a post.',
+        why: 'Learn what wording or format gets better engagement.',
+        how: 'Full panel coming soon — backend is ready.'
+      }
+    case 'content-series':
+      return {
+        when: 'When you want to plan a multi-part story or campaign.',
+        why: 'Keep audiences coming back with connected content.',
+        how: 'Full panel coming soon — backend is ready.'
+      }
+    case 'hashtag-optimizer':
+      return {
+        when: 'Before publishing on hashtag-driven platforms.',
+        why: 'Better discoverability without spamming irrelevant tags.',
+        how: 'Paste your content, pick a platform, and get tailored hashtag suggestions.'
+      }
+    case 'marketplace':
+      return {
+        when: 'When you want to find brand deals or collaborations.',
+        why: 'Monetize your audience with matched opportunities.',
+        how: 'Browse available deals and express interest directly.'
+      }
+    case 'follow-thru-crm':
+      return {
+        when: 'When you need to track who owes you what and when.',
+        why: 'Never lose a brand deal or follow-up in DMs again.',
+        how: 'Log promises, set due dates, and see overdue items at a glance.'
+      }
+    default:
+      return { when: '', why: '', how: '' }
+  }
+}
+
+function FeatureHelpBlock({ featureId }: { featureId: string }) {
+  const help = getFeatureHelp(featureId)
+  return (
+    <div className="bg-gray-900/30 rounded-lg p-3 border border-gray-700/50 mb-4">
+      <div className="text-xs text-gray-300 space-y-1">
+        <p><span className="text-white font-medium">When:</span> {help.when}</p>
+        <p><span className="text-white font-medium">Why:</span> {help.why}</p>
+        <p><span className="text-white font-medium">How:</span> {help.how}</p>
+      </div>
+    </div>
+  )
+}
+
 export function GameChangerFeatureDetail({ featureId, token, onClose }: { featureId: string; token: string; onClose: () => void }) {
   return (
     <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
@@ -46,30 +132,37 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
           <h2 className="text-2xl font-bold text-white">Game-Changer Features</h2>
         </div>
         <p className="text-gray-300 mb-4">
-          Advanced features that set CreatorFlow apart from competitors. These tools help you create better content, save time, and grow faster.
+          Tools that help you check, format, and manage content you already have—before and after you post.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {features.map((feature) => (
-          <button
-            key={feature.id}
-            onClick={() => setActiveFeature(activeFeature === feature.id ? null : feature.id)}
-            className={`p-4 rounded-lg border-2 transition-all text-left ${
-              activeFeature === feature.id
-                ? 'border-purple-500 bg-purple-500/10'
-                : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
-            }`}
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <feature.icon className={`w-6 h-6 text-${feature.color}-400`} />
-              <h3 className="font-semibold text-white">{feature.name}</h3>
-            </div>
-            <p className="text-sm text-gray-300">
-              {getFeatureDescription(feature.id)}
-            </p>
-          </button>
-        ))}
+        {features.map((feature) => {
+          const help = getFeatureHelp(feature.id)
+          return (
+            <button
+              key={feature.id}
+              onClick={() => setActiveFeature(activeFeature === feature.id ? null : feature.id)}
+              className={`p-4 rounded-lg border-2 transition-all text-left ${
+                activeFeature === feature.id
+                  ? 'border-purple-500 bg-purple-500/10'
+                  : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
+              }`}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <feature.icon className={`w-6 h-6 text-${feature.color}-400`} />
+                <h3 className="font-semibold text-white">{feature.name}</h3>
+              </div>
+              <p className="text-sm text-gray-300">
+                {getFeatureDescription(feature.id)}
+              </p>
+              <div className="mt-2 text-xs text-gray-300 space-y-0.5">
+                <p><span className="text-gray-200">When:</span> {help.when}</p>
+                <p><span className="text-gray-200">Why:</span> {help.why}</p>
+              </div>
+            </button>
+          )
+        })}
       </div>
 
       {activeFeature && (
@@ -93,7 +186,7 @@ function getFeatureDescription(id: string): string {
     'content-series': 'Generate multi-part series',
     'hashtag-optimizer': 'AI-optimized hashtags',
     'marketplace': 'Connect with brand opportunities',
-    'follow-thru-crm': 'Track what you’re waiting on and who you’re waiting on it from'
+    'follow-thru-crm': 'Track what you\'re waiting on and who you\'re waiting on it from'
   }
   return descriptions[id] || 'Advanced feature'
 }
@@ -123,6 +216,7 @@ function renderFeatureUI(featureId: string, token: string, onClose: () => void) 
     case 'follow-thru-crm':
       return (
         <div className="space-y-4">
+          <FeatureHelpBlock featureId="follow-thru-crm" />
           <p className="text-gray-300">Track promises, people, and follow-ups. They owe you / You owe them / Overdue / Upcoming.</p>
           <Link href="/follow-thru" className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-500">Open Follow Thru CRM →</Link>
         </div>
@@ -170,6 +264,7 @@ function PerformancePredictorUI({ token }: { token: string }) {
         AI Performance Predictor
       </h3>
       <p className="text-gray-300">Predict how your content will perform before posting</p>
+      <FeatureHelpBlock featureId="performance-predictor" />
 
       <div className="space-y-3">
         <div>
@@ -295,6 +390,7 @@ function BrandVoiceUI({ token }: { token: string }) {
         <Mic className="w-6 h-6 text-blue-400" />
         Brand Voice Analyzer
       </h3>
+      <FeatureHelpBlock featureId="brand-voice" />
 
       <button
         onClick={analyze}
@@ -402,6 +498,7 @@ function CrossPlatformSyncUI({ token }: { token: string }) {
         Cross-Platform Sync
       </h3>
       <p className="text-gray-300">Post once, automatically adapts to all platforms</p>
+      <FeatureHelpBlock featureId="cross-platform" />
 
       <div className="space-y-3">
         <div>
@@ -510,6 +607,7 @@ function ContentRecyclingUI({ token }: { token: string }) {
           Refresh
         </button>
       </div>
+      <FeatureHelpBlock featureId="content-recycling" />
 
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
@@ -577,6 +675,7 @@ function RevenueTrackerUI({ token }: { token: string }) {
         <DollarSign className="w-6 h-6 text-yellow-400" />
         Revenue Tracker
       </h3>
+      <FeatureHelpBlock featureId="revenue-tracker" />
 
       {summary && (
         <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
@@ -636,6 +735,7 @@ function TrendAlertsUI({ token }: { token: string }) {
         <Bell className="w-6 h-6 text-red-400" />
         Trend Alerts
       </h3>
+      <FeatureHelpBlock featureId="trend-alerts" />
 
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
@@ -663,6 +763,7 @@ function ABTestingUI({ token }: { token: string }) {
         A/B Testing
       </h3>
       <p className="text-gray-300">Test content variations and compare performance</p>
+      <FeatureHelpBlock featureId="ab-testing" />
       <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
     </div>
   )
@@ -676,6 +777,7 @@ function ContentSeriesUI({ token }: { token: string }) {
         Content Series Generator
       </h3>
       <p className="text-gray-300">Create multi-part content series automatically</p>
+      <FeatureHelpBlock featureId="content-series" />
       <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
     </div>
   )
@@ -712,6 +814,7 @@ function HashtagOptimizerUI({ token }: { token: string }) {
         <Hash className="w-6 h-6 text-teal-400" />
         Hashtag Optimizer
       </h3>
+      <FeatureHelpBlock featureId="hashtag-optimizer" />
 
       <div className="space-y-3">
         <div>
@@ -795,6 +898,7 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
         <Handshake className="w-6 h-6 text-cyan-400" />
         Collaboration Marketplace
       </h3>
+      <FeatureHelpBlock featureId="marketplace" />
 
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
@@ -819,4 +923,3 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
     </div>
   )
 }
-
