@@ -61,7 +61,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-optimist-500"
             >
               <option value="instagram">Instagram</option>
               <option value="twitter">Twitter/X</option>
@@ -79,7 +79,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Paste your content here to analyze brand voice consistency..."
-              className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[200px]"
+              className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500 min-h-[200px]"
             />
           </div>
 
@@ -94,7 +94,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
             onClick={handleAnalyze}
             disabled={loading || !content.trim()}
             aria-label="Analyze brand voice"
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold text-white hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold text-white hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -121,11 +121,11 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-gray-900/50 p-4 rounded-lg">
               <p className="text-sm text-gray-300 mb-1">Brand Voice Score</p>
-              <p className="text-3xl font-bold text-purple-400">{result.brandVoiceScore}%</p>
+              <p className="text-3xl font-bold text-optimist-400">{result.brandVoiceScore}%</p>
             </div>
             <div className="bg-gray-900/50 p-4 rounded-lg">
               <p className="text-sm text-gray-300 mb-1">Consistency Level</p>
-              <p className="text-xl font-semibold text-indigo-400">{result.consistencyLevel}</p>
+              <p className="text-xl font-semibold text-optimist-400">{result.consistencyLevel}</p>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
                   </div>
                   <div className="w-full bg-gray-800 rounded-full h-2">
                     <div 
-                      className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full transition-all"
+                      className="bg-gradient-to-r from-optimist-500 to-optimist-500 h-2 rounded-full transition-all"
                       style={{ width: `${score}%` }}
                     />
                   </div>
@@ -149,23 +149,23 @@ export default function BrandVoiceTool({ token }: BrandVoiceToolProps) {
             </div>
           </div>
 
-          <div className="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-lg">
-            <p className="text-sm font-semibold text-indigo-400 mb-2">Voice Characteristics</p>
+          <div className="bg-optimist-500/10 border border-optimist-500/20 p-4 rounded-lg">
+            <p className="text-sm font-semibold text-optimist-400 mb-2">Voice Characteristics</p>
             <div className="flex flex-wrap gap-2">
               {result.voiceCharacteristics.map((char: string, idx: number) => (
-                <span key={idx} className="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">
+                <span key={idx} className="px-3 py-1 bg-optimist-500/20 text-optimist-300 rounded-full text-sm">
                   {char}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-lg">
-            <p className="text-sm font-semibold text-purple-400 mb-2">Recommendations</p>
+          <div className="bg-optimist-500/10 border border-optimist-500/20 p-4 rounded-lg">
+            <p className="text-sm font-semibold text-optimist-400 mb-2">Recommendations</p>
             <ul className="space-y-2">
               {result.recommendations.map((rec: string, idx: number) => (
                 <li key={idx} className="text-sm text-gray-300 flex items-start gap-2">
-                  <span className="text-purple-400 mt-1">•</span>
+                  <span className="text-optimist-400 mt-1">•</span>
                   <span>{rec}</span>
                 </li>
               ))}

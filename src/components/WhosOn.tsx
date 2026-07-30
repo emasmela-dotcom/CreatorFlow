@@ -82,7 +82,7 @@ export default function WhosOn({ token }: WhosOnProps) {
     <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Users className="w-6 h-6 text-purple-400" />
+          <Users className="w-6 h-6 text-optimist-400" />
           <h3 className="text-xl font-bold text-white">Who's On</h3>
           <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-sm font-medium">
             {activeUsers.length} online
@@ -128,7 +128,7 @@ export default function WhosOn({ token }: WhosOnProps) {
                         className="w-10 h-10 rounded-full"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-optimist-600 flex items-center justify-center">
                         <span className="text-white font-semibold text-sm">
                           {displayName.charAt(0).toUpperCase()}
                         </span>
@@ -140,7 +140,7 @@ export default function WhosOn({ token }: WhosOnProps) {
                     <div className="font-medium text-white truncate">{displayName}</div>
                     <div className="text-xs text-gray-300">{getTimeAgo(user.lastActiveAt)}</div>
                   </div>
-                  <div className="text-xs px-2 py-1 bg-purple-600/20 text-purple-300 rounded capitalize">
+                  <div className="text-xs px-2 py-1 bg-optimist-600/20 text-optimist-300 rounded capitalize">
                     {user.subscriptionTier}
                   </div>
                 </div>

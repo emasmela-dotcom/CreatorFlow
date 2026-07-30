@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function ContentCreatorAnalyticsPage() {
   return (
-    <main id="main-content" className="min-h-screen bg-black text-white px-4 sm:px-6 py-12 sm:py-16">
+    <main id="main-content" className="min-h-screen bg-optimist-950 text-white px-4 sm:px-6 py-12 sm:py-16">
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Content Creator Analytics Platform</h1>
@@ -45,13 +45,13 @@ export default function ContentCreatorAnalyticsPage() {
             Use analytics in the same workflow where you write, organize, and schedule content so
             your strategy decisions happen faster.
           </p>
-          <p className="text-gray-300 border-l-2 border-purple-500/50 pl-4">
+          <p className="text-gray-300 border-l-2 border-optimist-500/50 pl-4">
             Starter includes analytics support; Essential and higher tiers expand reporting depth. Every plan includes a
             14-day free trial with no credit card required.
           </p>
           <p className="text-sm text-gray-300">
             Browse every mapped topic in one place:{' '}
-            <Link href="/creator-tools" className="text-purple-400 hover:underline">
+            <Link href="/creator-tools" className="text-optimist-400 hover:underline">
               creator tools &amp; workspace overview
             </Link>
             .
@@ -89,15 +89,15 @@ export default function ContentCreatorAnalyticsPage() {
           <h2 className="text-2xl font-semibold">Why you can trust this page</h2>
           <p className="text-gray-300">
             Analytics depth differs by plan—everything here matches the homepage tier list and{' '}
-            <Link href="/select-plan" className="text-purple-400 hover:underline">select-plan</Link>. CreatorFlow365 operates{' '}
-            <Link href="/" className="text-purple-400 hover:underline">creatorflow365.com</Link>; legal entity details are in{' '}
-            <Link href="/privacy" className="text-purple-400 hover:underline">Privacy</Link>{' '}
+            <Link href="/select-plan" className="text-optimist-400 hover:underline">select-plan</Link>. CreatorFlow365 operates{' '}
+            <Link href="/" className="text-optimist-400 hover:underline">creatorflow365.com</Link>; legal entity details are in{' '}
+            <Link href="/privacy" className="text-optimist-400 hover:underline">Privacy</Link>{' '}
             and{' '}
-            <Link href="/terms" className="text-purple-400 hover:underline">Terms</Link>.
+            <Link href="/terms" className="text-optimist-400 hover:underline">Terms</Link>.
           </p>
           <p className="text-gray-300 text-sm">
             We label analytics as plan-based support or expanded reporting—not guaranteed rankings or viral outcomes. Questions:{' '}
-            <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">support@creatorflow365.com</a>.
+            <a href="mailto:support@creatorflow365.com" className="text-optimist-400 hover:underline">support@creatorflow365.com</a>.
           </p>
         </section>
 
@@ -122,29 +122,29 @@ export default function ContentCreatorAnalyticsPage() {
           <h2 className="text-2xl font-semibold">Related workflows on CreatorFlow365</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
             <li>
-              <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+              <Link href="/ai-caption-writer-instagram-tiktok" className="text-optimist-400 hover:underline">
                 AI caption workflow guide
               </Link>{' '}
               for drafts that feed analytics later.
             </li>
             <li>
-              <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+              <Link href="/social-media-scheduler-for-creators" className="text-optimist-400 hover:underline">
                 Social media scheduler for creators
               </Link>{' '}
               to align posting cadence with metrics.
             </li>
             <li>
-              <Link href="/creator-tools" className="text-purple-400 hover:underline">
+              <Link href="/creator-tools" className="text-optimist-400 hover:underline">
                 Creator tools directory
               </Link>.
             </li>
             <li>
-              <Link href="/follow-thru" className="text-purple-400 hover:underline">
+              <Link href="/follow-thru" className="text-optimist-400 hover:underline">
                 Follow Thru CRM for collaborators and deals
               </Link>.
             </li>
             <li>
-              <Link href="/reviews" className="text-purple-400 hover:underline">
+              <Link href="/reviews" className="text-optimist-400 hover:underline">
                 CreatorFlow365 reviews
               </Link>.
             </li>

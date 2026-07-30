@@ -141,7 +141,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         <div className="p-6 border-b border-gray-700 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-              <HelpCircle className="w-6 h-6 text-purple-400" />
+              <HelpCircle className="w-6 h-6 text-optimist-400" />
               Help Center
             </h2>
             <p className="text-sm text-gray-300 mt-1">Find answers to common questions</p>
@@ -163,7 +163,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
               placeholder="Search for help..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500"
+              className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-optimist-500"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -171,7 +171,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
               onClick={() => setSelectedCategory(null)}
               className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                 selectedCategory === null
-                  ? 'bg-purple-600 text-white'
+                  ? 'bg-optimist-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
@@ -183,7 +183,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                   selectedCategory === cat
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-optimist-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
               >
@@ -205,7 +205,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
               {filteredFAQs.map((category, idx) => (
                 <div key={idx}>
                   <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-purple-400" />
+                    <BookOpen className="w-5 h-5 text-optimist-400" />
                     {category.category}
                   </h3>
                   <div className="space-y-4">
@@ -218,7 +218,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
                           <span>{faq.q}</span>
                           <span className="text-gray-300 text-sm">Click to expand</span>
                         </summary>
-                        <p className="mt-3 text-gray-300 text-sm leading-relaxed pl-4 border-l-2 border-purple-500/30">
+                        <p className="mt-3 text-gray-300 text-sm leading-relaxed pl-4 border-l-2 border-optimist-500/30">
                           {faq.a}
                         </p>
                       </details>
@@ -238,14 +238,14 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
                 <Lightbulb className="w-4 h-4" />
                 <span>Tip: Click the help icon (?) next to any feature for quick info</span>
               </div>
-              <div className="flex items-center gap-2 text-purple-400">
+              <div className="flex items-center gap-2 text-optimist-400">
                 <MessageCircle className="w-4 h-4" />
                 <span>Have feedback? Use the Feedback button in the bottom-right corner!</span>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white text-sm font-medium transition-colors"
             >
               Close
             </button>

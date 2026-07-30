@@ -215,7 +215,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                 className="w-12 h-12 rounded-full"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-optimist-600 flex items-center justify-center">
                 <span className="text-white font-semibold">
                   {displayName.charAt(0).toUpperCase()}
                 </span>
@@ -225,14 +225,14 @@ export default function MessageBoard({ token }: MessageBoardProps) {
               <div className="flex items-center gap-2 mb-2">
                 {selectedPost.isPinned && <Pin className="w-4 h-4 text-yellow-400" />}
                 <UserTooltip userId={selectedPost.userId} token={token}>
-                  <h2 className="text-2xl font-bold text-white hover:text-purple-400 cursor-pointer">
+                  <h2 className="text-2xl font-bold text-white hover:text-optimist-400 cursor-pointer">
                     {selectedPost.title}
                   </h2>
                 </UserTooltip>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-300 mb-4">
                 <UserTooltip userId={selectedPost.userId} token={token}>
-                  <span className="hover:text-purple-400 cursor-pointer">{displayName}</span>
+                  <span className="hover:text-optimist-400 cursor-pointer">{displayName}</span>
                 </UserTooltip>
                 <span>{formatDate(selectedPost.createdAt)}</span>
                 <span>{selectedPost.viewCount} views</span>
@@ -259,7 +259,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                     className="w-10 h-10 rounded-full flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-optimist-600 flex items-center justify-center flex-shrink-0">
                     <span className="text-white text-sm font-semibold">
                       {replyDisplayName.charAt(0).toUpperCase()}
                     </span>
@@ -268,7 +268,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <UserTooltip userId={reply.userId} token={token}>
-                      <span className="font-semibold text-white hover:text-purple-400 cursor-pointer">
+                      <span className="font-semibold text-white hover:text-optimist-400 cursor-pointer">
                         {replyDisplayName}
                       </span>
                     </UserTooltip>
@@ -305,13 +305,13 @@ export default function MessageBoard({ token }: MessageBoardProps) {
               value={newReply}
               onChange={(e) => setNewReply(e.target.value)}
               placeholder="Write a reply..."
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 min-h-[100px] resize-y"
+              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-optimist-500 min-h-[100px] resize-y"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading || !newReply.trim()}
-              className="mt-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="mt-2 px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Reply className="w-4 h-4" />
               {loading ? 'Posting...' : 'Post Reply'}
@@ -328,14 +328,14 @@ export default function MessageBoard({ token }: MessageBoardProps) {
       <div className="p-6 border-b border-gray-700 flex items-center justify-between">
         <div>
           <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-            <MessageSquare className="w-6 h-6 text-purple-400" />
+            <MessageSquare className="w-6 h-6 text-optimist-400" />
             Message Board
           </h3>
           <p className="text-gray-300 mt-1">Share ideas, ask questions, and connect with creators</p>
         </div>
         <button
           onClick={() => setShowNewPost(!showNewPost)}
-          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white transition-colors flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
           New Post
@@ -351,21 +351,21 @@ export default function MessageBoard({ token }: MessageBoardProps) {
               value={newPostTitle}
               onChange={(e) => setNewPostTitle(e.target.value)}
               placeholder="Post title..."
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-optimist-500"
               required
             />
             <textarea
               value={newPostContent}
               onChange={(e) => setNewPostContent(e.target.value)}
               placeholder="What's on your mind?"
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 min-h-[120px] resize-y"
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-optimist-500 min-h-[120px] resize-y"
               required
             />
             <div className="flex gap-2">
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white transition-colors disabled:opacity-50"
               >
                 {loading ? 'Posting...' : 'Post'}
               </button>
@@ -394,7 +394,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
               onClick={() => setSelectedCategory(null)}
               className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                 selectedCategory === null
-                  ? 'bg-purple-600 text-white'
+                  ? 'bg-optimist-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700'
               }`}
             >
@@ -406,7 +406,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
                   selectedCategory === category.id
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-optimist-600 text-white'
                     : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
@@ -434,7 +434,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                   <div
                     key={post.id}
                     onClick={() => setSelectedPost(post)}
-                    className="p-4 bg-gray-900/50 rounded-lg border border-gray-700 hover:border-purple-500 cursor-pointer transition-colors"
+                    className="p-4 bg-gray-900/50 rounded-lg border border-gray-700 hover:border-optimist-500 cursor-pointer transition-colors"
                   >
                     <div className="flex items-start gap-3">
                       <div className="flex-1">
@@ -442,7 +442,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                           {post.isPinned && <Pin className="w-4 h-4 text-yellow-400" />}
                           <h4 className="text-lg font-semibold text-white">{post.title}</h4>
                           {post.category && (
-                            <span className="text-xs px-2 py-1 bg-purple-600/20 text-purple-300 rounded">
+                            <span className="text-xs px-2 py-1 bg-optimist-600/20 text-optimist-300 rounded">
                               {post.category.icon} {post.category.name}
                             </span>
                           )}
@@ -450,7 +450,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
                         <div className="text-gray-300 line-clamp-2 mb-3">{post.content}</div>
                         <div className="flex items-center gap-4 text-sm text-gray-300">
                           <UserTooltip userId={post.userId} token={token}>
-                            <span className="hover:text-purple-400 cursor-pointer">{displayName}</span>
+                            <span className="hover:text-optimist-400 cursor-pointer">{displayName}</span>
                           </UserTooltip>
                           <span>{formatDate(post.createdAt)}</span>
                           <span>{post.viewCount} views</span>

@@ -152,7 +152,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
   }
 
   const getRoleColor = (role: string) => {
-    if (role === 'owner') return 'text-purple-400'
+    if (role === 'owner') return 'text-optimist-400'
     if (role === 'admin') return 'text-blue-400'
     if (role === 'editor') return 'text-green-400'
     return 'text-gray-300'
@@ -161,7 +161,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-optimist-400" />
       </div>
     )
   }
@@ -178,7 +178,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
         <button
           type="button"
           onClick={() => setShowCreateTeam(true)}
-          className="w-full sm:w-auto px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg flex items-center justify-center gap-2"
         >
           <Plus className="w-4 h-4" aria-hidden />
           Create Team
@@ -211,7 +211,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
+                className="px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg"
               >
                 Create Team
               </button>
@@ -246,7 +246,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                     onClick={() => setSelectedTeam(team.id)}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       selectedTeam === team.id
-                        ? 'bg-purple-600 text-white'
+                        ? 'bg-optimist-600 text-white'
                         : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
                     }`}
                   >
@@ -270,7 +270,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                   <h3 className="text-lg font-semibold text-white">Team Members</h3>
                   <button
                     onClick={() => setShowAddMember(true)}
-                    className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-2 text-sm"
+                    className="px-3 py-1 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg flex items-center gap-2 text-sm"
                   >
                     <UserPlus className="w-4 h-4" />
                     Add Member
@@ -307,7 +307,7 @@ export default function TeamCollaboration({ token, userId }: TeamCollaborationPr
                       <div className="flex gap-2">
                         <button
                           type="submit"
-                          className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm"
+                          className="px-3 py-1 bg-optimist-600 hover:bg-optimist-700 text-white rounded text-sm"
                         >
                           Add
                         </button>

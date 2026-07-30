@@ -75,7 +75,7 @@ export default function CollaborationsPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -94,14 +94,14 @@ export default function CollaborationsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 aria-label="Search collaborations"
-                className="w-full sm:w-64 pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full sm:w-64 pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
               />
             </div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               aria-label="Filter by status"
-              className="w-full sm:w-auto bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full sm:w-auto bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-optimist-500"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -112,7 +112,7 @@ export default function CollaborationsPage() {
             <button
               type="button"
               onClick={() => setShowNewCollaboration(true)}
-              className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center justify-center gap-2"
             >
               <Plus className="w-4 h-4" aria-hidden />
               New Collaboration
@@ -175,7 +175,7 @@ export default function CollaborationsPage() {
             <div key={collab.id} className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold text-lg">{collab.brand[0]}</span>
                   </div>
                   <div>
@@ -213,7 +213,7 @@ export default function CollaborationsPage() {
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-gray-700 rounded-full h-2">
                       <div 
-                        className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full"
+                        className="bg-gradient-to-r from-optimist-500 to-optimist-500 h-2 rounded-full"
                         style={{ width: `${(collab.completed / collab.total) * 100}%` }}
                       ></div>
                     </div>
@@ -253,7 +253,7 @@ export default function CollaborationsPage() {
             <p className="text-gray-300 mb-6">Try adjusting your search or filter criteria</p>
             <button
               onClick={() => setShowNewCollaboration(true)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
             >
               Create Your First Collaboration
             </button>
@@ -283,13 +283,13 @@ export default function CollaborationsPage() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">Brand Name</label>
                   <input
                     type="text"
-                    className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                     placeholder="Enter brand name"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Collaboration Type</label>
-                  <select className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <select className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500">
                     <option>Sponsored Post</option>
                     <option>Product Review</option>
                     <option>Brand Ambassador</option>
@@ -301,7 +301,7 @@ export default function CollaborationsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
                 <textarea
-                  className="w-full h-32 bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                  className="w-full h-32 bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none"
                   placeholder="Describe the collaboration details..."
                 />
               </div>
@@ -309,7 +309,7 @@ export default function CollaborationsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Platform</label>
-                  <select className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <select className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500">
                     <option>Instagram</option>
                     <option>Twitter</option>
                     <option>LinkedIn</option>
@@ -321,7 +321,7 @@ export default function CollaborationsPage() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">Value ($)</label>
                   <input
                     type="number"
-                    className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                     placeholder="0"
                   />
                 </div>
@@ -334,7 +334,7 @@ export default function CollaborationsPage() {
                 >
                   Cancel
                 </button>
-                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all">
+                <button className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all">
                   Create Collaboration
                 </button>
               </div>

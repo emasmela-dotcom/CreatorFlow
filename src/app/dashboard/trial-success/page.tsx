@@ -18,7 +18,7 @@ function TrialSuccessContent() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-optimist-950 text-white flex flex-col">
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="max-w-md w-full bg-gray-800 rounded-xl border border-gray-700 p-8 text-center">
           <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -47,7 +47,7 @@ function TrialSuccessContent() {
           <button
             type="button"
             onClick={() => router.push('/dashboard?trial_started=true')}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold text-white hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold text-white hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center justify-center gap-2"
           >
             Go to dashboard
             <ArrowRight className="w-5 h-5" />
@@ -64,7 +64,7 @@ export default function TrialSuccessPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="min-h-screen bg-optimist-950 text-white flex items-center justify-center">
           <p className="text-lg text-gray-300">Loading…</p>
         </div>
       }

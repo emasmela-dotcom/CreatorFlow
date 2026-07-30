@@ -54,7 +54,7 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
             type="button"
             onClick={() => setActive(active === tool.id ? null : tool.id)}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-              active === tool.id ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+              active === tool.id ? 'bg-optimist-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
             }`}
           >
             {tool.label}

@@ -87,7 +87,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                 placeholder="Enter your email"
                 required
                 autoComplete="email"
@@ -106,7 +106,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                 placeholder="Enter your password"
                 required
                 minLength={6}
@@ -126,7 +126,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
           </button>
@@ -135,7 +135,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             <button
               type="button"
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-purple-300 hover:text-purple-200 transition-colors text-sm"
+              className="text-optimist-300 hover:text-optimist-200 transition-colors text-sm"
             >
               {isSignUp 
                 ? 'Already have an account? Sign in' 

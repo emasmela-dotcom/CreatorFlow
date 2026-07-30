@@ -118,7 +118,7 @@ function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => vo
           ⚠️ Please sign in to use this bot
           <button
             onClick={() => router.push('/signin')}
-            className="ml-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+            className="ml-2 px-3 py-1 bg-optimist-600 hover:bg-optimist-700 rounded text-white text-xs"
           >
             Sign In
           </button>
@@ -131,7 +131,7 @@ function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => vo
           {error.includes('tier') && (
             <button
               onClick={() => router.push('/')}
-              className="mt-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+              className="mt-2 px-3 py-1 bg-optimist-600 hover:bg-optimist-700 rounded text-white text-xs"
             >
               Upgrade Plan
             </button>
@@ -147,7 +147,7 @@ function ExpenseTrackerUI({ token, onClose }: { token: string, onClose: () => vo
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Adding...' : 'Add Expense'}
       </button>
@@ -257,7 +257,7 @@ function EmailSorterUI({ token, onClose }: { token: string, onClose: () => void 
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Sorting...' : 'Sort Email'}
       </button>
@@ -371,7 +371,7 @@ function ContentWriterUI({ token, onClose }: { token: string, onClose: () => voi
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Generating...' : 'Generate Content'}
       </button>
@@ -521,7 +521,7 @@ function InvoiceGeneratorUI({ token, onClose }: { token: string, onClose: () => 
           ⚠️ Please sign in to use this bot
           <button
             onClick={() => router.push('/signin')}
-            className="ml-2 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+            className="ml-2 px-3 py-1 bg-optimist-600 hover:bg-optimist-700 rounded text-white text-xs"
           >
             Sign In
           </button>
@@ -543,7 +543,7 @@ function InvoiceGeneratorUI({ token, onClose }: { token: string, onClose: () => 
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Creating...' : 'Create Invoice'}
       </button>
@@ -637,7 +637,7 @@ function CustomerServiceUI({ token, onClose }: { token: string, onClose: () => v
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Processing...' : 'Get Bot Response'}
       </button>
@@ -735,7 +735,7 @@ function ProductRecommendationUI({ token, onClose }: { token: string, onClose: (
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Getting Recommendations...' : 'Get Recommendations'}
       </button>
@@ -886,7 +886,7 @@ function SalesLeadQualifierUI({ token, onClose }: { token: string, onClose: () =
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Qualifying...' : 'Qualify Lead'}
       </button>
@@ -980,7 +980,7 @@ function WebsiteChatUI({ token, onClose }: { token: string, onClose: () => void 
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Processing...' : 'Get Bot Response'}
       </button>
@@ -1117,7 +1117,7 @@ function MeetingSchedulerUI({ token, onClose }: { token: string, onClose: () => 
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Scheduling...' : 'Schedule Meeting'}
       </button>
@@ -1259,7 +1259,7 @@ function SocialMediaManagerUI({ token, onClose }: { token: string, onClose: () =
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Creating...' : 'Create Post'}
       </button>
@@ -1391,7 +1391,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
                 type="checkbox"
                 checked={targetPlatforms.includes(platform)}
                 onChange={() => handlePlatformToggle(platform)}
-                className="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500"
+                className="w-4 h-4 text-optimist-600 bg-gray-700 border-gray-600 rounded focus:ring-optimist-500"
               />
               <span className="text-sm text-gray-300 capitalize">{platform}</span>
             </label>
@@ -1419,7 +1419,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
                 {item.content}
               </div>
               {item.hashtags && item.hashtags.length > 0 && (
-                <div className="text-xs text-purple-400">
+                <div className="text-xs text-optimist-400">
                   {item.hashtags.join(' ')}
                 </div>
               )}
@@ -1430,7 +1430,7 @@ function ContentRepurposingUI({ token, onClose }: { token: string, onClose: () =
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Repurposing...' : 'Repurpose Content'}
       </button>
@@ -1622,7 +1622,7 @@ function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => v
               setSaveHashtags(allHashtags)
               setShowSaveForm(true)
             }}
-            className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white"
+            className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white"
           >
             Save as Hashtag Set
           </button>
@@ -2282,7 +2282,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
                   <div key={index} className="bg-gray-800/50 border border-gray-700 rounded p-3">
                     <div className="flex items-start justify-between mb-1">
                       <h5 className="text-sm font-semibold text-white">{suggestion.topic}</h5>
-                      <span className="text-xs text-purple-400">Priority: {suggestion.priorityScore}</span>
+                      <span className="text-xs text-optimist-400">Priority: {suggestion.priorityScore}</span>
                     </div>
                     <div className="text-xs text-gray-300 mb-1">
                       Format: <span className="text-gray-300 capitalize">{suggestion.format?.replace('-', ' ')}</span>
@@ -2298,12 +2298,12 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
           )}
 
           {result.gaps?.yourUniqueTopics && result.gaps.yourUniqueTopics.length > 0 && (
-            <div className="bg-purple-500/10 border border-purple-500/30 rounded p-3">
-              <h4 className="text-sm font-semibold text-purple-400 mb-2">Your Unique Advantages:</h4>
+            <div className="bg-optimist-500/10 border border-optimist-500/30 rounded p-3">
+              <h4 className="text-sm font-semibold text-optimist-400 mb-2">Your Unique Advantages:</h4>
               <div className="text-sm text-gray-300">
                 {result.gaps.yourUniqueTopics.join(', ')}
               </div>
-              <p className="text-xs text-purple-300 mt-2">These are topics you cover that competitors don't - leverage them!</p>
+              <p className="text-xs text-optimist-300 mt-2">These are topics you cover that competitors don't - leverage them!</p>
             </div>
           )}
         </div>
@@ -2311,7 +2311,7 @@ function ContentGapAnalyzerUI({ token, onClose }: { token: string, onClose: () =
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white disabled:opacity-50"
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-white disabled:opacity-50"
       >
         {loading ? 'Analyzing...' : 'Analyze Content Gaps'}
       </button>
@@ -2440,7 +2440,7 @@ function CalendarView({ token }: { token: string }) {
                     <>
                       <div className="text-sm font-semibold mb-1">{day}</div>
                       {dayEvents.slice(0, 2).map((event: any) => (
-                        <div key={event.id} className="text-xs bg-purple-600/30 text-purple-300 rounded px-1 mb-1 truncate">
+                        <div key={event.id} className="text-xs bg-optimist-600/30 text-optimist-300 rounded px-1 mb-1 truncate">
                           {event.platform}: {event.title}
                         </div>
                       ))}
@@ -2612,7 +2612,7 @@ function PerformanceAnalyticsView({ token }: { token: string }) {
               <div key={post.id} className="flex items-start justify-between p-4 bg-gray-900 rounded border border-gray-700">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-purple-400 font-bold">#{idx + 1}</span>
+                    <span className="text-optimist-400 font-bold">#{idx + 1}</span>
                     <span className="text-sm text-gray-300 capitalize">{post.platform}</span>
                   </div>
                   <div className="text-sm text-gray-300 truncate">{post.content}</div>
@@ -2814,36 +2814,36 @@ export default function Dashboard() {
   const navButtons = (
     <>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
-        <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
-        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
-        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
-        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
+        <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
+        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
+        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
+        <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
         <button className="px-2.5 py-1 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-3 h-3 inline mr-1 -mt-0.5" />Documents</button>
-        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
-        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
-        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
-        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
-        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
+        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
+        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
+        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
+        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
+        <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
         <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
       </div>
     </>
   )
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-0.5">
         {headerVariant === 'center' ? (
           /* Option 1: Nav in upper center — one row: [Brand+search] [Nav] [Icons] */
           <div className="flex items-center justify-between gap-2">
             <div className="flex flex-col gap-0.5 shrink-0">
-              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
               <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
                 <Search className="absolute left-3 w-4 h-4 text-gray-300 pointer-events-none shrink-0" aria-hidden />
-                <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search content" />
+                <input type="search" placeholder="Search content..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500 focus:border-optimist-500" aria-label="Search content" />
               </form>
             </div>
             <nav className="hidden lg:flex flex-col gap-0.5 items-center flex-1 min-w-0 justify-center shrink-0">{navButtons}</nav>
@@ -2857,13 +2857,13 @@ export default function Dashboard() {
               >
                 {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
-              <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+              <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-optimist-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
               <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
               <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
               {token ? (
                 <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
               ) : (
-                <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
+                <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-optimist-600 hover:bg-optimist-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
               )}
             </div>
           </div>
@@ -2872,10 +2872,10 @@ export default function Dashboard() {
           <>
             <div className="flex items-center justify-between gap-4 mb-0.5">
               <div className="flex flex-col gap-0.5 shrink-0">
-                <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent whitespace-nowrap leading-tight">CreatorFlow365</h1>
                 <form className="relative flex items-center w-40 sm:w-56 min-h-[1.75rem] flex-shrink-0" onSubmit={(e) => { e.preventDefault(); const q = headerSearch.trim(); if (q) router.push(`/documents?search=${encodeURIComponent(q)}`); else router.push('/documents'); }}>
                   <Search className="absolute left-3 w-4 h-4 text-gray-300 pointer-events-none shrink-0" aria-hidden />
-                  <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" aria-label="Search within the app" />
+                  <input ref={headerSearchInputRef} type="search" placeholder="Search within the app..." value={headerSearch} onChange={(e) => setHeaderSearch(e.target.value)} className="w-full min-h-[1.75rem] pl-9 pr-2.5 py-0.5 text-sm bg-white border-2 border-gray-700 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500 focus:border-optimist-500" aria-label="Search within the app" />
                 </form>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -2888,34 +2888,34 @@ export default function Dashboard() {
                 >
                   {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
-                <button type="button" onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app" aria-label="Focus search"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
-                <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-purple-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <button type="button" onClick={() => headerSearchInputRef.current?.focus()} className="p-2 text-gray-300 hover:text-optimist-400 hover:bg-gray-700 rounded-lg transition-colors" title="Assistant – search within the app" aria-label="Focus search"><Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /></button>
+                <button type="button" onClick={() => setHelpCenterOpen(true)} className="p-2 text-gray-300 hover:text-optimist-400 hover:bg-gray-700 rounded-lg transition-colors" title="Help Center" aria-label="Help center"><HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" /></button>
                 <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
                 <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300 hover:text-white cursor-pointer" aria-hidden />
                 {token ? (
                   <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); router.push('/signin?signed_out=1') }} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign out" aria-label="Sign out"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign Out</span></button>
                 ) : (
-                  <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
+                  <button type="button" onClick={() => router.push('/signin')} className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium bg-optimist-600 hover:bg-optimist-500 text-white rounded-lg transition-colors whitespace-nowrap" title="Sign in" aria-label="Sign in"><LogOut className="w-4 h-4 shrink-0" /><span className="hidden sm:inline">Sign In</span></button>
                 )}
               </div>
             </div>
             <div className="hidden lg:block w-full">
               <nav className="flex flex-col gap-0.5" aria-label="Dashboard sections">
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
-                  <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
-                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
-                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
-                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
+                  <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
+                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
+                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
+                  <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
                   <button className="px-2.5 py-1 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
                   <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-3 h-3 inline mr-1 -mt-0.5" />Documents</button>
-                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
-                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
-                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
-                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
-                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-purple-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
+                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
+                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
+                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
+                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
+                  <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
                   <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
                 </div>
               </nav>
@@ -2939,7 +2939,7 @@ export default function Dashboard() {
                       }
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      isActive ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                      isActive ? 'bg-optimist-600 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                     }`}
                   >
                     {item.label}
@@ -2955,7 +2955,7 @@ export default function Dashboard() {
         {/* Sidebar */}
         <aside className="hidden lg:block w-64 bg-gray-800 border-r border-gray-700 min-h-screen p-6 shrink-0">
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-lg">
+            <div className="bg-gradient-to-r from-optimist-600 to-optimist-600 p-4 rounded-lg">
               <h3 className="font-semibold mb-2">Quick Stats</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -3082,7 +3082,7 @@ export default function Dashboard() {
                       <p className="text-gray-300 text-sm">Engagement Rate</p>
                       <p className="text-2xl font-bold">{analytics.engagementRate}%</p>
                     </div>
-                    <BarChart3 className="w-8 h-8 text-purple-400" />
+                    <BarChart3 className="w-8 h-8 text-optimist-400" />
                   </div>
                   <div className="flex items-center mt-2 text-green-400 text-sm">
                     <TrendingUp className="w-4 h-4 mr-1" />
@@ -3110,7 +3110,7 @@ export default function Dashboard() {
                       <p className="text-gray-300 text-sm">Impressions</p>
                       <p className="text-2xl font-bold">{analytics.impressions.toLocaleString()}</p>
                     </div>
-                    <BarChart3 className="w-8 h-8 text-indigo-400" />
+                    <BarChart3 className="w-8 h-8 text-optimist-400" />
                   </div>
                   <div className="flex items-center mt-2 text-green-400 text-sm">
                     <TrendingUp className="w-4 h-4 mr-1" />
@@ -3196,7 +3196,7 @@ export default function Dashboard() {
                 </div>
                 <button
                   onClick={() => router.push('/create')}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2"
                 >
                   <Plus className="w-5 h-5" />
                   Create New Post
@@ -3208,7 +3208,7 @@ export default function Dashboard() {
                   <p className="text-gray-300 mb-4">No posts yet. Create your first post!</p>
                   <button
                     onClick={() => router.push('/create')}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+                    className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
                   >
                     Create Post
                   </button>
@@ -3289,7 +3289,7 @@ export default function Dashboard() {
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
                             post.isLocked
                               ? 'bg-gray-700 text-gray-300 cursor-not-allowed'
-                              : 'bg-purple-600 hover:bg-purple-700'
+                              : 'bg-optimist-600 hover:bg-optimist-700'
                           }`}
                         >
                           {post.isLocked ? '🔒 Locked' : 'Export'}
@@ -3824,7 +3824,7 @@ export default function Dashboard() {
                             navigator.clipboard.writeText(`/api/bots/${selectedBot}`)
                             alert('API endpoint copied to clipboard!')
                           }}
-                          className="mt-3 px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-xs"
+                          className="mt-3 px-3 py-1 bg-optimist-600 hover:bg-optimist-700 rounded text-white text-xs"
                         >
                           Copy API Endpoint
                         </button>

@@ -43,7 +43,7 @@ export default function SupportForm() {
 
   if (sent) {
     return (
-      <div className="mt-8 rounded-lg border border-purple-500/40 bg-gray-800 p-6">
+      <div className="mt-8 rounded-lg border border-optimist-500/40 bg-gray-800 p-6">
         <p className="text-sm text-gray-100">
           {confirmationSent ? (
             <>
@@ -63,7 +63,7 @@ export default function SupportForm() {
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-4">
       <div>
-        <label htmlFor="support-email" className="text-xs font-semibold uppercase tracking-wide text-purple-300">
+        <label htmlFor="support-email" className="text-xs font-semibold uppercase tracking-wide text-optimist-300">
           Your email
         </label>
         <input
@@ -73,13 +73,13 @@ export default function SupportForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-2 w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="mt-2 w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-optimist-500 focus:outline-none focus:ring-2 focus:ring-optimist-500"
           placeholder="you@example.com"
         />
       </div>
 
       <div>
-        <label htmlFor="support-message" className="text-xs font-semibold uppercase tracking-wide text-purple-300">
+        <label htmlFor="support-message" className="text-xs font-semibold uppercase tracking-wide text-optimist-300">
           Message
         </label>
         <textarea
@@ -90,7 +90,7 @@ export default function SupportForm() {
           rows={6}
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          className="mt-2 w-full resize-y rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="mt-2 w-full resize-y rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-optimist-500 focus:outline-none focus:ring-2 focus:ring-optimist-500"
           placeholder="What do you need help with?"
         />
       </div>
@@ -105,7 +105,7 @@ export default function SupportForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-purple-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-purple-500 disabled:opacity-60"
+        className="w-full rounded-lg bg-optimist-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-optimist-500 disabled:opacity-60"
       >
         {loading ? 'Sending…' : 'Send message'}
       </button>

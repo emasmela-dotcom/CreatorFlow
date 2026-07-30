@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors" aria-label="Back to home">
@@ -73,7 +73,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">7. Contact</h2>
-            <p>For questions about these Terms, contact us at <a href="mailto:support@creatorflow365.com" className="text-purple-300 hover:text-purple-200 underline">support@creatorflow365.com</a>.</p>
+            <p>For questions about these Terms, contact us at <a href="mailto:support@creatorflow365.com" className="text-optimist-300 hover:text-optimist-200 underline">support@creatorflow365.com</a>.</p>
           </section>
         </div>
       </main>

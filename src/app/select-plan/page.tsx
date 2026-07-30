@@ -47,7 +47,7 @@ function SelectPlanContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
@@ -63,7 +63,7 @@ function SelectPlanContent() {
       <main id="main-content" className="max-w-3xl mx-auto px-6 py-12">
         <article className="space-y-10">
           <header className="space-y-4">
-            <p className="text-sm font-medium text-purple-400 uppercase tracking-wide">{planName}</p>
+            <p className="text-sm font-medium text-optimist-400 uppercase tracking-wide">{planName}</p>
             <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">{phase2.headline}</h1>
             <div className="space-y-4 text-gray-300 text-base leading-relaxed">
               {phase2.blocks.map((block, i) => (
@@ -136,7 +136,7 @@ function SelectPlanContent() {
               type="button"
               onClick={goToSignup}
               disabled={!understood}
-              className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+              className="w-full sm:w-auto bg-optimist-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-optimist-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
             >
               Subscribe now
             </button>
@@ -185,7 +185,7 @@ function SelectPlanContent() {
 export default function SelectPlanPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-optimist-950 text-white flex items-center justify-center">
         <span className="text-gray-300">Loading...</span>
       </div>
     }>

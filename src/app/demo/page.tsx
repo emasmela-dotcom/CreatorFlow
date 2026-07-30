@@ -41,7 +41,7 @@ export default function DemoPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      <div className="min-h-screen bg-optimist-950 text-white flex flex-col">
         <main id="main-content" className="flex-1 flex items-center justify-center px-4 sm:px-6">
           <div className="text-center max-w-md">
             <p className="text-red-300 mb-4" role="alert">
@@ -50,7 +50,7 @@ export default function DemoPage() {
             <button
               type="button"
               onClick={() => router.push('/')}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg text-white font-medium"
+              className="px-6 py-3 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white font-medium"
             >
               Go to Home
             </button>
@@ -61,7 +61,7 @@ export default function DemoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-optimist-950 text-white flex flex-col">
       <main
         id="main-content"
         className="flex-1 flex items-center justify-center px-4 sm:px-6"
@@ -69,10 +69,10 @@ export default function DemoPage() {
         aria-live="polite"
       >
         <div className="text-center max-w-sm" role="status">
-          <Sparkles className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 text-purple-400 animate-pulse" aria-hidden />
+          <Sparkles className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 text-optimist-400 animate-pulse" aria-hidden />
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Loading demo account</h1>
           <p className="text-gray-300 mb-6">Setting up your demo experience…</p>
-          <Loader2 className="w-8 h-8 mx-auto animate-spin text-purple-400" aria-hidden />
+          <Loader2 className="w-8 h-8 mx-auto animate-spin text-optimist-400" aria-hidden />
           <p className="sr-only">Please wait while we sign you into the demo.</p>
         </div>
       </main>

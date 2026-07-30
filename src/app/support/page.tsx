@@ -13,13 +13,13 @@ export default function SupportPage() {
       <main className="px-5 py-10 md:px-8 md:py-14">
         <div className="mx-auto max-w-md">
           <nav className="mb-8 text-sm">
-            <Link href="/dashboard" className="text-purple-400 hover:underline">
+            <Link href="/dashboard" className="text-optimist-400 hover:underline">
               Back to app
             </Link>
           </nav>
 
           <header className="border-b border-gray-800 pb-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-purple-400">Support</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-optimist-400">Support</p>
             <h1 className="mt-2 text-3xl font-bold text-white">Contact us</h1>
             <p className="mt-3 text-sm leading-relaxed text-gray-300">
               Send a message from here — your email app will not open. You will get a confirmation at

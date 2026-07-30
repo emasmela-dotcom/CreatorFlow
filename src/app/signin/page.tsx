@@ -69,7 +69,7 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto gap-2">
@@ -82,7 +82,7 @@ export default function SignInPage() {
             <ArrowLeft className="w-5 h-5" />
             <span className="hidden sm:inline">Back to Home</span>
           </button>
-          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent truncate">
+          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent truncate">
             CreatorFlow365
           </h1>
           <div className="w-9 sm:w-24 shrink-0" aria-hidden />
@@ -121,7 +121,7 @@ export default function SignInPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                 placeholder="Enter your email"
                 required
               />
@@ -140,7 +140,7 @@ export default function SignInPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
-                className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                 placeholder="Enter your password"
                 required
               />
@@ -158,7 +158,7 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
@@ -167,7 +167,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={() => router.push('/forgot-password')}
-              className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
+              className="text-sm text-optimist-400 hover:text-optimist-300 transition-colors"
             >
               Forgot password?
             </button>
@@ -176,7 +176,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 onClick={() => router.push('/signup')}
-                className="text-purple-400 hover:text-purple-300 transition-colors font-semibold"
+                className="text-optimist-400 hover:text-optimist-300 transition-colors font-semibold"
               >
                 Sign up here
               </button>

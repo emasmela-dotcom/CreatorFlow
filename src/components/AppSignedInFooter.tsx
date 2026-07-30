@@ -17,7 +17,7 @@ export default function AppSignedInFooter() {
       <p className="mt-3 text-xs text-gray-300">
         <Link
           href="/support"
-          className="text-purple-400 hover:text-purple-300 hover:underline"
+          className="text-optimist-400 hover:text-optimist-300 hover:underline"
         >
           Contact support
         </Link>

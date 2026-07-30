@@ -57,7 +57,7 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
       {children}
       
       {showTooltip && (
-        <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-gray-800 border-2 border-purple-500 rounded-lg shadow-xl p-4">
+        <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-gray-800 border-2 border-optimist-500 rounded-lg shadow-xl p-4">
           {loading ? (
             <div className="text-center text-gray-300 py-4">Loading...</div>
           ) : profile ? (
@@ -71,7 +71,7 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-optimist-600 flex items-center justify-center">
                     <User className="w-5 h-5 text-white" />
                   </div>
                 )}
@@ -92,7 +92,7 @@ export default function UserTooltip({ userId, children, token }: UserTooltipProp
                     {profile.contentTypes.map((type, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-purple-600/20 text-purple-300 rounded text-xs font-medium"
+                        className="px-2 py-1 bg-optimist-600/20 text-optimist-300 rounded text-xs font-medium"
                       >
                         {type}
                       </span>

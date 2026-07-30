@@ -18,9 +18,9 @@ export default function HomePage() {
   return (
     <>
       <AnalyticsProvider />
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-optimist-950 text-white">
         {/* Header */}
-        <header className="absolute top-0 left-0 right-0 z-20 bg-black border-b border-gray-800">
+        <header className="absolute top-0 left-0 right-0 z-20 bg-optimist-950 border-b border-optimist-800">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
               CreatorFlow365
@@ -40,7 +40,7 @@ export default function HomePage() {
         <main id="main-content">
           {/* Hero */}
           <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
-            <div className="absolute inset-0 bg-gray-900/20" />
+            <div className="absolute inset-0 bg-optimist-900/20" />
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
               <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
@@ -56,7 +56,7 @@ export default function HomePage() {
                 </button>
                 <button
                   onClick={() => window.location.href = '/dashboard'}
-                  className="px-8 py-4 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 border border-gray-600 transition-all"
+                  className="px-8 py-4 bg-optimist-600 text-white rounded-lg font-semibold hover:bg-optimist-500 border border-optimist-400/40 transition-all"
                 >
                   Browse app
                 </button>
@@ -66,7 +66,7 @@ export default function HomePage() {
           </section>
 
           {/* How it works */}
-          <section className="py-16 px-6 bg-gray-900/20 border-y border-gray-800">
+          <section className="py-16 px-6 bg-optimist-900/20 border-y border-optimist-800">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold text-center mb-10">How it works</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -97,29 +97,29 @@ export default function HomePage() {
 
               <div className="flex flex-wrap justify-center gap-2 mb-16">
                 {['Instagram', 'TikTok', 'X / Twitter', 'LinkedIn', 'YouTube', 'Facebook', 'Threads', 'Pinterest', 'Bluesky', 'Reddit', 'Snapchat', 'Mastodon', 'Discord', 'Telegram', 'Tumblr', 'WordPress'].map((p) => (
-                  <span key={p} className="px-3 py-1.5 rounded-full bg-gray-900 border border-gray-800 text-gray-400 text-sm">{p}</span>
+                  <span key={p} className="px-3 py-1.5 rounded-full bg-optimist-900 border border-optimist-800 text-optimist-300/80 text-sm">{p}</span>
                 ))}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                <div className="p-5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
                   <h3 className="font-semibold text-white mb-2">AI Drafting</h3>
-                  <p className="text-sm text-gray-400">Captions, scripts, and content ideas tuned to your brand voice and platform limits.</p>
+                  <p className="text-sm text-optimist-300/70">Captions, scripts, and content ideas tuned to your brand voice and platform limits.</p>
                 </div>
-                <div className="p-5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
                   <h3 className="font-semibold text-white mb-2">Smart Scheduling</h3>
-                  <p className="text-sm text-gray-400">Calendar view, bulk uploads, and best-time suggestions across all connected accounts.</p>
+                  <p className="text-sm text-optimist-300/70">Calendar view, bulk uploads, and best-time suggestions across all connected accounts.</p>
                 </div>
-                <div className="p-5 rounded-xl bg-gray-900/50 border border-gray-800">
+                <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
                   <h3 className="font-semibold text-white mb-2">Analytics & CRM</h3>
-                  <p className="text-sm text-gray-400">Track performance and manage brand relationships—Follow Thru included in every plan.</p>
+                  <p className="text-sm text-optimist-300/70">Track performance and manage brand relationships—Follow Thru included in every plan.</p>
                 </div>
               </div>
             </div>
           </section>
 
           {/* Pricing */}
-          <section id="pricing" className="py-20 px-6 bg-gray-900/30 scroll-mt-24">
+          <section id="pricing" className="py-20 px-6 bg-optimist-900/30 scroll-mt-24">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
 
@@ -216,7 +216,7 @@ export default function HomePage() {
           </section>
 
           {/* Trust + FAQ */}
-          <section className="py-16 px-6 bg-gray-900/20">
+          <section className="py-16 px-6 bg-optimist-900/20">
             <div className="max-w-4xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div className="text-center">

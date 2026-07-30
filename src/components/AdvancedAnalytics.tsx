@@ -53,7 +53,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-optimist-400" />
       </div>
     )
   }
@@ -110,7 +110,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
             <span className="text-gray-300 text-sm">Total Posts</span>
-            <BarChart3 className="w-5 h-5 text-purple-400" />
+            <BarChart3 className="w-5 h-5 text-optimist-400" />
           </div>
           <div className="text-3xl font-bold text-white">{overview?.totalPosts || 0}</div>
         </div>
@@ -166,7 +166,7 @@ export default function AdvancedAnalytics({ token }: AdvancedAnalyticsProps) {
             {Object.entries(byPlatform.posts || {}).map(([platform, count]: [string, any]) => (
               <div key={platform} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-optimist-600 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold capitalize">{platform.charAt(0)}</span>
                   </div>
                   <div>

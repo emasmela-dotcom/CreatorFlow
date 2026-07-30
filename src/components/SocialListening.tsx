@@ -151,7 +151,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-optimist-400" />
       </div>
     )
   }
@@ -168,7 +168,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
         <button
           type="button"
           onClick={() => setShowAddRule(!showAddRule)}
-          className="w-full sm:w-auto px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg flex items-center justify-center gap-2"
         >
           <Plus className="w-4 h-4" aria-hidden />
           Add Rule
@@ -230,7 +230,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
+                className="px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg"
               >
                 Add Rule
               </button>
@@ -284,7 +284,7 @@ export default function SocialListening({ token }: SocialListeningProps) {
                 return (
                   <div key={rule.id} className="bg-gray-700 rounded-lg p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <TypeIcon className="w-5 h-5 text-purple-400" />
+                      <TypeIcon className="w-5 h-5 text-optimist-400" />
                       <div>
                         <div className="text-white font-medium">{rule.name}</div>
                         <div className="text-sm text-gray-300">

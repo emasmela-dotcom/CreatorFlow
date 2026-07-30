@@ -96,7 +96,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-purple-400" />
+          <Sparkles className="w-4 h-4 text-optimist-400" />
           <h4 className="text-sm font-semibold text-white">Scheduling Assistant</h4>
         </div>
         {recommendations && (
@@ -131,9 +131,9 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
       ) : recommendations ? (
         <div className="space-y-3">
           {/* Next Best Time - Prominent */}
-          <div className="bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border-2 border-purple-500/30 rounded-lg p-4">
+          <div className="bg-gradient-to-r from-optimist-500/10 to-optimist-500/10 border-2 border-optimist-500/30 rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Clock className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
@@ -152,7 +152,7 @@ export default function SchedulingAssistantBot({ platform, token, onTimeSelect }
                 {onTimeSelect && (
                   <button
                     onClick={() => onTimeSelect(recommendations.nextBestTime.time)}
-                    className="px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg text-xs font-semibold text-white transition-all"
+                    className="px-3 py-1.5 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg text-xs font-semibold text-white transition-all"
                   >
                     Use This Time
                   </button>

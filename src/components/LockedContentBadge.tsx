@@ -23,7 +23,7 @@ export default function LockedContentBadge({
   }
 
   return (
-    <div className={`bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/50 rounded-lg p-3 ${sizeClasses[size]}`}>
+    <div className={`bg-gradient-to-r from-blue-500/20 to-optimist-500/20 border border-blue-400/50 rounded-lg p-3 ${sizeClasses[size]}`}>
       <div className="flex items-start gap-2">
         <Lock className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
@@ -36,7 +36,7 @@ export default function LockedContentBadge({
           {showUpgradeButton && (
             <button
               onClick={() => router.push('/dashboard?tab=subscription')}
-              className="mt-2 px-4 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold text-sm transition-all flex items-center gap-2"
+              className="mt-2 px-4 py-1.5 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg font-semibold text-sm transition-all flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
               Upgrade to Unlock

@@ -286,7 +286,7 @@ export default function CreatorToolsPage() {
 
       <main id="main-content" className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-12 pb-24">
         <article>
-          <p className="text-sm font-semibold text-purple-400 uppercase tracking-wide mb-2">CreatorFlow365</p>
+          <p className="text-sm font-semibold text-optimist-400 uppercase tracking-wide mb-2">CreatorFlow365</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
             Creator tools, scheduling &amp; content workspace—built for how creators actually search
           </h1>
@@ -314,19 +314,19 @@ export default function CreatorToolsPage() {
             </h2>
             <p className="text-sm text-gray-300 leading-relaxed">
               Same site and operator as{' '}
-              <Link href="/" className="text-purple-400 hover:underline">
+              <Link href="/" className="text-optimist-400 hover:underline">
                 creatorflow365.com
               </Link>
               . Pricing and trials match the homepage; legal terms are in{' '}
-              <Link href="/privacy" className="text-purple-400 hover:underline">
+              <Link href="/privacy" className="text-optimist-400 hover:underline">
                 Privacy
               </Link>{' '}
               and{' '}
-              <Link href="/terms" className="text-purple-400 hover:underline">
+              <Link href="/terms" className="text-optimist-400 hover:underline">
                 Terms
               </Link>
               . Product questions:{' '}
-              <a href="mailto:support@creatorflow365.com" className="text-purple-400 hover:underline">
+              <a href="mailto:support@creatorflow365.com" className="text-optimist-400 hover:underline">
                 support@creatorflow365.com
               </a>
               .
@@ -338,7 +338,7 @@ export default function CreatorToolsPage() {
             <ul className="grid sm:grid-cols-2 gap-2 text-sm">
               {sections.map((s) => (
                 <li key={s.id}>
-                  <a href={`#${s.id}`} className="text-purple-400 hover:text-purple-300">
+                  <a href={`#${s.id}`} className="text-optimist-400 hover:text-optimist-300">
                     {s.title}
                   </a>
                 </li>
@@ -378,32 +378,32 @@ export default function CreatorToolsPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-300 leading-relaxed">
               <li>
-                <Link href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+                <Link href="/ai-caption-writer-instagram-tiktok" className="text-optimist-400 hover:underline">
                   AI captions for Instagram and TikTok—drafting workflow and library
                 </Link>
               </li>
               <li>
-                <Link href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+                <Link href="/social-media-scheduler-for-creators" className="text-optimist-400 hover:underline">
                   Social media scheduler for creators—one calendar across platforms
                 </Link>
               </li>
               <li>
-                <Link href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+                <Link href="/content-creator-analytics-platform" className="text-optimist-400 hover:underline">
                   Creator analytics—performance next to drafts and schedules
                 </Link>
               </li>
               <li>
-                <Link href="/follow-thru" className="text-purple-400 hover:underline">
+                <Link href="/follow-thru" className="text-optimist-400 hover:underline">
                   Creator CRM for brand deals and follow-ups (Follow Thru)
                 </Link>
               </li>
               <li>
-                <Link href="/reviews" className="text-purple-400 hover:underline">
+                <Link href="/reviews" className="text-optimist-400 hover:underline">
                   CreatorFlow365 reviews from users
                 </Link>
               </li>
               <li>
-                <Link href="/select-plan" className="text-purple-400 hover:underline">
+                <Link href="/select-plan" className="text-optimist-400 hover:underline">
                   Compare plans line by line before you sign up
                 </Link>
               </li>
@@ -438,7 +438,7 @@ export default function CreatorToolsPage() {
               </Link>
               <Link
                 href="/signup"
-                className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold"
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-optimist-600 hover:bg-optimist-500 text-white text-sm font-semibold"
               >
                 Sign up
               </Link>

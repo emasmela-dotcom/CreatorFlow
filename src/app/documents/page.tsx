@@ -174,7 +174,7 @@ function DocumentsContent() {
   const categories = Array.from(new Set(documents.map(d => d.category).filter(Boolean)))
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -191,7 +191,7 @@ function DocumentsContent() {
             type="button"
             onClick={handleNew}
             disabled={!token}
-            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center justify-center gap-2"
             aria-label="New document"
           >
             <Plus className="w-4 h-4" />
@@ -207,7 +207,7 @@ function DocumentsContent() {
             <button
               type="button"
               onClick={() => router.push('/signin')}
-              className="ml-3 rounded bg-purple-600 px-3 py-1 text-xs font-medium text-white hover:bg-purple-500"
+              className="ml-3 rounded bg-optimist-600 px-3 py-1 text-xs font-medium text-white hover:bg-optimist-500"
             >
               Sign In
             </button>
@@ -224,14 +224,14 @@ function DocumentsContent() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               aria-label="Search documents"
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
             />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             aria-label="Filter by category"
-            className="w-full sm:w-auto px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+            className="w-full sm:w-auto px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white"
           >
             <option value="all">All Categories</option>
             {categories.map(cat => (
@@ -265,7 +265,7 @@ function DocumentsContent() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                     placeholder="Document title..."
                   />
                 </div>
@@ -277,7 +277,7 @@ function DocumentsContent() {
                       type="text"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                       placeholder="e.g., Blog Posts, Ideas, Notes"
                     />
                   </div>
@@ -287,7 +287,7 @@ function DocumentsContent() {
                       type="text"
                       value={tags}
                       onChange={(e) => setTags(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                       placeholder="tag1, tag2, tag3"
                     />
                   </div>
@@ -298,7 +298,7 @@ function DocumentsContent() {
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full h-64 sm:h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm text-white placeholder:text-gray-400"
+                    className="w-full h-64 sm:h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none font-mono text-sm text-white placeholder:text-gray-400"
                     placeholder="Write your content here... You can paste from Google Docs, Notion, Word, etc."
                   />
                   <div className="mt-2 flex items-center justify-between text-sm text-gray-300">
@@ -308,7 +308,7 @@ function DocumentsContent() {
                         type="checkbox"
                         checked={isPinned}
                         onChange={(e) => setIsPinned(e.target.checked)}
-                        className="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded"
+                        className="w-4 h-4 text-optimist-600 bg-gray-700 border-gray-600 rounded"
                       />
                       <span>Pin to top</span>
                     </label>
@@ -326,7 +326,7 @@ function DocumentsContent() {
                 <button
                   onClick={handleSave}
                   disabled={saving || !title.trim() || !content.trim()}
-                  className="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all flex items-center gap-2 disabled:opacity-50"
+                  className="px-6 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {saving ? 'Saving...' : 'Save'}
@@ -346,7 +346,7 @@ function DocumentsContent() {
             <p className="text-gray-300 mb-6">Create your first document to get started!</p>
             <button
               onClick={handleNew}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
             >
               Create Document
             </button>
@@ -437,7 +437,7 @@ function DocumentsContent() {
                   </button>
                   <button
                     onClick={() => handleCopyToPost(doc)}
-                    className="flex-1 px-3 py-2 bg-purple-600 hover:bg-purple-700 rounded text-sm transition-colors"
+                    className="flex-1 px-3 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-sm transition-colors"
                   >
                     Copy to Post
                   </button>
@@ -453,7 +453,7 @@ function DocumentsContent() {
 
 export default function DocumentsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-optimist-950 flex items-center justify-center text-white">Loading...</div>}>
       <DocumentsContent />
     </Suspense>
   )

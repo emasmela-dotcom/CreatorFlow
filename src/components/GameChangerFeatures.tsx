@@ -13,17 +13,17 @@ interface GameChangerFeaturesProps {
 }
 
 export const GAME_CHANGER_FEATURES = [
-  { id: 'performance-predictor', name: 'Performance Predictor', icon: TrendingUp, color: 'purple' },
+  { id: 'performance-predictor', name: 'Performance Predictor', icon: TrendingUp, color: 'optimist' },
   { id: 'brand-voice', name: 'Brand Voice', icon: Mic, color: 'blue' },
   { id: 'cross-platform', name: 'Cross-Platform Sync', icon: ArrowLeftRight, color: 'green' },
   { id: 'content-recycling', name: 'Content Recycling', icon: RefreshCw, color: 'orange' },
   { id: 'revenue-tracker', name: 'Revenue Tracker', icon: DollarSign, color: 'yellow' },
   { id: 'trend-alerts', name: 'Trend Alerts', icon: Bell, color: 'red' },
   { id: 'ab-testing', name: 'A/B Testing', icon: TestTube, color: 'pink' },
-  { id: 'content-series', name: 'Content Series', icon: List, color: 'indigo' },
+  { id: 'content-series', name: 'Content Series', icon: List, color: 'sage' },
   { id: 'hashtag-optimizer', name: 'Hashtag Optimizer', icon: Hash, color: 'teal' },
   { id: 'marketplace', name: 'Collaboration Marketplace', icon: Handshake, color: 'cyan' },
-  { id: 'follow-thru-crm', name: 'Follow Thru CRM', icon: CheckSquare, color: 'purple' }
+  { id: 'follow-thru-crm', name: 'Follow Thru CRM', icon: CheckSquare, color: 'optimist' }
 ] as const
 
 function getFeatureHelp(id: string): { when: string; why: string; how: string } {
@@ -126,9 +126,9 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
+      <div className="bg-gradient-to-r from-optimist-600/20 to-optimist-600/20 border-2 border-optimist-500 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Sparkles className="w-8 h-8 text-purple-400" />
+          <Sparkles className="w-8 h-8 text-optimist-400" />
           <h2 className="text-2xl font-bold text-white">Game-Changer Features</h2>
         </div>
         <p className="text-gray-300 mb-4">
@@ -145,7 +145,7 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
               onClick={() => setActiveFeature(activeFeature === feature.id ? null : feature.id)}
               className={`p-4 rounded-lg border-2 transition-all text-left ${
                 activeFeature === feature.id
-                  ? 'border-purple-500 bg-purple-500/10'
+                  ? 'border-optimist-500 bg-optimist-500/10'
                   : 'border-gray-700 bg-gray-800/50 hover:border-gray-600'
               }`}
             >
@@ -218,7 +218,7 @@ function renderFeatureUI(featureId: string, token: string, onClose: () => void) 
         <div className="space-y-4">
           <FeatureHelpBlock featureId="follow-thru-crm" />
           <p className="text-gray-300">Track promises, people, and follow-ups. They owe you / You owe them / Overdue / Upcoming.</p>
-          <Link href="/follow-thru" className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-500">Open Follow Thru CRM →</Link>
+          <Link href="/follow-thru" className="inline-flex items-center gap-2 rounded-lg bg-optimist-600 px-4 py-2 text-white hover:bg-optimist-500">Open Follow Thru CRM →</Link>
         </div>
       )
     default:
@@ -260,7 +260,7 @@ function PerformancePredictorUI({ token }: { token: string }) {
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
-        <TrendingUp className="w-6 h-6 text-purple-400" />
+        <TrendingUp className="w-6 h-6 text-optimist-400" />
         AI Performance Predictor
       </h3>
       <p className="text-gray-300">Predict how your content will perform before posting</p>
@@ -296,7 +296,7 @@ function PerformancePredictorUI({ token }: { token: string }) {
         <button
           onClick={predict}
           disabled={loading || !content.trim()}
-          className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors disabled:opacity-50"
+          className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg transition-colors disabled:opacity-50"
         >
           {loading ? 'Predicting...' : 'Predict Performance'}
         </button>
@@ -773,7 +773,7 @@ function ContentSeriesUI({ token }: { token: string }) {
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
-        <List className="w-6 h-6 text-indigo-400" />
+        <List className="w-6 h-6 text-optimist-400" />
         Content Series Generator
       </h3>
       <p className="text-gray-300">Create multi-part content series automatically</p>

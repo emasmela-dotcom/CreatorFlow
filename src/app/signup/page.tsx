@@ -112,7 +112,7 @@ function SignupPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto gap-2">
@@ -125,7 +125,7 @@ function SignupPageContent() {
             <ArrowLeft className="w-5 h-5" />
             <span className="hidden sm:inline">Back to Home</span>
           </button>
-          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent truncate">
+          <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent truncate">
             CreatorFlow365
           </h1>
           <div className="w-9 sm:w-24 shrink-0" aria-hidden />
@@ -136,18 +136,18 @@ function SignupPageContent() {
         {/* Progress: Create Account → Payment (plan is optional, from dashboard/pricing) */}
         <div className="flex items-center justify-center mb-8 sm:mb-12 overflow-x-auto">
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className={`flex items-center ${step === 'account' ? 'text-purple-400' : step === 'payment' ? 'text-green-400' : 'text-gray-300'}`}>
+            <div className={`flex items-center ${step === 'account' ? 'text-optimist-400' : step === 'payment' ? 'text-green-400' : 'text-gray-300'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
-                step === 'account' ? 'border-purple-400 bg-purple-400/10' : step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
+                step === 'account' ? 'border-optimist-400 bg-optimist-400/10' : step === 'payment' ? 'border-green-400 bg-green-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
                 {step === 'payment' ? '✓' : '1'}
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Create Account</span>
             </div>
             <div className="w-8 sm:w-16 h-0.5 bg-gray-700 shrink-0" />
-            <div className={`flex items-center ${step === 'payment' ? 'text-purple-400' : 'text-gray-300'}`}>
+            <div className={`flex items-center ${step === 'payment' ? 'text-optimist-400' : 'text-gray-300'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
-                step === 'payment' ? 'border-purple-400 bg-purple-400/10' : 'border-gray-600 bg-gray-800'
+                step === 'payment' ? 'border-optimist-400 bg-optimist-400/10' : 'border-gray-600 bg-gray-800'
               }`}>
                 2
               </div>
@@ -202,7 +202,7 @@ function SignupPageContent() {
                   <button
                     type="button"
                     onClick={() => setStep('account')}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold text-white hover:from-purple-600 hover:to-indigo-600 transition-all"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold text-white hover:from-optimist-600 hover:to-optimist-600 transition-all"
                   >
                     Continue to account
                   </button>
@@ -218,7 +218,7 @@ function SignupPageContent() {
               <h2 className="text-2xl sm:text-4xl font-bold mb-4">Create your account</h2>
               {selectedPlan && (
                 <p className="text-base sm:text-lg text-gray-300">
-                  Plan: <span className="text-purple-400 font-semibold">{selectedPlan}</span>
+                  Plan: <span className="text-optimist-400 font-semibold">{selectedPlan}</span>
                 </p>
               )}
             </div>
@@ -242,7 +242,7 @@ function SignupPageContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
-                    className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                     placeholder="Enter your email"
                     required
                   />
@@ -261,7 +261,7 @@ function SignupPageContent() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
-                    className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder:text-gray-400"
+                    className="w-full pl-12 pr-12 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
                     placeholder="Create a password"
                     required
                     minLength={6}
@@ -299,7 +299,7 @@ function SignupPageContent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Creating Account...' : 'Start Free Trial'}
                 </button>
@@ -343,7 +343,7 @@ function SignupPageContent() {
                   <button
                     type="button"
                     onClick={() => router.push(`/select-plan?plan=${selectedPlan}`)}
-                    className="mb-4 text-sm text-purple-400 hover:text-purple-300 underline"
+                    className="mb-4 text-sm text-optimist-400 hover:text-optimist-300 underline"
                   >
                     Review what&apos;s included in your plan
                   </button>
@@ -403,7 +403,7 @@ function SignupPageContent() {
                     }
                   }}
                   disabled={loading}
-                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  className="w-full py-4 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                 >
                   <CreditCard className="w-5 h-5" />
                   {loading ? 'Processing...' : 'Proceed to Secure Checkout'}

@@ -91,7 +91,7 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
         onClick={() => setOpen(true)}
         title="Send feedback"
         aria-label="Send feedback"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-xl bg-purple-600 px-4 py-2 text-white shadow-lg shadow-purple-950/30 transition-colors hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-xl bg-optimist-600 px-4 py-2 text-white shadow-lg shadow-optimist-950/30 transition-colors hover:bg-optimist-500 focus:outline-none focus:ring-2 focus:ring-optimist-400 focus:ring-offset-2 focus:ring-offset-gray-900"
       >
         <MessageSquare className="h-4 w-4" />
         <span className="text-sm font-semibold">Feedback</span>
@@ -143,7 +143,7 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
-                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-optimist-500 focus:ring-1 focus:ring-optimist-500"
                     />
                   </div>
                 )}
@@ -156,7 +156,7 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="What would you like to share?"
-                    className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                    className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-optimist-500 focus:ring-1 focus:ring-optimist-500"
                   />
                 </div>
 
@@ -194,7 +194,7 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
                 <button
                   type="submit"
                   disabled={loading || !message.trim() || (!token && !email.trim())}
-                  className="inline-flex w-full items-center justify-center rounded-lg bg-purple-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-optimist-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-optimist-500 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {loading ? (
                     <>

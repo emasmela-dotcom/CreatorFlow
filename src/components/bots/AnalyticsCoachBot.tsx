@@ -94,7 +94,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
 
   if (error) {
     return (
-      <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-lg p-4 border border-blue-500/30">
+      <div className="bg-gradient-to-br from-blue-900/30 to-optimist-900/30 rounded-lg p-4 border border-blue-500/30">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-blue-400" />
@@ -121,7 +121,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
   // Always show something
   if (!analysis) {
     return (
-      <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-lg p-4 border border-blue-500/30">
+      <div className="bg-gradient-to-br from-blue-900/30 to-optimist-900/30 rounded-lg p-4 border border-blue-500/30">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-blue-400" />
@@ -154,7 +154,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-lg p-4 border border-blue-500/30">
+    <div className="bg-gradient-to-br from-blue-900/30 to-optimist-900/30 rounded-lg p-4 border border-blue-500/30">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <BarChart3 className="w-5 h-5 text-blue-400" />
@@ -243,7 +243,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
           {analysis.strategies.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <Target className="w-4 h-4 text-purple-400" />
+                <Target className="w-4 h-4 text-optimist-400" />
                 <span className="text-sm font-semibold text-white">Growth Strategies</span>
               </div>
               <div className="space-y-3">
@@ -257,7 +257,7 @@ export default function AnalyticsCoachBot({ platform, token }: AnalyticsCoachBot
                       <span className="text-green-300">{strategy.target}</span>
                     </div>
                     <div className="text-xs text-gray-300 mb-2">{strategy.strategy}</div>
-                    <div className="text-xs text-purple-300">⏱️ {strategy.timeframe}</div>
+                    <div className="text-xs text-optimist-300">⏱️ {strategy.timeframe}</div>
                   </div>
                 ))}
               </div>

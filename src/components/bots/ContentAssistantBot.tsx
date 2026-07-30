@@ -190,7 +190,7 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
               className="w-full flex items-center justify-between px-3 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors text-sm"
             >
               <span className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-purple-400" />
+                <Sparkles className="w-4 h-4 text-optimist-400" />
                 <span className="text-gray-300">
                   {showFullAnalysis ? 'Hide' : 'Show'} Full Analysis ({analysis.suggestions.length} suggestions)
                 </span>

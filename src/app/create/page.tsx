@@ -27,7 +27,7 @@ function CreatePostInner() {
   } | null>(null)
 
   const platforms = [
-    { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-purple-500 to-indigo-500' },
+    { id: 'instagram', name: 'Instagram', icon: Instagram, color: 'bg-gradient-to-r from-optimist-500 to-optimist-500' },
     { id: 'twitter', name: 'Twitter/X', icon: Twitter, color: 'bg-blue-500' },
     { id: 'linkedin', name: 'LinkedIn', icon: Linkedin, color: 'bg-blue-600' },
     { id: 'tiktok', name: 'TikTok', icon: Video, color: 'bg-black' },
@@ -38,8 +38,8 @@ function CreatePostInner() {
     { id: 'snapchat', name: 'Snapchat', icon: Sparkles, color: 'bg-yellow-500' },
     { id: 'reddit', name: 'Reddit', icon: AlertCircle, color: 'bg-orange-600' },
     { id: 'bluesky', name: 'Bluesky', icon: Cloud, color: 'bg-sky-500' },
-    { id: 'mastodon', name: 'Mastodon', icon: AtSign, color: 'bg-indigo-600' },
-    { id: 'discord', name: 'Discord', icon: MessageSquare, color: 'bg-indigo-700' },
+    { id: 'mastodon', name: 'Mastodon', icon: AtSign, color: 'bg-optimist-600' },
+    { id: 'discord', name: 'Discord', icon: MessageSquare, color: 'bg-optimist-700' },
     { id: 'telegram', name: 'Telegram', icon: Send, color: 'bg-cyan-600' },
     { id: 'tumblr', name: 'Tumblr', icon: BookOpen, color: 'bg-blue-900' },
     { id: 'wordpress', name: 'WordPress', icon: Newspaper, color: 'bg-slate-700' },
@@ -517,7 +517,7 @@ function CreatePostInner() {
   }, [searchParams])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -559,7 +559,7 @@ function CreatePostInner() {
               type="button"
               onClick={handlePublish}
               disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
-              className="px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="px-3 sm:px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
               aria-label="Publish now"
             >
@@ -624,13 +624,13 @@ function CreatePostInner() {
 
             {/* FREE PLAN RESTRICTION BANNER */}
             {subscriptionTier === 'free' && (
-              <div className="bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-2 border-purple-500 rounded-xl p-6">
+              <div className="bg-gradient-to-r from-optimist-600/20 to-optimist-600/20 border-2 border-optimist-500 rounded-xl p-6">
                 <div className="flex items-start gap-4">
-                  <Sparkles className="w-8 h-8 text-purple-400 flex-shrink-0" />
+                  <Sparkles className="w-8 h-8 text-optimist-400 flex-shrink-0" />
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-purple-300 mb-2">Free Plan - Learning Mode</h3>
+                    <h3 className="text-xl font-bold text-optimist-300 mb-2">Free Plan - Learning Mode</h3>
                     <p className="text-gray-300 mb-4">
-                      The <strong className="text-white">free plan</strong> is designed for <strong className="text-purple-300">learning and exploring</strong> CreatorFlow tools. 
+                      The <strong className="text-white">free plan</strong> is designed for <strong className="text-optimist-300">learning and exploring</strong> CreatorFlow tools. 
                       You can use all AI bots, create content, and explore features, but <strong className="text-white">post creation and publishing are not available</strong> on the free plan.
                     </p>
                     <p className="text-sm text-gray-300 mb-4">
@@ -638,7 +638,7 @@ function CreatePostInner() {
                     </p>
                     <button
                       onClick={() => router.push('/signup?plan=starter')}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg font-semibold transition-all"
+                      className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg font-semibold transition-all"
                     >
                       Upgrade to Starter Plan →
                     </button>
@@ -662,7 +662,7 @@ function CreatePostInner() {
                     </p>
                     <button
                       onClick={() => router.push('/dashboard')}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg font-semibold text-sm transition-all"
+                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-optimist-500 hover:from-blue-600 hover:to-optimist-600 rounded-lg font-semibold text-sm transition-all"
                     >
                       Upgrade plan →
                     </button>
@@ -714,7 +714,7 @@ function CreatePostInner() {
                       onClick={() => togglePlatform(platform.id)}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         isSelected 
-                          ? 'border-purple-500 bg-purple-500/10' 
+                          ? 'border-optimist-500 bg-optimist-500/10' 
                           : 'border-gray-600 hover:border-gray-500'
                       }`}
                     >
@@ -744,7 +744,7 @@ function CreatePostInner() {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="What's on your mind? Share your thoughts with your audience... Or paste from your Documents!"
-                  className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                  className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none"
                 />
                 <button
                   type="button"
@@ -772,12 +772,12 @@ function CreatePostInner() {
               {selectedPlatforms.length > 0 && content.trim().length > 0 && (
                 <div className="mt-3 flex items-center justify-between bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm">
                   <div className="flex items-center gap-2 text-gray-300">
-                    <Sparkles className="w-4 h-4 text-purple-400" />
+                    <Sparkles className="w-4 h-4 text-optimist-400" />
                     <span>AI analysis running…</span>
                   </div>
                   <button
                     onClick={() => analysisRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-purple-300 hover:text-purple-200 underline"
+                    className="text-optimist-300 hover:text-optimist-200 underline"
                   >
                     Show analysis
                   </button>
@@ -845,7 +845,7 @@ function CreatePostInner() {
                 value={hashtags}
                 onChange={(e) => setHashtags(e.target.value)}
                 placeholder="#hashtag1 #hashtag2 #hashtag3"
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-optimist-500"
               />
               <p className="text-sm text-gray-300 mt-2">
                 Separate hashtags with spaces. Use 3-5 hashtags for best engagement.
@@ -870,7 +870,7 @@ function CreatePostInner() {
                     type="date"
                     value={scheduledDate}
                     onChange={(e) => setScheduledDate(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                   />
                 </div>
                 <div>
@@ -879,7 +879,7 @@ function CreatePostInner() {
                     type="time"
                     value={scheduledTime}
                     onChange={(e) => setScheduledTime(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                   />
                 </div>
               </div>
@@ -914,7 +914,7 @@ function CreatePostInner() {
               <h4 className="font-semibold mb-3">Preview</h4>
               <div className="bg-gray-700 p-4 rounded-lg">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"></div>
+                  <div className="w-8 h-8 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-full"></div>
                   <div>
                     <p className="font-medium text-sm">Your Name</p>
                     <p className="text-xs text-gray-300">2h ago</p>

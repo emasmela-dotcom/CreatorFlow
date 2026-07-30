@@ -228,14 +228,14 @@ export default function EngagementAnalyzerBot({ platform, token }: EngagementAna
           {analysis.trends.bestHashtags.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Hash className="w-4 h-4 text-purple-400" />
+                <Hash className="w-4 h-4 text-optimist-400" />
                 <span className="text-sm font-semibold text-white">Top Hashtags</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {analysis.trends.bestHashtags.map((hashtag, idx) => (
                   <span
                     key={idx}
-                    className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded"
+                    className="px-2 py-1 bg-optimist-500/20 text-optimist-300 text-xs rounded"
                   >
                     {hashtag}
                   </span>

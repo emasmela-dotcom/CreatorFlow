@@ -124,13 +124,13 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
           </p>
         </div>
 
-        <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
-          <h4 className="font-semibold text-purple-400 mb-2">Free Trial Period</h4>
+        <div className="bg-optimist-500/10 border border-optimist-500/20 rounded-lg p-4">
+          <h4 className="font-semibold text-optimist-400 mb-2">Free Trial Period</h4>
           <p className="text-sm text-gray-300 mb-3">
             Your <strong className="text-white">FREE {trialDays}-day trial</strong> of the <strong>{planName}</strong> plan.
           </p>
           {trialFeatures && (
-            <div className="mt-3 pt-3 border-t border-purple-500/20">
+            <div className="mt-3 pt-3 border-t border-optimist-500/20">
               <p className="text-xs text-gray-300 mb-2">Trial includes:</p>
               <ul className="text-sm text-gray-300 space-y-1">
                 <li>• {trialFeatures.socialAccounts === -1 ? 'Unlimited' : trialFeatures.socialAccounts} social accounts (locked in monthly)</li>
@@ -142,9 +142,9 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
                 {trialFeatures.ai && <li>• Content scheduling AI</li>}
                 {trialFeatures.team && <li>• {trialFeatures.team}</li>}
                 <li>• {trialFeatures.support}</li>
-                <li>• <strong className="text-purple-400">All AI tools available for your selected social accounts</strong></li>
+                <li>• <strong className="text-optimist-400">All AI tools available for your selected social accounts</strong></li>
               </ul>
-              <p className="text-xs text-purple-300/80 mt-2 italic">
+              <p className="text-xs text-optimist-300/80 mt-2 italic">
                 ⚠️ Your selected social accounts will be locked in. Features renew monthly.
               </p>
             </div>
@@ -185,14 +185,14 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             </ul>
           </div>
 
-          <div className="bg-indigo-500/20 border-2 border-indigo-400 rounded-lg p-5">
-            <h5 className="font-bold text-lg text-indigo-300 mb-3 flex items-center gap-2">
+          <div className="bg-optimist-500/20 border-2 border-optimist-400 rounded-lg p-5">
+            <h5 className="font-bold text-lg text-optimist-300 mb-3 flex items-center gap-2">
               <AlertCircle className="w-6 h-6" />
               Content Ownership Policy:
             </h5>
             <div className="space-y-3">
-              <div className="bg-white/5 rounded p-3 border border-indigo-500/30">
-                <p className="text-sm font-semibold text-indigo-300 mb-2">✓ If you continue with a paid plan:</p>
+              <div className="bg-white/5 rounded p-3 border border-optimist-500/30">
+                <p className="text-sm font-semibold text-optimist-300 mb-2">✓ If you continue with a paid plan:</p>
                 <p className="text-sm text-gray-200">
                   All posts, content changes, schedules, and analytics from your trial stay with you. 
                   When you subscribe, we simply keep everything unlocked under your paid plan.
@@ -206,8 +206,8 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
                   to your paid account so you can pick up where you left off.
                 </p>
               </div>
-              <div className="bg-indigo-600/20 rounded p-3 border border-indigo-400">
-                <p className="text-xs font-bold text-indigo-200 uppercase tracking-wide mb-1">Our Commitment</p>
+              <div className="bg-optimist-600/20 rounded p-3 border border-optimist-400">
+                <p className="text-xs font-bold text-optimist-200 uppercase tracking-wide mb-1">Our Commitment</p>
                 <p className="text-sm text-white">
                   CreatorFlow is creator‑first. We never use trials to trap you or delete your work. We take a snapshot before 
                   your trial starts, give you full access to the plan you chose, and let you decide later: continue on a paid plan 
@@ -224,7 +224,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             This lets us restore your account to its pre‑trial view if you decide not to continue, while safely keeping anything you created 
             during the trial available to reconnect if you later upgrade.
           </p>
-          <p className="text-xs text-indigo-300/80 leading-relaxed mb-2">
+          <p className="text-xs text-optimist-300/80 leading-relaxed mb-2">
             <strong>Content Ownership Commitment:</strong> We compete on quality, not lock‑in. We never silently delete your work or hide it behind fine print. 
             Trial content is preserved, your pre‑trial state is protected, and you choose when (or if) to turn your trial into a paid subscription.
           </p>

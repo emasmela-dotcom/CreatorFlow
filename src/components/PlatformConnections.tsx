@@ -18,7 +18,7 @@ interface PlatformConnectionsProps {
 }
 
 const PLATFORMS = [
-  { id: 'instagram', name: 'Instagram', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+  { id: 'instagram', name: 'Instagram', color: 'bg-gradient-to-r from-optimist-500 to-pink-500' },
   { id: 'facebook', name: 'Facebook', color: 'bg-gradient-to-r from-blue-600 to-blue-800' },
   { id: 'threads', name: 'Threads', color: 'bg-gradient-to-r from-gray-700 to-black' },
   { id: 'twitter', name: 'Twitter/X', color: 'bg-gradient-to-r from-blue-400 to-blue-600' },
@@ -29,8 +29,8 @@ const PLATFORMS = [
   { id: 'snapchat', name: 'Snapchat', color: 'bg-gradient-to-r from-yellow-400 to-yellow-600' },
   { id: 'reddit', name: 'Reddit', color: 'bg-gradient-to-r from-orange-500 to-red-600' },
   { id: 'bluesky', name: 'Bluesky', color: 'bg-gradient-to-r from-sky-500 to-blue-600' },
-  { id: 'mastodon', name: 'Mastodon', color: 'bg-gradient-to-r from-indigo-600 to-purple-700' },
-  { id: 'discord', name: 'Discord', color: 'bg-gradient-to-r from-indigo-500 to-indigo-700' },
+  { id: 'mastodon', name: 'Mastodon', color: 'bg-gradient-to-r from-optimist-600 to-optimist-700' },
+  { id: 'discord', name: 'Discord', color: 'bg-gradient-to-r from-optimist-500 to-optimist-700' },
   { id: 'telegram', name: 'Telegram', color: 'bg-gradient-to-r from-cyan-500 to-blue-600' },
   { id: 'tumblr', name: 'Tumblr', color: 'bg-gradient-to-r from-blue-900 to-slate-800' },
   { id: 'wordpress', name: 'WordPress', color: 'bg-gradient-to-r from-slate-600 to-gray-700' }
@@ -229,7 +229,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-optimist-400" />
       </div>
     )
   }
@@ -336,7 +336,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                         type="button"
                         onClick={handleConnectBluesky}
                         disabled={manualLoading === 'bluesky' || !token}
-                        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         {manualLoading === 'bluesky' ? (
                           <>
@@ -366,7 +366,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                         type="button"
                         onClick={handleConnectTelegram}
                         disabled={manualLoading === 'telegram' || !token}
-                        className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         {manualLoading === 'telegram' ? (
                           <>
@@ -388,7 +388,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                       type="button"
                       onClick={() => handleConnect(platform.id)}
                       disabled={connecting === platform.id || !token}
-                      className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       title={!token ? 'Sign in to connect' : undefined}
                     >
                       {connecting === platform.id ? (
@@ -422,15 +422,15 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         </ul>
       </div>
 
-      <div className="bg-purple-900/20 border border-purple-500 rounded-lg p-4">
-        <h3 className="text-purple-300 font-semibold mb-2">Instagram Direct Post Requirements</h3>
-        <ul className="text-sm text-purple-200 space-y-1">
+      <div className="bg-optimist-900/20 border border-optimist-500 rounded-lg p-4">
+        <h3 className="text-optimist-300 font-semibold mb-2">Instagram Direct Post Requirements</h3>
+        <ul className="text-sm text-optimist-200 space-y-1">
           <li>• Instagram account must be Business or Creator (not Personal)</li>
           <li>• Instagram must be connected to a Facebook Page</li>
           <li>• Meta app permissions must be approved (including content publish scope)</li>
           <li>• Post must include at least one public image or video URL</li>
         </ul>
-        <p className="text-xs text-purple-200 mt-3">
+        <p className="text-xs text-optimist-200 mt-3">
           If all requirements are met, CreatorFlow publishes directly to Instagram. If not, you can still use copy/export fallback.
         </p>
       </div>
@@ -468,18 +468,18 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         </ul>
       </div>
 
-      <div className="bg-indigo-900/20 border border-indigo-500 rounded-lg p-4">
-        <h3 className="text-indigo-300 font-semibold mb-2">Mastodon Direct Post Requirements</h3>
-        <ul className="text-sm text-indigo-200 space-y-1">
+      <div className="bg-optimist-900/20 border border-optimist-500 rounded-lg p-4">
+        <h3 className="text-optimist-300 font-semibold mb-2">Mastodon Direct Post Requirements</h3>
+        <ul className="text-sm text-optimist-200 space-y-1">
           <li>• Mastodon app credentials must be configured</li>
           <li>• MASTODON_INSTANCE_URL must point to your instance</li>
           <li>• OAuth scopes must allow write:statuses</li>
         </ul>
       </div>
 
-      <div className="bg-indigo-900/20 border border-indigo-500 rounded-lg p-4">
-        <h3 className="text-indigo-300 font-semibold mb-2">Discord Direct Post Requirements</h3>
-        <ul className="text-sm text-indigo-200 space-y-1">
+      <div className="bg-optimist-900/20 border border-optimist-500 rounded-lg p-4">
+        <h3 className="text-optimist-300 font-semibold mb-2">Discord Direct Post Requirements</h3>
+        <ul className="text-sm text-optimist-200 space-y-1">
           <li>• Discord bot token must be configured</li>
           <li>• Bot must have Send Messages permission in target channel</li>
           <li>• Set DISCORD_DEFAULT_CHANNEL_ID in environment</li>

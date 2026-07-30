@@ -118,16 +118,16 @@ export default function ReviewsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-optimist-950 text-white">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <Link
             href="/"
-            className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-indigo-300 transition-colors flex items-center gap-2 shrink-0"
+            className="text-lg sm:text-xl font-bold bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent hover:from-optimist-300 hover:to-optimist-300 transition-colors flex items-center gap-2 shrink-0"
             aria-label="Back to home"
           >
-            <ArrowLeft className="w-5 h-5 text-purple-400 shrink-0" aria-hidden />
+            <ArrowLeft className="w-5 h-5 text-optimist-400 shrink-0" aria-hidden />
             <span className="hidden sm:inline">CreatorFlow365</span>
             <span className="sm:hidden">Home</span>
           </Link>
@@ -140,7 +140,7 @@ export default function ReviewsPage() {
             </Link>
             <Link
               href="/signup"
-              className="px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all text-sm sm:text-base whitespace-nowrap"
+              className="px-4 sm:px-6 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all text-sm sm:text-base whitespace-nowrap"
             >
               Get Started
             </Link>
@@ -152,11 +152,11 @@ export default function ReviewsPage() {
       {/* Hero Section */}
       <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-full text-sm font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-optimist-500/20 to-optimist-500/20 border border-optimist-500/30 rounded-full text-sm font-semibold mb-6">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-purple-300">Creator feedback</span>
+            <span className="text-optimist-300">Creator feedback</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent">
             What Creators Are Saying
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ export default function ReviewsPage() {
             {reviews.map((review) => (
               <div
                 key={review.id}
-                className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-6 rounded-xl border border-gray-800 hover:border-purple-500/30 transition-all"
+                className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 p-6 rounded-xl border border-gray-800 hover:border-optimist-500/30 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
@@ -204,7 +204,7 @@ export default function ReviewsPage() {
                       {review.platform} • {review.followers} followers
                     </p>
                   </div>
-                  <Quote className="w-8 h-8 text-purple-500/30 flex-shrink-0" />
+                  <Quote className="w-8 h-8 text-optimist-500/30 flex-shrink-0" />
                 </div>
                 
                 <div className="flex items-center gap-1 mb-4">
@@ -237,27 +237,27 @@ export default function ReviewsPage() {
           </p>
           <ul className="space-y-2 text-gray-300 text-center sm:text-left sm:list-disc sm:pl-8 leading-relaxed">
             <li>
-              <a href="/creator-tools" className="text-purple-400 hover:underline">
+              <a href="/creator-tools" className="text-optimist-400 hover:underline">
                 Creator tools hub—calendar, hashtags, CRM, analytics overview
               </a>
             </li>
             <li>
-              <a href="/ai-caption-writer-instagram-tiktok" className="text-purple-400 hover:underline">
+              <a href="/ai-caption-writer-instagram-tiktok" className="text-optimist-400 hover:underline">
                 AI captions for Instagram and TikTok
               </a>
             </li>
             <li>
-              <a href="/social-media-scheduler-for-creators" className="text-purple-400 hover:underline">
+              <a href="/social-media-scheduler-for-creators" className="text-optimist-400 hover:underline">
                 Social media scheduler for creators
               </a>
             </li>
             <li>
-              <a href="/content-creator-analytics-platform" className="text-purple-400 hover:underline">
+              <a href="/content-creator-analytics-platform" className="text-optimist-400 hover:underline">
                 Creator analytics next to drafts
               </a>
             </li>
             <li>
-              <a href="/select-plan" className="text-purple-400 hover:underline">
+              <a href="/select-plan" className="text-optimist-400 hover:underline">
                 Compare plans and included tools before signup
               </a>
             </li>
@@ -274,7 +274,7 @@ export default function ReviewsPage() {
           </p>
           <Link
             href="/signup"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all text-lg"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all text-lg"
           >
             Start Your Free Trial
           </Link>

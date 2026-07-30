@@ -129,7 +129,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
       {/* Header */}
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center gap-2 mb-2">
-          <MessageSquare className="w-5 h-5 text-purple-400" />
+          <MessageSquare className="w-5 h-5 text-optimist-400" />
           <h3 className="text-lg font-bold text-white">Creator Chat</h3>
         </div>
         <p className="text-sm text-gray-300">Connect and chat with other creators</p>
@@ -150,7 +150,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
                 aria-pressed={selectedChannel === channel.id}
                 className={`shrink-0 md:w-full text-left px-3 py-2 rounded-lg transition-colors ${
                   selectedChannel === channel.id
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-optimist-600 text-white'
                     : 'text-gray-300 hover:bg-gray-700'
                 }`}
               >
@@ -186,7 +186,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
                           className="w-8 h-8 rounded-full flex-shrink-0"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-optimist-600 flex items-center justify-center flex-shrink-0">
                           <span className="text-white text-xs font-semibold">
                             {displayName.charAt(0).toUpperCase()}
                           </span>
@@ -195,7 +195,7 @@ export default function CreatorChat({ token }: CreatorChatProps) {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <UserTooltip userId={msg.userId} token={token}>
-                            <span className="font-semibold text-white hover:text-purple-400 cursor-pointer">
+                            <span className="font-semibold text-white hover:text-optimist-400 cursor-pointer">
                               {displayName}
                             </span>
                           </UserTooltip>
@@ -218,14 +218,14 @@ export default function CreatorChat({ token }: CreatorChatProps) {
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
                     aria-label="Message"
-                    className="flex-1 min-w-0 px-3 sm:px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500"
+                    className="flex-1 min-w-0 px-3 sm:px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-optimist-500"
                     disabled={loading}
                   />
                   <button
                     type="submit"
                     disabled={loading || !newMessage.trim()}
                     aria-label="Send message"
-                    className="px-3 sm:px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shrink-0"
+                    className="px-3 sm:px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shrink-0"
                   >
                     <Send className="w-4 h-4" aria-hidden />
                     <span className="hidden sm:inline">Send</span>

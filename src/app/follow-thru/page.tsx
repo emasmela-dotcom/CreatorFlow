@@ -17,7 +17,7 @@ export default function FollowThruPage() {
 
   if (FOLLOW_THRU_URL) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-optimist-950 text-white flex items-center justify-center">
         <main id="main-content">
           <p className="text-gray-300">Redirecting to Follow Thru…</p>
         </main>
@@ -26,7 +26,7 @@ export default function FollowThruPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-4 sm:px-6 py-6">
+    <div className="min-h-screen bg-optimist-950 text-white px-4 sm:px-6 py-6">
       <main id="main-content" className="max-w-lg mx-auto">
         <button
           type="button"
@@ -38,7 +38,7 @@ export default function FollowThruPage() {
           Back to Dashboard
         </button>
         <div className="flex items-center gap-3 mb-6">
-          <CheckSquare className="w-10 h-10 text-purple-400" />
+          <CheckSquare className="w-10 h-10 text-optimist-400" />
           <h1 className="text-2xl font-bold">Follow Thru</h1>
         </div>
         <p className="text-gray-300 mb-6">

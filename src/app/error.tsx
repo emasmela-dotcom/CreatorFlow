@@ -19,7 +19,7 @@ export default function Error({
   }, [error])
 
   return (
-    <main id="main-content" className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4 sm:px-6">
+    <main id="main-content" className="min-h-screen bg-optimist-950 text-white flex items-center justify-center px-4 sm:px-6">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
           <AlertCircle className="w-20 h-20 text-red-500 mx-auto mb-4" />
@@ -38,7 +38,7 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
           >
             <RefreshCw className="w-5 h-5" aria-hidden />
             Try Again
