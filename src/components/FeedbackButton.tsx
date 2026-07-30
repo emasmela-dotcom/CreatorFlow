@@ -89,10 +89,12 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+        title="Send feedback"
         aria-label="Send feedback"
+        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-xl bg-purple-600 px-4 py-2 text-white shadow-lg shadow-purple-950/30 transition-colors hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
       >
-        <MessageSquare className="h-6 w-6" />
+        <MessageSquare className="h-4 w-4" />
+        <span className="text-sm font-semibold">Feedback</span>
       </button>
 
       {open && (
