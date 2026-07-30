@@ -78,6 +78,7 @@ function CreatePostInner() {
   const [isSaving, setIsSaving] = useState(false)
   const [isScheduling, setIsScheduling] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
   const [publishResults, setPublishResults] = useState<{
     succeeded: string[]
     failed: string[]
@@ -452,7 +453,12 @@ function CreatePostInner() {
   }, [searchParams])
 
   useEffect(() => {
-    // Load auth token on client
+    if (searchParams.get('welcome') === '1' && !sessionStorage.getItem('cf-welcome-dismissed')) {
+      setShowWelcome(true)
+    }
+  }, [searchParams])
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       setToken(localStorage.getItem('token') || '')
     }
@@ -575,6 +581,31 @@ function CreatePostInner() {
           Schedule / Publish is separate. Free plan cannot schedule or publish posts.
         </p>
       </header>
+
+      {showWelcome && (
+        <div className="mx-4 sm:mx-6 mt-4 bg-optimist-900 border border-optimist-700 rounded-xl px-5 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="text-base sm:text-lg font-semibold text-optimist-50 leading-snug">
+                Paste your content, pick a platform, see it formatted — this is how CreatorFlow works.
+              </h2>
+              <p className="text-optimist-200 text-sm mt-1">
+                Save Draft keeps your original in Documents by name. Formatted copies are not stored.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setShowWelcome(false)
+                sessionStorage.setItem('cf-welcome-dismissed', '1')
+              }}
+              className="shrink-0 px-4 py-2 bg-optimist-600 hover:bg-optimist-500 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex">
         {/* Main Content */}
