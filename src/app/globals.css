@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-/* Optimist — olive, charcoal, slate blue, seafoam, cream */
+/* Gorgeous Earth — navy, teal-blue, olive, forest, deep soil */
 :root {
-  --background: #f7f3ec;
-  --foreground: #2d3336;
+  --background: #e8ede0;
+  --foreground: #121a22;
 }
 
 @theme inline {
@@ -12,38 +12,38 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-optimist-50: #f7f3ec;
-  --color-optimist-100: #ede8dc;
-  --color-optimist-200: #d4e8e0;
-  --color-optimist-300: #b8d4c9;
-  --color-optimist-400: #8fbfb5;
-  --color-optimist-500: #6fa3b8;
-  --color-optimist-600: #5e8fa8;
-  --color-optimist-700: #4a6270;
-  --color-optimist-800: #3d4a52;
-  --color-optimist-900: #2d3336;
-  --color-optimist-950: #1f2426;
+  --color-optimist-50: #e8ede0;
+  --color-optimist-100: #c5d4b8;
+  --color-optimist-200: #8aab7a;
+  --color-optimist-300: #5aa8b5;
+  --color-optimist-400: #3d8b96;
+  --color-optimist-500: #2f7a85;
+  --color-optimist-600: #256872;
+  --color-optimist-700: #1f5560;
+  --color-optimist-800: #243545;
+  --color-optimist-900: #1a2836;
+  --color-optimist-950: #0d1520;
 
-  --color-sage-300: #a8b092;
-  --color-sage-400: #8a916f;
-  --color-sage-500: #737a5e;
-  --color-sage-600: #5c6249;
+  --color-sage-300: #8aab7a;
+  --color-sage-400: #6b7c4c;
+  --color-sage-500: #4f6340;
+  --color-sage-600: #2d4a3e;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1f2426;
-    --foreground: #ede8dc;
+    --background: #0d1520;
+    --foreground: #e8ede0;
   }
 }
 
 html {
-  background: #1f2426;
+  background: #0d1520;
   overflow-x: hidden;
 }
 
 body {
-  background: #1f2426;
+  background: #0d1520;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
