@@ -38,6 +38,25 @@ How it works: **Bring your content** → **Select platforms** → **Publish form
 6. Significant site changes → commit + push `main` (unless he says not to).
 7. **Do not burn usage** (browser automation, paid APIs) when a short answer or Eric’s screenshot is enough. Ask before Resend sends / metered tools.
 8. Keep replies short. If Eric says slow down / too much — stop and wait.
+9. **Color scheme is locked** — see **Locked color scheme (Gorgeous Earth)** below. Do not swap palettes or revert to purple unless Eric asks.
+
+---
+
+## Locked color scheme (Gorgeous Earth)
+
+**Eric locked this Jul 30, 2026.** Do **not** change colors, palettes, or theme unless Eric explicitly asks.
+
+- **Name:** Gorgeous Earth (Adobe Color — navy, teal-blue, olive, forest)
+- **Source of truth:** `src/app/globals.css` only for hex values
+- **Tailwind tokens:** sitewide classes use `optimist-*` and `sage-*` (legacy names; values are Gorgeous Earth)
+- **Page background:** `#0d1520` (`optimist-950`)
+- **Primary buttons / links:** `#256872` (`optimist-600`), hover `#2f7a85` (`optimist-500`)
+- **Soft accent / footer links:** `#5aa8b5` (`optimist-300`)
+- **Olive accent:** `sage-400` `#6b7c4c`, `sage-600` `#2d4a3e`
+- **Light text on dark:** `#e8ede0` (`optimist-50`)
+- **Rejected / do not use:** purple/indigo brand, Optimist palette (tried and not chosen)
+
+New UI: use `optimist-*` / `sage-*` tokens — **not** raw purple or unrelated palettes.
 
 ---
 
@@ -56,6 +75,8 @@ How it works: **Bring your content** → **Select platforms** → **Publish form
 | Footer on **every page** via `src/app/layout.tsx` → `SeoSiteFooter` | Pushed (`0f3005a`) |
 | Support form Resend errors surfaced (no fake success) | Pushed (`07e34ee`) |
 | **Support mail verified end-to-end** (both inboxes received) | **Working** |
+| **Sitewide feedback bubble** (signed-in + guest) | Pushed (`d3d96fa`, `fa5856f`) |
+| **Gorgeous Earth color scheme locked** | Pushed (`083e5d6`) — see locked palette section |
 
 **Paste packs (Kimi):**  
 - `PASTE_THIS_TO_KIMI_DropCredits.txt`  
@@ -83,9 +104,9 @@ How it works: **Bring your content** → **Select platforms** → **Publish form
 
 Talked about; do **not** implement unless Eric asks:
 
-1. **Feedback bubble** (always-available feedback)  
-2. **Reviews tab** — real reviews only; **no scraped / pulled** review content from elsewhere  
-3. Promo: **first 10 creators** get **1 month free** (formatting included) for a **posted review** — enforce with seat count + review proof + free-month flag (manual approve OK at first)
+1. **Reviews tab** — real reviews only; **no scraped / pulled** review content from elsewhere  
+2. Promo: **first 10 creators** get **1 month free** (formatting included) for a **posted review** — enforce with seat count + review proof + free-month flag (manual approve OK at first)  
+3. **Guest interaction** (discussed): homepage try-it formatter, clearer demo path, guest create preview — **not built** unless Eric asks
 
 ---
 
@@ -116,7 +137,8 @@ Talked about; do **not** implement unless Eric asks:
 - `src/app/create/page.tsx` — format flow; Save Draft → Documents  
 - `src/app/api/documents/route.ts` — named original storage  
 - `src/app/api/support/route.ts` — support → apputilitybuilder@gmail.com  
-- `src/components/GameChangerFeatures.tsx` — Game-Changers UI  
+- `src/app/globals.css` — **locked** Gorgeous Earth palette  
+- `src/components/FeedbackButton.tsx` + `FeedbackWrapper.tsx` — sitewide feedback  
 - `PRE_MARKETING_CHECKLIST.md` — pre-marketing checklist  
 - `AGENT_CATCHUP.md` — this file  
 
