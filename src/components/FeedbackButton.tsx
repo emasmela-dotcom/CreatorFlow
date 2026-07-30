@@ -1,314 +1,216 @@
 'use client'
 
-import { useState } from 'react'
-import { MessageSquare, X } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { MessageSquare, X, Send, Star, Loader2 } from 'lucide-react'
 
 interface FeedbackButtonProps {
-  token: string
+  initialToken?: string | null
 }
 
-export default function FeedbackButton({ token }: FeedbackButtonProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <>
-      {/* Floating Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
-        title="Send Feedback"
-        aria-label="Send feedback"
-      >
-        <MessageSquare className="w-5 h-5" />
-        <span className="hidden sm:inline-block font-semibold">Feedback</span>
-      </button>
-
-      {/* Feedback Modal */}
-      {isOpen && (
-        <FeedbackModal token={token} onClose={() => setIsOpen(false)} />
-      )}
-    </>
-  )
-}
-
-interface FeedbackModalProps {
-  token: string
-  onClose: () => void
-}
-
-function FeedbackModal({ token, onClose }: FeedbackModalProps) {
-  const [feedbackType, setFeedbackType] = useState('general')
-  const [category, setCategory] = useState('')
+export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
+  const [open, setOpen] = useState(false)
+  const [token, setToken] = useState<string | null>(initialToken ?? null)
+  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [rating, setRating] = useState<number | null>(null)
-  const [userEmail, setUserEmail] = useState('')
-  const [canContact, setCanContact] = useState(false)
+  const [rating, setRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const modalRef = useRef<HTMLDivElement>(null)
 
-  const categories = [
-    'General',
-    'Content Creation',
-    'Analytics',
-    'Scheduling',
-    'Hashtag Research',
-    'Documents',
-    'Templates',
-    'Game-Changer Features',
-    'Performance Predictor',
-    'Brand Voice',
-    'Cross-Platform Sync',
-    'Content Recycling',
-    'Revenue Tracker',
-    'Trend Alerts',
-    'A/B Testing',
-    'Content Series',
-    'Hashtag Optimizer',
-    'Marketplace',
-    'Other'
-  ]
+  useEffect(() => {
+    if (initialToken !== undefined) {
+      setToken(initialToken)
+      return
+    }
+    const t = localStorage.getItem('token')
+    if (t) setToken(t)
+  }, [initialToken])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    if (open) document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [open])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!message.trim()) {
-      setError('Please enter your feedback message')
-      return
-    }
+    if (!message.trim()) return
 
     setLoading(true)
     setError('')
-
     try {
-      const response = await fetch('/api/feedback', {
+      const isPublic = !token
+      const url = isPublic ? '/api/feedback/public' : '/api/feedback'
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (token) headers['Authorization'] = `Bearer ${token}`
+
+      const body: Record<string, unknown> = { message: message.trim() }
+      if (isPublic) {
+        body.email = email.trim()
+      } else {
+        // Existing /api/feedback requires feedbackType
+        body.feedbackType = 'general'
+      }
+      if (rating > 0) body.rating = rating
+
+      const res = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          feedbackType,
-          category: category || null,
-          message: message.trim(),
-          rating: rating || null,
-          userEmail: canContact ? userEmail : null,
-          canContact
-        })
+        headers,
+        body: JSON.stringify(body),
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit feedback')
-      }
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || 'Failed to send feedback')
 
       setSubmitted(true)
-      
-      // Reset form after 3 seconds and close
       setTimeout(() => {
+        setOpen(false)
         setSubmitted(false)
-        setFeedbackType('general')
-        setCategory('')
         setMessage('')
-        setRating(null)
-        setUserEmail('')
-        setCanContact(false)
-        onClose()
-      }, 3000)
+        setRating(0)
+        setEmail('')
+        setError('')
+      }, 1800)
     } catch (err: any) {
-      setError(err.message || 'Failed to submit feedback. Please try again.')
+      setError(err.message || 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  if (submitted) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 border border-gray-700">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-            <p className="text-gray-300 mb-4">
-              Your feedback has been submitted. We appreciate you helping us improve CreatorFlow!
-            </p>
-            <p className="text-sm text-gray-300">This window will close automatically...</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
-      <div 
-        className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full mx-4 border border-gray-700 max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+        aria-label="Send feedback"
       >
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <MessageSquare className="w-6 h-6 text-purple-400" />
-            Send Feedback
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-300 hover:text-white transition-colors"
-            aria-label="Close feedback form"
+        <MessageSquare className="h-6 w-6" />
+      </button>
+
+      {open && (
+        <div className="fixed inset-0 z-[60] flex items-end justify-end p-4 sm:items-center sm:justify-center sm:p-6">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+            aria-hidden
+          />
+
+          <div
+            ref={modalRef}
+            className="relative w-full max-w-md rounded-2xl border border-gray-700 bg-gray-900 p-6 text-gray-100 shadow-2xl"
           >
-            <X className="w-6 h-6" aria-hidden />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Feedback Type */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
-              What type of feedback is this? <span className="text-red-400">*</span>
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-              {[
-                { value: 'bug', label: '🐛 Bug' },
-                { value: 'feature', label: '💡 Feature' },
-                { value: 'general', label: '💬 General' },
-                { value: 'praise', label: '⭐ Praise' },
-                { value: 'other', label: '📝 Other' }
-              ].map((type) => (
-                <button
-                  key={type.value}
-                  type="button"
-                  onClick={() => setFeedbackType(type.value)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    feedbackType === type.value
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  {type.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Category */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
-              Category (Optional)
-            </label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
-              aria-label="Feedback category"
-            >
-              <option value="">Select a category...</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Rating */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
-              Rating (Optional)
-            </label>
-            <div className="flex gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setRating(rating === star ? null : star)}
-                  className={`text-2xl transition-transform hover:scale-110 ${
-                    rating && star <= rating ? 'text-yellow-400' : 'text-gray-500'
-                  }`}
-                  aria-label={`Rate ${star} out of 5`}
-                >
-                  ★
-                </button>
-              ))}
-              {rating && (
-                <span className="ml-2 text-gray-300 text-sm">
-                  {rating === 5 ? 'Excellent' : rating === 4 ? 'Good' : rating === 3 ? 'Okay' : rating === 2 ? 'Poor' : 'Very Poor'}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Message */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
-              Your Feedback <span className="text-red-400">*</span>
-            </label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tell us what you think, what you'd like to see, or any issues you've encountered..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 min-h-[150px] resize-y"
-              required
-            />
-            <p className="text-xs text-gray-300 mt-1">
-              Be as detailed as possible. Your feedback helps us improve!
-            </p>
-          </div>
-
-          {/* Contact Preference */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={canContact}
-                onChange={(e) => setCanContact(e.target.checked)}
-                className="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500"
-              />
-              <span className="text-sm text-gray-300">
-                Can we contact you about this feedback?
-              </span>
-            </label>
-            {canContact && (
-              <input
-                type="email"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-                placeholder="your.email@example.com"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder:text-gray-400 text-sm"
-              />
-            )}
-          </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-500/20 border border-red-500 rounded-lg p-3 text-red-300 text-sm">
-              {error}
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <div className="flex gap-3 pt-4">
             <button
               type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors"
+              onClick={() => setOpen(false)}
+              className="absolute right-4 top-4 rounded-md p-1 text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+              aria-label="Close feedback"
             >
-              Cancel
+              <X className="h-5 w-5" />
             </button>
-            <button
-              type="submit"
-              disabled={loading || !message.trim()}
-              className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Submitting...' : 'Submit Feedback'}
-            </button>
+
+            <h2 className="mb-1 text-lg font-semibold text-white">Send feedback</h2>
+            <p className="mb-4 text-sm text-gray-400">
+              {token
+                ? 'We will save this to your account.'
+                : 'You are not signed in. We will email this to the team.'}
+            </p>
+
+            {submitted ? (
+              <div className="py-8 text-center">
+                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 text-green-400">
+                  <Send className="h-6 w-6" />
+                </div>
+                <p className="text-lg font-medium text-white">Thanks for your feedback!</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!token && (
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-300">Email</label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-gray-300">Message</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="What would you like to share?"
+                    className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-gray-300">Rating (optional)</label>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        className="rounded p-0.5 transition-colors"
+                        aria-label={`${star} star${star === 1 ? '' : 's'}`}
+                      >
+                        <Star
+                          className={`h-6 w-6 ${
+                            star <= (hoverRating || rating)
+                              ? 'fill-yellow-400 text-yellow-400'
+                              : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {error ? (
+                  <p className="text-sm text-red-300" role="alert">
+                    {error}
+                  </p>
+                ) : null}
+
+                <button
+                  type="submit"
+                  disabled={loading || !message.trim() || (!token && !email.trim())}
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-purple-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send feedback
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   )
 }
-
