@@ -22,6 +22,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4">
               <a href="#tools" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Tools</a>
               <button onClick={() => window.location.href = '/creator-tools'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Creator tools</button>
+              <button onClick={() => window.location.href = '/documents'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Documents</button>
               <button onClick={() => window.location.href = '/dashboard'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Browse app</button>
               <button onClick={() => window.location.href = '/reviews'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Reviews</button>
               <button onClick={() => window.location.href = '/signin'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Sign In</button>
@@ -37,9 +38,15 @@ export default function HomePage() {
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
               <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
-              <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
                 You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
               </p>
+              <div className="mb-10 max-w-2xl mx-auto rounded-2xl border border-sage-500/20 bg-sage-900/20 px-6 py-5">
+                <p className="text-lg font-semibold text-sage-300">One draft, many exports.</p>
+                <p className="mt-1 text-sm text-gray-300 leading-relaxed">
+                  Save your original once. Format for any platform when you need it — nothing extra gets saved.
+                </p>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button
                   onClick={() => window.location.href = '/signup'}

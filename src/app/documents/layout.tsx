@@ -7,7 +7,7 @@ const origin = baseUrl.replace(/\/$/, '')
 
 const title = 'Documents | CreatorFlow365'
 const description =
-  'CreatorFlow365 documents library—available after sign-in. Save scripts, briefs & notes next to your posting workflow.'
+  'One draft, many exports. Save your original once in CreatorFlow365 Documents and format for any platform when you need it.'
 
 export const metadata: Metadata = {
   title,

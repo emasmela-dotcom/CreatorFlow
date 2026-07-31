@@ -1,153 +1,209 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { FileText, Plus, Search, Tag, Pin, PinOff, Edit, Trash2, Folder, X, Save } from 'lucide-react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+import {
+  Save,
+  Copy,
+  Check,
+  Search,
+  Trash2,
+  Pin,
+  PinOff,
+  FileText,
+  Plus,
+  LogIn,
+  Hash,
+  AlertCircle,
+  ChevronDown,
+  ChevronRight,
+  X,
+  Home,
+} from 'lucide-react'
+import { formatForPlatform } from '@/lib/formatForPlatform'
 
-function DocumentsContent() {
+interface Document {
+  id: number
+  title: string
+  content: string
+  category?: string | null
+  tags?: string | null
+  is_pinned?: boolean
+  created_at?: string
+  updated_at?: string
+}
+
+const PLATFORMS = [
+  { id: 'instagram', label: 'Instagram', color: 'bg-pink-600' },
+  { id: 'twitter', label: 'X / Twitter', color: 'bg-sky-600' },
+  { id: 'linkedin', label: 'LinkedIn', color: 'bg-blue-700' },
+  { id: 'tiktok', label: 'TikTok', color: 'bg-rose-600' },
+  { id: 'youtube', label: 'YouTube', color: 'bg-red-600' },
+  { id: 'facebook', label: 'Facebook', color: 'bg-indigo-600' },
+  { id: 'pinterest', label: 'Pinterest', color: 'bg-orange-600' },
+  { id: 'threads', label: 'Threads', color: 'bg-violet-600' },
+]
+
+function tagsToInput(tags: Document['tags']): string {
+  if (!tags) return ''
+  return tags
+}
+
+export default function DocumentsPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [token, setToken] = useState('')
-  const [documents, setDocuments] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState(() => searchParams.get('search') || '')
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [showEditor, setShowEditor] = useState(false)
-  const [editingDoc, setEditingDoc] = useState<any>(null)
+  const [token, setToken] = useState<string | null>(null)
+  const [docs, setDocs] = useState<Document[]>([])
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  const [docId, setDocId] = useState<number | null>(null)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [category, setCategory] = useState('')
-  const [tags, setTags] = useState('')
+  const [tagsInput, setTagsInput] = useState('')
   const [isPinned, setIsPinned] = useState(false)
-  const [saving, setSaving] = useState(false)
+
+  const [activePlatform, setActivePlatform] = useState('instagram')
+  const [hashtags, setHashtags] = useState('')
+  const [copied, setCopied] = useState(false)
+
+  const [listOpen, setListOpen] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem('token') || ''
-      setToken(storedToken)
-      
-      if (!storedToken) {
-        setLoading(false)
-      } else {
-        loadDocuments()
-      }
+      setToken(localStorage.getItem('token') || '')
     }
-  }, [router])
+  }, [])
 
-  const loadDocuments = async () => {
+  const fetchDocs = useCallback(async () => {
     if (!token) return
-    
     setLoading(true)
+    setError('')
     try {
-      const params = new URLSearchParams()
-      if (searchTerm) params.append('search', searchTerm)
-      if (selectedCategory !== 'all') params.append('category', selectedCategory)
-
-      const response = await fetch(`/api/documents?${params}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const res = await fetch('/api/documents', {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      const data = await response.json()
-      if (data.success) {
-        setDocuments(data.documents || [])
-      }
-    } catch (error) {
-      console.error('Failed to load documents:', error)
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to load documents')
+      setDocs(data.documents || [])
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Could not load documents')
     } finally {
       setLoading(false)
     }
-  }
+  }, [token])
 
   useEffect(() => {
-    if (token) {
-      loadDocuments()
+    if (token) fetchDocs()
+  }, [token, fetchDocs])
+
+  const filteredDocs = useMemo(() => {
+    let list = [...docs].sort((a, b) => {
+      if (a.is_pinned && !b.is_pinned) return -1
+      if (!a.is_pinned && b.is_pinned) return 1
+      return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime()
+    })
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase()
+      list = list.filter(
+        (d) =>
+          d.title.toLowerCase().includes(q) ||
+          d.content.toLowerCase().includes(q) ||
+          (d.tags || '').toLowerCase().includes(q)
+      )
     }
-  }, [searchTerm, selectedCategory, token])
+    return list
+  }, [docs, searchQuery])
+
+  const newDoc = () => {
+    setDocId(null)
+    setTitle('')
+    setContent('')
+    setCategory('')
+    setTagsInput('')
+    setIsPinned(false)
+    setActivePlatform('instagram')
+    setHashtags('')
+  }
+
+  const loadDoc = (doc: Document) => {
+    setDocId(doc.id)
+    setTitle(doc.title)
+    setContent(doc.content || '')
+    setCategory(doc.category || '')
+    setTagsInput(tagsToInput(doc.tags))
+    setIsPinned(doc.is_pinned || false)
+  }
 
   const handleSave = async () => {
-    if (!title.trim() || !content.trim()) {
-      alert('Title and content are required')
+    if (!token) return
+    if (!title.trim()) {
+      setError('Title is required')
+      return
+    }
+    if (!content.trim()) {
+      setError('Content is required')
       return
     }
 
     setSaving(true)
+    setError('')
     try {
-      const response = await fetch('/api/documents', {
+      const body: Record<string, unknown> = {
+        title: title.trim(),
+        content: content.trim(),
+        category: category.trim() || null,
+        tags: tagsInput.trim() || null,
+        is_pinned: isPinned,
+      }
+      if (docId) body.id = docId
+
+      const res = await fetch('/api/documents', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          id: editingDoc?.id,
-          title: title.trim(),
-          content: content.trim(),
-          category: category.trim() || null,
-          tags: tags.trim() || null,
-          is_pinned: isPinned
-        })
+        body: JSON.stringify(body),
       })
-
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.error || 'Failed to save')
-
-      setShowEditor(false)
-      setEditingDoc(null)
-      setTitle('')
-      setContent('')
-      setCategory('')
-      setTags('')
-      setIsPinned(false)
-      loadDocuments()
-    } catch (error: any) {
-      alert('Failed to save: ' + error.message)
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Save failed')
+      if (data.document?.id) setDocId(data.document.id)
+      await fetchDocs()
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Save failed')
     } finally {
       setSaving(false)
     }
   }
 
-  const handleEdit = (doc: any) => {
-    setEditingDoc(doc)
-    setTitle(doc.title)
-    setContent(doc.content)
-    setCategory(doc.category || '')
-    setTags(doc.tags || '')
-    setIsPinned(doc.is_pinned || false)
-    setShowEditor(true)
-  }
-
-  const handleNew = () => {
-    setEditingDoc(null)
-    setTitle('')
-    setContent('')
-    setCategory('')
-    setTags('')
-    setIsPinned(false)
-    setShowEditor(true)
-  }
-
   const handleDelete = async (id: number) => {
+    if (!token) return
     if (!confirm('Delete this document?')) return
-
     try {
-      const response = await fetch(`/api/documents?id=${id}`, {
+      const res = await fetch(`/api/documents?id=${id}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       })
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.error || 'Failed to delete')
-      loadDocuments()
-    } catch (error: any) {
-      alert('Failed to delete: ' + error.message)
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Delete failed')
+      if (docId === id) newDoc()
+      await fetchDocs()
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Delete failed')
     }
   }
 
-  const handleTogglePin = async (doc: any) => {
+  const togglePin = async (doc: Document) => {
+    if (!token) return
     try {
-      const response = await fetch('/api/documents', {
+      const res = await fetch('/api/documents', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id: doc.id,
@@ -155,306 +211,398 @@ function DocumentsContent() {
           content: doc.content,
           category: doc.category,
           tags: doc.tags,
-          is_pinned: !doc.is_pinned
-        })
+          is_pinned: !doc.is_pinned,
+        }),
       })
-      const data = await response.json()
-      if (data.success) loadDocuments()
-    } catch (error) {
-      console.error('Failed to toggle pin:', error)
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Update failed')
+      await fetchDocs()
+      if (docId === doc.id) setIsPinned(!doc.is_pinned)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Update failed')
     }
   }
 
-  const handleCopyToPost = (doc: any) => {
-    // Copy content to clipboard for pasting into posts
-    navigator.clipboard.writeText(doc.content)
-    alert('✅ Content copied! Paste it into your post editor.')
+  const formatted = useMemo(
+    () => formatForPlatform(activePlatform, content, hashtags),
+    [activePlatform, content, hashtags]
+  )
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(formatted)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setError('Clipboard access denied')
+    }
   }
 
-  const categories = Array.from(new Set(documents.map(d => d.category).filter(Boolean)))
+  const charLimit = useMemo(() => {
+    switch (activePlatform) {
+      case 'twitter':
+        return 280
+      case 'threads':
+        return 500
+      case 'instagram':
+        return 2200
+      case 'linkedin':
+        return 3000
+      case 'tiktok':
+        return 2200
+      case 'youtube':
+        return 5000
+      case 'facebook':
+        return 63206
+      case 'pinterest':
+        return 500
+      default:
+        return undefined
+    }
+  }, [activePlatform])
 
-  return (
-    <div className="min-h-screen bg-optimist-950 text-white">
-      {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3 min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 truncate">
-              <FileText className="w-6 h-6 shrink-0" aria-hidden />
-              My Documents
-            </h1>
-            <span className="text-sm text-gray-300 shrink-0">
-              {documents.length} document{documents.length !== 1 ? 's' : ''}
-            </span>
+  const charCount = formatted.length
+  const nearLimit = charLimit && charCount > charLimit * 0.9
+  const overLimit = charLimit && charCount > charLimit
+
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-optimist-950 flex items-center justify-center px-6">
+        <div className="mx-auto max-w-md text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-900/30 ring-1 ring-sage-500/20">
+            <FileText className="h-7 w-7 text-sage-400" />
           </div>
+          <h1 className="mt-6 text-2xl font-bold text-optimist-50">Documents workspace</h1>
+          <p className="mt-3 text-optimist-300 leading-relaxed">
+            One draft, many exports. Save your original once and format for any platform when you need it.
+          </p>
+          <p className="mt-2 text-sm text-optimist-400">Sign in to create, save, and format your content.</p>
           <button
             type="button"
-            onClick={handleNew}
-            disabled={!token}
-            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center justify-center gap-2"
-            aria-label="New document"
+            onClick={() => router.push('/signin')}
+            className="mt-8 inline-flex items-center gap-2 rounded-lg bg-sage-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-sage-500 transition-colors"
           >
-            <Plus className="w-4 h-4" />
-            {token ? 'New Document' : 'Sign in to create'}
+            <LogIn className="h-4 w-4" />
+            Sign in
           </button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-optimist-950 text-optimist-100">
+      <header className="border-b border-optimist-800/50 bg-optimist-950/80 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => router.push('/')}
+              className="text-sm font-bold text-optimist-50 hover:text-optimist-200"
+            >
+              CreatorFlow365
+            </button>
+            <span className="text-optimist-700">/</span>
+            <span className="text-sm font-medium text-optimist-300">Documents</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard')}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-optimist-800 px-3 py-1.5 text-xs font-medium text-optimist-200 hover:bg-optimist-700 transition-colors"
+            >
+              <Home className="h-3.5 w-3.5" />
+              Dashboard
+            </button>
+            <button
+              type="button"
+              onClick={newDoc}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-optimist-800 px-3 py-1.5 text-xs font-medium text-optimist-200 hover:bg-optimist-700 transition-colors"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              New
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="p-4 sm:p-6">
-        {!token && (
-          <div className="mb-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4 text-sm text-yellow-300">
-            Browse mode is active. Sign in to save or edit documents.
-            <button
-              type="button"
-              onClick={() => router.push('/signin')}
-              className="ml-3 rounded bg-optimist-600 px-3 py-1 text-xs font-medium text-white hover:bg-optimist-500"
-            >
-              Sign In
+      <main className="mx-auto max-w-7xl px-4 py-6">
+        {error && (
+          <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-900/20 border border-red-800/40 px-4 py-3 text-sm text-red-300">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {error}
+            <button type="button" onClick={() => setError('')} className="ml-auto" aria-label="Dismiss error">
+              <X className="h-4 w-4" />
             </button>
           </div>
         )}
 
-        {/* Search and Filters */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" aria-hidden />
-            <input
-              type="search"
-              placeholder="Search documents..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              aria-label="Search documents"
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
-            />
-          </div>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            aria-label="Filter by category"
-            className="w-full sm:w-auto px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white"
-          >
-            <option value="all">All Categories</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-7 space-y-5">
+            <div>
+              <h1 className="text-2xl font-bold text-optimist-50">One draft, many exports.</h1>
+              <p className="mt-1 text-sm text-optimist-300 leading-relaxed">
+                Save your original once. Format for any platform when you need it — nothing extra gets saved.
+              </p>
+            </div>
 
-        {/* Editor Modal */}
-        {showEditor && (
-          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-800 rounded-xl border border-gray-700 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-              <div className="p-6 border-b border-gray-700 flex items-center justify-between">
-                <h2 className="text-xl font-semibold">
-                  {editingDoc ? 'Edit Document' : 'New Document'}
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => setShowEditor(false)}
-                  className="text-gray-300 hover:text-white"
-                  aria-label="Close editor"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50">
+              <div className="p-5 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Title</label>
+                  <label htmlFor="doc-title" className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                    Title <span className="text-red-400">*</span>
+                  </label>
                   <input
-                    type="text"
+                    id="doc-title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
-                    placeholder="Document title..."
+                    placeholder="Untitled document"
+                    className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm"
                   />
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Category (optional)</label>
-                    <input
-                      type="text"
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
-                      placeholder="e.g., Blog Posts, Ideas, Notes"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Tags (optional)</label>
-                    <input
-                      type="text"
-                      value={tags}
-                      onChange={(e) => setTags(e.target.value)}
-                      className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 text-white placeholder:text-gray-400"
-                      placeholder="tag1, tag2, tag3"
-                    />
-                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Content</label>
+                  <label htmlFor="doc-content" className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                    Original content
+                  </label>
                   <textarea
+                    id="doc-content"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full h-64 sm:h-96 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none font-mono text-sm text-white placeholder:text-gray-400"
-                    placeholder="Write your content here... You can paste from Google Docs, Notion, Word, etc."
+                    placeholder="Paste or write your original content here..."
+                    rows={12}
+                    className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2.5 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm leading-relaxed resize-y"
                   />
-                  <div className="mt-2 flex items-center justify-between text-sm text-gray-300">
-                    <span>{content.trim().split(/\s+/).filter(w => w.length > 0).length} words</span>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={isPinned}
-                        onChange={(e) => setIsPinned(e.target.checked)}
-                        className="w-4 h-4 text-optimist-600 bg-gray-700 border-gray-600 rounded"
-                      />
-                      <span>Pin to top</span>
+                  <p className="mt-1.5 text-xs text-optimist-400">{content.length} characters</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="doc-category" className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                      Category
                     </label>
+                    <input
+                      id="doc-category"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      placeholder="e.g. Tutorial, Review"
+                      className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="doc-tags" className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                      Tags
+                    </label>
+                    <input
+                      id="doc-tags"
+                      value={tagsInput}
+                      onChange={(e) => setTagsInput(e.target.value)}
+                      placeholder="comma, separated"
+                      className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm"
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div className="p-6 border-t border-gray-700 flex justify-end gap-3">
-                <button
-                  onClick={() => setShowEditor(false)}
-                  className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  disabled={saving || !title.trim() || !content.trim()}
-                  className="px-6 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2 disabled:opacity-50"
-                >
-                  <Save className="w-4 h-4" />
-                  {saving ? 'Saving...' : 'Save'}
-                </button>
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsPinned((p) => !p)}
+                    className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                      isPinned
+                        ? 'bg-sage-900/30 text-sage-300 ring-1 ring-sage-500/30'
+                        : 'bg-optimist-800 text-optimist-300 hover:bg-optimist-700'
+                    }`}
+                  >
+                    {isPinned ? <Pin className="h-3.5 w-3.5" /> : <PinOff className="h-3.5 w-3.5" />}
+                    {isPinned ? 'Pinned' : 'Pin'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving || !title.trim() || !content.trim()}
+                    className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <Save className="h-4 w-4" />
+                    {saving ? 'Saving…' : docId ? 'Update original' : 'Save original'}
+                  </button>
+                  {docId && <span className="text-xs text-optimist-400">Editing saved document</span>}
+                </div>
               </div>
             </div>
-          </div>
-        )}
 
-        {/* Documents List */}
-        {loading ? (
-          <div className="text-center py-12 text-gray-300">Loading documents...</div>
-        ) : documents.length === 0 ? (
-          <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" aria-hidden />
-            <h3 className="text-lg font-semibold mb-2">No documents yet</h3>
-            <p className="text-gray-300 mb-6">Create your first document to get started!</p>
-            <button
-              onClick={handleNew}
-              className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
-            >
-              Create Document
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {documents.map((doc) => (
-              <div
-                key={doc.id}
-                className={`bg-gray-800 p-6 rounded-lg border ${
-                  doc.is_pinned ? 'border-yellow-500/50' : 'border-gray-700'
-                } hover:border-gray-600 transition-all`}
+            <div className="rounded-2xl bg-gray-800/40 ring-1 ring-optimist-800/50 overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setListOpen((o) => !o)}
+                className="flex w-full items-center justify-between px-5 py-3 text-left hover:bg-optimist-900/30 transition-colors"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      {doc.is_pinned && <Pin className="w-4 h-4 text-yellow-400" />}
-                      <h3 className="font-semibold text-lg">{doc.title}</h3>
-                    </div>
-                    {doc.category && (
-                      <div className="flex items-center gap-1 text-xs text-gray-300 mb-2">
-                        <Folder className="w-3 h-3" />
-                        {doc.category}
-                      </div>
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-optimist-400" />
+                  <span className="text-sm font-semibold text-optimist-200">Your documents</span>
+                  <span className="rounded-full bg-optimist-800 px-2 py-0.5 text-xs text-optimist-300">{docs.length}</span>
+                </div>
+                {listOpen ? <ChevronDown className="h-4 w-4 text-optimist-500" /> : <ChevronRight className="h-4 w-4 text-optimist-500" />}
+              </button>
+              {listOpen && (
+                <div className="border-t border-optimist-800/50 px-5 py-4 space-y-3">
+                  <div className="relative">
+                    <Search className="absolute left-2.5 top-2 h-4 w-4 text-optimist-500" />
+                    <input
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search documents…"
+                      aria-label="Search documents"
+                      className="block w-full rounded-lg border border-optimist-800 bg-optimist-900/30 pl-9 pr-3 py-1.5 text-sm text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
+                    />
+                  </div>
+                  {loading ? (
+                    <p className="text-sm text-optimist-400 py-4 text-center">Loading…</p>
+                  ) : filteredDocs.length === 0 ? (
+                    <p className="text-sm text-optimist-400 py-4 text-center">
+                      {searchQuery ? 'No matches' : 'No documents yet. Save your first above.'}
+                    </p>
+                  ) : (
+                    <ul className="space-y-1 max-h-80 overflow-y-auto pr-1">
+                      {filteredDocs.map((doc) => (
+                        <li
+                          key={doc.id}
+                          className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
+                            docId === doc.id ? 'bg-sage-900/20 ring-1 ring-sage-500/20' : 'hover:bg-optimist-900/30'
+                          }`}
+                          onClick={() => loadDoc(doc)}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              {doc.is_pinned && <Pin className="h-3 w-3 text-sage-400 shrink-0" />}
+                              <p className="text-sm font-medium text-optimist-100 truncate">{doc.title}</p>
+                            </div>
+                            <p className="text-xs text-optimist-400 truncate mt-0.5">
+                              {doc.content?.slice(0, 60).replace(/\n/g, ' ') || 'No content'}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                togglePin(doc)
+                              }}
+                              className="rounded p-1 text-optimist-400 hover:text-sage-300 hover:bg-optimist-800/50"
+                              title={doc.is_pinned ? 'Unpin' : 'Pin'}
+                            >
+                              {doc.is_pinned ? <PinOff className="h-3.5 w-3.5" /> : <Pin className="h-3.5 w-3.5" />}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete(doc.id)
+                              }}
+                              className="rounded p-1 text-optimist-400 hover:text-red-400 hover:bg-red-900/20"
+                              title="Delete"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 space-y-5">
+            <div className="rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50 p-5 space-y-5">
+              <div>
+                <h2 className="text-sm font-semibold text-optimist-200 uppercase tracking-wider">Format for platform</h2>
+                <p className="mt-1 text-xs text-optimist-400">Formatted copy is not saved — only your original is stored.</p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {PLATFORMS.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setActivePlatform(p.id)}
+                    className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                      activePlatform === p.id
+                        ? `${p.color} text-white shadow-sm`
+                        : 'bg-optimist-800 text-optimist-200 hover:bg-optimist-700'
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+
+              <div>
+                <label htmlFor="fmt-hashtags" className="flex items-center gap-1.5 text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                  <Hash className="h-3 w-3" />
+                  Optional hashtags
+                </label>
+                <input
+                  id="fmt-hashtags"
+                  value={hashtags}
+                  onChange={(e) => setHashtags(e.target.value)}
+                  placeholder="#creator #brand #content"
+                  className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm"
+                />
+              </div>
+
+              {charLimit && (
+                <div className="flex items-center justify-between text-xs">
+                  <span
+                    className={`font-medium ${
+                      overLimit ? 'text-red-400' : nearLimit ? 'text-amber-400' : 'text-optimist-400'
+                    }`}
+                  >
+                    {charCount} / {charLimit}
+                  </span>
+                  {overLimit && <span className="text-red-400">Over limit</span>}
+                </div>
+              )}
+
+              <div className="relative">
+                <div className="absolute right-2 top-2">
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="inline-flex items-center gap-1.5 rounded-md bg-optimist-800/80 px-2.5 py-1.5 text-xs font-medium text-optimist-100 hover:bg-optimist-700 backdrop-blur transition-colors"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-green-400" />
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" />
+                        Copy formatted
+                      </>
                     )}
-                  </div>
-                  <div className="flex gap-1">
-                    <button
-                      type="button"
-                      onClick={() => handleTogglePin(doc)}
-                      className="p-1.5 hover:bg-gray-700 rounded transition-colors"
-                      title={doc.is_pinned ? 'Unpin' : 'Pin'}
-                      aria-label={doc.is_pinned ? 'Unpin document' : 'Pin document'}
-                    >
-                      {doc.is_pinned ? (
-                        <Pin className="w-4 h-4 text-yellow-400" />
-                      ) : (
-                        <PinOff className="w-4 h-4 text-gray-300" />
-                      )}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(doc)}
-                      className="p-1.5 hover:bg-gray-700 rounded transition-colors"
-                      title="Edit"
-                      aria-label={`Edit ${doc.title}`}
-                    >
-                      <Edit className="w-4 h-4 text-blue-400" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(doc.id)}
-                      className="p-1.5 hover:bg-gray-700 rounded transition-colors"
-                      title="Delete"
-                      aria-label={`Delete ${doc.title}`}
-                    >
-                      <Trash2 className="w-4 h-4 text-red-400" />
-                    </button>
-                  </div>
-                </div>
-                
-                <p className="text-sm text-gray-300 line-clamp-3 mb-4">
-                  {doc.content.substring(0, 150)}
-                  {doc.content.length > 150 ? '...' : ''}
-                </p>
-                
-                <div className="flex items-center justify-between text-xs text-gray-300 mb-4">
-                  <span>{doc.word_count || 0} words</span>
-                  <span>{new Date(doc.updated_at).toLocaleDateString()}</span>
-                </div>
-
-                {doc.tags && (
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {doc.tags.split(',').slice(0, 3).map((tag: string, i: number) => (
-                      <span key={i} className="px-2 py-0.5 bg-gray-700 rounded text-xs">
-                        {tag.trim()}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(doc)}
-                    className="flex-1 px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-sm transition-colors"
-                  >
-                    Edit
                   </button>
-                  <button
-                    onClick={() => handleCopyToPost(doc)}
-                    className="flex-1 px-3 py-2 bg-optimist-600 hover:bg-optimist-700 rounded text-sm transition-colors"
-                  >
-                    Copy to Post
-                  </button>
+                </div>
+                <div className="rounded-lg border border-optimist-800 bg-optimist-950/50 p-4 pt-10 min-h-[12rem]">
+                  <pre className="whitespace-pre-wrap text-sm leading-relaxed text-optimist-100 font-mono">
+                    {formatted || 'Paste original content on the left, then pick a platform.'}
+                  </pre>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
 
-export default function DocumentsPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-optimist-950 flex items-center justify-center text-white">Loading...</div>}>
-      <DocumentsContent />
-    </Suspense>
+              <p className="text-xs text-optimist-400">
+                Live preview only. Adjust your original on the left and pick a platform to see formatting.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-gray-800/40 ring-1 ring-optimist-800/50 p-5">
+              <h3 className="text-xs font-semibold text-optimist-300 uppercase tracking-wider">Media</h3>
+              <p className="mt-3 text-sm text-optimist-400">Video attach — coming soon.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   )
 }
