@@ -97,8 +97,7 @@ export default function AICaptionWriterPage() {
             <Link href="/privacy" className="text-optimist-400 hover:underline">Privacy Policy</Link>. We do not promise results we cannot measure inside the product.
           </p>
           <p className="text-gray-300 text-sm">
-            Proof you can check yourself: published pricing and trials on the homepage, plan-by-plan tools on{' '}
-            <Link href="/select-plan" className="text-optimist-400 hover:underline">select-plan</Link>, and product questions via{' '}
+            Proof you can check yourself: free access while we build, product questions via{' '}
             <a href="mailto:support@creatorflow365.com" className="text-optimist-400 hover:underline">support@creatorflow365.com</a>.
           </p>
         </section>
@@ -156,16 +155,7 @@ export default function AICaptionWriterPage() {
 
         <section className="pt-4 flex flex-wrap gap-3">
           <Link href="/signup" className="px-5 py-3 bg-white text-black rounded-lg font-semibold">
-            Start Free Trial
-          </Link>
-          <Link href="/#pricing" className="px-5 py-3 bg-gray-800 rounded-lg border border-gray-700">
-            Compare Plans
-          </Link>
-          <Link
-            href="/select-plan?plan=starter"
-            className="px-5 py-3 bg-gray-800 rounded-lg border border-gray-700"
-          >
-            Starter Plan Details
+            Create free account
           </Link>
         </section>
       </div>

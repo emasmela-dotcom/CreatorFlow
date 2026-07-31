@@ -1,195 +1,34 @@
-'use client'
-
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useState } from 'react'
 import Link from 'next/link'
-import type { PlanType } from '@/components/PlanSelection'
-import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
-import { PHASE2_BY_PLAN } from '@/lib/selectPlanPhase2Copy'
-import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
-
-const PLAN_NAMES: Record<string, string> = {
-  free: 'Free',
-  starter: 'Starter',
-  growth: 'Essential',
-  essential: 'Essential',
-  pro: 'Creator',
-  creator: 'Creator',
-  business: 'Professional',
-  professional: 'Professional',
-  agency: 'Business',
-}
-
-function planParamToId(plan: string): PlanType {
-  const p = plan.toLowerCase()
-  if (p === 'essential') return 'growth'
-  if (p === 'creator') return 'pro'
-  if (p === 'professional') return 'business'
-  if (p === 'business') return 'agency'
-  if (p === 'free') return 'starter'
-  if (['starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
-  return 'pro'
-}
-
-function SelectPlanContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const planParam = (searchParams.get('plan') || 'pro').toLowerCase()
-  const planId = planParamToId(planParam)
-  const planName = PLAN_NAMES[planId] || PLAN_NAMES[planParam] || 'Creator'
-  const toolsPlanId = (planId === 'free' ? 'starter' : planId) as PlanId
-  const phase2 = PHASE2_BY_PLAN[toolsPlanId]
-
-  const [understood, setUnderstood] = useState(false)
-
-  const goToSignup = () => {
-    router.push(`/signup?plan=${planId}`)
-  }
-
-  return (
-    <div className="min-h-screen bg-optimist-950 text-white">
-      <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
-        <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
-          <nav className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm" aria-label="Site">
-            <Link href="/" className="text-gray-300 hover:text-white">Home</Link>
-            <Link href="/#pricing" className="text-gray-300 hover:text-white">Pricing</Link>
-            <Link href="/signin" className="text-gray-300 hover:text-white">Sign In</Link>
-            <Link href="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</Link>
-          </nav>
-        </div>
-      </header>
-
-      <main id="main-content" className="max-w-3xl mx-auto px-6 py-12">
-        <article className="space-y-10">
-          <header className="space-y-4">
-            <p className="text-sm font-medium text-optimist-400 uppercase tracking-wide">{planName}</p>
-            <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">{phase2.headline}</h1>
-            <div className="space-y-4 text-gray-300 text-base leading-relaxed">
-              {phase2.blocks.map((block, i) => (
-                <p key={i}>{block}</p>
-              ))}
-            </div>
-          </header>
-
-          <section aria-labelledby="included-heading">
-            <h2 id="included-heading" className="text-xl font-semibold text-white mb-3">
-              What&apos;s included
-            </h2>
-            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
-              {phase2.includedBullets.map((line, i) => (
-                <li key={i}>{line}</li>
-              ))}
-            </ul>
-          </section>
-
-          <section aria-labelledby="who-heading">
-            <h2 id="who-heading" className="text-xl font-semibold text-white mb-3">
-              Who this plan fits
-            </h2>
-            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
-              {phase2.whoBullets.map((line, i) => (
-                <li key={i}>{line}</li>
-              ))}
-            </ul>
-          </section>
-
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h2>
-            <ul className="space-y-2 text-sm text-gray-300">
-              {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-green-400 mt-0.5">✓</span>
-                  <span>{tool}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
-              <p>Tools shown as part of higher-tier plans are not included in this plan. Upgrade to use them. They were <strong>never part of this plan.</strong></p>
-            </div>
-
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={understood}
-                onChange={(e) => setUnderstood(e.target.checked)}
-                className="mt-1 rounded border-gray-500"
-              />
-              <span className="text-sm text-gray-300">
-                I understand which tools are included in the {planName} plan and that other tools require a higher plan. I will not claim those tools were part of my subscription.
-              </span>
-            </label>
-
-            <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
-              <h3 className="font-semibold text-white mb-2">Content created during trial</h3>
-              <p>If you subscribe before trial ends: You keep all content created during the trial.</p>
-              <p className="mt-2">If you don&apos;t subscribe: Your account is restored to its pre-trial state and content created during the trial will be removed.</p>
-            </div>
-          </div>
-
-          <p className="text-sm text-gray-300 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <button
-              type="button"
-              onClick={goToSignup}
-              disabled={!understood}
-              className="w-full sm:w-auto bg-optimist-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-optimist-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
-            >
-              Subscribe now
-            </button>
-            <button
-              type="button"
-              onClick={goToSignup}
-              className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500"
-            >
-              Start free trial
-            </button>
-            <Link
-              href="/"
-              className="w-full sm:w-auto bg-gray-700 text-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-600 hover:text-white text-center border border-gray-600"
-            >
-              Cancel
-            </Link>
-          </div>
-
-          <section aria-labelledby="faq-heading" className="border-t border-gray-700 pt-10">
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify(
-                  faqPageJsonLd(phase2.faq.map((item) => ({ question: item.q, answer: item.a })))
-                ),
-              }}
-            />
-            <h2 id="faq-heading" className="text-xl font-semibold text-white mb-4">
-              Frequently asked questions
-            </h2>
-            <dl className="space-y-4 text-sm text-gray-300">
-              {phase2.faq.map((item, i) => (
-                <div key={i}>
-                  <dt className="font-medium text-white">{item.q}</dt>
-                  <dd className="mt-1 pl-0">{item.a}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        </article>
-      </main>
-    </div>
-  )
-}
 
 export default function SelectPlanPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-optimist-950 text-white flex items-center justify-center">
-        <span className="text-gray-300">Loading...</span>
+    <main className="min-h-screen bg-optimist-950 text-white flex items-center justify-center px-6 py-24">
+      <div className="mx-auto max-w-lg text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+          Plans coming soon
+        </h1>
+        <p className="mt-6 text-lg leading-relaxed text-gray-300">
+          We are building live AI features and paid tiers. For now, everything is
+          free — no credit card required.
+        </p>
+        <p className="mt-4 text-sm text-optimist-200">
+          Free while we build. Paid plans with live AI later.
+        </p>
+        <div className="mt-10">
+          <Link
+            href="/signup"
+            className="inline-block rounded-lg bg-optimist-600 px-8 py-3.5 text-base font-semibold text-white hover:bg-optimist-500 transition-colors"
+          >
+            Create a free account
+          </Link>
+        </div>
+        <p className="mt-6 text-sm text-gray-400">
+          You will be notified when paid plans launch. No surprise charges.
+        </p>
+        <Link href="/" className="mt-8 inline-block text-sm text-optimist-300 hover:text-white">
+          ← Back to home
+        </Link>
       </div>
-    }>
-      <SelectPlanContent />
-    </Suspense>
+    </main>
   )
 }

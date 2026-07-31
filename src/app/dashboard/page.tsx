@@ -2688,7 +2688,7 @@ export default function Dashboard() {
       setActiveTab('overview')
     } else if (p.get('canceled') === 'true') {
       setDashboardNotice(
-        'Checkout was canceled. No charge was made—you can subscribe anytime from the trial banner or Pricing.'
+        'Checkout was canceled. No charge was made.'
       )
     } else if (p.get('purchase') === 'canceled') {
       setDashboardNotice('Post purchase was canceled. No charges were made.')
@@ -2808,7 +2808,6 @@ export default function Dashboard() {
     { label: 'Community', tab: 'community' },
     { label: 'Create', href: '/create' },
     { label: 'Documents', href: '/documents' },
-    { label: 'Pricing', href: '/pricing' },
   ]
 
   const navButtons = (
@@ -2828,7 +2827,6 @@ export default function Dashboard() {
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
-        <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
       </div>
     </>
   )
@@ -2916,7 +2914,6 @@ export default function Dashboard() {
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
-                  <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/pricing')}><DollarSign className="w-3 h-3 inline mr-1 -mt-0.5" />Pricing</button>
                 </div>
               </nav>
             </div>

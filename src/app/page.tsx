@@ -1,19 +1,13 @@
 'use client'
 
-import { Play, Star } from 'lucide-react'
+import { Play } from 'lucide-react'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
-  const { trackEvent, trackConversionEvent } = useAnalytics()
-
-  const handlePricingClick = async (plan: 'starter' | 'growth' | 'pro' | 'business' | 'agency') => {
-    trackEvent('pricing_click', 'conversion', plan)
-    trackConversionEvent('pricing_click', plan === 'starter' ? 9 : plan === 'growth' ? 19 : plan === 'pro' ? 49 : plan === 'business' ? 79 : 149)
-    window.location.href = `/signup?plan=${plan}`
-  }
+  useAnalytics()
 
   return (
     <>
@@ -26,7 +20,6 @@ export default function HomePage() {
               CreatorFlow365
             </a>
             <div className="flex items-center gap-4">
-              <a href="#pricing" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Compare plans</a>
               <a href="#tools" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Tools</a>
               <button onClick={() => window.location.href = '/creator-tools'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Creator tools</button>
               <button onClick={() => window.location.href = '/dashboard'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Browse app</button>
@@ -61,7 +54,8 @@ export default function HomePage() {
                   Browse app
                 </button>
               </div>
-              <p className="text-sm text-gray-400 mt-6">14-day free trial • No credit card required</p>
+              <p className="text-sm text-optimist-200 mt-6">Free while we build. Paid plans with live AI later.</p>
+              <p className="text-sm text-gray-400 mt-2">Create a free account — no credit card required.</p>
             </div>
           </section>
 
@@ -118,102 +112,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* Pricing */}
-          <section id="pricing" className="py-20 px-6 bg-optimist-900/30 scroll-mt-24">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl font-bold text-center mb-16">Simple, transparent pricing</h2>
-
-              <div className="flex flex-wrap justify-center gap-6">
-                <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-                  <h3 className="text-2xl font-bold mb-2">Starter</h3>
-                  <p className="text-xs text-gray-300 mb-4">Remove limits</p>
-                  <div className="text-4xl font-bold mb-6">$9<span className="text-lg text-gray-300">/month</span></div>
-                  <ul className="space-y-2 mb-8 text-sm">
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>3 social accounts</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited documents</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited hashtag sets</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Unlimited templates</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>500 AI calls/month</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Starter analytics included</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Enhanced AI features</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-white mt-0.5 flex-shrink-0" /> <span>Email support (48hr)</span></li>
-                  </ul>
-                  <button onClick={() => handlePricingClick('starter')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Get Started</button>
-                  <a href="/select-plan?plan=starter" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
-                </div>
-
-                <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-                  <h3 className="text-2xl font-bold mb-2">Essential</h3>
-                  <p className="text-xs text-gray-300 mb-4">For creators building their workflow</p>
-                  <div className="text-4xl font-bold mb-6">$19<span className="text-lg text-gray-300">/month</span></div>
-                  <ul className="space-y-2 mb-8 text-sm">
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>5 social accounts</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>1,000 AI calls/month</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Advanced AI features</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Content analytics</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Email support (24hr)</span></li>
-                  </ul>
-                  <button onClick={() => handlePricingClick('growth')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Get Started</button>
-                  <a href="/select-plan?plan=growth" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
-                </div>
-
-                <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">Most Popular</div>
-                  <h3 className="text-2xl font-bold mb-2">Creator</h3>
-                  <p className="text-xs text-gray-300 mb-4">For serious creators who want everything</p>
-                  <div className="text-4xl font-bold mb-6">$49<span className="text-lg text-gray-300">/month</span></div>
-                  <ul className="space-y-2 mb-8 text-sm">
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>10 social accounts</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited AI calls</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Premium AI features</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Advanced analytics</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Team collaboration (3 members)</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>API access</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (12hr)</span></li>
-                  </ul>
-                  <button onClick={() => handlePricingClick('pro')} className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg transition-all">Get Started</button>
-                  <a href="/select-plan?plan=pro" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
-                </div>
-
-                <div className="bg-gray-800/50 p-8 rounded-xl border border-gray-700 flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-                  <h3 className="text-2xl font-bold mb-2">Professional</h3>
-                  <p className="text-xs text-gray-300 mb-4">Complete toolkit for professional creators</p>
-                  <div className="text-4xl font-bold mb-6">$79<span className="text-lg text-gray-300">/month</span></div>
-                  <ul className="space-y-2 mb-8 text-sm">
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited accounts</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Premium analytics + predictions</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Team collaboration (10 members)</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>White-label options</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Advanced API access</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (6hr)</span></li>
-                  </ul>
-                  <button onClick={() => handlePricingClick('business')} className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Get Started</button>
-                  <a href="/select-plan?plan=business" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
-                </div>
-
-                <div className="bg-gray-800/50 p-8 rounded-xl border-2 border-white relative flex-shrink-0" style={{ minWidth: '280px', maxWidth: '320px' }}>
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-sm font-semibold">Teams &amp; agencies</div>
-                  <h3 className="text-2xl font-bold mb-2">Business</h3>
-                  <p className="text-xs text-gray-300 mb-4">For teams and agencies</p>
-                  <div className="text-4xl font-bold mb-6">$149<span className="text-lg text-gray-300">/month</span></div>
-                  <ul className="space-y-2 mb-8 text-sm">
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited everything</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Maximum AI performance</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Enterprise analytics & reporting</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Full white-label</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Unlimited team members</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Custom integrations & API</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Dedicated account manager</span></li>
-                    <li className="flex items-start gap-2"><Star className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> <span>Priority support (2hr)</span></li>
-                  </ul>
-                  <button onClick={() => handlePricingClick('agency')} className="w-full py-3 bg-white text-black hover:bg-gray-200 rounded-lg transition-all font-semibold">Get Started</button>
-                  <a href="/select-plan?plan=agency" className="block text-center text-sm text-gray-300 hover:text-white mt-2">Tools offered</a>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* Pricing hidden until launch — see EarlyAccessBanner */}
 
           {/* Trust + FAQ */}
           <section className="py-16 px-6 bg-optimist-900/20">
@@ -224,8 +123,8 @@ export default function HomePage() {
                   <p className="text-sm text-gray-400">Independent creators, teams, and agencies managing content end-to-end.</p>
                 </div>
                 <div className="text-center">
-                  <h3 className="font-semibold text-white mb-1">14-day free trial</h3>
-                  <p className="text-sm text-gray-400">No credit card required. Full access to planning, scheduling, and analytics.</p>
+                  <h3 className="font-semibold text-white mb-1">Free while we build</h3>
+                  <p className="text-sm text-gray-400">Use the formatter and workspace now. Paid plans with live AI launch later.</p>
                 </div>
                 <div className="text-center">
                   <h3 className="font-semibold text-white mb-1">Clear updates</h3>
@@ -252,7 +151,7 @@ export default function HomePage() {
           <section className="py-20 px-6">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to simplify your workflow?</h2>
-              <p className="text-gray-400 mb-8">Start your 14-day free trial. No credit card required.</p>
+              <p className="text-gray-400 mb-8">Create a free account and format your content for every platform.</p>
               <button
                 onClick={() => window.location.href = '/signup'}
                 className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"

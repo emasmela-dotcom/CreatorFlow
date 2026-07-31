@@ -153,16 +153,7 @@ export default function ContentCreatorAnalyticsPage() {
 
         <section className="pt-4 flex flex-wrap gap-3">
           <Link href="/signup" className="px-5 py-3 bg-white text-black rounded-lg font-semibold">
-            Start Free Trial
-          </Link>
-          <Link href="/#pricing" className="px-5 py-3 bg-gray-800 rounded-lg border border-gray-700">
-            Compare Plans
-          </Link>
-          <Link
-            href="/select-plan?plan=pro"
-            className="px-5 py-3 bg-gray-800 rounded-lg border border-gray-700"
-          >
-            Pro Plan Details
+            Create free account
           </Link>
         </section>
       </div>

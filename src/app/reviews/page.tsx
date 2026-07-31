@@ -257,8 +257,8 @@ export default function ReviewsPage() {
               </a>
             </li>
             <li>
-              <a href="/select-plan" className="text-optimist-400 hover:underline">
-                Compare plans and included tools before signup
+              <a href="/signup" className="text-optimist-400 hover:underline">
+                Create a free account
               </a>
             </li>
           </ul>
@@ -270,7 +270,7 @@ export default function ReviewsPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl sm:text-4xl font-bold mb-6 text-white">Ready to try CreatorFlow365 yourself?</h2>
           <p className="text-lg sm:text-xl text-gray-300 mb-8">
-            Start your 14-day free trial today. No credit card required during trial.
+            Create a free account — free while we build. Paid plans with live AI later.
           </p>
           <Link
             href="/signup"

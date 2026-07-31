@@ -275,11 +275,8 @@ export default function CreatorToolsPage() {
             Home
           </Link>
           <span className="text-gray-500" aria-hidden>|</span>
-          <Link href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
-            Pricing
-          </Link>
           <Link href="/signup" className="text-sm text-gray-300 hover:text-white transition-colors ml-auto">
-            Start free trial
+            Create free account
           </Link>
         </div>
       </header>
@@ -403,8 +400,8 @@ export default function CreatorToolsPage() {
                 </Link>
               </li>
               <li>
-                <Link href="/select-plan" className="text-optimist-400 hover:underline">
-                  Compare plans line by line before you sign up
+                <Link href="/signup" className="text-optimist-400 hover:underline">
+                  Create a free account
                 </Link>
               </li>
             </ul>
