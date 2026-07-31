@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeAICall, logAICall } from '@/lib/usageTracking'
+import { callLLM } from '@/lib/ai/llm'
 
 /**
  * Content Writer Bot - AI-powered content generation
@@ -628,8 +629,40 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Generate content based on type and parameters
-    const content = generateContent(topic, type, tone || 'professional', length, platform, keywords || [])
+    let content = generateContent(topic, type, tone || 'professional', length, platform, keywords || [])
+    let aiMode: 'template' | 'live' = 'template'
+    let aiProvider: string | undefined
+
+    const llmResult = await callLLM({
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a content writer for CreatorFlow365. Write content based on the user\'s topic and parameters. Stay on topic, match the requested tone and format, and do not invent unrelated subjects.',
+        },
+        {
+          role: 'user',
+          content:
+            `Topic: ${topic}\nType: ${type}\nTone: ${tone || 'professional'}\n` +
+            `${platform ? `Platform: ${platform}\n` : ''}` +
+            `${length ? `Target length (words): ${length}\n` : ''}` +
+            `${keywords?.length ? `Keywords: ${(keywords || []).join(', ')}\n` : ''}`,
+        },
+      ],
+      userId: user.userId,
+      temperature: 0.7,
+    })
+
+    if (llmResult.ok) {
+      content = llmResult.text
+      aiMode = 'live'
+      aiProvider = llmResult.provider
+    } else if (llmResult.code === 'USAGE_LIMIT') {
+      return NextResponse.json({ error: llmResult.error }, { status: 429 })
+    } else if (llmResult.code === 'PROVIDER_ERROR') {
+      return NextResponse.json({ error: llmResult.error }, { status: 502 })
+    }
+    // NOT_CONFIGURED → keep template content from generateContent()
 
     // Ensure table exists (fallback)
     try {
@@ -694,6 +727,8 @@ export async function POST(request: NextRequest) {
       success: true,
       content: result.rows[0],
       tier,
+      aiMode,
+      ...(aiProvider ? { provider: aiProvider } : {}),
       usage: {
         aiCallsUsed: limitCheck.current + 1,
         aiCallsLimit: limitCheck.limit

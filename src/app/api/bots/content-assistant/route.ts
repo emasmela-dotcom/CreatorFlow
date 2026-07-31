@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeAICall, logAICall } from '@/lib/usageTracking'
+import { callLLM } from '@/lib/ai/llm'
 
 /**
  * Content Assistant Bot - Real-time content analysis
@@ -225,18 +226,77 @@ function analyzeContentEnhanced(content: string, platform: string, hashtags: str
 }
 
 /**
- * AI-powered analysis (Pro tier and above)
- * Uses free AI tier if available, otherwise falls back to enhanced
+ * Analyze content with live AI when keys are configured
  */
-async function analyzeContentAI(content: string, platform: string, hashtags: string, performanceLevel: string): Promise<BotAnalysis> {
-  // Start with enhanced analysis
-  const enhanced = analyzeContentEnhanced(content, platform, hashtags)
-  
-  // For now, use enhanced (AI integration would go here)
-  // In future: Could use OpenAI free tier, Gemini free tier, etc.
-  // For MVP: Enhanced analysis is sufficient
-  
-  return enhanced
+async function analyzeContentWithLLM(
+  content: string,
+  platform: string,
+  hashtags: string,
+  userId: string
+): Promise<
+  | { ok: true; analysis: BotAnalysis; provider: 'groq' | 'grok' | 'openai' }
+  | { ok: false; code: 'NOT_CONFIGURED' | 'PROVIDER_ERROR' | 'USAGE_LIMIT' | 'PARSE_ERROR'; error?: string }
+> {
+  const result = await callLLM({
+    messages: [
+      {
+        role: 'system',
+        content:
+          'You are a content analyst for CreatorFlow365. Analyze the user\'s existing post — do not rewrite it or invent facts. Return ONLY valid JSON with this exact shape: {"score":number,"status":"good"|"warning"|"needs-work","suggestions":[{"type":"length"|"hashtags"|"tone"|"engagement"|"grammar"|"platform","priority":"high"|"medium"|"low","message":string,"actionable":string}],"metrics":{"length":number,"hashtagCount":number,"wordCount":number,"emojiCount":number}}',
+      },
+      {
+        role: 'user',
+        content: `Platform: ${platform}\nHashtags: ${hashtags || 'none'}\n\nContent:\n${content}`,
+      },
+    ],
+    userId,
+    temperature: 0.3,
+    maxTokens: 1500,
+  })
+
+  if (!result.ok) {
+    return { ok: false, code: result.code, error: result.error }
+  }
+
+  try {
+    const cleaned = result.text.replace(/```json\n?|\n?```/g, '').trim()
+    const parsed = JSON.parse(cleaned) as BotAnalysis
+    if (
+      typeof parsed.score === 'number' &&
+      Array.isArray(parsed.suggestions) &&
+      parsed.metrics &&
+      typeof parsed.metrics.length === 'number'
+    ) {
+      return { ok: true, analysis: parsed, provider: result.provider }
+    }
+  } catch {
+    // fall through
+  }
+
+  return { ok: false, code: 'PARSE_ERROR', error: 'AI returned an invalid analysis format.' }
+}
+
+/**
+ * AI-powered analysis (Pro tier and above)
+ * Uses live LLM when configured, otherwise falls back to enhanced rules
+ */
+async function analyzeContentAI(
+  content: string,
+  platform: string,
+  hashtags: string,
+  performanceLevel: string,
+  userId: string
+): Promise<{ analysis: BotAnalysis; aiMode: 'template' | 'live'; provider?: 'groq' | 'grok' | 'openai' }> {
+  const llm = await analyzeContentWithLLM(content, platform, hashtags, userId)
+  if (llm.ok) {
+    return { analysis: llm.analysis, aiMode: 'live', provider: llm.provider }
+  }
+
+  if (llm.code === 'NOT_CONFIGURED' || llm.code === 'PARSE_ERROR') {
+    return { analysis: analyzeContentEnhanced(content, platform, hashtags), aiMode: 'template' }
+  }
+
+  throw new Error(llm.error || 'AI analysis failed')
 }
 
 /**
@@ -274,14 +334,24 @@ export async function POST(request: NextRequest) {
 
     // Analyze based on tier
     let analysis: BotAnalysis
+    let aiMode: 'template' | 'live' = 'template'
+    let aiProvider: 'groq' | 'grok' | 'openai' | undefined
 
     if (performanceLevel === 'basic') {
       analysis = analyzeContentBasic(content, platform, hashtags || '')
     } else if (performanceLevel === 'enhanced') {
       analysis = analyzeContentEnhanced(content, platform, hashtags || '')
     } else {
-      // AI, Advanced, Premium - use enhanced for now (AI can be added later)
-      analysis = await analyzeContentAI(content, platform, hashtags || '', performanceLevel)
+      const aiResult = await analyzeContentAI(
+        content,
+        platform,
+        hashtags || '',
+        performanceLevel,
+        user.userId
+      )
+      analysis = aiResult.analysis
+      aiMode = aiResult.aiMode
+      aiProvider = aiResult.provider
     }
 
     // Log the AI call
@@ -292,6 +362,8 @@ export async function POST(request: NextRequest) {
       analysis,
       tier,
       performanceLevel,
+      aiMode,
+      ...(aiProvider ? { provider: aiProvider } : {}),
       usage: {
         aiCalls: {
           current: limitCheck.current + 1,

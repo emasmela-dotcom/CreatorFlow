@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY
+const OPENAI_API_KEY =
+  process.env.OPENAI_API_KEY ||
+  process.env.GROQ_API_KEY ||
+  process.env.XAI_API_KEY
 
 export const dynamic = 'force-dynamic'
 
