@@ -250,7 +250,10 @@ export async function calculateStorageUsed(userId: string): Promise<number> {
     // Calculate documents storage (rough estimate: 1 char = 1 byte)
     const documentsResult = await db.execute({
       sql: `
-        SELECT COALESCE(SUM(LENGTH(content) + LENGTH(COALESCE(title, '')))), 0) as total_bytes
+        SELECT COALESCE(
+          SUM(LENGTH(content) + LENGTH(COALESCE(title, '')) + COALESCE(video_size_bytes, 0)),
+          0
+        ) as total_bytes
         FROM documents
         WHERE user_id = ?
       `,

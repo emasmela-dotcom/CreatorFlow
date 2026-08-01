@@ -1,10 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { del } from '@vercel/blob'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canUseStorage, updateStorageUsage } from '@/lib/usageTracking'
 import { getDocumentLimit, PlanType } from '@/lib/planLimits'
 
 export const dynamic = 'force-dynamic'
+
+async function ensureVideoColumns() {
+  try {
+    await db.execute({ sql: `ALTER TABLE documents ADD COLUMN IF NOT EXISTS video_url TEXT`, args: [] })
+    await db.execute({ sql: `ALTER TABLE documents ADD COLUMN IF NOT EXISTS video_filename VARCHAR(255)`, args: [] })
+    await db.execute({
+      sql: `ALTER TABLE documents ADD COLUMN IF NOT EXISTS video_size_bytes BIGINT DEFAULT 0`,
+      args: [],
+    })
+  } catch {
+    // table may not exist yet; POST handler creates it
+  }
+}
+
+async function deleteBlobIfPresent(url: string | null | undefined) {
+  if (!url) return
+  try {
+    await del(url)
+  } catch {
+    // ignore cleanup failures
+  }
+}
 
 /**
  * Documents API - Built-in document/notes storage
@@ -48,17 +71,38 @@ export async function POST(request: NextRequest) {
       // Continue anyway - table might already exist
     }
 
-    const body = await request.json()
-    const { id, title, content, category, tags, is_pinned } = body
+    await ensureVideoColumns()
 
-    if (!title || !content) {
-      return NextResponse.json({ 
-        error: 'Title and content are required' 
-      }, { status: 400 })
+    const body = await request.json()
+    const {
+      id,
+      title,
+      content,
+      category,
+      tags,
+      is_pinned,
+      video_url,
+      video_filename,
+      video_size_bytes,
+    } = body
+
+    const trimmedTitle = typeof title === 'string' ? title.trim() : ''
+    const trimmedContent = typeof content === 'string' ? content.trim() : ''
+    const hasVideo = Boolean(video_url)
+
+    if (!trimmedTitle) {
+      return NextResponse.json({ error: 'Title is required' }, { status: 400 })
+    }
+    if (!trimmedContent && !hasVideo) {
+      return NextResponse.json(
+        { error: 'Add original text or attach a video before saving' },
+        { status: 400 }
+      )
     }
 
     // Calculate word count
-    const wordCount = content.trim().split(/\s+/).filter((word: string) => word.length > 0).length
+    const wordCount = trimmedContent.split(/\s+/).filter((word: string) => word.length > 0).length
+    const videoSize = Number(video_size_bytes) || 0
 
     // Get user's plan to check limits
     const userResult = await db.execute({
@@ -68,25 +112,42 @@ export async function POST(request: NextRequest) {
     const userPlan = (userResult.rows[0] as any)?.subscription_tier as PlanType | null
 
     if (id) {
-      // Update existing document
+      const existing = await db.execute({
+        sql: 'SELECT video_url FROM documents WHERE id = ? AND user_id = ?',
+        args: [id, user.userId],
+      })
+      if (!existing.rows.length) {
+        return NextResponse.json({ error: 'Document not found' }, { status: 404 })
+      }
+
+      const oldVideoUrl = (existing.rows[0] as { video_url?: string | null }).video_url
+      const nextVideoUrl = video_url || null
+      if (oldVideoUrl && oldVideoUrl !== nextVideoUrl) {
+        await deleteBlobIfPresent(oldVideoUrl)
+      }
+
       const result = await db.execute({
         sql: `
           UPDATE documents 
           SET title = ?, content = ?, category = ?, tags = ?, 
-              is_pinned = ?, word_count = ?, updated_at = NOW()
+              is_pinned = ?, word_count = ?, video_url = ?, video_filename = ?,
+              video_size_bytes = ?, updated_at = NOW()
           WHERE id = ? AND user_id = ?
           RETURNING *
         `,
         args: [
-          title, 
-          content, 
-          category || null, 
+          trimmedTitle,
+          trimmedContent,
+          category || null,
           tags || null,
           is_pinned || false,
           wordCount,
-          id, 
-          user.userId
-        ]
+          nextVideoUrl,
+          video_filename || null,
+          videoSize,
+          id,
+          user.userId,
+        ],
       })
 
       // Update storage usage
@@ -116,7 +177,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Check storage limit
-      const contentBytes = Buffer.byteLength(title + content, 'utf8')
+      const contentBytes = Buffer.byteLength(trimmedTitle + trimmedContent, 'utf8') + videoSize
       const storageCheck = await canUseStorage(user.userId, contentBytes)
       if (!storageCheck.allowed) {
         return NextResponse.json({
@@ -132,18 +193,22 @@ export async function POST(request: NextRequest) {
       const result = await db.execute({
         sql: `
           INSERT INTO documents 
-          (user_id, title, content, category, tags, is_pinned, word_count, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+          (user_id, title, content, category, tags, is_pinned, word_count,
+           video_url, video_filename, video_size_bytes, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
           RETURNING *
         `,
         args: [
-          user.userId, 
-          title, 
-          content, 
-          category || null, 
+          user.userId,
+          trimmedTitle,
+          trimmedContent,
+          category || null,
           tags || null,
           is_pinned || false,
-          wordCount
+          wordCount,
+          video_url || null,
+          video_filename || null,
+          videoSize,
         ]
       })
 
@@ -172,6 +237,8 @@ export async function GET(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    await ensureVideoColumns()
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
@@ -232,6 +299,16 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ 
         error: 'Document ID is required' 
       }, { status: 400 })
+    }
+
+    await ensureVideoColumns()
+
+    const existing = await db.execute({
+      sql: 'SELECT video_url FROM documents WHERE id = ? AND user_id = ?',
+      args: [id, user.userId],
+    })
+    if (existing.rows.length) {
+      await deleteBlobIfPresent((existing.rows[0] as { video_url?: string | null }).video_url)
     }
 
     await db.execute({

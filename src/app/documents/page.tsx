@@ -19,6 +19,9 @@ import {
   ChevronRight,
   X,
   Home,
+  Upload,
+  Video,
+  Trash,
 } from 'lucide-react'
 import { formatForPlatform } from '@/lib/formatForPlatform'
 
@@ -29,6 +32,9 @@ interface Document {
   category?: string | null
   tags?: string | null
   is_pinned?: boolean
+  video_url?: string | null
+  video_filename?: string | null
+  video_size_bytes?: number | null
   created_at?: string
   updated_at?: string
 }
@@ -49,6 +55,14 @@ function tagsToInput(tags: Document['tags']): string {
   return tags
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`
+}
+
 export default function DocumentsPage() {
   const router = useRouter()
   const [token, setToken] = useState<string | null>(null)
@@ -64,6 +78,12 @@ export default function DocumentsPage() {
   const [tagsInput, setTagsInput] = useState('')
   const [isPinned, setIsPinned] = useState(false)
 
+  const [videoFile, setVideoFile] = useState<File | null>(null)
+  const [videoUrl, setVideoUrl] = useState<string | null>(null)
+  const [videoFilename, setVideoFilename] = useState<string | null>(null)
+  const [videoSizeBytes, setVideoSizeBytes] = useState<number | null>(null)
+  const [uploadingVideo, setUploadingVideo] = useState(false)
+
   const [activePlatform, setActivePlatform] = useState('instagram')
   const [hashtags, setHashtags] = useState('')
   const [copied, setCopied] = useState(false)
@@ -77,6 +97,12 @@ export default function DocumentsPage() {
     }
   }, [])
 
+  const handleAuthError = useCallback(() => {
+    localStorage.removeItem('token')
+    setToken(null)
+    setError('Session expired — sign in again')
+  }, [])
+
   const fetchDocs = useCallback(async () => {
     if (!token) return
     setLoading(true)
@@ -85,6 +111,10 @@ export default function DocumentsPage() {
       const res = await fetch('/api/documents', {
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (res.status === 401) {
+        handleAuthError()
+        return
+      }
       const data = await res.json()
       if (!res.ok || !data.success) throw new Error(data.error || 'Failed to load documents')
       setDocs(data.documents || [])
@@ -93,7 +123,7 @@ export default function DocumentsPage() {
     } finally {
       setLoading(false)
     }
-  }, [token])
+  }, [token, handleAuthError])
 
   useEffect(() => {
     if (token) fetchDocs()
@@ -117,6 +147,13 @@ export default function DocumentsPage() {
     return list
   }, [docs, searchQuery])
 
+  const resetVideoState = () => {
+    setVideoFile(null)
+    setVideoUrl(null)
+    setVideoFilename(null)
+    setVideoSizeBytes(null)
+  }
+
   const newDoc = () => {
     setDocId(null)
     setTitle('')
@@ -126,6 +163,7 @@ export default function DocumentsPage() {
     setIsPinned(false)
     setActivePlatform('instagram')
     setHashtags('')
+    resetVideoState()
   }
 
   const loadDoc = (doc: Document) => {
@@ -135,7 +173,75 @@ export default function DocumentsPage() {
     setCategory(doc.category || '')
     setTagsInput(tagsToInput(doc.tags))
     setIsPinned(doc.is_pinned || false)
+    setVideoUrl(doc.video_url || null)
+    setVideoFilename(doc.video_filename || null)
+    setVideoSizeBytes(doc.video_size_bytes || null)
+    setVideoFile(null)
   }
+
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('video/')) {
+      setError('Only video files are allowed (mp4, mov, webm)')
+      return
+    }
+    if (file.size > 100 * 1024 * 1024) {
+      setError('Max video size is 100MB')
+      return
+    }
+    setVideoFile(file)
+    setVideoFilename(file.name)
+    setVideoSizeBytes(file.size)
+    setError('')
+  }
+
+  const removeSelectedVideo = () => {
+    setVideoFile(null)
+    if (!docId) {
+      setVideoFilename(null)
+      setVideoSizeBytes(null)
+    }
+  }
+
+  const removeSavedVideo = async () => {
+    if (!docId || !token) return
+    setSaving(true)
+    try {
+      const res = await fetch('/api/documents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: docId,
+          title,
+          content,
+          category: category.trim() || null,
+          tags: tagsInput.trim() || null,
+          is_pinned: isPinned,
+          video_url: null,
+          video_filename: null,
+          video_size_bytes: 0,
+        }),
+      })
+      if (res.status === 401) {
+        handleAuthError()
+        return
+      }
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove video')
+      if (data.document) loadDoc(data.document)
+      await fetchDocs()
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to remove video')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const canSave = Boolean(title.trim() && (content.trim() || videoFile || videoUrl))
 
   const handleSave = async () => {
     if (!token) return
@@ -143,9 +249,44 @@ export default function DocumentsPage() {
       setError('Title is required')
       return
     }
-    if (!content.trim()) {
-      setError('Content is required')
+    if (!content.trim() && !videoFile && !videoUrl) {
+      setError('Add original text or attach a video before saving')
       return
+    }
+
+    let uploadedVideoUrl = videoUrl
+    let uploadedVideoFilename = videoFilename
+    let uploadedVideoSize = videoSizeBytes
+
+    if (videoFile) {
+      setUploadingVideo(true)
+      setError('')
+      try {
+        const formData = new FormData()
+        formData.append('file', videoFile)
+        const uploadRes = await fetch('/api/documents/upload', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        })
+        if (uploadRes.status === 401) {
+          handleAuthError()
+          return
+        }
+        const uploadData = await uploadRes.json()
+        if (!uploadRes.ok || !uploadData.success) {
+          throw new Error(uploadData.error || 'Video upload failed')
+        }
+        uploadedVideoUrl = uploadData.video_url
+        uploadedVideoFilename = uploadData.video_filename
+        uploadedVideoSize = uploadData.video_size_bytes
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Video upload failed')
+        setUploadingVideo(false)
+        return
+      } finally {
+        setUploadingVideo(false)
+      }
     }
 
     setSaving(true)
@@ -157,6 +298,9 @@ export default function DocumentsPage() {
         category: category.trim() || null,
         tags: tagsInput.trim() || null,
         is_pinned: isPinned,
+        video_url: uploadedVideoUrl || null,
+        video_filename: uploadedVideoFilename || null,
+        video_size_bytes: uploadedVideoSize || 0,
       }
       if (docId) body.id = docId
 
@@ -168,9 +312,17 @@ export default function DocumentsPage() {
         },
         body: JSON.stringify(body),
       })
+      if (res.status === 401) {
+        handleAuthError()
+        return
+      }
       const data = await res.json()
       if (!res.ok || !data.success) throw new Error(data.error || 'Save failed')
       if (data.document?.id) setDocId(data.document.id)
+      setVideoUrl(data.document?.video_url || null)
+      setVideoFilename(data.document?.video_filename || null)
+      setVideoSizeBytes(data.document?.video_size_bytes || null)
+      setVideoFile(null)
       await fetchDocs()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Save failed')
@@ -187,6 +339,10 @@ export default function DocumentsPage() {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (res.status === 401) {
+        handleAuthError()
+        return
+      }
       const data = await res.json()
       if (!res.ok || !data.success) throw new Error(data.error || 'Delete failed')
       if (docId === id) newDoc()
@@ -212,8 +368,15 @@ export default function DocumentsPage() {
           category: doc.category,
           tags: doc.tags,
           is_pinned: !doc.is_pinned,
+          video_url: doc.video_url,
+          video_filename: doc.video_filename,
+          video_size_bytes: doc.video_size_bytes,
         }),
       })
+      if (res.status === 401) {
+        handleAuthError()
+        return
+      }
       const data = await res.json()
       if (!res.ok || !data.success) throw new Error(data.error || 'Update failed')
       await fetchDocs()
@@ -330,7 +493,16 @@ export default function DocumentsPage() {
         {error && (
           <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-900/20 border border-red-800/40 px-4 py-3 text-sm text-red-300">
             <AlertCircle className="h-4 w-4 shrink-0" />
-            {error}
+            <span className="flex-1">{error}</span>
+            {error.includes('Session expired') && (
+              <button
+                type="button"
+                onClick={() => router.push('/signin')}
+                className="rounded-md bg-red-800/40 px-2.5 py-1 text-xs font-medium text-red-200 hover:bg-red-800/60 transition-colors"
+              >
+                Sign in
+              </button>
+            )}
             <button type="button" onClick={() => setError('')} className="ml-auto" aria-label="Dismiss error">
               <X className="h-4 w-4" />
             </button>
@@ -376,6 +548,66 @@ export default function DocumentsPage() {
                   <p className="mt-1.5 text-xs text-optimist-400">{content.length} characters</p>
                 </div>
 
+                <div>
+                  <span className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">Video</span>
+                  {videoUrl && !videoFile && (
+                    <div className="mt-2 rounded-lg border border-optimist-800 bg-optimist-950/50 overflow-hidden">
+                      <video src={videoUrl} controls className="w-full max-h-64 object-contain" />
+                      <div className="flex items-center justify-between px-3 py-2 bg-optimist-900/30">
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-optimist-100 truncate">{videoFilename}</p>
+                          <p className="text-xs text-optimist-400">
+                            {videoSizeBytes ? formatBytes(videoSizeBytes) : ''}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={removeSavedVideo}
+                          disabled={saving}
+                          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-red-400 hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                        >
+                          <Trash className="h-3 w-3" />
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {videoFile && (
+                    <div className="mt-2 flex items-center justify-between rounded-lg border border-optimist-800 bg-optimist-900/30 px-3 py-2.5">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Video className="h-4 w-4 text-sage-400 shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-optimist-100 truncate">{videoFile.name}</p>
+                          <p className="text-xs text-optimist-400">{formatBytes(videoFile.size)}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeSelectedVideo}
+                        className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-optimist-300 hover:bg-optimist-800/50 transition-colors"
+                      >
+                        <X className="h-3 w-3" />
+                        Clear
+                      </button>
+                    </div>
+                  )}
+                  {!videoUrl && !videoFile && (
+                    <label className="mt-2 flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-optimist-700 bg-optimist-900/20 px-4 py-6 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
+                      <Upload className="h-5 w-5 text-optimist-400" />
+                      <span className="text-sm font-medium text-optimist-300">Attach a video</span>
+                      <span className="text-xs text-optimist-500">(mp4, mov, webm — max 100MB)</span>
+                      <input type="file" accept="video/*" onChange={handleVideoSelect} className="sr-only" />
+                    </label>
+                  )}
+                  {(videoUrl || videoFile) && (
+                    <label className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-optimist-800 px-2.5 py-1.5 text-xs font-medium text-optimist-200 hover:bg-optimist-700 transition-colors">
+                      <Upload className="h-3 w-3" />
+                      Replace video
+                      <input type="file" accept="video/*" onChange={handleVideoSelect} className="sr-only" />
+                    </label>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label htmlFor="doc-category" className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
@@ -419,11 +651,17 @@ export default function DocumentsPage() {
                   <button
                     type="button"
                     onClick={handleSave}
-                    disabled={saving || !title.trim() || !content.trim()}
+                    disabled={saving || uploadingVideo || !canSave}
                     className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     <Save className="h-4 w-4" />
-                    {saving ? 'Saving…' : docId ? 'Update original' : 'Save original'}
+                    {uploadingVideo
+                      ? 'Uploading video…'
+                      : saving
+                        ? 'Saving…'
+                        : docId
+                          ? 'Update original'
+                          : 'Save original'}
                   </button>
                   {docId && <span className="text-xs text-optimist-400">Editing saved document</span>}
                 </div>
@@ -474,10 +712,11 @@ export default function DocumentsPage() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               {doc.is_pinned && <Pin className="h-3 w-3 text-sage-400 shrink-0" />}
+                              {doc.video_url && <Video className="h-3 w-3 text-optimist-400 shrink-0" />}
                               <p className="text-sm font-medium text-optimist-100 truncate">{doc.title}</p>
                             </div>
                             <p className="text-xs text-optimist-400 truncate mt-0.5">
-                              {doc.content?.slice(0, 60).replace(/\n/g, ' ') || 'No content'}
+                              {doc.content?.slice(0, 60).replace(/\n/g, ' ') || (doc.video_url ? 'Video attached' : 'No content')}
                             </p>
                           </div>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
@@ -594,11 +833,6 @@ export default function DocumentsPage() {
               <p className="text-xs text-optimist-400">
                 Live preview only. Adjust your original on the left and pick a platform to see formatting.
               </p>
-            </div>
-
-            <div className="rounded-2xl bg-gray-800/40 ring-1 ring-optimist-800/50 p-5">
-              <h3 className="text-xs font-semibold text-optimist-300 uppercase tracking-wider">Media</h3>
-              <p className="mt-3 text-sm text-optimist-400">Video attach — coming soon.</p>
             </div>
           </div>
         </div>

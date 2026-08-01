@@ -1,0 +1,30 @@
+Paste this block at the TOP of every Kimi prompt — then add your task below it.
+
+================================================================================
+CRITICAL — NO FULL FILE REWRITES
+================================================================================
+
+CreatorFlow365 already has working pages. Do NOT return full replacements for:
+- src/app/page.tsx (homepage)
+- src/app/layout.tsx
+- src/app/dashboard/page.tsx
+- src/app/signup/page.tsx or signin
+
+ONLY return:
+1. The exact file(s) named in the task (e.g. documents/page.tsx only), OR
+2. Small surgical edits marked clearly: "In src/app/page.tsx ADD after line X:" with the snippet only — not the whole file.
+
+If the task is "add taglines to homepage", return ONLY the JSX block to insert and say WHERE to insert it — do not rewrite the hero, nav, footer, or other sections.
+
+Match existing stack:
+- JWT via localStorage key "token"
+- Authorization: Bearer <token> on API calls
+- Sign-in route /signin (not /login)
+- verifyAuth from @/lib/auth
+- db from @/lib/db with db.execute({ sql, args })
+- Gorgeous Earth / optimist colors — not a new design system
+- Do not switch to next-auth or shadcn
+
+================================================================================
+YOUR TASK GOES BELOW THIS LINE
+================================================================================
