@@ -439,7 +439,11 @@ export default function DocumentsPage() {
           <p className="mt-3 text-optimist-300 leading-relaxed">
             One draft, many exports. Save your original once and format for any platform when you need it.
           </p>
-          <p className="mt-2 text-sm text-optimist-400">Sign in to create, save, and format your content.</p>
+          <p className="mt-2 text-sm text-optimist-400">
+            {error === 'Session expired — sign in again'
+              ? 'Session expired — sign in again'
+              : 'Sign in to create, save, and format your content.'}
+          </p>
           <button
             type="button"
             onClick={() => router.push('/signin')}
