@@ -1,0 +1,804 @@
+================================================================================
+PASTE ALL OF THIS INTO KIMI — Drop Credits (files included)
+================================================================================
+
+You are editing CreatorFlow365. Goal: remove credit PACKS / credit badges / buy-credits.
+Keep phrases like "no credit card required" (trial = no payment card).
+
+DO NOT edit src/lib/db.ts — leave credits_balance column unused.
+DO NOT invent features. DO NOT change plan prices.
+Webhook path is: src/app/api/stripe/webhook/route.ts (NOT webhooks/)
+
+Return COMPLETE updated files (or DELETE lines). One file at a time is OK if long.
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/lib/creditBundles.ts  →  DELETE this file entirely
+--------------------------------------------------------------------------------
+export const CREDIT_BUNDLES = [
+  { id: 'starter', name: 'Starter Bundle', credits: 50, price: 5.00, perCredit: '$0.10/credit', description: 'Perfect for trying premium tools' },
+  { id: 'popular', name: 'Popular Bundle', credits: 100, price: 10.00, perCredit: '$0.10/credit', description: 'Best value for regular users' },
+  { id: 'power', name: 'Power Bundle', credits: 250, price: 20.00, perCredit: '$0.08/credit', savings: 'Save $5 (20% off)', description: 'Best for power users' },
+] as const
+
+export type CreditBundleId = typeof CREDIT_BUNDLES[number]['id']
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/app/api/user/purchase-credits/route.ts  →  DELETE this file
+(or replace with GET+POST that return 410 Gone JSON { error: 'Credits removed' })
+--------------------------------------------------------------------------------
+(full current file — delete it)
+
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+import { CREDIT_BUNDLES } from '@/lib/creditBundles'
+import jwt from 'jsonwebtoken'
+import Stripe from 'stripe'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...')
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
+
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get('authorization')
+    const token = authHeader?.replace('Bearer ', '')
+    if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    let decoded: { userId: string; email: string }
+    try {
+      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string }
+    } catch {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+    const userResult = await db.execute({
+      sql: 'SELECT credits_balance FROM users WHERE id = ?',
+      args: [decoded.userId]
+    })
+    if (userResult.rows.length === 0) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    const creditsBalance = (userResult.rows[0] as { credits_balance: number | null }).credits_balance ?? 0
+    return NextResponse.json({ creditsBalance, bundles: CREDIT_BUNDLES })
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Failed to get credits info' }, { status: 500 })
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get('authorization')
+    const token = authHeader?.replace('Bearer ', '')
+    if (!token) return NextResponse.json({ error: 'No token provided' }, { status: 401 })
+    let decoded: { userId: string; email: string }
+    try {
+      decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string }
+    } catch {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+    const { bundle } = await request.json()
+    const bundleConfig = CREDIT_BUNDLES.find(b => b.id === bundle)
+    if (!bundleConfig) return NextResponse.json({ error: 'Invalid bundle' }, { status: 400 })
+    const userResult = await db.execute({
+      sql: 'SELECT stripe_customer_id FROM users WHERE id = ?',
+      args: [decoded.userId]
+    })
+    if (userResult.rows.length === 0) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    const stripeCustomerId = (userResult.rows[0] as { stripe_customer_id: string | null }).stripe_customer_id
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
+    const session = await stripe.checkout.sessions.create({
+      customer: stripeCustomerId || undefined,
+      customer_email: stripeCustomerId ? undefined : decoded.email,
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: `${bundleConfig.name} - ${bundleConfig.credits} credits`,
+            description: bundleConfig.description,
+          },
+          unit_amount: Math.round(bundleConfig.price * 100),
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: `${appUrl}/dashboard?credits=success&amount=${bundleConfig.credits}`,
+      cancel_url: `${appUrl}/dashboard?credits=canceled`,
+      metadata: {
+        userId: decoded.userId,
+        type: 'credit_bundle',
+        bundle: bundleConfig.id,
+        credits: bundleConfig.credits.toString(),
+      },
+    })
+    return NextResponse.json({
+      sessionId: session.id,
+      url: session.url,
+      bundle: bundleConfig.id,
+      credits: bundleConfig.credits,
+      price: bundleConfig.price,
+    })
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Failed to create checkout session' }, { status: 500 })
+  }
+}
+
+NOTE: Prefer DELETE of this route file. If you keep a stub, GET and POST both return status 410 with { "error": "Credit purchases have been removed" }.
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/app/api/stripe/webhook/route.ts
+TASK: Remove credit_bundle branch only. Keep additional_posts + subscriptions.
+Return COMPLETE updated file.
+--------------------------------------------------------------------------------
+import { NextRequest, NextResponse } from 'next/server'
+import Stripe from 'stripe'
+import { db } from '@/lib/db'
+import { getPostLimit } from '@/lib/planLimits'
+
+const getStripe = () => {
+  const secretKey = process.env.STRIPE_SECRET_KEY
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured')
+  }
+  return new Stripe(secretKey)
+}
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+
+export async function POST(request: NextRequest) {
+  if (!webhookSecret) {
+    console.error('STRIPE_WEBHOOK_SECRET is not set')
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 500 })
+  }
+
+  const body = await request.text()
+  const signature = request.headers.get('stripe-signature')
+
+  if (!signature) {
+    return NextResponse.json({ error: 'No signature' }, { status: 400 })
+  }
+
+  let event: Stripe.Event
+
+  try {
+    const stripe = getStripe()
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+  } catch (err: any) {
+    console.error('Webhook signature verification failed:', err.message)
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
+  }
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session
+        const userId = session.metadata?.userId
+        const type = session.metadata?.type
+
+        // One-time payment: additional posts or credit bundle
+        if (session.mode === 'payment' && userId && type) {
+          if (type === 'additional_posts') {
+            const quantity = parseInt(session.metadata?.quantity || '0', 10)
+            if (quantity > 0) {
+              await db.execute({
+                sql: `UPDATE users SET additional_posts_purchased = COALESCE(additional_posts_purchased, 0) + ? WHERE id = ?`,
+                args: [quantity, userId]
+              })
+              console.log(`✅ Added ${quantity} posts for user ${userId}`)
+            }
+          } else if (type === 'credit_bundle') {
+            const credits = parseInt(session.metadata?.credits || '0', 10)
+            if (credits > 0) {
+              await db.execute({
+                sql: `UPDATE users SET credits_balance = COALESCE(credits_balance, 0) + ? WHERE id = ?`,
+                args: [credits, userId]
+              })
+              console.log(`✅ Added ${credits} credits for user ${userId}`)
+            }
+          }
+          break
+        }
+
+        // Subscription checkout
+        const planType = session.metadata?.planType
+        if (!userId || !planType) {
+          console.error('Missing userId or planType in checkout session metadata')
+          break
+        }
+
+        const stripe = getStripe()
+        const subscriptionId = session.subscription as string | null
+        if (!subscriptionId) break
+
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+        const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null
+        const postLimit = getPostLimit(planType as any)
+
+        await db.execute({
+          sql: `
+            UPDATE users 
+            SET 
+              subscription_tier = ?,
+              stripe_customer_id = ?,
+              monthly_post_limit = ?,
+              trial_started_at = CURRENT_TIMESTAMP,
+              trial_end_at = ?,
+              trial_plan = ?
+            WHERE id = ?
+          `,
+          args: [planType, session.customer, postLimit, trialEnd?.toISOString() || null, planType, userId]
+        })
+
+        console.log(`✅ Subscription activated for user ${userId}, plan: ${planType}`)
+        break
+      }
+
+      case 'customer.subscription.created':
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription
+        const customerId = subscription.customer as string
+
+        const userResult = await db.execute({
+          sql: 'SELECT id FROM users WHERE stripe_customer_id = ?',
+          args: [customerId]
+        })
+
+        if (userResult.rows.length === 0) {
+          console.error(`User not found for customer ${customerId}`)
+          break
+        }
+
+        const userId = (userResult.rows[0] as any).id
+        const planType = subscription.metadata?.planType || 'starter'
+
+        if (subscription.status === 'active') {
+          const postLimit = getPostLimit(planType as any)
+          await db.execute({
+            sql: 'UPDATE users SET subscription_tier = ?, monthly_post_limit = ? WHERE id = ?',
+            args: [planType, postLimit, userId]
+          })
+          console.log(`✅ Subscription ${subscription.status} for user ${userId}`)
+        } else if (subscription.status === 'canceled') {
+          await db.execute({
+            sql: 'UPDATE users SET subscription_tier = NULL, monthly_post_limit = NULL WHERE id = ?',
+            args: [userId]
+          })
+          console.log(`⚠️ Subscription canceled for user ${userId}`)
+        }
+        break
+      }
+
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object as Stripe.Invoice
+        const customerId = invoice.customer as string
+
+        const userResult = await db.execute({
+          sql: 'SELECT id, email FROM users WHERE stripe_customer_id = ?',
+          args: [customerId]
+        })
+
+        if (userResult.rows.length > 0) {
+          const user = userResult.rows[0] as any
+          console.error(`💳 Payment failed for user ${user.id} (${user.email})`)
+        }
+        break
+      }
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`)
+    }
+
+    return NextResponse.json({ received: true })
+  } catch (error: any) {
+    console.error('Webhook processing error:', error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+}
+
+export const runtime = 'nodejs'
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/lib/seo/homepageFaq.ts
+TASK: Remove the FAQ about AI calls vs credits. Keep "credit card" trial FAQ.
+Return COMPLETE updated file.
+--------------------------------------------------------------------------------
+import type { FaqPair } from '@/lib/seo/faqJsonLd'
+
+/** Single source for homepage FAQ UI + matching FAQPage JSON-LD */
+export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
+  {
+    question: 'How does CreatorFlow365 work with social platforms?',
+    answer:
+      'You create and organize content inside CreatorFlow365. Depending on your setup, you can connect accounts for scheduling or copy content to publish where you need it. See the note below the signup buttons on this page for how publishing fits your workflow.',
+  },
+  {
+    question: "What happens if I don't subscribe after the trial?",
+    answer:
+      'Trial changes may be reverted per our Content Ownership Policy. If you subscribe, content you created during the trial is kept according to that policy.',
+  },
+  {
+    question: 'Is a credit card required for the free trial?',
+    answer: 'No. You get 14 days free with no card on file.',
+  },
+  {
+    question: "What's the difference between AI calls and credits?",
+    answer:
+      "AI calls are included per plan (see pricing cards). Credits are an add-on for premium tools outside your plan's included usage; purchased credits roll over month to month.",
+  },
+  {
+    question: 'Can I change plans later?',
+    answer: 'Yes. You can upgrade or downgrade as your needs change.',
+  },
+  {
+    question: 'Does CreatorFlow365 work for agencies?',
+    answer:
+      'Yes. Professional includes white-label options; Business includes full white-label, unlimited team members, and a dedicated account manager for onboarding and escalation—see pricing for details.',
+  },
+]
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/app/select-plan/page.tsx
+TASK: Replace credit-badge / buy-credits copy with upgrade-only language.
+Keep checkbox flow. Return COMPLETE updated file.
+Change the amber warning + checkbox text to:
+- Warning: Tools shown as part of higher-tier plans are not included in this plan. Upgrade to use them. They were never part of this plan.
+- Checkbox: I understand which tools are included in the {planName} plan and that other tools require a higher plan. I will not claim those tools were part of my subscription.
+--------------------------------------------------------------------------------
+'use client'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useState } from 'react'
+import Link from 'next/link'
+import type { PlanType } from '@/components/PlanSelection'
+import { TOOLS_BY_PLAN, type PlanId } from '@/lib/toolsByPlan'
+import { PHASE2_BY_PLAN } from '@/lib/selectPlanPhase2Copy'
+import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
+import SeoSiteFooter from '@/components/SeoSiteFooter'
+
+const PLAN_NAMES: Record<string, string> = {
+  free: 'Free',
+  starter: 'Starter',
+  growth: 'Essential',
+  essential: 'Essential',
+  pro: 'Creator',
+  creator: 'Creator',
+  business: 'Professional',
+  professional: 'Professional',
+  agency: 'Business',
+}
+
+function planParamToId(plan: string): PlanType {
+  const p = plan.toLowerCase()
+  if (p === 'essential') return 'growth'
+  if (p === 'creator') return 'pro'
+  if (p === 'professional') return 'business'
+  if (p === 'business') return 'agency'
+  if (p === 'free') return 'starter'
+  if (['starter', 'growth', 'pro', 'business', 'agency'].includes(p)) return p as PlanType
+  return 'pro'
+}
+
+function SelectPlanContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const planParam = (searchParams.get('plan') || 'pro').toLowerCase()
+  const planId = planParamToId(planParam)
+  const planName = PLAN_NAMES[planId] || PLAN_NAMES[planParam] || 'Creator'
+  const toolsPlanId = (planId === 'free' ? 'starter' : planId) as PlanId
+  const phase2 = PHASE2_BY_PLAN[toolsPlanId]
+
+  const [understood, setUnderstood] = useState(false)
+
+  const goToSignup = () => {
+    router.push(`/signup?plan=${planId}`)
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white">
+      <header className="border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Link href="/" className="text-xl sm:text-2xl font-bold hover:text-gray-200">CreatorFlow365</Link>
+          <nav className="flex flex-wrap items-center gap-3 sm:gap-6 text-sm" aria-label="Site">
+            <Link href="/" className="text-gray-300 hover:text-white">Home</Link>
+            <Link href="/#pricing" className="text-gray-300 hover:text-white">Pricing</Link>
+            <Link href="/signin" className="text-gray-300 hover:text-white">Sign In</Link>
+            <Link href="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</Link>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main-content" className="max-w-3xl mx-auto px-6 py-12">
+        <article className="space-y-10">
+          <header className="space-y-4">
+            <p className="text-sm font-medium text-purple-400 uppercase tracking-wide">{planName}</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">{phase2.headline}</h1>
+            <div className="space-y-4 text-gray-300 text-base leading-relaxed">
+              {phase2.blocks.map((block, i) => (
+                <p key={i}>{block}</p>
+              ))}
+            </div>
+          </header>
+
+          <section aria-labelledby="included-heading">
+            <h2 id="included-heading" className="text-xl font-semibold text-white mb-3">
+              What&apos;s included
+            </h2>
+            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
+              {phase2.includedBullets.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section aria-labelledby="who-heading">
+            <h2 id="who-heading" className="text-xl font-semibold text-white mb-3">
+              Who this plan fits
+            </h2>
+            <ul className="list-disc pl-6 space-y-2 text-sm text-gray-300">
+              {phase2.whoBullets.map((line, i) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </section>
+
+        <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-white mb-4">Tools included in {planName}</h2>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {TOOLS_BY_PLAN[toolsPlanId].map((tool, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-green-400 mt-0.5">✓</span>
+                <span>{tool}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="space-y-6">
+          <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
+            <p><strong>Tools marked with a credit badge</strong> and <strong>tools shown as part of higher-tier plans</strong> are not included in this plan.</p>
+            <p className="mt-2">You can still use these tools by buying credits or upgrading. They were <strong>never part of this plan.</strong></p>
+          </div>
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={understood}
+              onChange={(e) => setUnderstood(e.target.checked)}
+              className="mt-1 rounded border-gray-500"
+            />
+            <span className="text-sm text-gray-300">
+              I understand which tools are included in the {planName} plan and that other tools require credits or a higher plan. I will not claim these tools were part of my subscription.
+            </span>
+          </label>
+
+          <div className="bg-amber-900/30 border border-amber-700/50 rounded-lg p-4 text-sm">
+            <h3 className="font-semibold text-white mb-2">Content created during trial</h3>
+            <p>If you subscribe before trial ends: You keep all content created during the trial.</p>
+            <p className="mt-2">If you don&apos;t subscribe: Your account is restored to its pre-trial state and content created during the trial will be removed.</p>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-300 mb-4 text-center">Check the box above to enable Subscribe now. Start free trial is always available.</p>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <button
+            type="button"
+            onClick={goToSignup}
+            disabled={!understood}
+            className="w-full sm:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+          >
+            Subscribe now
+          </button>
+          <button
+            type="button"
+            onClick={goToSignup}
+            className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500"
+          >
+            Start free trial
+          </button>
+          <Link
+            href="/"
+            className="w-full sm:w-auto bg-gray-700 text-gray-200 px-6 py-3 rounded-lg font-medium hover:bg-gray-600 hover:text-white text-center border border-gray-600"
+          >
+            Cancel
+          </Link>
+        </div>
+
+          <section aria-labelledby="faq-heading" className="border-t border-gray-700 pt-10">
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(
+                  faqPageJsonLd(phase2.faq.map((item) => ({ question: item.q, answer: item.a })))
+                ),
+              }}
+            />
+            <h2 id="faq-heading" className="text-xl font-semibold text-white mb-4">
+              Frequently asked questions
+            </h2>
+            <dl className="space-y-4 text-sm text-gray-300">
+              {phase2.faq.map((item, i) => (
+                <div key={i}>
+                  <dt className="font-medium text-white">{item.q}</dt>
+                  <dd className="mt-1 pl-0">{item.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </article>
+      </main>
+      <SeoSiteFooter />
+    </div>
+  )
+}
+
+export default function SelectPlanPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <span className="text-gray-300">Loading...</span>
+      </div>
+    }>
+      <SelectPlanContent />
+    </Suspense>
+  )
+}
+
+--------------------------------------------------------------------------------
+CURRENT FILE: src/lib/selectPlanPhase2Copy.ts
+TASK: Rewrite FAQs that mention credit packs / credit badges / buy credits.
+Keep "no credit card required" trial wording.
+Return COMPLETE updated file.
+FAQ replacements:
+- starter: q "What if a tool shows a credit badge?" → q "What if a tool is not in Starter?" a "Tools not listed for Starter are not included. Upgrade to a higher plan to use them."
+- growth: a about credit-only → "Only tools listed for Essential apply. Higher-tier tools require upgrading to a plan that includes them."
+- pro: q "Do I still need credits..." → q "Are all tools included in Creator?" a "Only tools listed for Creator are included. Other tools require a higher plan."
+- business: q "Credits and premium tools?" → q "What about tools not in Professional?" a "Tools not listed for Professional require upgrading to a plan that includes them."
+--------------------------------------------------------------------------------
+(paste the full current selectPlanPhase2Copy.ts from Eric's project — see block below)
+
+import type { PlanId } from '@/lib/toolsByPlan'
+
+export type Phase2PlanCopy = {
+  headline: string
+  blocks: [string, string, string]
+  includedBullets: string[]
+  whoBullets: string[]
+  faq: { q: string; a: string }[]
+}
+
+export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
+  starter: {
+    headline: 'Starter — AI captions, library, and hashtags',
+    blocks: [
+      'CreatorFlow365 Starter gives you AI-assisted caption writing, unlimited hashtag sets and templates, and a cloud content library for $9/month. Start with a 14-day free trial—no credit card required.',
+      'Built for beginner and part-time creators who want organized drafts and faster captions without paying for multiple separate tools.',
+      'Starter includes analytics support, three connected social accounts, and 500 AI calls per month so you can post consistently.',
+    ],
+    includedBullets: [
+      'AI writing tools (500 calls/month)',
+      'Unlimited documents, hashtag sets, and templates',
+      'Three connected social accounts',
+      'Starter analytics support',
+      'Email support (48hr target response)',
+    ],
+    whoBullets: [
+      'New creators building a consistent posting habit',
+      'Part-time creators who want caption help on a budget',
+      'Anyone testing the platform before upgrading',
+    ],
+    faq: [
+      {
+        q: 'Do I need a card for the trial?',
+        a: 'No. You get a 14-day free trial without adding a credit card.',
+      },
+      {
+        q: 'What if a tool shows a credit badge?',
+        a: 'Credit-badge tools are not included in this plan. You can buy credits or upgrade to use them.',
+      },
+      {
+        q: 'Can I upgrade later?',
+        a: 'Yes. You can move to Essential, Creator, Professional, or Business anytime from signup or billing.',
+      },
+      {
+        q: 'What happens to my content if I do not subscribe?',
+        a: 'If you do not subscribe after the trial, trial changes are reverted per our Content Ownership Policy. If you subscribe, you keep what you created.',
+      },
+    ],
+  },
+  growth: {
+    headline: 'Essential — Schedule and analyze across five accounts',
+    blocks: [
+      'Essential lets you choose any five supported social accounts—Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, or WordPress—and keeps your posting plan and content analytics in one dashboard for $19/month. 14-day trial, no credit card required.',
+      'For creators posting regularly who want visibility into what works instead of guessing across separate apps.',
+      'Includes 1,000 AI calls per month, content analytics, unlimited documents and templates, and faster email support than Starter.',
+    ],
+    includedBullets: [
+      'Five connected social accounts',
+      'Content analytics across connected accounts',
+      '1,000 AI calls/month',
+      'Smart scheduling calendar',
+      'Unlimited documents, hashtag sets, templates',
+      'Email support (24hr target response)',
+    ],
+    whoBullets: [
+      'Multi-platform creators who want one library and calendar',
+      'Creators ready to use performance data in weekly planning',
+      'Teams sharing drafts via unlimited documents',
+    ],
+    faq: [
+      {
+        q: 'How is Essential different from Starter?',
+        a: 'Essential adds more accounts, content analytics, and twice the monthly AI calls.',
+      },
+      {
+        q: 'Is the trial the same?',
+        a: 'Yes—14 days free with no credit card required.',
+      },
+      {
+        q: 'Are all tools in my plan automatically included?',
+        a: 'Only tools listed for Essential apply. Higher-tier or credit-only tools require credits or an upgrade.',
+      },
+      {
+        q: 'Can I change plans mid-cycle?',
+        a: 'Yes. You can upgrade or downgrade according to your account billing rules.',
+      },
+    ],
+  },
+  pro: {
+    headline: 'Creator — Brand deals, team workspace, advanced analytics',
+    blocks: [
+      'Creator includes brand collaboration tools, a three-seat team workspace, ten social accounts, unlimited AI calls, API access, and advanced analytics for $49/month. 14-day trial, no credit card required.',
+      'For full-time creators and small teams managing partnerships who need deliverables and performance data in one workflow.',
+      'Priority support with a 12-hour target response helps when campaigns have tight deadlines.',
+    ],
+    includedBullets: [
+      'Brand collaboration tracking',
+      'Team workspace (3 members)',
+      'Ten connected social accounts',
+      'Unlimited AI calls',
+      'API access',
+      'Advanced analytics',
+      'Priority support (12hr target response)',
+    ],
+    whoBullets: [
+      'Creators landing or negotiating brand deals',
+      'Teams of two or three sharing content and calendars',
+      'Creators who need exportable metrics for partners',
+    ],
+    faq: [
+      {
+        q: 'Who counts as a team seat?',
+        a: 'Each invited collaborator using your Creator workspace counts toward the three-member limit.',
+      },
+      {
+        q: 'Do I still need credits for some tools?',
+        a: 'Tools outside Creator tier or marked for credits still require credits or a higher plan.',
+      },
+      {
+        q: 'Can agencies use Creator?',
+        a: 'Small teams can; agencies with white-label needs usually choose Professional or Business.',
+      },
+      {
+        q: 'Trial terms?',
+        a: 'Same 14-day trial with no credit card; subscribe to keep trial content per policy.',
+      },
+    ],
+  },
+  business: {
+    headline: 'Professional — White-label options for teams and agencies',
+    blocks: [
+      'Professional adds white-label options, unlimited social accounts, a ten-seat team workspace, premium analytics with predictions, and advanced API access for $79/month. 14-day trial, no credit card required.',
+      'For professional creators and agencies that need branded client experiences without stacking separate enterprise contracts.',
+      'This tier uses white-label options—Business tier below offers full white-label for agencies that need the maximum scope.',
+    ],
+    includedBullets: [
+      'White-label options (client-facing branding)',
+      'Unlimited connected social accounts',
+      'Team workspace (10 members)',
+      'Premium analytics and predictions',
+      'Maximum AI performance tier',
+      'Advanced API access',
+      'Priority support (6hr target response)',
+    ],
+    whoBullets: [
+      'Agencies managing multiple client accounts',
+      'Professional creators with a larger internal team',
+      'Consultants delivering branded tool access',
+    ],
+    faq: [
+      {
+        q: 'What is the difference between Professional and Business?',
+        a: 'Professional includes white-label options and ten seats. Business adds full white-label, unlimited team members, enterprise analytics, custom integrations, and a dedicated account manager.',
+      },
+      {
+        q: 'Are competitor price claims guaranteed?',
+        a: 'Compare plans on our pricing section; external competitor pricing changes over time.',
+      },
+      {
+        q: 'Credits and premium tools?',
+        a: 'Same rule: tools not in your tier may still require credits or upgrade.',
+      },
+      {
+        q: 'Trial?',
+        a: '14-day free trial, no credit card required.',
+      },
+    ],
+  },
+  agency: {
+    headline: 'Business — Full white-label for agencies at scale',
+    blocks: [
+      'Business includes unlimited team members and accounts, full white-label, enterprise analytics, custom API integrations, and a dedicated account manager for onboarding and escalation—$149/month. 14-day trial, no credit card required.',
+      'For agencies replacing multiple tools with one white-labeled workspace clients experience under your brand.',
+      'Priority support uses a two-hour target response for the fastest escalations on the platform.',
+    ],
+    includedBullets: [
+      'Unlimited team members and accounts',
+      'Full white-label',
+      'Enterprise analytics and reporting',
+      'Custom integrations and API',
+      'Dedicated account manager (onboarding and escalation)',
+      'Priority support (2hr target response)',
+    ],
+    whoBullets: [
+      'Agencies managing many client accounts',
+      'Teams consolidating scheduler, AI, analytics, and ops',
+      'Shops that resell or bundle software under their brand',
+    ],
+    faq: [
+      {
+        q: 'Is there a seat limit?',
+        a: 'No. Business has unlimited team members.',
+      },
+      {
+        q: 'What does full white-label mean?',
+        a: 'Clients primarily see your branding for the delivered experience; CreatorFlow365 operates in the background.',
+      },
+      {
+        q: 'What does the dedicated account manager do?',
+        a: 'Onboarding help, workspace guidance, and escalation support—not unlimited strategic consulting unless you agree that separately.',
+      },
+      {
+        q: 'Annual contract?',
+        a: 'Plans are month-to-month unless you negotiate otherwise; trial remains 14 days without a card.',
+      },
+    ],
+  },
+}
+
+--------------------------------------------------------------------------------
+DASHBOARD SNIPPET ONLY (src/app/dashboard/page.tsx is huge — do NOT rewrite whole file)
+TASK: In the URL-notice block, DELETE the two branches for credits=canceled and credits=success.
+Also remove 'credits' from stripKeys array.
+Return ONLY the replacement snippet for that notice block + stripKeys, clearly labeled.
+Current snippet to edit:
+--------------------------------------------------------------------------------
+    } else if (p.get('canceled') === 'true') {
+      setDashboardNotice(
+        'Checkout was canceled. No charge was made—you can subscribe anytime from the trial banner or Pricing.'
+      )
+    } else if (p.get('credits') === 'canceled') {
+      setDashboardNotice('Credit bundle purchase was canceled. No charges were made.')
+    } else if (p.get('credits') === 'success' || p.getAll('credits').includes('success')) {
+      const added =
+        p.get('amount') || p.getAll('credits').find((v) => v !== 'success' && !Number.isNaN(Number(v)))
+      setDashboardNotice(
+        added && !Number.isNaN(Number(added))
+          ? `${added} credits were added to your account.`
+          : 'Credits were added to your account.'
+      )
+    } else if (p.get('purchase') === 'canceled') {
+
+AND stripKeys currently includes 'credits' — remove that key only from the array.
+
+--------------------------------------------------------------------------------
+db.ts: DO NOT SEND / DO NOT CHANGE. Leave credits_balance column as-is unused.
+GameChangerFeatures: DO NOT CHANGE unless it mentions credit packs (it should not).
+page.tsx homepage: if already has no credit bundles UI, leave it.
+
+OUTPUT ORDER (complete files):
+1) DELETE list
+2) webhook route full file
+3) homepageFaq.ts full file
+4) select-plan/page.tsx full file
+5) selectPlanPhase2Copy.ts full file
+6) dashboard snippet only
+7) optional 410 stub for purchase-credits if not deleting
+
+================================================================================
+END — paste into Kimi
+================================================================================
