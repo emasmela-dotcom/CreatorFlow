@@ -1,153 +1,174 @@
 # Agent catch-up — CreatorFlow365
 
+**Read this first in every new Cursor chat.**  
 **Workspace:** `/Users/ericmasmela/CreatorFlow`  
 **Live site:** https://www.creatorflow365.com  
-**Owner:** Eric (TBI 1997 — short plain answers, **one thing at a time**, do not overload)
+**Owner:** Eric (TBI 1997 — short plain answers, one thing at a time, do not overload)
 
-Use this when starting a **new** agent chat. Do not mix in other repos (ToolMarket, CareConnect, ReadAI, etc.) unless Eric **names** them.
-
----
-
-## Product truth (must match copy)
-
-- User **already has** the content.
-- User **picks platforms**.
-- CreatorFlow **adjusts/formats** that content for each platform.
-- It does **not** invent/create the user’s content from scratch.
-
-Homepage promise (live):  
-*You already have the content. You pick the platforms. CreatorFlow adjusts it to each one’s format.*
-
-How it works: **Bring your content** → **Select platforms** → **Publish formatted**.
-
-**Originals vs formatted (important):**
-- Eric wants **original** content saved for later / reminders (by name) — not a DB full of formatted-per-platform copies.
-- **Save Draft** on `/create` now saves the **original once** into **Documents** (`POST /api/documents` with title + content). It does **not** write per-platform rows to `content_posts` for that save.
-- Schedule / Publish still use the existing posts flow.
-- Documents library: https://www.creatorflow365.com/documents
+Do **not** mix other repos (ToolMarket, CareConnect, ReadAI, etc.) unless Eric **names** them.
 
 ---
 
-## Hard rules Eric enforces
+## What we are building (product truth)
 
-1. **Only the open project** — CreatorFlow only unless he names another.
-2. **Do not write full app code** — give a paste-ready outside-AI (Kimi) prompt; Eric brings code back; agent **places** it. For tiny glue (one notice, footer tweak), placing into the **real existing file** is OK — do **not** accept a Kimi full-page rewrite that uses wrong auth/UI (next-auth, shadcn) when CreatorFlow uses JWT + existing gray-900 pages.
-3. When giving a prompt: include **everything to paste**. Do not make him hunt files. Prefer **small** pastes (Kimi truncates long dumps).
-4. **Do not call work “done”** until finished **and** self-tested on the real end result. Site said “sent” ≠ email in inbox.
-5. No unsolicited polish / other projects / invented features.
-6. Significant site changes → commit + push `main` (unless he says not to).
-7. **Do not burn usage** (browser automation, paid APIs) when a short answer or Eric’s screenshot is enough. Ask before Resend sends / metered tools.
-8. Keep replies short. If Eric says slow down / too much — stop and wait.
-9. **Color scheme is locked** — see **Locked color scheme (Gorgeous Earth)** below. Do not swap palettes or revert to purple unless Eric asks.
+**Core idea:** *One draft, many exports.*
 
----
+1. User **already has** content (text and optionally video).
+2. User saves **one original** (title + content + optional video) — **not** a pile of formatted copies.
+3. User picks a **platform** (Instagram, X, YouTube, etc.) and gets a **live formatted preview** to copy.
+4. Formatted output is **never saved** to the database.
 
-## Locked color scheme (Gorgeous Earth)
+**Taglines (use everywhere):**
+- **One draft, many exports.**
+- **Save your original once. Format for any platform when you need it — nothing extra gets saved.**
 
-**Eric locked this Jul 30, 2026.** Do **not** change colors, palettes, or theme unless Eric explicitly asks.
-
-- **Name:** Gorgeous Earth (Adobe Color — navy, teal-blue, olive, forest)
-- **Source of truth:** `src/app/globals.css` only for hex values
-- **Tailwind tokens:** sitewide classes use `optimist-*` and `sage-*` (legacy names; values are Gorgeous Earth)
-- **Page background:** `#0d1520` (`optimist-950`)
-- **Primary buttons / links:** `#256872` (`optimist-600`), hover `#2f7a85` (`optimist-500`)
-- **Soft accent / footer links:** `#5aa8b5` (`optimist-300`)
-- **Olive accent:** `sage-400` `#6b7c4c`, `sage-600` `#2d4a3e`
-- **Light text on dark:** `#e8ede0` (`optimist-50`)
-- **Rejected / do not use:** purple/indigo brand, Optimist palette (tried and not chosen)
-
-New UI: use `optimist-*` / `sage-*` tokens — **not** raw purple or unrelated palettes.
+**Main workspace:** `/documents` — not Create, not Dashboard overview.
 
 ---
 
-## What recently shipped (through this thread)
+## Business mode right now (Aug 2026)
 
-| Change | Status |
-|--------|--------|
-| Homepage no longer auto-redirects `/` → `/dashboard` | Pushed |
-| Homepage product promise + How it works (Bring your content) | Pushed |
-| Game-Changers: When / Why on cards; How in panels | Pushed |
-| A/B Testing + Content Series | Still **coming soon** (honest) |
-| **Credits / credit packs dropped** — no buy-credits, no credit badges; plan upgrade only | Pushed (`1f5028d` area) |
-| Deleted `src/lib/creditBundles.ts` and `/api/user/purchase-credits` | Done |
-| Create **Save Draft** → Documents (original + required name), not `content_posts` | Pushed (`83fbddb`) |
-| Footer like ReadAI: **© CreatorFlow365** + **Contact support** underneath | Pushed |
-| Footer on **every page** via `src/app/layout.tsx` → `SeoSiteFooter` | Pushed (`0f3005a`) |
-| Support form Resend errors surfaced (no fake success) | Pushed (`07e34ee`) |
-| **Support mail verified end-to-end** (both inboxes received) | **Working** |
-| **Sitewide feedback bubble** (signed-in + guest) | Pushed (`d3d96fa`, `fa5856f`) |
-| **Gorgeous Earth color scheme locked** | Pushed (`083e5d6`) — see locked palette section |
-
-**Paste packs (Kimi):**  
-- `PASTE_THIS_TO_KIMI_DropCredits.txt`  
-- `PASTE_THIS_TO_KIMI_GameChangerFeatures.txt`  
-- `KIMI_PASTE_GAME_CHANGERS.md`
+- **Free while we build.** Sitewide banner: *Free while we build. Paid plans with live AI later.*
+- Pricing is **hidden / soft** on the site. Stripe code **stays in repo** but is not pushed in the user flow.
+- Do **not** charge or push checkout until Eric funds AI credits and says turn billing on.
+- Marketing angle for now: **free account**, try Documents workspace, no credit card.
 
 ---
 
-## Support / Resend (current truth)
+## Kimi workflow (Eric + outside AI)
 
-- Form: https://www.creatorflow365.com/support  
-- Footer **Contact support** → `/support`  
-- Inbox: **apputilitybuilder@gmail.com** (`SUPPORT_TO_EMAIL` default)  
-- User gets a confirmation at the email they enter  
-- Vercel: `RESEND_API_KEY` set  
-- Resend domain **creatorflow365.com** is **Verified** (DNS via Vercel auto-configure)  
-- From address uses `support@creatorflow365.com` (default in code / `RESEND_FROM_EMAIL`)  
-- Eric removed **careconnect-24-7.com** from Resend to free the free-plan **1 domain** slot for CreatorFlow. CareConnect Resend mail will not work until that domain is re-added or he upgrades Resend.
+Eric gets **full code from Kimi**, not from Cursor building whole features.
 
-**Do not claim support broken** unless a new test fails.
+1. Agent gives a **paste block** — always start with `PASTE_TO_KIMI_RULES.txt` (repo root).
+2. Eric pastes into Kimi, brings **complete files** back.
+3. Agent **places** into real files — **small glue only**. Do **not** drop in Kimi full-page rewrites of homepage, dashboard, layout, signup, signin.
+4. Verify → commit + push `main` when Eric asks or after significant placed work.
+
+**Kimi must NOT:**
+- Replace whole `src/app/page.tsx`, `layout.tsx`, `dashboard/page.tsx`, signup, signin
+- Switch to next-auth or shadcn
+- Invent new design systems
+
+**Kimi must match stack:**
+- JWT: `localStorage` key **`token`**, `Authorization: Bearer <token>`
+- Sign-in route: **`/signin`** (not `/login`)
+- DB: `import { db } from '@/lib/db'`, `db.execute({ sql, args })`
+- Auth server: `verifyAuth` from `@/lib/auth`
+- Colors: **Gorgeous Earth** via `optimist-*` / `sage-*` in `src/app/globals.css`
+
+Other paste files on git: `PASTE_THIS_TO_KIMI_DropCredits.txt`, `PASTE_TO_KIMI_RULES.txt`
 
 ---
 
-## Discussed next (NOT built yet)
+## Cursor agent rules (Eric enforces)
 
-Talked about; do **not** implement unless Eric asks:
-
-1. **Reviews tab** — real reviews only; **no scraped / pulled** review content from elsewhere  
-2. Promo: **first 10 creators** get **1 month free** (formatting included) for a **posted review** — enforce with seat count + review proof + free-month flag (manual approve OK at first)  
-3. **Guest interaction** (discussed): homepage try-it formatter, clearer demo path, guest create preview — **not built** unless Eric asks
+1. **Only act on what Eric explicitly asks.** Questions → answer only, no edits.
+2. **No full app code from Cursor** — Kimi paste + place/glue (see above).
+3. **No unsolicited polish**, other projects, or invented features.
+4. **Do not call “done”** until verified on the **live** site (or honest blocker named).
+5. **Do not burn usage** (Resend sends, paid APIs, browser automation) without Eric approving that action.
+6. **Keep replies short.** If Eric says too much — shorten immediately.
+7. **Commit + push** when Eric asks, or after significant site work he requested.
+8. **Color scheme locked** — Gorgeous Earth. Do not revert to purple unless Eric asks.
 
 ---
 
-## Known gaps / honesty
+## What is live and working (verified in recent sessions)
 
-- Game-Changer tools: do **not** claim every tool is real AI / fully working without checking APIs. Some heuristic / empty / coming soon.
-- `PRE_MARKETING_CHECKLIST.md` still mostly unchecked.
-- Neon stores users + `content_posts` + `documents`; prefer Documents for named originals.
+| Area | Status |
+|------|--------|
+| Home | https://www.creatorflow365.com — product promise + tagline box + Documents nav link |
+| **Documents workspace** | `/documents` — save original (text), platform format panel, copy formatted, doc list |
+| **Video on Documents** | Attach → upload to Vercel Blob → save with doc. Needs **`BLOB_READ_WRITE_TOKEN`** on Vercel |
+| Sign up / sign in | Eric tested fresh signup after DB user clear. JWT expires **~1 hour** → “Session expired” on Documents |
+| Support form | `/support` → **apputilitybuilder@gmail.com** (Resend + domain verified) |
+| Footer | © CreatorFlow365 + Contact support on all pages |
+| Feedback bubble | Sitewide |
+| Early access banner | Free while we build |
+| AI layer | `src/lib/ai/llm.ts` — Groq → Grok (xAI) → OpenAI; no keys = template fallback |
+| `formatForPlatform` | `src/lib/formatForPlatform.ts` — used by Documents |
+
+---
+
+## Honest gaps (do not lie about these)
+
+- **Create page** (`/create`) still has old post limits, schedule/publish, “0 posts remaining” — not the main workspace anymore.
+- **Game-changer / category tools** — many are shells, templates, or coming soon. Do not claim full competitive AI without checking.
+- **Reviews promo** (first 10 creators, etc.) — discussed, **not built**.
+- **Multi-Neon DB failover** — discussed for free-tier capacity, **not built**. App uses one `DATABASE_URL`.
+- **Stripe live checkout** — sleeping until Eric turns paid mode on.
+- **Video test** — Eric may not have a short clip; text-only Documents flow is enough to prove core product.
+
+---
+
+## Storage architecture
+
+| What | Where |
+|------|--------|
+| Users, document **text**, app rows | **Neon** PostgreSQL (`DATABASE_URL` on Vercel) |
+| Document **videos** | **Vercel Blob** (`@vercel/blob`, `BLOB_READ_WRITE_TOKEN`) |
+| Formatted platform copy | **Not stored** — preview only |
+
+Neon free basic is small. Extra Neon projects for failover = possible later (manual switch or future code). Videos do **not** fill Neon.
 
 ---
 
 ## Key URLs
 
-- Home: https://www.creatorflow365.com  
-- Dashboard: https://www.creatorflow365.com/dashboard (Game-Changers tab)  
-- Create: https://www.creatorflow365.com/create  
-- Documents: https://www.creatorflow365.com/documents  
-- Support: https://www.creatorflow365.com/support  
-- Reviews page exists: https://www.creatorflow365.com/reviews  
+| Page | URL |
+|------|-----|
+| Home | https://www.creatorflow365.com |
+| **Documents (workspace)** | https://www.creatorflow365.com/documents |
+| Sign up | https://www.creatorflow365.com/signup |
+| Sign in | https://www.creatorflow365.com/signin |
+| Dashboard | https://www.creatorflow365.com/dashboard |
+| Create (legacy) | https://www.creatorflow365.com/create |
+| Support | https://www.creatorflow365.com/support |
 
 ---
 
 ## Key files
 
-- `src/app/layout.tsx` — global `SeoSiteFooter`  
-- `src/components/SeoSiteFooter.tsx` — © + Contact support  
-- `src/app/page.tsx` — homepage  
-- `src/app/create/page.tsx` — format flow; Save Draft → Documents  
-- `src/app/api/documents/route.ts` — named original storage  
-- `src/app/api/support/route.ts` — support → apputilitybuilder@gmail.com  
-- `src/app/globals.css` — **locked** Gorgeous Earth palette  
-- `src/components/FeedbackButton.tsx` + `FeedbackWrapper.tsx` — sitewide feedback  
-- `PRE_MARKETING_CHECKLIST.md` — pre-marketing checklist  
-- `AGENT_CATCHUP.md` — this file  
+| File | Purpose |
+|------|---------|
+| `src/app/documents/page.tsx` | Main workspace UI |
+| `src/lib/formatForPlatform.ts` | Platform formatting rules |
+| `src/app/api/documents/route.ts` | Save/list/delete documents + video columns |
+| `src/app/api/documents/upload/route.ts` | Video upload → Blob |
+| `src/app/page.tsx` | Homepage (surgical edits only) |
+| `src/app/layout.tsx` | Global shell + banner + footer |
+| `src/components/EarlyAccessBanner.tsx` | Free-while-we-build banner |
+| `src/lib/ai/llm.ts` | AI provider chain |
+| `src/app/globals.css` | Locked Gorgeous Earth palette |
+| `PASTE_TO_KIMI_RULES.txt` | Paste before every Kimi task |
+| `MARKETING_READY.md` | Master checklist until we market hard |
+| `MARKETING_BROADCAST_PLACES.md` | Where to post after marketing ready |
+
+---
+
+## Support / email
+
+- Inbox: **apputilitybuilder@gmail.com**
+- Form: `/support`
+- Resend domain **creatorflow365.com** verified
+- Do not claim mail works without Eric confirming inbox delivery
 
 ---
 
 ## How to work with Eric next
 
-1. Questions → answer only; no edits.  
-2. Code → Kimi paste (complete) → place carefully into real files → verify → commit/push.  
-3. One issue at a time.  
-4. Stay on CreatorFlow unless he names another project.  
-5. Prefer less process; he has said agents create too much work / burn too much usage.
+1. **Question only** → answer, no file changes.
+2. **Build request** → Kimi paste (with rules file) → Eric returns code → place + verify → commit/push if asked.
+3. **One issue at a time.**
+4. Update **`MARKETING_READY.md`** when a marketing-readiness item is truly verified.
+5. When **`MARKETING_READY.md`** is all checked → use **`MARKETING_BROADCAST_PLACES.md`** to post everywhere.
+
+---
+
+## Recent git milestones (reference)
+
+- `391cf29` — Documents workspace + format panel + homepage taglines
+- `7607717` — Video save on Documents (Vercel Blob)
+- `78fa91d` — Marketing broadcast tracker + Kimi drop-credits paste on git
+
+**Last updated:** 2026-08-01
