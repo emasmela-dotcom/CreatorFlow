@@ -29,7 +29,7 @@
 - [x] **Documents workspace** live at `/documents`
 - [x] Save **text** original (title + content) — Eric tested multiple docs
 - [x] Platform format panel + **Copy formatted** (not saved to DB)
-- [ ] **Video attach** works on live site (Vercel **Blob** store + `BLOB_READ_WRITE_TOKEN` + redeploy)
+- [x] **Video attach** works on live site (Vercel **Blob** store + `BLOB_READ_WRITE_TOKEN` + redeploy)
 - [x] Sign up works (Eric tested fresh account)
 - [x] Sign in works
 - [ ] Session-expired message clear when JWT expires (~1 hour) — retest after long gap
@@ -57,7 +57,7 @@
 - [x] Neon `DATABASE_URL` on Vercel Production
 - [x] `JWT_SECRET` set
 - [x] `RESEND_API_KEY` + Resend domain verified
-- [ ] **`BLOB_READ_WRITE_TOKEN`** for document videos (Vercel Storage → Blob)
+- [x] **`BLOB_READ_WRITE_TOKEN`** for document videos (Vercel Storage → Blob)
 - [ ] Optional AI keys when Eric ready to fund: `GROQ_*`, `XAI_API_KEY`, `OPENAI_API_KEY` (not required for free-now text formatting)
 
 ---
