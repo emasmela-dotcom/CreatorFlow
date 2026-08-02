@@ -7,7 +7,7 @@
 
 **How to use:** Agent or Eric marks `[x]` only when **verified on the live site** (not “should work”). Update this file as items complete. Commit + push when this file changes.
 
-**Last updated:** 2026-08-01
+**Last updated:** 2026-08-02
 
 ---
 
@@ -45,7 +45,7 @@
 - [x] Support form sends to **apputilitybuilder@gmail.com**
 - [x] Footer: © CreatorFlow365 + Contact support
 - [x] Feedback bubble works
-- [x] 404 / error pages acceptable (quick check) — verified 2026-08-01
+- [x] 404 / error pages acceptable (quick check) — verified 2026-08-02 (curl bad URL → HTTP 404, Page Not Found, Go Home, footer links)
 - [x] Mobile check on home + Documents (phone) — verified 2026-08-01
 
 ---
