@@ -32,7 +32,7 @@
 - [x] **Video attach** works on live site (Vercel **Blob** store + `BLOB_READ_WRITE_TOKEN` + redeploy)
 - [x] Sign up works (Eric tested fresh account)
 - [x] Sign in works
-- [ ] Session-expired message clear when JWT expires (~1 hour) — retest after long gap
+- [x] Session-expired message clear when JWT expires (~1 hour) — verified 2026-08-01
 - [ ] Stranger test: Eric watches someone land → sign up → save doc → format → copy (one pass)
 
 ---
