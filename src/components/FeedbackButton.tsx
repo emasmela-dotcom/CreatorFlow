@@ -91,7 +91,7 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
         onClick={() => setOpen(true)}
         title="Send feedback"
         aria-label="Send feedback"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-xl bg-optimist-600 px-4 py-2 text-white shadow-lg shadow-optimist-950/30 transition-colors hover:bg-optimist-500 focus:outline-none focus:ring-2 focus:ring-optimist-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+        className="fixed bottom-20 right-6 z-50 inline-flex items-center gap-2 rounded-xl bg-optimist-600 px-4 py-2 text-white shadow-lg shadow-optimist-950/30 transition-colors hover:bg-optimist-500 focus:outline-none focus:ring-2 focus:ring-optimist-400 focus:ring-offset-2 focus:ring-offset-gray-900 sm:bottom-6"
       >
         <MessageSquare className="h-4 w-4" />
         <span className="text-sm font-semibold">Feedback</span>

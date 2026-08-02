@@ -22,7 +22,7 @@
        type="button"
        onClick={handleHome}
        aria-label="Home"
-       className="fixed bottom-6 left-6 z-50 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-optimist-600 hover:bg-optimist-500 text-white shadow-lg shadow-optimist-950/30 transition-colors"
+      className="fixed bottom-20 left-6 z-50 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-optimist-600 hover:bg-optimist-500 text-white shadow-lg shadow-optimist-950/30 transition-colors sm:bottom-6"
      >
        <Home className="w-4 h-4" />
        <span className="text-sm font-semibold">Home</span>
