@@ -14,7 +14,7 @@ export default function HomePage() {
       <AnalyticsProvider />
       <div className="min-h-screen bg-optimist-950 text-white">
         {/* Header */}
-        <header className="absolute top-0 left-0 right-0 z-20 bg-optimist-950 border-b border-optimist-800">
+        <header className="relative md:absolute top-0 left-0 right-0 z-20 bg-optimist-950 border-b border-optimist-800">
           <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-y-2">
             <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
               CreatorFlow365
@@ -33,7 +33,7 @@ export default function HomePage() {
 
         <main id="main-content">
           {/* Hero */}
-          <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
+          <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-8 md:pt-24 pb-16">
             <div className="absolute inset-0 bg-optimist-900/20" />
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
               <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
