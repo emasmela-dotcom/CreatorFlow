@@ -83,8 +83,8 @@ export default function HomePage() {
                 </div>
                 <div>
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">3</div>
-                  <h3 className="font-semibold mb-1">Publish formatted</h3>
-                  <p className="text-sm text-gray-400">CreatorFlow adapts length, hashtags, and format for each platform. Post directly or copy to publish.</p>
+                  <h3 className="font-semibold mb-1">Copy formatted</h3>
+                  <p className="text-sm text-gray-400">CreatorFlow adapts length and layout for each platform. Copy formatted text to publish—nothing extra gets saved.</p>
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@ export default function HomePage() {
           <section id="tools" className="py-20 px-6 scroll-mt-24">
             <div className="max-w-5xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">One workspace. Every platform.</h2>
-              <p className="text-gray-400 mb-10 max-w-xl mx-auto">Plan, draft, and schedule content for all major platforms without switching apps.</p>
+              <p className="text-gray-400 mb-10 max-w-xl mx-auto">Save once in Documents. Format for any major platform when you need it—without switching apps.</p>
 
               <div className="flex flex-wrap justify-center gap-2 mb-16">
                 {['Instagram', 'TikTok', 'X / Twitter', 'LinkedIn', 'YouTube', 'Facebook', 'Threads', 'Pinterest', 'Bluesky', 'Reddit', 'Snapchat', 'Mastodon', 'Discord', 'Telegram', 'Tumblr', 'WordPress'].map((p) => (
@@ -104,16 +104,16 @@ export default function HomePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
-                  <h3 className="font-semibold text-white mb-2">AI Drafting</h3>
-                  <p className="text-sm text-optimist-300/70">Captions, scripts, and content ideas tuned to your brand voice and platform limits.</p>
+                  <h3 className="font-semibold text-white mb-2">Documents workspace</h3>
+                  <p className="text-sm text-optimist-300/70">Save your original once—text or video. One draft, many exports.</p>
                 </div>
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
-                  <h3 className="font-semibold text-white mb-2">Smart Scheduling</h3>
-                  <p className="text-sm text-optimist-300/70">Calendar view, bulk uploads, and best-time suggestions across all connected accounts.</p>
+                  <h3 className="font-semibold text-white mb-2">Platform formatting</h3>
+                  <p className="text-sm text-optimist-300/70">Pick a platform, preview formatted copy, and copy it. Formatted output is not saved to your library.</p>
                 </div>
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
-                  <h3 className="font-semibold text-white mb-2">Analytics & CRM</h3>
-                  <p className="text-sm text-optimist-300/70">Track performance and manage brand relationships—Follow Thru included in every plan.</p>
+                  <h3 className="font-semibold text-white mb-2">More in progress</h3>
+                  <p className="text-sm text-optimist-300/70">Dashboard tools, scheduling, analytics, and live AI are being built. Free while we build.</p>
                 </div>
               </div>
             </div>

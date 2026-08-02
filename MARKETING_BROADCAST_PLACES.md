@@ -73,7 +73,7 @@ Find servers via Disboard and subreddit sidebars. Prefer channels labeled tools 
 
 ## One-line offer to reuse
 
-CreatorFlow365 — plan, write, and publish across many platforms in one workspace. Try without signup: https://www.creatorflow365.com
+CreatorFlow365 — one draft, many exports. Free account — save in Documents, format for any platform: https://www.creatorflow365.com
 
 ---
 

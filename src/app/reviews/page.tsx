@@ -7,114 +7,70 @@ export default function ReviewsPage() {
   const reviews = [
     {
       id: 1,
-      name: 'Sarah Chen',
-      role: 'Content Creator',
+      name: 'Preview example',
+      role: 'Documents workflow',
       platform: 'Instagram',
-      followers: '125K',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'CreatorFlow365 has completely transformed how I manage my content. The analytics are incredibly detailed and the scheduling feature saves me hours every week. Best investment I\'ve made for my creator business!',
-      verified: true,
-      date: '2 weeks ago'
+      text: 'I saved my draft once in Documents, picked Instagram, and copied the formatted caption. Clear and fast for what is live today.',
+      preview: true,
+      date: 'Preview'
     },
     {
       id: 2,
-      name: 'Marcus Johnson',
-      role: 'YouTube Creator',
+      name: 'Preview example',
+      role: 'Documents workflow',
       platform: 'YouTube',
-      followers: '450K',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'The brand collaboration management tool is a game-changer. I\'ve secured 3 new partnerships since using CreatorFlow365. The ROI is incredible - paid for itself in the first month.',
-      verified: true,
-      date: '1 month ago'
+      text: 'The platform-format panel helped me reshape a description without saving a pile of copies. One original, many exports.',
+      preview: true,
+      date: 'Preview'
     },
     {
       id: 3,
-      name: 'Emma Rodriguez',
-      role: 'TikTok Creator',
+      name: 'Preview example',
+      role: 'Documents workflow',
       platform: 'TikTok',
-      followers: '890K',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'I love how easy it is to schedule across all platforms. The hashtag research feature helps me find trending tags that actually work. My engagement has increased by 40% since switching to CreatorFlow365.',
-      verified: true,
-      date: '3 weeks ago'
+      text: 'I pasted my script, saved it, and copied a TikTok-ready version. Good starting point while more tools are still being built.',
+      preview: true,
+      date: 'Preview'
     },
     {
       id: 4,
-      name: 'David Kim',
-      role: 'LinkedIn Creator',
+      name: 'Preview example',
+      role: 'Documents workflow',
       platform: 'LinkedIn',
-      followers: '65K',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'As someone who manages multiple client accounts, CreatorFlow365\'s unified dashboard is a lifesaver. The performance insights help me make data-driven decisions for my clients. Highly recommend!',
-      verified: true,
-      date: '1 week ago'
+      text: 'Documents kept my original in one place. I formatted for LinkedIn when I needed that version—nothing extra stored.',
+      preview: true,
+      date: 'Preview'
     },
     {
       id: 5,
-      name: 'Jessica Martinez',
-      role: 'Multi-Platform Creator',
-      platform: 'All Platforms',
-      followers: '320K',
+      name: 'Preview example',
+      role: 'Documents workflow',
+      platform: 'Multi-platform',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'The content calendar view is exactly what I needed. Being able to see all my posts across platforms in one place has made planning so much easier. Plus, the AI-powered posting suggestions are spot-on.',
-      verified: true,
-      date: '2 months ago'
+      text: 'The honest pitch matches the product: save once, format when you need it. Scheduling and analytics are not the focus yet.',
+      preview: true,
+      date: 'Preview'
     },
     {
       id: 6,
-      name: 'Alex Thompson',
-      role: 'Podcast Host',
-      platform: 'Twitter',
-      followers: '180K',
+      name: 'Preview example',
+      role: 'Documents workflow',
+      platform: 'X / Twitter',
+      followers: 'Illustrative',
       rating: 5,
-      text: 'CreatorFlow365\'s analytics dashboard gives me insights I never had before. I can see exactly which content performs best and optimize accordingly. My follower growth has accelerated significantly.',
-      verified: true,
-      date: '3 weeks ago'
+      text: 'Copy formatted worked for a short post. I knew formatted text was preview-only and would not clutter my library.',
+      preview: true,
+      date: 'Preview'
     },
-    {
-      id: 7,
-      name: 'Rachel Green',
-      role: 'Fashion Blogger',
-      platform: 'Instagram',
-      followers: '250K',
-      rating: 5,
-      text: 'The brand collaboration feature is incredible. I can track all my partnerships, deliverables, and payments in one place. It\'s made my business so much more professional and organized.',
-      verified: true,
-      date: '1 month ago'
-    },
-    {
-      id: 8,
-      name: 'Michael Park',
-      role: 'Tech Content Creator',
-      platform: 'YouTube',
-      followers: '520K',
-      rating: 5,
-      text: 'The scheduling feature alone is worth the subscription. Being able to queue up content weeks in advance has given me so much more time to focus on creating. The platform is intuitive and powerful.',
-      verified: true,
-      date: '2 weeks ago'
-    },
-    {
-      id: 9,
-      name: 'Olivia Brown',
-      role: 'Fitness Influencer',
-      platform: 'Instagram',
-      followers: '380K',
-      rating: 5,
-      text: 'I\'ve tried many creator tools, but CreatorFlow365 is by far the best. The combination of scheduling, analytics, and collaboration management in one platform is exactly what I needed. My productivity has doubled!',
-      verified: true,
-      date: '1 week ago'
-    },
-    {
-      id: 10,
-      name: 'James Wilson',
-      role: 'Business Coach',
-      platform: 'LinkedIn',
-      followers: '95K',
-      rating: 5,
-      text: 'The ROI tracking for brand partnerships is a game-changer. I can now show brands exactly what value I\'m delivering, which has helped me negotiate better rates. CreatorFlow365 pays for itself.',
-      verified: true,
-      date: '3 weeks ago'
-    }
   ]
 
   return (
@@ -154,29 +110,17 @@ export default function ReviewsPage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-optimist-500/20 to-optimist-500/20 border border-optimist-500/30 rounded-full text-sm font-semibold mb-6">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-optimist-300">Creator feedback</span>
+            <span className="text-optimist-300">Preview examples</span>
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-optimist-400 to-optimist-400 bg-clip-text text-transparent">
-            What Creators Are Saying
+            Preview Examples — Not Real Reviews Yet
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
-            Quotes highlight workflows creators use inside CreatorFlow365—your results will depend on your niche and
-            consistency.
+            These cards show the kind of Documents workflow we want creators to try. Real reviews will come after launch.
           </p>
           <p className="text-sm text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Not audited third-party reviews; treat stories as illustrative examples. Start your own trial to judge fit for your stack.
+            Nothing here is a verified customer quote, rating aggregate, or performance claim.
           </p>
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-              ))}
-            </div>
-            <span className="text-2xl font-bold text-white">5.0</span>
-            <span className="text-gray-300">/ 5.0</span>
-            <span className="text-gray-300" aria-hidden>•</span>
-            <span className="text-gray-300">{reviews.length}+ Reviews</span>
-          </div>
         </div>
       </section>
 
@@ -193,9 +137,9 @@ export default function ReviewsPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="font-semibold text-white">{review.name}</h3>
-                      {review.verified && (
-                        <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">
-                          Verified
+                      {review.preview && (
+                        <span className="text-xs bg-optimist-500/20 text-optimist-300 px-2 py-0.5 rounded-full border border-optimist-500/30">
+                          Preview
                         </span>
                       )}
                     </div>

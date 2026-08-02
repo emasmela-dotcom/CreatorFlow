@@ -5,9 +5,9 @@ import { ArrowLeft } from 'lucide-react'
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 
 export const metadata: Metadata = {
-  title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
+  title: 'Creator Tools & Documents Workspace | CreatorFlow365',
   description:
-    'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, and WordPress. 14-day trial, no card.',
+    'Documents workspace: save your original once, format for Instagram, X, LinkedIn, TikTok, YouTube, and more. Free while we build—more dashboard tools coming later.',
   keywords: [
     'creator tools',
     'content creator software',
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     'content library for creators',
   ],
   openGraph: {
-    title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
+    title: 'Creator Tools & Documents Workspace | CreatorFlow365',
     description:
-      'Calendar, scheduling, AI drafting, analytics, docs & Follow Thru CRM—one membership for major creator platforms. 14-day trial, no card.',
+      'Save once in Documents, format for major creator platforms. Free account—paid plans with live AI later.',
     url: `${baseUrl}/creator-tools`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Creator Tools & Workspace – Calendar to CRM | CreatorFlow365',
+    title: 'Creator Tools & Documents Workspace | CreatorFlow365',
     description:
-      'One membership for calendar, scheduling, AI tools, analytics & CRM—try free for 14 days, no card.',
+      'Documents workspace for creators—save once, format for any platform. Free while we build.',
   },
   alternates: {
     canonical: `${baseUrl}/creator-tools`,
@@ -55,7 +55,7 @@ const jsonLd = {
       url: baseUrl,
       name: 'CreatorFlow365',
       description:
-        'Plan, draft & publish—scheduling, analytics, documents & Follow Thru CRM for creators on major platforms.',
+        'Documents workspace for creators—save your original once and format for major platforms. More tools in progress.',
       publisher: { '@id': `${baseUrl}/#organization` },
     },
     {
@@ -69,10 +69,10 @@ const jsonLd = {
       '@type': 'WebPage',
       '@id': `${baseUrl}/creator-tools#webpage`,
       url: `${baseUrl}/creator-tools`,
-      name: 'Creator Tools & Workspace – Calendar to CRM',
+      name: 'Creator Tools & Documents Workspace',
       isPartOf: { '@id': `${baseUrl}/#website` },
       description:
-        'How CreatorFlow365 maps searches—calendar, scheduling, hashtags, analytics & CRM—to one workspace.',
+        'How CreatorFlow365 maps creator searches to the Documents workspace and tools in progress.',
     },
   ],
 }
@@ -87,8 +87,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'micro saas for creators',
     ],
     body: [
-      'Creators often pay for a scheduler, a hashtag tool, a doc hub, analytics, and a CRM separately. CreatorFlow365 brings scheduling, AI drafting tools, documents, templates, analytics, and Follow Thru CRM into one membership so your workflow stays in one workspace.',
-      'If you have been searching for a single dashboard to plan, draft, and track performance, that is the problem this platform is built around.',
+      'Creators often pay for a scheduler, a hashtag tool, a doc hub, analytics, and a CRM separately. CreatorFlow365 is building toward one workspace. Today the live core is Documents: save your original once and format for platforms when you need it.',
+      'Scheduling, analytics, AI tools, and CRM pieces are in progress. Free while we build.',
     ],
   },
   {
@@ -100,8 +100,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'social media scheduler for small creators',
     ],
     body: [
-      'Use the create flow to draft for the platforms you care about and save drafts, schedule for later, or publish when you are ready.',
-      'Your dashboard is designed around the rhythm creators actually use: batch ideas, align timing, and keep a clear view of what goes out next.',
+      'Scheduling and calendar views are in progress—not the main workspace today.',
+      'Use Documents now: save your original, pick a platform, and copy formatted text when you are ready to post.',
     ],
   },
   {
@@ -152,8 +152,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'AI writing tools for social posts',
     ],
     body: [
-      'Your dashboard includes AI-powered assistants and optimizers—hashtag help, reformatting, and content support—so you are not jumping into a separate “writing SaaS” for every post.',
-      'Use them when you want speed; you stay in control of what actually gets published.',
+      'Your dashboard includes formatting helpers and other tools—some are previews or coming soon. Documents is live today: save once, format for a platform, copy to publish.',
+      'Use what is live now; more assistants and optimizers will roll out as we build.',
     ],
   },
   {
@@ -165,8 +165,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'content repurposing tool for creators',
     ],
     body: [
-      'Repurposing is how solo creators keep volume up without burning out. CreatorFlow365 includes flows that help you take one core idea and adapt it for different channels.',
-      'Pair that with the create page so each variant lands in the right shape for the network you select.',
+      'Repurposing starts in Documents: save one original, then format it for different platforms when you need each version.',
+      'Formatted copies are previews only—they are not saved as separate documents.',
     ],
   },
   {
@@ -178,8 +178,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'what to post next creator',
     ],
     body: [
-      'See how your content is performing and use built-in tools to stress-test ideas before you ship them.',
-      'Analytics lives next to scheduling so you are not exporting CSVs into a spreadsheet every week just to decide what to double down on.',
+      'Analytics dashboards and performance tools are in progress.',
+      'Today, focus on Documents: save your original and copy platform-formatted text. We will add deeper analytics later.',
     ],
   },
   {
@@ -241,8 +241,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'pricing for creator tools platform',
     ],
     body: [
-      'Start with a 14-day free trial. As stated on the homepage, no credit card is required for the trial.',
-      'Compare plans on the pricing page when you are ready to match features to your stage as a creator.',
+      'Create a free account—no credit card required. Paid plans with live AI launch later.',
+      'Use Documents now while we build the rest of the workspace.',
     ],
   },
   {
@@ -250,7 +250,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
     title: 'Link to CreatorFlow365 (educators, press, newsletters)',
     queries: [],
     body: [
-      'If you cover creator economy tools, productivity stacks, or micro-SaaS, you are welcome to link to this page or the homepage. A short factual description: “CreatorFlow365 is an all-in-one creator workspace with scheduling, AI-assisted tools, analytics, documents, and Follow Thru CRM.”',
+      'If you cover creator economy tools, productivity stacks, or micro-SaaS, you are welcome to link to this page or the homepage. A short factual description: “CreatorFlow365 is a creator workspace. Documents is live today—save once, format for platforms. More tools are in progress.”',
       'For corrections, interviews, or partnership questions, contact support@creatorflow365.com. We do not buy links; we prefer real mentions from people who try the product.',
     ],
   },
@@ -285,16 +285,16 @@ export default function CreatorToolsPage() {
         <article>
           <p className="text-sm font-semibold text-optimist-400 uppercase tracking-wide mb-2">CreatorFlow365</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-            Creator tools, scheduling &amp; content workspace—built for how creators actually search
+            Creator tools &amp; Documents workspace—what is live today
           </h1>
           <div className="space-y-3 mb-6">
             <p className="text-lg text-gray-100 leading-relaxed font-medium">
-              CreatorFlow365 is one membership for calendars, scheduling, AI-assisted drafting, documents, analytics, and
-              Follow Thru CRM—so you are not stacking five separate subscriptions.
+              CreatorFlow365&apos;s live core is Documents: save your original once, pick a platform, and copy formatted
+              text. One draft, many exports.
             </p>
             <p className="text-lg text-gray-300 leading-relaxed">
-              This page maps what creators type into search—calendar apps, schedulers, hashtags, repurposing, analytics,
-              lightweight CRM—to how those jobs fit one workspace.
+              Scheduling, analytics, AI tools, and CRM features are in progress. This page maps common creator searches
+              to what works now and what is coming.
             </p>
             <p className="text-base text-gray-300 leading-relaxed">
               Skim by section, share a heading link, or jump to the three guides at the bottom when one intent is all you
@@ -396,7 +396,7 @@ export default function CreatorToolsPage() {
               </li>
               <li>
                 <Link href="/reviews" className="text-optimist-400 hover:underline">
-                  CreatorFlow365 reviews from users
+                  CreatorFlow365 preview examples
                 </Link>
               </li>
               <li>
@@ -424,7 +424,7 @@ export default function CreatorToolsPage() {
           <div className="mt-16 pt-10 border-t border-gray-800 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-white">Ready to try the workspace?</p>
-              <p className="text-sm text-gray-300 mt-1">Demo without signup, or start your trial from pricing.</p>
+              <p className="text-sm text-gray-300 mt-1">Try Documents free, or create a free account.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
