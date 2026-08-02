@@ -2679,7 +2679,7 @@ export default function Dashboard() {
       setDashboardNotice(`${label} connected successfully.`)
       setActiveTab('connections')
     } else if (p.get('trial_started') === 'true') {
-      setDashboardNotice('Your 14-day trial is active. Create a post, connect a platform, or explore tools below.')
+      setDashboardNotice('Free while we build. Paid plans with live AI later. Try Documents or explore tools below.')
       setActiveTab('overview')
     } else if (p.get('new') === '1') {
       setDashboardNotice(

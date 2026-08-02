@@ -7,7 +7,7 @@ const origin = baseUrl.replace(/\/$/, '')
 
 const title = 'Try CreatorFlow365 Demo—No Signup | CreatorFlow365'
 const description =
-  'Click through scheduling & creator workflows without creating an account. Then start a 14-day trial if it fits.'
+  'Click through creator workflows without creating an account. Then create a free account if it fits.'
 
 export const metadata: Metadata = {
   title,

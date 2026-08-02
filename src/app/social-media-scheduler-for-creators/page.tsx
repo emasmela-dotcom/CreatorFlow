@@ -8,7 +8,7 @@ const pagePath = '/social-media-scheduler-for-creators'
 
 const title = 'Social Media Scheduler for Creators | CreatorFlow365'
 const description =
-  'One calendar for Instagram, TikTok, LinkedIn, X & YouTube plans—drafts stay aligned. 14-day trial, no card.'
+  'Scheduling is in progress. Documents is live today—save once, format for platforms. Free while we build.'
 
 export const metadata: Metadata = {
   title,
@@ -45,9 +45,11 @@ export default function SocialSchedulerPage() {
             Use one calendar to plan what goes live next, keep your drafts aligned to campaigns,
             and maintain consistency week after week.
           </p>
+          <p className="mt-4 text-sm text-optimist-400">
+            Scheduling is in progress. Documents is live today — save once, format for any platform.
+          </p>
           <p className="text-gray-300 border-l-2 border-optimist-500/50 pl-4">
-            Essential ($19/month) adds five accounts and content analytics on top of Starter scheduling workflows—all with a
-            14-day trial and no credit card to start.
+            Free while we build. Create a free account — no credit card required. Use Documents for platform-ready copy today.
           </p>
           <p className="text-sm text-gray-300">
             Full creator hub (calendar, hashtags, CRM):{' '}
@@ -77,11 +79,11 @@ export default function SocialSchedulerPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold">What to expect by plan</h2>
+          <h2 className="text-2xl font-semibold">What is live today</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
-            <li>Starter: core scheduling and content workflow for creators starting out.</li>
-            <li>Essential: expanded account support and analytics visibility (Growth tier on select-plan).</li>
-            <li>Creator and above: team workflows, deeper analytics, and advanced features.</li>
+            <li>Documents: save your original once and format for multiple platforms.</li>
+            <li>Scheduling calendar and multi-account posting are in progress.</li>
+            <li>Analytics dashboards are in progress.</li>
           </ul>
         </section>
 

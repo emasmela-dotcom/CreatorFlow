@@ -8,7 +8,7 @@ const pagePath = '/ai-caption-writer-instagram-tiktok'
 
 const title = 'AI Captions for Instagram & TikTok | CreatorFlow365'
 const description =
-  'Draft Instagram & TikTok captions faster—AI assist, templates & library in one workflow. 14-day trial, no card.'
+  'Draft Instagram & TikTok captions faster—Documents workspace live today. Free while we build; paid plans with live AI later.'
 
 export const metadata: Metadata = {
   title,
@@ -47,9 +47,11 @@ export default function AICaptionWriterPage() {
             If you post Reels, Shorts, Stories, or TikToks and want faster first drafts without losing your voice, this
             workflow keeps writing, editing, and scheduling in one place.
           </p>
+          <p className="mt-4 text-sm text-optimist-400">
+            Documents is live today — save once, format for any platform. Paid plans with live AI coming later.
+          </p>
           <p className="text-gray-300 border-l-2 border-optimist-500/50 pl-4">
-            Plans start at $9/month with a 14-day free trial and no credit card required. Starter includes analytics
-            support; compare tiers on the homepage pricing section before you commit.
+            Free while we build. Create a free account — no credit card required. Use Documents to save your original and copy platform-formatted text.
           </p>
           <p className="text-sm text-gray-300">
             Pillar hub for every search intent:{' '}
@@ -81,10 +83,10 @@ export default function AICaptionWriterPage() {
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold">What you get in CreatorFlow365</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
-            <li>AI-assisted caption drafting and rewrites.</li>
-            <li>Saved hashtag sets and reusable templates.</li>
-            <li>Starter analytics support and higher-tier analytics options.</li>
-            <li>14-day free trial with no credit card required.</li>
+            <li>Documents workspace: save once, format for Instagram, TikTok, and more.</li>
+            <li>Platform formatting previews — formatted copy is not saved separately.</li>
+            <li>More AI caption tools in progress. Free while we build.</li>
+            <li>Create a free account — no credit card required.</li>
           </ul>
         </section>
 

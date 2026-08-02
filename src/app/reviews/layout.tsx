@@ -7,7 +7,7 @@ const origin = baseUrl.replace(/\/$/, '')
 
 const title = 'Creator Reviews & Testimonials | CreatorFlow365'
 const description =
-  'Creator feedback on scheduling, analytics, drafting & workspace tools. Compare plans—14-day trial, no card to start.'
+  'Preview examples of the Documents workflow. Free while we build. Real creator reviews coming later.'
 
 export const metadata: Metadata = {
   title,

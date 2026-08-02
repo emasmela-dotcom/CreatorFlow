@@ -217,7 +217,7 @@ function SignupPageContent() {
             <div className="text-center mb-6 sm:mb-8">
               <h2 className="text-2xl sm:text-4xl font-bold mb-4">Create your account</h2>
               <p className="text-base sm:text-lg text-gray-300 max-w-lg mx-auto">
-                Create a free account to start your 14-day trial and format your first post.
+                Create a free account — no credit card required. Start in Documents and format your first post.
               </p>
               <p className="text-sm text-optimist-200 mt-2 max-w-lg mx-auto">
                 We save your original content in Documents — not a copy for every platform.
@@ -307,7 +307,7 @@ function SignupPageContent() {
                   disabled={loading}
                   className="flex-1 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Creating Account...' : 'Start Free Trial'}
+                  {loading ? 'Creating Account...' : 'Create free account'}
                 </button>
               </div>
 

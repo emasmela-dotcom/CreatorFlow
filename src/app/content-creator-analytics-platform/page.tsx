@@ -8,7 +8,7 @@ const pagePath = '/content-creator-analytics-platform'
 
 const title = 'Creator Analytics Platform | CreatorFlow365'
 const description =
-  'Analytics next to drafts & schedules—plan-based reporting for creators & teams. 14-day trial, no card.'
+  'Analytics is in progress. Documents is live today—save once, format for platforms. Free while we build.'
 
 export const metadata: Metadata = {
   title,
@@ -45,9 +45,11 @@ export default function ContentCreatorAnalyticsPage() {
             Use analytics in the same workflow where you write, organize, and schedule content so
             your strategy decisions happen faster.
           </p>
+          <p className="mt-4 text-sm text-optimist-400">
+            Analytics is in progress. Documents is live today — save once, format for any platform.
+          </p>
           <p className="text-gray-300 border-l-2 border-optimist-500/50 pl-4">
-            Starter includes analytics support; Essential and higher tiers expand reporting depth. Every plan includes a
-            14-day free trial with no credit card required.
+            Free while we build. Create a free account — no credit card required. Use Documents while analytics tools are being built.
           </p>
           <p className="text-sm text-gray-300">
             Browse every mapped topic in one place:{' '}
@@ -77,11 +79,11 @@ export default function ContentCreatorAnalyticsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold">Plan fit</h2>
+          <h2 className="text-2xl font-semibold">What is live today</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
-            <li>Starter includes analytics support for foundational reporting.</li>
-            <li>Essential expands analytics depth for multi-platform creators (Growth tier on select-plan).</li>
-            <li>Creator and above adds advanced and enterprise-level analytics options.</li>
+            <li>Documents: save your original and copy platform-formatted text.</li>
+            <li>Performance analytics dashboards are in progress.</li>
+            <li>Paid plans with live AI launch later — no surprise charges now.</li>
           </ul>
         </section>
 

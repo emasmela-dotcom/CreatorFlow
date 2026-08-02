@@ -52,7 +52,7 @@ export default function HomePage() {
                   onClick={() => window.location.href = '/signup'}
                   className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all"
                 >
-                  Start Free Trial
+                  Create free account
                 </button>
                 <button
                   onClick={() => window.location.href = '/dashboard'}
@@ -163,7 +163,7 @@ export default function HomePage() {
                 onClick={() => window.location.href = '/signup'}
                 className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"
               >
-                Start Free Trial
+                Create free account
                 <Play className="w-5 h-5" />
               </button>
             </div>

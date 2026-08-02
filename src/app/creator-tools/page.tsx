@@ -229,12 +229,12 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
     ],
     body: [
       'This page is a lightweight, text-first overview on purpose: it loads quickly, reads clearly on mobile, and uses proper headings so both people and search engines can scan it.',
-      'The product itself is built as a modern web app—sign in, try the demo, or start a trial to feel responsiveness in the real workflows.',
+      'The product itself is built as a modern web app—sign in, try the demo, or create a free account to use Documents.',
     ],
   },
   {
     id: 'trial-pricing',
-    title: '14-day free trial & transparent pricing',
+    title: 'Free while we build',
     queries: [
       'creatorflow365 free trial',
       'creator software no credit card trial',
@@ -314,7 +314,7 @@ export default function CreatorToolsPage() {
               <Link href="/" className="text-optimist-400 hover:underline">
                 creatorflow365.com
               </Link>
-              . Pricing and trials match the homepage; legal terms are in{' '}
+              . Free-while-we-build messaging matches the homepage; legal terms are in{' '}
               <Link href="/privacy" className="text-optimist-400 hover:underline">
                 Privacy
               </Link>{' '}

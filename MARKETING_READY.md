@@ -66,7 +66,7 @@
 
 - [x] Wording matches truth: user has content → pick platform → formatted copy
 - [x] Do **not** claim every dashboard “tool” is full AI — spot-check before ads mention tools — verified 2026-08-02
-- [ ] Do **not** advertise paid plan prices until checkout is intentionally live again
+- [x] Do **not** advertise paid plan prices until checkout is intentionally live again — verified 2026-08-02
 - [x] One-line offer ready (see `MARKETING_BROADCAST_PLACES.md` bottom)
 
 ---
