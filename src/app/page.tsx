@@ -15,11 +15,11 @@ export default function HomePage() {
       <div className="min-h-screen bg-optimist-950 text-white">
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 z-20 bg-optimist-950 border-b border-optimist-800">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-y-2">
             <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
               CreatorFlow365
             </a>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <a href="#tools" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Tools</a>
               <button onClick={() => window.location.href = '/creator-tools'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Creator tools</button>
               <button onClick={() => window.location.href = '/documents'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Documents</button>
@@ -36,7 +36,7 @@ export default function HomePage() {
           <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
             <div className="absolute inset-0 bg-optimist-900/20" />
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
-              <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
                 You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
