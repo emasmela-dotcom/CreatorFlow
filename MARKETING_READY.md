@@ -46,7 +46,7 @@
 - [x] Footer: © CreatorFlow365 + Contact support
 - [x] Feedback bubble works
 - [x] 404 / error pages acceptable (quick check) — verified 2026-08-01
-- [ ] Mobile check on home + Documents (phone or narrow browser)
+- [x] Mobile check on home + Documents (phone) — verified 2026-08-01
 
 ---
 
