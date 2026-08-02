@@ -39,7 +39,7 @@ export default function NotFound() {
         <p className="text-sm text-gray-300 leading-relaxed flex flex-wrap justify-center gap-x-3 gap-y-1">
           <Link href="/creator-tools" className="text-optimist-300 hover:text-optimist-200 underline">Creator tools</Link>
           <Link href="/demo" className="text-optimist-300 hover:text-optimist-200 underline">Demo</Link>
-          <Link href="/signup" className="text-optimist-300 hover:text-optimist-200 underline">Free trial</Link>
+          <Link href="/signup" className="text-optimist-300 hover:text-optimist-200 underline">Create free account</Link>
           <Link href="/ai-caption-writer-instagram-tiktok" className="text-optimist-300 hover:text-optimist-200 underline">AI captions</Link>
           <Link href="/social-media-scheduler-for-creators" className="text-optimist-300 hover:text-optimist-200 underline">Scheduler</Link>
           <Link href="/content-creator-analytics-platform" className="text-optimist-300 hover:text-optimist-200 underline">Analytics</Link>

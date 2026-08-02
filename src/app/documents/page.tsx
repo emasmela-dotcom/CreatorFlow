@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Save,
   Copy,
@@ -65,6 +65,7 @@ function formatBytes(bytes: number): string {
 
 export default function DocumentsPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [token, setToken] = useState<string | null>(null)
   const [docs, setDocs] = useState<Document[]>([])
   const [loading, setLoading] = useState(false)
@@ -90,6 +91,17 @@ export default function DocumentsPage() {
 
   const [listOpen, setListOpen] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const [welcomeDismissed, setWelcomeDismissed] = useState(false)
+
+  const showWelcome =
+    !welcomeDismissed &&
+    (searchParams.get('welcome') === '1' || searchParams.get('demo') === 'true')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('cf-documents-welcome-dismissed') === '1') {
+      setWelcomeDismissed(true)
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -494,6 +506,23 @@ export default function DocumentsPage() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-6">
+        {showWelcome && (
+          <div className="mb-4 flex items-center gap-3 rounded-lg bg-sage-900/20 border border-sage-500/20 px-4 py-3 text-sm text-sage-300">
+            <span className="flex-1">
+              You&apos;re in Documents — paste or type content, save, pick a platform, copy formatted.
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                sessionStorage.setItem('cf-documents-welcome-dismissed', '1')
+                setWelcomeDismissed(true)
+              }}
+              className="rounded-md bg-optimist-800/50 px-2 py-1 text-xs font-medium text-optimist-300 hover:bg-optimist-700/50 transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        )}
         {error && (
           <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-900/20 border border-red-800/40 px-4 py-3 text-sm text-red-300">
             <AlertCircle className="h-4 w-4 shrink-0" />

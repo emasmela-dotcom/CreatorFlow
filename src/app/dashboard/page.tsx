@@ -2641,6 +2641,7 @@ export default function Dashboard() {
   const [subscribeError, setSubscribeError] = useState<string | null>(null)
   const [subscribeDebug, setSubscribeDebug] = useState<string | null>(null)
   const [dashboardNotice, setDashboardNotice] = useState<string | null>(null)
+  const [dashboardNoticeHref, setDashboardNoticeHref] = useState<string | null>(null)
   const [posts, setPosts] = useState<Array<{
     id: string
     platform: string
@@ -2673,18 +2674,22 @@ export default function Dashboard() {
     const connected = p.get('connected')
     if (p.get('error') === 'oauth_cancelled') {
       setDashboardNotice('Platform connection was canceled. Try again under Connections.')
+      setDashboardNoticeHref(null)
       setActiveTab('connections')
     } else if (connected) {
       const label = connected.charAt(0).toUpperCase() + connected.slice(1)
       setDashboardNotice(`${label} connected successfully.`)
+      setDashboardNoticeHref(null)
       setActiveTab('connections')
     } else if (p.get('trial_started') === 'true') {
-      setDashboardNotice('Free while we build. Paid plans with live AI later. Try Documents or explore tools below.')
+      setDashboardNotice('Free while we build. Paid plans with live AI later. Start in Documents — save once, copy formatted per platform.')
+      setDashboardNoticeHref('/documents')
       setActiveTab('overview')
     } else if (p.get('new') === '1') {
       setDashboardNotice(
-        'Welcome to CreatorFlow365! Create a post, connect a platform, or choose a plan when you are ready.'
+        'Welcome! Start in Documents — save your original once, then copy formatted text for each platform.'
       )
+      setDashboardNoticeHref('/documents')
       setActiveTab('overview')
     } else if (p.get('canceled') === 'true') {
       setDashboardNotice(
@@ -2814,6 +2819,7 @@ export default function Dashboard() {
     <>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+        <button className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-4 h-4 inline mr-1.5 -mt-0.5" />Documents</button>
         <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
         <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
         <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
@@ -2821,7 +2827,6 @@ export default function Dashboard() {
         <button className="px-2.5 py-1 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
-        <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-3 h-3 inline mr-1 -mt-0.5" />Documents</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
@@ -2901,6 +2906,7 @@ export default function Dashboard() {
               <nav className="flex flex-col gap-0.5" aria-label="Dashboard sections">
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
                   <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+                  <button className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-4 h-4 inline mr-1.5 -mt-0.5" />Documents</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'analytics' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
@@ -2908,7 +2914,6 @@ export default function Dashboard() {
                   <button className="px-2.5 py-1 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
-                  <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-3 h-3 inline mr-1 -mt-0.5" />Documents</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
@@ -2969,6 +2974,13 @@ export default function Dashboard() {
             <div>
               <h4 className="font-semibold mb-3 text-gray-300">Quick Actions</h4>
               <div className="space-y-2">
+                <button
+                  onClick={() => router.push('/documents')}
+                  className="w-full flex items-center gap-3 p-3 bg-optimist-600 hover:bg-optimist-500 rounded-lg transition-colors text-white font-medium"
+                >
+                  <FileText className="w-4 h-4" />
+                  Open Documents
+                </button>
                 <button
                   onClick={() => router.push('/create')}
                   className="w-full flex items-center gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
@@ -3045,19 +3057,46 @@ export default function Dashboard() {
           {dashboardNotice && (
             <div className="mb-6 p-4 rounded-lg bg-blue-900/40 border border-blue-600/60 text-blue-100" role="status">
               <p className="text-sm sm:text-base">{dashboardNotice}</p>
-              <button
-                type="button"
-                onClick={() => setDashboardNotice(null)}
-                className="mt-3 text-sm text-blue-200 hover:text-white underline"
-              >
-                Dismiss
-              </button>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                {dashboardNoticeHref && (
+                  <button
+                    type="button"
+                    onClick={() => router.push(dashboardNoticeHref)}
+                    className="rounded-md bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500 transition-colors"
+                  >
+                    Open Documents
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDashboardNotice(null)
+                    setDashboardNoticeHref(null)
+                  }}
+                  className="text-sm text-blue-200 hover:text-white underline"
+                >
+                  Dismiss
+                </button>
+              </div>
             </div>
           )}
           <TrialStatusBanner />
           
           {activeTab === 'overview' && (
             <div className="space-y-6">
+              <div className="rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50 p-5 border border-gray-700">
+                <h3 className="text-lg font-semibold text-white">Documents workspace</h3>
+                <p className="mt-1 text-sm text-gray-300">
+                  Save your original once. Pick a platform. Copy formatted text.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => router.push('/documents')}
+                  className="mt-4 inline-flex items-center gap-2 rounded-lg bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500 transition-colors"
+                >
+                  Open Documents
+                </button>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <div className="flex items-center justify-between">

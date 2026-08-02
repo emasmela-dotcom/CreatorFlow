@@ -26,7 +26,7 @@ export default function HomePage() {
               <button onClick={() => window.location.href = '/dashboard'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Browse app</button>
               <button onClick={() => window.location.href = '/reviews'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Reviews</button>
               <button onClick={() => window.location.href = '/signin'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Sign In</button>
-              <button onClick={() => window.location.href = '/signup'} className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all">Sign up</button>
+              <button onClick={() => window.location.href = '/signup'} className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all">Create free account</button>
             </div>
           </div>
         </header>
@@ -54,13 +54,13 @@ export default function HomePage() {
                 >
                   Create free account
                 </button>
-                <button
-                  onClick={() => window.location.href = '/dashboard'}
-                  className="px-8 py-4 bg-optimist-600 text-white rounded-lg font-semibold hover:bg-optimist-500 border border-optimist-400/40 transition-all"
-                >
-                  Browse app
-                </button>
               </div>
+              <p className="mt-4 text-sm text-optimist-400">
+                Already have an account?{' '}
+                <a href="/signin" className="font-medium text-sage-400 hover:text-sage-300 underline">
+                  Sign in
+                </a>
+              </p>
               <p className="text-sm text-optimist-200 mt-6">Free while we build. Paid plans with live AI later.</p>
               <p className="text-sm text-gray-400 mt-2">Create a free account — no credit card required.</p>
             </div>

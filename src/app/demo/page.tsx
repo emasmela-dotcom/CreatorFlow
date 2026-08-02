@@ -29,7 +29,7 @@ export default function DemoPage() {
         }
 
         setTimeout(() => {
-          router.push('/dashboard?demo=true')
+          router.push('/documents?demo=true')
         }, 500)
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to load demo')

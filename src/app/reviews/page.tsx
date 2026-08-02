@@ -98,7 +98,7 @@ export default function ReviewsPage() {
               href="/signup"
               className="px-4 sm:px-6 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all text-sm sm:text-base whitespace-nowrap"
             >
-              Get Started
+              Create free account
             </Link>
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function ReviewsPage() {
             href="/signup"
             className="inline-block px-8 py-4 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all text-lg"
           >
-            Start Your Free Trial
+            Create free account
           </Link>
         </div>
       </section>

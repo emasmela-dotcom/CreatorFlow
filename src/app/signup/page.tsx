@@ -103,7 +103,7 @@ function SignupPageContent() {
       }
 
       // Land in dashboard with "What's next?" options (surf site, pick plan, etc.)
-      router.push('/create?welcome=1')
+      router.push('/documents?welcome=1')
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {

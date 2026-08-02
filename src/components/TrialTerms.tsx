@@ -150,8 +150,8 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             </div>
           )}
           <p className="text-sm text-gray-300 mt-3">
-            After your {trialDays}-day trial, you can keep your plan for <strong>${planPrice}/month</strong>. 
-            You can upgrade to a higher plan at any time, but you can't downgrade below the plan you trialed.
+            After your {trialDays}-day trial, you can keep your plan when paid plans launch. Pricing will be shown before checkout goes live.
+            You can upgrade to a higher plan at any time, but you can&apos;t downgrade below the plan you trialed.
           </p>
         </div>
 
@@ -165,7 +165,7 @@ export default function TrialTerms({ planName, planPrice }: TrialTermsProps) {
             </h5>
             <ul className="text-sm text-gray-300 space-y-1 ml-7">
               <li>• You confirm your plan and add a payment method</li>
-              <li>• You'll be charged ${planPrice}/month (or more if you upgrade)</li>
+              <li>• You&apos;ll be charged when paid plans launch (if you choose to subscribe)</li>
               <li>• <strong className="text-green-400">All content and changes made during your trial are kept</strong></li>
               <li>• Ongoing access to at least the plan you trialed (upgrades allowed, downgrades below this plan are not)</li>
             </ul>

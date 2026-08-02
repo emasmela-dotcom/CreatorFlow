@@ -133,7 +133,7 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
                 }
               }}
               aria-pressed={isSelected}
-              aria-label={`Select ${plan.name} plan, $${plan.price} per month`}
+              aria-label={`Select ${plan.name} plan`}
               className={`
                 relative p-4 sm:p-6 rounded-xl border-2 transition-all cursor-pointer min-w-0 overflow-hidden flex flex-col
                 ${isSelected 
@@ -157,15 +157,8 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             </div>
 
             <div className="mb-6 min-w-0">
-              <div className="flex items-baseline flex-wrap gap-x-1">
-                <span className="text-3xl font-bold">${plan.price}</span>
-                <span className="text-base text-gray-300">/month</span>
-              </div>
-              {plan.price === 0 ? (
-                <p className="text-sm text-green-400 mt-1 font-semibold">Forever free</p>
-              ) : (
-                <p className="text-sm text-gray-300 mt-1 break-words">14-day free trial</p>
-              )}
+              <p className="text-lg font-semibold text-optimist-300">Free while we build</p>
+              <p className="text-sm text-gray-300 mt-1 break-words">Paid plans launch later</p>
             </div>
 
             <ul className="space-y-3 min-w-0">

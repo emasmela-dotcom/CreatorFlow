@@ -12,7 +12,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   starter: {
     headline: 'Starter — AI captions, library, and hashtags',
     blocks: [
-      'CreatorFlow365 Starter gives you AI-assisted caption writing, unlimited hashtag sets and templates, and a cloud content library for $9/month. Start with a 14-day free trial—no credit card required.',
+      'CreatorFlow365 Starter gives you AI-assisted caption writing, unlimited hashtag sets and templates, and a cloud content library. Free while we build—no credit card required.',
       'Built for beginner and part-time creators who want organized drafts and faster captions without paying for multiple separate tools.',
       'Starter includes analytics support, three connected social accounts, and 500 AI calls per month so you can post consistently.',
     ],
@@ -50,7 +50,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   growth: {
     headline: 'Essential — Schedule and analyze across five accounts',
     blocks: [
-      'Essential lets you choose any five supported social accounts—Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, or WordPress—and keeps your posting plan and content analytics in one dashboard for $19/month. 14-day trial, no credit card required.',
+      'Essential lets you choose any five supported social accounts—Instagram, X, LinkedIn, TikTok, YouTube, Facebook, Threads, Pinterest, Snapchat, Reddit, Bluesky, Mastodon, Discord, Telegram, Tumblr, or WordPress—and keeps your posting plan and content analytics in one dashboard. Free while we build—no credit card required.',
       'For creators posting regularly who want visibility into what works instead of guessing across separate apps.',
       'Includes 1,000 AI calls per month, content analytics, unlimited documents and templates, and faster email support than Starter.',
     ],
@@ -89,7 +89,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   pro: {
     headline: 'Creator — Brand deals, team workspace, advanced analytics',
     blocks: [
-      'Creator includes brand collaboration tools, a three-seat team workspace, ten social accounts, unlimited AI calls, API access, and advanced analytics for $49/month. 14-day trial, no credit card required.',
+      'Creator includes brand collaboration tools, a three-seat team workspace, ten social accounts, unlimited AI calls, API access, and advanced analytics. Free while we build—no credit card required.',
       'For full-time creators and small teams managing partnerships who need deliverables and performance data in one workflow.',
       'Priority support with a 12-hour target response helps when campaigns have tight deadlines.',
     ],
@@ -129,7 +129,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   business: {
     headline: 'Professional — White-label options for teams and agencies',
     blocks: [
-      'Professional adds white-label options, unlimited social accounts, a ten-seat team workspace, premium analytics with predictions, and advanced API access for $79/month. 14-day trial, no credit card required.',
+      'Professional adds white-label options, unlimited social accounts, a ten-seat team workspace, premium analytics with predictions, and advanced API access. Free while we build—no credit card required.',
       'For professional creators and agencies that need branded client experiences without stacking separate enterprise contracts.',
       'This tier uses white-label options—Business tier below offers full white-label for agencies that need the maximum scope.',
     ],
@@ -154,7 +154,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       },
       {
         q: 'Are competitor price claims guaranteed?',
-        a: 'Compare plans on our pricing section; external competitor pricing changes over time.',
+        a: 'Compare plans on our select-plan page when paid tiers launch; external competitor pricing changes over time.',
       },
       {
         q: 'What about tools not in Professional?',
@@ -169,7 +169,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
   agency: {
     headline: 'Business — Full white-label for agencies at scale',
     blocks: [
-      'Business includes unlimited team members and accounts, full white-label, enterprise analytics, custom API integrations, and a dedicated account manager for onboarding and escalation—$149/month. 14-day trial, no credit card required.',
+      'Business includes unlimited team members and accounts, full white-label, enterprise analytics, custom API integrations, and a dedicated account manager for onboarding and escalation. Free while we build—no credit card required.',
       'For agencies replacing multiple tools with one white-labeled workspace clients experience under your brand.',
       'Priority support uses a two-hour target response for the fastest escalations on the platform.',
     ],

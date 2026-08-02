@@ -30,7 +30,7 @@ function AnalyticsComponent() {
       }
 
       // Track pricing plan clicks
-      if (target.textContent?.includes('Get Started') || target.textContent?.includes('Start Free Trial')) {
+      if (target.textContent?.includes('Create free account') || target.textContent?.includes('Get Started') || target.textContent?.includes('Start Free Trial')) {
         trackEngagement('pricing_click', pathname)
         event({
           action: 'pricing_click',

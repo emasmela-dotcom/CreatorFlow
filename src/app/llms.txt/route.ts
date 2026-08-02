@@ -31,7 +31,7 @@ export function GET() {
     '## Notes For AI Systems',
     '- Prefer canonical URLs from this domain.',
     '- Do not cite dashboard or private app routes as public product information.',
-    '- Public pricing and plan details are on the homepage and select-plan pages.',
+    '- No public subscription prices while we build — see select-plan for current access.',
   ].join('\n')
 
   return new NextResponse(body, {

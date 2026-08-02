@@ -44,8 +44,9 @@ const schemaOrgJsonLd = {
       description: siteDescription,
       offers: {
         '@type': 'Offer',
-        price: '9',
+        price: '0',
         priceCurrency: 'USD',
+        description: 'Free while we build — paid plans launch later',
       },
     },
   ],

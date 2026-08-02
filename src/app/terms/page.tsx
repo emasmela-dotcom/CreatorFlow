@@ -57,7 +57,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">3. Subscription & payment</h2>
-            <p>Paid plans are billed according to the pricing shown at signup. Trials may be offered; after the trial, you will be charged unless you cancel. Refunds are handled per our refund policy. You may upgrade or cancel as allowed in your account.</p>
+            <p>Paid plans launch later. When billing goes live, pricing will be shown before you subscribe. Trials may be offered; you will not be charged unless you choose a paid plan. Refunds are handled per our refund policy. You may upgrade or cancel as allowed in your account.</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">4. Your content</h2>

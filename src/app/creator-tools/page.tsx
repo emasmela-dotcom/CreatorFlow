@@ -424,20 +424,20 @@ export default function CreatorToolsPage() {
           <div className="mt-16 pt-10 border-t border-gray-800 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-white">Ready to try the workspace?</p>
-              <p className="text-sm text-gray-300 mt-1">Try Documents free, or create a free account.</p>
+              <p className="text-sm text-gray-300 mt-1">Create a free account, then open Documents to save and format your content.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/demo"
-                className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-white text-sm font-semibold border border-gray-700"
-              >
-                Try demo
-              </Link>
+            <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/signup"
                 className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-optimist-600 hover:bg-optimist-500 text-white text-sm font-semibold"
               >
-                Sign up
+                Create free account
+              </Link>
+              <Link
+                href="/demo"
+                className="text-sm text-optimist-300 hover:text-optimist-100 underline"
+              >
+                Try demo
               </Link>
             </div>
           </div>

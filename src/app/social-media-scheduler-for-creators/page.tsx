@@ -96,8 +96,8 @@ export default function SocialSchedulerPage() {
             <Link href="/privacy" className="text-optimist-400 hover:underline">Privacy Policy</Link>.
           </p>
           <p className="text-gray-300 text-sm">
-            For definitions of plans and limits, use homepage pricing and{' '}
-            <Link href="/select-plan" className="text-optimist-400 hover:underline">select-plan</Link>; reach us at{' '}
+            For definitions of plans and limits, see the{' '}
+            <Link href="/select-plan" className="text-optimist-400 hover:underline">select-plan</Link> page; reach us at{' '}
             <a href="mailto:support@creatorflow365.com" className="text-optimist-400 hover:underline">support@creatorflow365.com</a>.
           </p>
         </section>

@@ -23,6 +23,6 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
   {
     question: 'Does CreatorFlow365 work for agencies?',
     answer:
-      'Yes. Professional includes white-label options; Business includes full white-label, unlimited team members, and a dedicated account manager for onboarding and escalation—see pricing for details.',
+      'Yes. Professional includes white-label options; Business includes full white-label, unlimited team members, and a dedicated account manager for onboarding and escalation. Plan details will be published before paid tiers launch.',
   },
 ]
