@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { Suspense, useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Save,
@@ -63,7 +63,7 @@ function formatBytes(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`
 }
 
-export default function DocumentsPage() {
+function DocumentsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [token, setToken] = useState<string | null>(null)
@@ -871,5 +871,13 @@ export default function DocumentsPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function DocumentsPage() {
+  return (
+    <Suspense fallback={null}>
+      <DocumentsPageInner />
+    </Suspense>
   )
 }
