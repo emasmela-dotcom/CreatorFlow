@@ -1,4 +1,5 @@
 import { canMakeAICall } from '@/lib/usageTracking'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 export type AIProvider = 'groq' | 'grok' | 'openai'
 
@@ -293,24 +294,25 @@ async function callOpenAI(options: CallLLMOptions): Promise<CallLLMResult> {
 }
 
 function getProviderOrder(): AIProvider[] {
-  const configured: AIProvider[] = []
-  if (isGroqConfigured()) configured.push('groq')
-  if (isGrokConfigured()) configured.push('grok')
-  if (isOpenAIConfigured()) configured.push('openai')
+  // Free build: Groq only when available — ignore AI_DEFAULT_PROVIDER so a
+  // leftover openai setting cannot burn a paid/exhausted key.
+  if (FREE_BUILD_PHASE && isGroqConfigured()) {
+    return ['groq']
+  }
 
-  if (configured.length === 0) return []
+  const cheapFirst: AIProvider[] = []
+  if (isGroqConfigured()) cheapFirst.push('groq')
+  if (isGrokConfigured()) cheapFirst.push('grok')
+  if (isOpenAIConfigured()) cheapFirst.push('openai')
+  if (cheapFirst.length === 0) return []
 
-  const pref = process.env.AI_DEFAULT_PROVIDER || 'auto'
-  if (pref === 'groq' && isGroqConfigured()) return ['groq']
-  if (pref === 'grok' && isGrokConfigured()) return ['grok']
-  if (pref === 'openai' && isOpenAIConfigured()) return ['openai']
+  const pref = (process.env.AI_DEFAULT_PROVIDER || 'auto').toLowerCase()
+  if (pref === 'auto' || !cheapFirst.includes(pref as AIProvider)) {
+    return cheapFirst
+  }
 
-  // auto: cheapest first — Groq, then Grok, then OpenAI
-  const order: AIProvider[] = []
-  if (isGroqConfigured()) order.push('groq')
-  if (isGrokConfigured()) order.push('grok')
-  if (isOpenAIConfigured()) order.push('openai')
-  return order
+  // Preferred first, then the rest as fallback (do not lock to one provider).
+  return [pref as AIProvider, ...cheapFirst.filter((p) => p !== pref)]
 }
 
 async function callProvider(
