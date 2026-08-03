@@ -5,6 +5,11 @@
 
 import { db } from './db'
 import { getPlanLimits, PlanType } from './planLimits'
+import {
+  FREE_BUILD_PHASE,
+  RUNS_SITE_PER_DAY,
+  getUserDailyLimit
+} from './aiUsagePolicy'
 
 /**
  * Initialize usage tracking tables
@@ -156,6 +161,48 @@ export async function getCurrentMonthAICalls(userId: string): Promise<number> {
 }
 
 /**
+ * Get today's AI call count for one user
+ */
+export async function getUserDailyAICalls(userId: string): Promise<number> {
+  try {
+    const result = await db.execute({
+      sql: `
+        SELECT COUNT(*) AS count
+        FROM ai_call_logs
+        WHERE user_id = ? AND created_at >= CURRENT_DATE
+      `,
+      args: [userId]
+    })
+
+    return parseInt(result.rows[0]?.count || 0)
+  } catch (error: any) {
+    console.error('Error getting daily AI call count for user:', error)
+    return 0
+  }
+}
+
+/**
+ * Get today's AI call count across all users
+ */
+export async function getSiteDailyAICalls(): Promise<number> {
+  try {
+    const result = await db.execute({
+      sql: `
+        SELECT COUNT(*) AS count
+        FROM ai_call_logs
+        WHERE created_at >= CURRENT_DATE
+      `,
+      args: []
+    })
+
+    return parseInt(result.rows[0]?.count || 0)
+  } catch (error: any) {
+    console.error('Error getting daily AI call count for site:', error)
+    return 0
+  }
+}
+
+/**
  * Get user's plan tier
  */
 async function getUserPlanTier(userId: string): Promise<PlanType | null> {
@@ -199,6 +246,40 @@ export async function canMakeAICall(userId: string): Promise<{
         allowed: true,
         current,
         limit: -1
+      }
+    }
+
+    // While the site is free, everyone gets the same daily allowance and the
+    // plan they picked does not unlock more AI.
+    if (FREE_BUILD_PHASE) {
+      const dailyLimit = getUserDailyLimit(userId)
+      const usedToday = await getUserDailyAICalls(userId)
+
+      if (usedToday >= dailyLimit) {
+        return {
+          allowed: false,
+          current: usedToday,
+          limit: dailyLimit,
+          message: `You've used your ${dailyLimit} AI runs for today. They reset tomorrow. Need more while we build? Contact support and we can raise your limit.`
+        }
+      }
+
+      const siteUsedToday = await getSiteDailyAICalls()
+
+      if (siteUsedToday >= RUNS_SITE_PER_DAY) {
+        return {
+          allowed: false,
+          current: usedToday,
+          limit: dailyLimit,
+          message:
+            'AI is paused for today because the site reached its daily limit. It comes back tomorrow. Everything else still works.'
+        }
+      }
+
+      return {
+        allowed: true,
+        current: usedToday,
+        limit: dailyLimit
       }
     }
 
