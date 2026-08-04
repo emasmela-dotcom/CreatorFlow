@@ -66,7 +66,19 @@ export default function FeedbackButton({ initialToken }: FeedbackButtonProps) {
       })
 
       const data = await res.json().catch(() => ({}))
-      if (!res.ok) throw new Error(data.error || 'Failed to send feedback')
+      if (!res.ok) {
+        // Stale/expired token looks "signed in" in the UI but /api/feedback returns 401.
+        if (res.status === 401 && token) {
+          try {
+            localStorage.removeItem('token')
+          } catch {
+            /* ignore */
+          }
+          setToken(null)
+          throw new Error('Your sign-in expired. Enter your email below and send again.')
+        }
+        throw new Error(data.error || 'Failed to send feedback')
+      }
 
       setSubmitted(true)
       setTimeout(() => {
