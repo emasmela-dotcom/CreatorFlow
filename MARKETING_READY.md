@@ -77,7 +77,7 @@
 - [x] Pick **one** primary CTA everywhere: “Create free account” → signup → Documents — verified 2026-08-04 (buttons unified; signup lands on `/documents?welcome=1`)
 - [x] Dashboard nav or home makes **Documents** easy to find — verified 2026-08-04 (home header + dashboard nav + phone “Open Documents” card)
 - [x] **Short demo script** (30 sec): paste → save → Instagram → copy — see `MARKETING_DEMO_SCRIPT.md` — 2026-08-04
-- [ ] Screenshot or screen recording for posts (optional — not blocking broadcast)
+- [x] Screen recording for posts — Eric saved `player.mov` to Desktop (QuickTime) — 2026-08-04
 
 ---
 
