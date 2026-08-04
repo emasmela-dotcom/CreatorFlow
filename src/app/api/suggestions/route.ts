@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { verifyAuth } from '@/lib/auth'
 
-const DEFAULT_TO_EMAIL = 'support@creatorflow365.com'
-const DEFAULT_FROM_EMAIL = 'CreatorFlow365 <support@creatorflow365.com>'
+const DEFAULT_TO_EMAIL = 'apputilitybuilder@gmail.com'
+const DEFAULT_FROM_EMAIL = 'CreatorFlow365 Support <support@creatorflow365.com>'
 
 function getResend() {
   if (!process.env.RESEND_API_KEY) return null
@@ -15,7 +15,11 @@ function getFromEmail() {
 }
 
 function getToEmail() {
-  return process.env.RESEND_SUGGESTIONS_TO_EMAIL || DEFAULT_TO_EMAIL
+  return (
+    process.env.RESEND_SUGGESTIONS_TO_EMAIL ||
+    process.env.SUPPORT_TO_EMAIL ||
+    DEFAULT_TO_EMAIL
+  )
 }
 
 export async function POST(request: NextRequest) {
@@ -74,14 +78,27 @@ export async function POST(request: NextRequest) {
       </div>
     `
 
-    await resend.emails.send({
+    const sendResult = await resend.emails.send({
       from: getFromEmail(),
       to: toEmail,
+      replyTo: authUser.email,
       subject,
       html,
     })
 
-    return NextResponse.json({ success: true })
+    if (sendResult.error) {
+      console.error('Suggestion email Resend error:', sendResult.error)
+      return NextResponse.json(
+        {
+          error:
+            sendResult.error.message ||
+            'Could not send your suggestion. Check Resend domain / from address setup.',
+        },
+        { status: 502 }
+      )
+    }
+
+    return NextResponse.json({ success: true, id: sendResult.data?.id ?? null })
   } catch (error: any) {
     console.error('Suggestion email error:', error)
     return NextResponse.json({ error: error?.message || 'Failed to send suggestion email' }, { status: 500 })

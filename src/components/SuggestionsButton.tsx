@@ -17,7 +17,7 @@ export default function SuggestionsButton({ token }: SuggestionsButtonProps) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-20 z-50 bg-amber-500 hover:bg-amber-400 text-black rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
+        className="fixed bottom-[7.5rem] right-4 sm:bottom-[4.5rem] sm:right-6 z-50 bg-amber-500 hover:bg-amber-400 text-black rounded-full p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
         title="Suggest an add-on / change"
         aria-label="Suggest an add-on or change"
       >
