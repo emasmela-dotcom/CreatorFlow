@@ -25,28 +25,28 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
 
   if (!token) {
     return (
-      <div className="fixed top-20 right-4 z-40">
+      <div className="fixed top-12 left-4 z-[100]">
         <a
           href="/signin"
-          className="inline-flex items-center gap-2 rounded-full bg-optimist-800 px-3 py-2 text-xs font-medium text-white ring-1 ring-optimist-700 hover:bg-optimist-700 transition-colors shadow-lg"
+          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-sage-500 transition-colors"
         >
-          <Sparkles className="h-3.5 w-3.5 text-sage-400" />
-          Sign in to use AI coach
+          <Sparkles className="h-4 w-4" />
+          Sign in for AI coach
         </a>
       </div>
     )
   }
 
   return (
-    <div className="fixed top-20 right-4 z-40">
+    <div className="fixed top-12 left-4 z-[100]">
       {!isOpen ? (
         <button
           type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Open AI coach"
-          className="inline-flex items-center gap-2 rounded-full bg-optimist-800 px-3 py-2 text-xs font-medium text-white ring-1 ring-optimist-700 hover:bg-optimist-700 transition-colors shadow-lg"
+          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-sage-500 transition-colors"
         >
-          <Sparkles className="h-3.5 w-3.5 text-sage-400" />
+          <Sparkles className="h-4 w-4" />
           AI coach
         </button>
       ) : (
