@@ -1,174 +1,83 @@
-# Agent catch-up — CreatorFlow365
+# Agent catchup — CreatorFlow365 (read this first)
 
-**Read this first in every new Cursor chat.**  
-**Workspace:** `/Users/ericmasmela/CreatorFlow`  
+**Date:** 2026-08-04  
 **Live site:** https://www.creatorflow365.com  
-**Owner:** Eric (TBI 1997 — short plain answers, one thing at a time, do not overload)
-
-Do **not** mix other repos (ToolMarket, CareConnect, ReadAI, etc.) unless Eric **names** them.
+**Repo:** main (pushed)
 
 ---
 
-## What we are building (product truth)
+## Eric’s hard rules right now (do not violate)
 
-**Core idea:** *One draft, many exports.*
-
-1. User **already has** content (text and optionally video).
-2. User saves **one original** (title + content + optional video) — **not** a pile of formatted copies.
-3. User picks a **platform** (Instagram, X, YouTube, etc.) and gets a **live formatted preview** to copy.
-4. Formatted output is **never saved** to the database.
-
-**Taglines (use everywhere):**
-- **One draft, many exports.**
-- **Save your original once. Format for any platform when you need it — nothing extra gets saved.**
-
-**Main workspace:** `/documents` — not Create, not Dashboard overview.
+1. **Do not burn Cursor usage.** Other Models = **100% used**. On-demand = **Disabled**. Cursor Models ~**73%**. Reset ~**Aug 19**. If he runs out of Cursor Models he cannot work on this for 10+ days.
+2. **No exceptions** that allow burning usage (not “plain text loopholes,” not “being helpful,” not background agents).
+3. If a task would burn usage: **stop, tell Eric, ask what he wants.** He will ask for a **command/prompt** for **outside AI** (e.g. Kimi). Outside AI writes code; agent **places only when Eric says place**.
+4. Prompts for outside AI must be **one copy block** and must say **do not rewrite whole files**.
+5. Global rules: `~/.cursor/rules/ask-eric-before-any-usage-burn.mdc`, `~/.cursor/rules/cursor-other-models-strict-approval.mdc`.
+6. Eric has TBI (1997): short, plain language, one thing at a time.
 
 ---
 
-## Business mode right now (Aug 2026)
+## Product truth (honest)
 
-- **Free while we build.** Sitewide banner: *Free while we build. Paid plans with live AI later.*
-- Pricing is **hidden / soft** on the site. Stripe code **stays in repo** but is not pushed in the user flow.
-- Do **not** charge or push checkout until Eric funds AI credits and says turn billing on.
-- Marketing angle for now: **free account**, try Documents workspace, no credit card.
-
----
-
-## Kimi workflow (Eric + outside AI)
-
-Eric gets **full code from Kimi**, not from Cursor building whole features.
-
-1. Agent gives a **paste block** — always start with `PASTE_TO_KIMI_RULES.txt` (repo root).
-2. Eric pastes into Kimi, brings **complete files** back.
-3. Agent **places** into real files — **small glue only**. Do **not** drop in Kimi full-page rewrites of homepage, dashboard, layout, signup, signin.
-4. Verify → commit + push `main` when Eric asks or after significant placed work.
-
-**Kimi must NOT:**
-- Replace whole `src/app/page.tsx`, `layout.tsx`, `dashboard/page.tsx`, signup, signin
-- Switch to next-auth or shadcn
-- Invent new design systems
-
-**Kimi must match stack:**
-- JWT: `localStorage` key **`token`**, `Authorization: Bearer <token>`
-- Sign-in route: **`/signin`** (not `/login`)
-- DB: `import { db } from '@/lib/db'`, `db.execute({ sql, args })`
-- Auth server: `verifyAuth` from `@/lib/auth`
-- Colors: **Gorgeous Earth** via `optimist-*` / `sage-*` in `src/app/globals.css`
-
-Other paste files on git: `PASTE_THIS_TO_KIMI_DropCredits.txt`, `PASTE_TO_KIMI_RULES.txt`
+- **Main job for creators:** Documents — save original once → pick platform → copy formatted. Phone-first.
+- **Banner:** “Free while we build. Paid plans with live AI later.”
+- **AI during free build:** Groq only (cheap host). **Not** Elon’s Grok (xAI).
+- **Daily AI caps (live):** 3 runs per user per day; 400 site-wide per day. Settings in `src/lib/aiUsagePolicy.ts`. Override map for support to raise one user.
+- Plan pickers still say prices are hidden (“Free while we build”); “unlimited” wording still exists in plan copy — not cleaned yet.
 
 ---
 
-## Cursor agent rules (Eric enforces)
+## Groq setup — where things actually are
 
-1. **Only act on what Eric explicitly asks.** Questions → answer only, no edits.
-2. **No full app code from Cursor** — Kimi paste + place/glue (see above).
-3. **No unsolicited polish**, other projects, or invented features.
-4. **Do not call “done”** until verified on the **live** site (or honest blocker named).
-5. **Do not burn usage** (Resend sends, paid APIs, browser automation) without Eric approving that action.
-6. **Keep replies short.** If Eric says too much — shorten immediately.
-7. **Commit + push** when Eric asks, or after significant site work he requested.
-8. **Color scheme locked** — Gorgeous Earth. Do not revert to purple unless Eric asks.
+### Done (code + deploy)
 
----
+| Item | Commit / note |
+|------|----------------|
+| Free-build forces **Groq only** when `GROQ_API_KEY` set; ignores `AI_DEFAULT_PROVIDER=openai` | `b4c0cea` — `src/lib/ai/llm.ts` + `FREE_BUILD_PHASE` |
+| Daily caps + support override list | `de8f8cb` — `aiUsagePolicy.ts`, `usageTracking.ts` |
+| Caption coach **does not** auto-run on typing; only **Run coach** button | `44a7531` — burned Eric’s 3 runs yesterday by typing before this fix |
+| Phone dashboard: Documents first below `lg`; hide More AI tools on small screens | `9f9e149` |
+| Phone/laptop honest line on Documents cards | `eae1b5c` |
+| Feedback: expired token → clear + ask email (was showing Unauthorized) | `790c16d` |
 
-## What is live and working (verified in recent sessions)
+### Vercel / Groq account (Eric’s side)
 
-| Area | Status |
-|------|--------|
-| Home | https://www.creatorflow365.com — product promise + tagline box + Documents nav link |
-| **Documents workspace** | `/documents` — save original (text), platform format panel, copy formatted, doc list |
-| **Video on Documents** | Attach → upload to Vercel Blob → save with doc. Needs **`BLOB_READ_WRITE_TOKEN`** on Vercel |
-| Sign up / sign in | Eric tested fresh signup after DB user clear. JWT expires **~1 hour** → “Session expired” on Documents |
-| Support form | `/support` → **apputilitybuilder@gmail.com** (Resend + domain verified) |
-| Footer | © CreatorFlow365 + Contact support on all pages |
-| Feedback bubble | Sitewide |
-| Early access banner | Free while we build |
-| AI layer | `src/lib/ai/llm.ts` — Groq → Grok (xAI) → OpenAI; no keys = template fallback |
-| `formatForPlatform` | `src/lib/formatForPlatform.ts` — used by Documents |
+- `GROQ_API_KEY` is on Vercel (seen in env list).
+- Default model in code: `GROQ_MODEL` or **`llama-3.1-8b-instant`** (good free-tier ceiling: ~500K tokens/day, 14.4K requests/day per Groq Limits screen).
+- Eric’s Groq Limits screenshot (2026-08-04): org shows Developer-plan-style limits table; `llama-3.1-8b-instant` is the right model for free-build volume.
+- Optional: set Vercel `AI_DEFAULT_PROVIDER` = `groq` (belt and suspenders; free-build code should already ignore openai).
 
----
+### NOT finished / NOT verified
 
-## Honest gaps (do not lie about these)
-
-- **Create page** (`/create`) still has old post limits, schedule/publish, “0 posts remaining” — not the main workspace anymore.
-- **Game-changer / category tools** — many are shells, templates, or coming soon. Do not claim full competitive AI without checking.
-- **Reviews promo** (first 10 creators, etc.) — discussed, **not built**.
-- **Multi-Neon DB failover** — discussed for free-tier capacity, **not built**. App uses one `DATABASE_URL`.
-- **Stripe live checkout** — sleeping until Eric turns paid mode on.
-- **Video test** — Eric may not have a short clip; text-only Documents flow is enough to prove core product.
+- ~~Live proof Caption coach via Groq~~ **Done 2026-08-04:** `GROQ_API_KEY` created in Groq console, set on Vercel Production, redeployed; agent + Eric Run coach tests return live AI (provider groq).
+- Do **not** run extra live Groq tests unless Eric explicitly says yes (uses Groq free quota).
+- Honest “what’s live” page for creators: discussed, **not** built (Kimi invented a page with false “no trial countdown” — dashboard still shows trial days; do not post that lie).
+- Phone simplification Step 1 is live; further simplification paused.
+- Tagline Eric is trying to remember for homepage: **not** the existing ones; he will say when it comes back. Existing: “Stop juggling apps. Start growing.” / “One draft, many exports.”
 
 ---
 
-## Storage architecture
+## How to continue Groq setup (next agent)
 
-| What | Where |
-|------|--------|
-| Users, document **text**, app rows | **Neon** PostgreSQL (`DATABASE_URL` on Vercel) |
-| Document **videos** | **Vercel Blob** (`@vercel/blob`, `BLOB_READ_WRITE_TOKEN`) |
-| Formatted platform copy | **Not stored** — preview only |
-
-Neon free basic is small. Extra Neon projects for failover = possible later (manual switch or future code). Videos do **not** fill Neon.
+1. Ask Eric: confirm Vercel `GROQ_API_KEY` + optional `AI_DEFAULT_PROVIDER=groq`.
+2. Ask Eric to test **himself** (no agent Cursor burn): Caption coach → short text → **Run coach** once → report success or exact error.
+3. If code change needed: give Kimi prompt only; place when he says; commit/push only when he asks (or when project rules he re-enables say so — default now: ask first).
+4. Do not confuse **Groq** (site AI host) with **Grok** (Elon / Cursor chat model).
 
 ---
 
-## Key URLs
+## Important files
 
-| Page | URL |
-|------|-----|
-| Home | https://www.creatorflow365.com |
-| **Documents (workspace)** | https://www.creatorflow365.com/documents |
-| Sign up | https://www.creatorflow365.com/signup |
-| Sign in | https://www.creatorflow365.com/signin |
-| Dashboard | https://www.creatorflow365.com/dashboard |
-| Create (legacy) | https://www.creatorflow365.com/create |
-| Support | https://www.creatorflow365.com/support |
+- `src/lib/aiUsagePolicy.ts` — free-build flags + daily limits  
+- `src/lib/usageTracking.ts` — `canMakeAICall` daily checks  
+- `src/lib/ai/llm.ts` — provider order (Groq in free build)  
+- `src/components/bots/ContentAssistantBot.tsx` — Run coach button  
+- `src/app/dashboard/page.tsx` — phone Documents card + copy  
+- `src/components/FeedbackButton.tsx` — expired session handling  
+- `MARKETING_READY.md` — checklist (AI keys note may be stale; Groq key is set)
 
 ---
 
-## Key files
+## One-line status for Eric
 
-| File | Purpose |
-|------|---------|
-| `src/app/documents/page.tsx` | Main workspace UI |
-| `src/lib/formatForPlatform.ts` | Platform formatting rules |
-| `src/app/api/documents/route.ts` | Save/list/delete documents + video columns |
-| `src/app/api/documents/upload/route.ts` | Video upload → Blob |
-| `src/app/page.tsx` | Homepage (surgical edits only) |
-| `src/app/layout.tsx` | Global shell + banner + footer |
-| `src/components/EarlyAccessBanner.tsx` | Free-while-we-build banner |
-| `src/lib/ai/llm.ts` | AI provider chain |
-| `src/app/globals.css` | Locked Gorgeous Earth palette |
-| `PASTE_TO_KIMI_RULES.txt` | Paste before every Kimi task |
-| `MARKETING_READY.md` | Master checklist until we market hard |
-| `MARKETING_BROADCAST_PLACES.md` | Where to post after marketing ready |
-
----
-
-## Support / email
-
-- Inbox: **apputilitybuilder@gmail.com**
-- Form: `/support`
-- Resend domain **creatorflow365.com** verified
-- Do not claim mail works without Eric confirming inbox delivery
-
----
-
-## How to work with Eric next
-
-1. **Question only** → answer, no file changes.
-2. **Build request** → Kimi paste (with rules file) → Eric returns code → place + verify → commit/push if asked.
-3. **One issue at a time.**
-4. Update **`MARKETING_READY.md`** when a marketing-readiness item is truly verified.
-5. When **`MARKETING_READY.md`** is all checked → use **`MARKETING_BROADCAST_PLACES.md`** to post everywhere.
-
----
-
-## Recent git milestones (reference)
-
-- `391cf29` — Documents workspace + format panel + homepage taglines
-- `7607717` — Video save on Documents (Vercel Blob)
-- `78fa91d` — Marketing broadcast tracker + Kimi drop-credits paste on git
-
-**Last updated:** 2026-08-01
+Groq free-build is **confirmed working** on live (key + redeploy + Eric Run coach test). Optional: Vercel `AI_DEFAULT_PROVIDER=groq` (not required when key is set).

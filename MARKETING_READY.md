@@ -7,7 +7,7 @@
 
 **How to use:** Agent or Eric marks `[x]` only when **verified on the live site** (not “should work”). Update this file as items complete. Commit + push when this file changes.
 
-**Last updated:** 2026-08-02
+**Last updated:** 2026-08-04
 
 ---
 
@@ -58,7 +58,8 @@
 - [x] `JWT_SECRET` set
 - [x] `RESEND_API_KEY` + Resend domain verified
 - [x] **`BLOB_READ_WRITE_TOKEN`** for document videos (Vercel Storage → Blob)
-- [ ] Optional AI keys when Eric ready to fund: `GROQ_*`, `XAI_API_KEY`, `OPENAI_API_KEY` (not required for free-now text formatting)
+- [x] Groq AI for free-build (`GROQ_API_KEY` on Vercel Production + live Caption coach verified) — 2026-08-04
+- [ ] Optional later: `XAI_API_KEY`, `OPENAI_API_KEY` (not needed for free-now)
 
 ---
 
