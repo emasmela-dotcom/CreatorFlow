@@ -25,7 +25,7 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
 
   if (!token) {
     return (
-      <div className="fixed top-32 left-80 z-[100]">
+      <div className="fixed top-24 left-72 z-[100]">
         <a
           href="/signin"
           className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-sage-500 transition-colors"
@@ -38,7 +38,7 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
   }
 
   return (
-    <div className="fixed top-32 left-80 z-[100]">
+    <div className="fixed top-24 left-72 z-[100]">
       {!isOpen ? (
         <button
           type="button"
