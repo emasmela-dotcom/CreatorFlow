@@ -3088,6 +3088,9 @@ export default function Dashboard() {
             <p className="mt-1 text-sm text-gray-300">
               Save your original once. Pick a platform. Copy formatted.
             </p>
+            <p className="mt-2 text-xs text-gray-400 leading-relaxed">
+              Works on your phone for draft → format → copy. On a tablet or laptop you also get the wider toolkit — same account, more room.
+            </p>
             <button
               type="button"
               onClick={() => router.push('/documents')}
@@ -3103,6 +3106,9 @@ export default function Dashboard() {
                 <h3 className="text-lg font-semibold text-white">Documents workspace</h3>
                 <p className="mt-1 text-sm text-gray-300">
                   Save your original once. Pick a platform. Copy formatted text.
+                </p>
+                <p className="mt-2 text-xs text-gray-400 leading-relaxed">
+                  Works on your phone for draft → format → copy. On a tablet or laptop you also get the wider toolkit — same account, more room.
                 </p>
                 <button
                   type="button"
