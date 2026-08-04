@@ -3081,10 +3081,25 @@ export default function Dashboard() {
             </div>
           )}
           <TrialStatusBanner />
+
+          {/* Phone / portrait tablet: Documents first. Hidden on lg+ (laptop / landscape tablet). */}
+          <div className="mb-6 lg:hidden rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50 p-5 border border-gray-700">
+            <h3 className="text-lg font-semibold text-white">Documents workspace</h3>
+            <p className="mt-1 text-sm text-gray-300">
+              Save your original once. Pick a platform. Copy formatted.
+            </p>
+            <button
+              type="button"
+              onClick={() => router.push('/documents')}
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-optimist-600 px-4 py-3 text-base font-semibold text-white hover:bg-optimist-500 transition-colors w-full min-h-[44px]"
+            >
+              Open Documents
+            </button>
+          </div>
           
           {activeTab === 'overview' && (
             <div className="space-y-6">
-              <div className="rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50 p-5 border border-gray-700">
+              <div className="mb-6 hidden lg:block rounded-2xl bg-gray-800/60 ring-1 ring-optimist-800/50 p-5 border border-gray-700">
                 <h3 className="text-lg font-semibold text-white">Documents workspace</h3>
                 <p className="mt-1 text-sm text-gray-300">
                   Save your original once. Pick a platform. Copy formatted text.
@@ -3155,7 +3170,9 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <MoreAiToolsRow token={token} />
+              <div className="hidden lg:block">
+                <MoreAiToolsRow token={token} />
+              </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
