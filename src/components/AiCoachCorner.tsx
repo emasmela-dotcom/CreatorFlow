@@ -52,9 +52,12 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
       ) : (
         <div className="w-80 max-w-[calc(100vw-2rem)] rounded-2xl bg-gray-800/95 ring-1 ring-optimist-700 shadow-2xl backdrop-blur">
           <div className="flex items-center justify-between px-4 py-3 border-b border-optimist-800/50">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-sage-400" />
-              <span className="text-sm font-semibold text-white">AI coach</span>
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col items-start gap-0.5">
+                <Sparkles className="h-4 w-4 text-sage-400" />
+                <span className="text-sm font-semibold text-white">AI coach</span>
+              </div>
+              <span className="text-[10px] text-gray-400 leading-none">Powered by Groq</span>
             </div>
             <button
               type="button"
