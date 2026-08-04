@@ -2819,8 +2819,10 @@ export default function Dashboard() {
   const navButtons = (
     <>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
-        <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-        <AiCoachCorner token={token || null} />
+        <div className="inline-flex items-center gap-1.5 shrink-0">
+          <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+          <AiCoachCorner token={token || null} />
+        </div>
         <button className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-4 h-4 inline mr-1.5 -mt-0.5" />Documents</button>
         <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
         <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
@@ -2907,8 +2909,10 @@ export default function Dashboard() {
             <div className="hidden lg:block w-full">
               <nav className="flex flex-col gap-0.5" aria-label="Dashboard sections">
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
-                  <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-                  <AiCoachCorner token={token || null} />
+                  <div className="inline-flex items-center gap-1.5 shrink-0">
+                    <button className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+                    <AiCoachCorner token={token || null} />
+                  </div>
                   <button className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/documents')}><FileText className="w-4 h-4 inline mr-1.5 -mt-0.5" />Documents</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'content' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('content')}>Content</button>
                   <button className={`px-2.5 py-1 rounded-lg text-sm font-medium transition-colors ${activeTab === 'calendar' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('calendar')}><Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />Calendar</button>
