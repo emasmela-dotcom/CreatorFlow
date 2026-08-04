@@ -25,32 +25,30 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
 
   if (!token) {
     return (
-      <div className="fixed top-28 left-[17rem] z-[100]">
-        <a
-          href="/signin"
-          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-sage-500 transition-colors"
-        >
-          <Sparkles className="h-4 w-4" />
-          Sign in for AI coach
-        </a>
-      </div>
+      <a
+        href="/signin"
+        className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
+      >
+        <Sparkles className="h-4 w-4" />
+        Sign in for AI coach
+      </a>
     )
   }
 
   return (
-    <div className="fixed top-28 left-[17rem] z-[100]">
-      {!isOpen ? (
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          aria-label="Open AI coach"
-          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-sage-500 transition-colors"
-        >
-          <Sparkles className="h-4 w-4" />
-          AI coach
-        </button>
-      ) : (
-        <div className="w-80 max-w-[calc(100vw-2rem)] rounded-2xl bg-gray-800/95 ring-1 ring-optimist-700 shadow-2xl backdrop-blur">
+    <div className="relative inline-block align-middle">
+      <button
+        type="button"
+        onClick={() => setIsOpen((v) => !v)}
+        aria-label={isOpen ? 'Close AI coach' : 'Open AI coach'}
+        className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
+      >
+        <Sparkles className="h-4 w-4" />
+        AI coach
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-80 max-w-[calc(100vw-2rem)] rounded-2xl bg-gray-800/95 ring-1 ring-optimist-700 shadow-2xl backdrop-blur z-50">
           <div className="flex items-center justify-between px-4 py-3 border-b border-optimist-800/50">
             <div className="flex flex-col gap-1">
               <div className="flex flex-col items-start gap-0.5">
