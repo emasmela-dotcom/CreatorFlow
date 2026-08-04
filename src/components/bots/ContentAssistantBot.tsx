@@ -70,20 +70,6 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
     }
   }, [content, platform, hashtags, token])
 
-  // Debounce analysis - only analyze after user stops typing for 500ms
-  useEffect(() => {
-    if (!content.trim() || !platform) {
-      setAnalysis(null)
-      return
-    }
-
-    const timeoutId = setTimeout(() => {
-      analyzeContent()
-    }, 500)
-
-    return () => clearTimeout(timeoutId)
-  }, [content, platform, hashtags, analyzeContent])
-
   // Get status icon and color
   const getStatusDisplay = () => {
     if (!analysis) return null
@@ -144,13 +130,21 @@ export default function ContentAssistantBot({ content, platform, hashtags, token
 
   return (
     <div className="space-y-3" style={{ minHeight: '50px' }}>
+      <button
+        type="button"
+        onClick={analyzeContent}
+        disabled={!content.trim() || loading}
+        className="inline-flex items-center rounded-lg bg-sage-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        {loading ? 'Running…' : 'Run coach'}
+      </button>
       {/* Debug info in development */}
       {process.env.NODE_ENV === 'development' && (
         <div className="text-xs text-gray-300 mb-2">
           Debug: loading={loading ? 'true' : 'false'}, analysis={analysis ? 'present' : 'null'}, error={error || 'none'}
         </div>
       )}
-      {/* Real-time Status Badge */}
+      {/* Status / results — only after Run coach */}
       {loading ? (
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-700/50 border border-gray-600">
           <Loader2 className="w-4 h-4 text-gray-300 animate-spin" />
