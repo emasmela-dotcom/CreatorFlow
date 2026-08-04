@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeAICall, logAICall } from '@/lib/usageTracking'
-import { callLLM } from '@/lib/ai/llm'
+import { callLLM, isGroqConfigured } from '@/lib/ai/llm'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 /**
  * Content Assistant Bot - Real-time content analysis
@@ -331,17 +332,14 @@ export async function POST(request: NextRequest) {
     // Get user's plan tier
     const tier = await getUserPlanTier(user.userId)
     const performanceLevel = getBotPerformanceLevel(tier)
+    const useLiveGroq = FREE_BUILD_PHASE && isGroqConfigured()
 
-    // Analyze based on tier
+    // Analyze based on tier (free build: all signed-in users get live Groq when key is set)
     let analysis: BotAnalysis
     let aiMode: 'template' | 'live' = 'template'
     let aiProvider: 'groq' | 'grok' | 'openai' | undefined
 
-    if (performanceLevel === 'basic') {
-      analysis = analyzeContentBasic(content, platform, hashtags || '')
-    } else if (performanceLevel === 'enhanced') {
-      analysis = analyzeContentEnhanced(content, platform, hashtags || '')
-    } else {
+    if (useLiveGroq || performanceLevel === 'ai' || performanceLevel === 'advanced' || performanceLevel === 'premium') {
       const aiResult = await analyzeContentAI(
         content,
         platform,
@@ -352,6 +350,10 @@ export async function POST(request: NextRequest) {
       analysis = aiResult.analysis
       aiMode = aiResult.aiMode
       aiProvider = aiResult.provider
+    } else if (performanceLevel === 'enhanced') {
+      analysis = analyzeContentEnhanced(content, platform, hashtags || '')
+    } else {
+      analysis = analyzeContentBasic(content, platform, hashtags || '')
     }
 
     // Log the AI call

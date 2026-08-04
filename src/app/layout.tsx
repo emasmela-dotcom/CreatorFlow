@@ -5,6 +5,7 @@ import { GA_TRACKING_ID, META_PIXEL_ID, isValidMetaPixelId } from '@/lib/analyti
 import HomeButton from '@/components/HomeButton'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
 import FeedbackWrapper from '@/components/FeedbackWrapper'
+import AiCoachCornerWrapper from '@/components/AiCoachCornerWrapper'
 import { EarlyAccessBanner } from '@/components/EarlyAccessBanner'
 
 const SITE_URL =
@@ -190,6 +191,7 @@ export default function RootLayout({
         {children}
         <SeoSiteFooter />
         <FeedbackWrapper />
+        <AiCoachCornerWrapper />
         <HomeButton />
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`
