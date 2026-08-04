@@ -19,7 +19,7 @@ export default function SelectPlanPage() {
             href="/signup"
             className="inline-block rounded-lg bg-optimist-600 px-8 py-3.5 text-base font-semibold text-white hover:bg-optimist-500 transition-colors"
           >
-            Create a free account
+            Create free account
           </Link>
         </div>
         <p className="mt-6 text-sm text-gray-400">

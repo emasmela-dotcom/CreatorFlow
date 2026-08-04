@@ -74,10 +74,10 @@
 
 ## E. Free-now marketing prep (before spend)
 
-- [ ] Pick **one** primary CTA everywhere: e.g. “Create free account” → signup → Documents
-- [ ] Dashboard nav or home makes **Documents** easy to find (Documents link on home — done; dashboard link — verify)
-- [ ] Eric approves a **short demo script** (30 sec): paste → save → Instagram → copy
-- [ ] Screenshot or screen recording for posts (optional but helps)
+- [x] Pick **one** primary CTA everywhere: “Create free account” → signup → Documents — verified 2026-08-04 (buttons unified; signup lands on `/documents?welcome=1`)
+- [x] Dashboard nav or home makes **Documents** easy to find — verified 2026-08-04 (home header + dashboard nav + phone “Open Documents” card)
+- [x] **Short demo script** (30 sec): paste → save → Instagram → copy — see `MARKETING_DEMO_SCRIPT.md` — 2026-08-04
+- [ ] Screenshot or screen recording for posts (optional — not blocking broadcast)
 
 ---
 
