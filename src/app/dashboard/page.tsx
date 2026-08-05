@@ -11,7 +11,6 @@ import SocialListening from '@/components/SocialListening'
 import TeamCollaboration from '@/components/TeamCollaboration'
 import AdvancedAnalytics from '@/components/AdvancedAnalytics'
 import GameChangerFeatures from '@/components/GameChangerFeatures'
-import SuggestionsButton from '@/components/SuggestionsButton'
 import WhosOn from '@/components/WhosOn'
 import CreatorChat from '@/components/CreatorChat'
 import MessageBoard from '@/components/MessageBoard'
@@ -3916,9 +3915,6 @@ export default function Dashboard() {
 
       {/* Help Center Modal */}
       <HelpCenter isOpen={helpCenterOpen} onClose={() => setHelpCenterOpen(false)} />
-
-      {/* Suggestions Button */}
-      <SuggestionsButton token={token} />
     </div>
   )
 }
