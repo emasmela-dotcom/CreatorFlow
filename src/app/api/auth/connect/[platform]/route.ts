@@ -17,6 +17,7 @@ function getPlatformClientId(platform: string): string | undefined {
     linkedin: process.env.LINKEDIN_CLIENT_ID,
     tiktok: process.env.TIKTOK_CLIENT_KEY,
     youtube: process.env.GOOGLE_CLIENT_ID,
+    twitch: process.env.TWITCH_CLIENT_ID,
     pinterest: process.env.PINTEREST_APP_ID,
     snapchat: process.env.SNAPCHAT_CLIENT_ID,
     reddit: process.env.REDDIT_CLIENT_ID,
@@ -66,6 +67,11 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
     const clientId = process.env.GOOGLE_CLIENT_ID
     if (!clientId) throw new Error('GOOGLE_CLIENT_ID not configured')
     return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=https://www.googleapis.com/auth/youtube.upload&response_type=code&state=${state}`
+  },
+  twitch: (redirectUri, state) => {
+    const clientId = process.env.TWITCH_CLIENT_ID
+    if (!clientId) throw new Error('TWITCH_CLIENT_ID not configured')
+    return `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=user:read:email&state=${state}`
   },
   pinterest: (redirectUri, state) => {
     const clientId = process.env.PINTEREST_APP_ID
@@ -132,7 +138,7 @@ export async function GET(
     
     if (!PLATFORM_OAUTH_URLS[platform]) {
       return NextResponse.json({ 
-        error: 'Invalid platform. Supported: instagram, facebook, threads, twitter, linkedin, tiktok, youtube, pinterest, snapchat, reddit, bluesky, mastodon, discord, telegram, tumblr, wordpress' 
+        error: 'Invalid platform. Supported: instagram, facebook, threads, twitter, linkedin, tiktok, youtube, twitch, pinterest, snapchat, reddit, bluesky, mastodon, discord, telegram, tumblr, wordpress' 
       }, { status: 400 })
     }
 

@@ -205,6 +205,25 @@ async function exchangeCodeForToken(
       return await googleResponse.json()
     }
 
+    case 'twitch': {
+      const twitchResponse = await fetch('https://id.twitch.tv/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: redirectUri
+        })
+      })
+      const data = await twitchResponse.json()
+      if (!data.access_token) {
+        throw new Error(data.message || data.error || 'Twitch token exchange failed')
+      }
+      return data
+    }
+
     case 'pinterest': {
       const pinterestResponse = await fetch('https://api.pinterest.com/v5/oauth/token', {
         method: 'POST',
@@ -436,6 +455,23 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
         }
       }
 
+      case 'twitch': {
+        const clientId = process.env.TWITCH_CLIENT_ID || ''
+        const twitchUserResponse = await fetch('https://api.twitch.tv/helix/users', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Client-Id': clientId
+          }
+        })
+        const twitchUserData = await twitchUserResponse.json()
+        const user = twitchUserData.data?.[0]
+        return {
+          id: user?.id || null,
+          username: user?.login || null,
+          name: user?.display_name || null
+        }
+      }
+
       case 'pinterest': {
         const pinterestResponse = await fetch('https://api.pinterest.com/v5/user_account', {
           headers: { Authorization: `Bearer ${accessToken}` }
@@ -545,6 +581,7 @@ function getClientId(platform: string): string {
     linkedin: process.env.LINKEDIN_CLIENT_ID || '',
     tiktok: process.env.TIKTOK_CLIENT_KEY || '',
     youtube: process.env.GOOGLE_CLIENT_ID || '',
+    twitch: process.env.TWITCH_CLIENT_ID || '',
     pinterest: process.env.PINTEREST_APP_ID || '',
     snapchat: process.env.SNAPCHAT_CLIENT_ID || '',
     reddit: process.env.REDDIT_CLIENT_ID || '',
@@ -565,6 +602,7 @@ function getClientSecret(platform: string): string {
     linkedin: process.env.LINKEDIN_CLIENT_SECRET || '',
     tiktok: process.env.TIKTOK_CLIENT_SECRET || '',
     youtube: process.env.GOOGLE_CLIENT_SECRET || '',
+    twitch: process.env.TWITCH_CLIENT_SECRET || '',
     pinterest: process.env.PINTEREST_APP_SECRET || '',
     snapchat: process.env.SNAPCHAT_CLIENT_SECRET || '',
     reddit: process.env.REDDIT_CLIENT_SECRET || '',

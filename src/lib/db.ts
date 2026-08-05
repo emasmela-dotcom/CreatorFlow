@@ -177,7 +177,7 @@ export interface User {
 export interface ContentPost {
   id: string
   user_id: string
-  platform: 'instagram' | 'twitter' | 'linkedin' | 'tiktok' | 'youtube' | 'facebook' | 'pinterest' | 'threads' | 'snapchat' | 'reddit' | 'bluesky' | 'mastodon' | 'discord' | 'telegram' | 'tumblr' | 'wordpress'
+  platform: 'instagram' | 'twitter' | 'linkedin' | 'tiktok' | 'youtube' | 'twitch' | 'facebook' | 'pinterest' | 'threads' | 'snapchat' | 'reddit' | 'bluesky' | 'mastodon' | 'discord' | 'telegram' | 'tumblr' | 'wordpress'
   content: string
   media_urls: string
   scheduled_at: string | null
@@ -312,7 +312,7 @@ export async function initDatabase() {
       CREATE TABLE IF NOT EXISTS content_posts (
         id VARCHAR(255) PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
-        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
+        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
         content TEXT NOT NULL,
         media_urls TEXT DEFAULT '[]',
         scheduled_at TIMESTAMP,
@@ -380,7 +380,7 @@ export async function initDatabase() {
         sql: `
           ALTER TABLE content_posts
           ADD CONSTRAINT content_posts_platform_check
-          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
+          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch', 'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
         `
       })
     } catch (constraintError: any) {
@@ -771,7 +771,7 @@ export async function initDatabase() {
       CREATE TABLE IF NOT EXISTS platform_connections (
         id SERIAL PRIMARY KEY,
         user_id VARCHAR(255) NOT NULL,
-        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
+        platform VARCHAR(50) NOT NULL CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress')),
         access_token TEXT NOT NULL,
         refresh_token TEXT,
         token_expires_at TIMESTAMP,
@@ -813,7 +813,7 @@ export async function initDatabase() {
         sql: `
           ALTER TABLE platform_connections
           ADD CONSTRAINT platform_connections_platform_check
-          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
+          CHECK(platform IN ('instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch', 'facebook', 'threads', 'pinterest', 'snapchat', 'reddit', 'bluesky', 'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'))
         `
       })
     } catch (constraintError: any) {
