@@ -57,7 +57,7 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
   linkedin: (redirectUri, state) => {
     const clientId = process.env.LINKEDIN_CLIENT_ID
     if (!clientId) throw new Error('LINKEDIN_CLIENT_ID not configured')
-    return `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=w_member_social&state=${state}`
+    return `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid%20profile%20email%20w_member_social&state=${state}`
   },
   tiktok: (redirectUri, state) => {
     const clientId = process.env.TIKTOK_CLIENT_KEY

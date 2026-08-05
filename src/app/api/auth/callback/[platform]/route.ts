@@ -164,7 +164,11 @@ async function exchangeCodeForToken(
           client_secret: clientSecret
         })
       })
-      return await linkedinResponse.json()
+      const linkedinTokenData = await linkedinResponse.json()
+      if (!linkedinTokenData.access_token) {
+        throw new Error(linkedinTokenData.error_description || linkedinTokenData.error || 'LinkedIn token exchange failed')
+      }
+      return linkedinTokenData
 
     case 'tiktok': {
       const tiktokResponse = await fetch('https://open.tiktokapis.com/v2/oauth/token/', {
@@ -422,16 +426,17 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
           name: twitterData.data?.name || null
         }
 
-      case 'linkedin':
-        const linkedinResponse = await fetch('https://api.linkedin.com/v2/me', {
+      case 'linkedin': {
+        const linkedinResponse = await fetch('https://api.linkedin.com/v2/userinfo', {
           headers: { 'Authorization': `Bearer ${accessToken}` }
         })
         const linkedinData = await linkedinResponse.json()
         return {
-          id: linkedinData.id || null,
-          username: null,
-          name: `${linkedinData.localizedFirstName || ''} ${linkedinData.localizedLastName || ''}`.trim() || null
+          id: linkedinData.sub || null,
+          username: linkedinData.email || linkedinData.name || null,
+          name: linkedinData.name || null
         }
+      }
 
       case 'tiktok': {
         const tiktokResponse = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name', {
