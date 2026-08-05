@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 import { verifyAuth, verifyToken } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
@@ -112,6 +113,12 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
   }
 }
 
+function createTwitterPkce() {
+  const codeVerifier = crypto.randomBytes(32).toString('base64url')
+  const codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest('base64url')
+  return { codeVerifier, codeChallenge }
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ platform: string }> }
@@ -149,9 +156,16 @@ export async function GET(
     }
 
     const redirectUri = `${baseUrl}/api/auth/callback/${platform}`
-    const state = Buffer.from(JSON.stringify({ userId: user.userId })).toString('base64')
+    const pkce = platform === 'twitter' ? createTwitterPkce() : null
+    const state = Buffer.from(JSON.stringify({
+      userId: user.userId,
+      ...(pkce ? { codeVerifier: pkce.codeVerifier } : {})
+    })).toString('base64')
 
-    const oauthUrl = PLATFORM_OAUTH_URLS[platform](redirectUri, state)
+    let oauthUrl = PLATFORM_OAUTH_URLS[platform](redirectUri, state)
+    if (pkce) {
+      oauthUrl += `&code_challenge=${pkce.codeChallenge}&code_challenge_method=S256`
+    }
 
     // If token was in URL (direct navigation), redirect to OAuth so user never sees JSON. Otherwise return JSON for fetch-based flow.
     if (tokenFromQuery) {

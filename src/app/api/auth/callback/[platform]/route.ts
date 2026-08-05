@@ -41,6 +41,7 @@ export async function GET(
     // Decode state to get userId
     const stateData = JSON.parse(Buffer.from(state, 'base64').toString())
     const userId = stateData.userId
+    const codeVerifier = stateData.codeVerifier as string | undefined
 
     if (!userId) {
       throw new Error('Invalid state parameter')
@@ -51,7 +52,7 @@ export async function GET(
     const redirectUri = `${baseUrl}/api/auth/callback/${platformLower}`
 
     // Exchange code for access token (platform-specific)
-    const tokenResponse = await exchangeCodeForToken(platform, code, redirectUri)
+    const tokenResponse = await exchangeCodeForToken(platform, code, redirectUri, codeVerifier)
     
     if (!tokenResponse.access_token) {
       throw new Error('Failed to get access token')
@@ -112,7 +113,8 @@ export async function GET(
 async function exchangeCodeForToken(
   platform: string,
   code: string,
-  redirectUri: string
+  redirectUri: string,
+  codeVerifier?: string
 ): Promise<TokenResponse> {
   const clientId = getClientId(platform)
   const clientSecret = getClientSecret(platform)
@@ -144,7 +146,8 @@ async function exchangeCodeForToken(
         body: new URLSearchParams({
           code,
           grant_type: 'authorization_code',
-          redirect_uri: redirectUri
+          redirect_uri: redirectUri,
+          ...(codeVerifier ? { code_verifier: codeVerifier } : {})
         })
       })
       return await twitterResponse.json()
