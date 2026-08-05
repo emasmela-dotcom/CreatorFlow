@@ -2829,6 +2829,13 @@ export default function Dashboard() {
         <button className={`inline-flex items-center px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
       </div>
       <div className="flex flex-wrap items-center justify-start gap-1.5">
+        <div className="inline-flex items-center gap-1.5 shrink-0 invisible pointer-events-none select-none" aria-hidden="true">
+          <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium">Overview</span>
+          <span className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold">
+            <span className="h-4 w-4" />
+            AI coach
+          </span>
+        </div>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
         <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
         <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
@@ -2919,6 +2926,13 @@ export default function Dashboard() {
                   <button className={`inline-flex items-center px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'collaborations' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('collaborations')}>Collaborations</button>
                 </div>
                 <div className="flex flex-wrap items-center justify-start gap-1.5">
+                  <div className="inline-flex items-center gap-1.5 shrink-0 invisible pointer-events-none select-none" aria-hidden="true">
+                    <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium">Overview</span>
+                    <span className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold">
+                      <span className="h-4 w-4" />
+                      AI coach
+                    </span>
+                  </div>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
                   <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
                   <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
