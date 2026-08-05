@@ -2817,7 +2817,7 @@ export default function Dashboard() {
 
   const navButtons = (
     <>
-      <div className="flex flex-nowrap items-center justify-center gap-1.5 overflow-x-auto">
+      <div className="flex flex-nowrap items-center justify-center gap-1.5 overflow-visible">
         <div className="inline-flex items-center gap-1.5 shrink-0">
           <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
           <AiCoachCorner token={token || null} />
@@ -2907,7 +2907,7 @@ export default function Dashboard() {
             </div>
             <div className="hidden lg:block w-full">
               <nav className="flex flex-col gap-0.5" aria-label="Dashboard sections">
-                <div className="flex flex-nowrap items-center justify-between gap-1.5 overflow-x-auto">
+                <div className="flex flex-nowrap items-center justify-between gap-1.5 overflow-visible">
                   <div className="inline-flex items-center gap-1.5 shrink-0">
                     <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
                     <AiCoachCorner token={token || null} />
