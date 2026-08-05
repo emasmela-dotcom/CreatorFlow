@@ -426,17 +426,16 @@ async function getPlatformUserInfo(platform: string, accessToken: string): Promi
           name: twitterData.data?.name || null
         }
 
-      case 'linkedin': {
-        const linkedinResponse = await fetch('https://api.linkedin.com/v2/userinfo', {
+      case 'linkedin':
+        const linkedinResponse = await fetch('https://api.linkedin.com/v2/me', {
           headers: { 'Authorization': `Bearer ${accessToken}` }
         })
         const linkedinData = await linkedinResponse.json()
         return {
-          id: linkedinData.sub || null,
-          username: linkedinData.email || linkedinData.name || null,
-          name: linkedinData.name || null
+          id: linkedinData.id || null,
+          username: null,
+          name: `${linkedinData.localizedFirstName || ''} ${linkedinData.localizedLastName || ''}`.trim() || null
         }
-      }
 
       case 'tiktok': {
         const tiktokResponse = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,avatar_url,display_name', {
