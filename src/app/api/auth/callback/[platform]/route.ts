@@ -186,15 +186,27 @@ async function exchangeCodeForToken(
         })
       })
       const tiktokData = await tiktokResponse.json()
-      if (tiktokData.data?.access_token) {
+
+      const accessToken = tiktokData.access_token || tiktokData.data?.access_token
+      if (accessToken) {
+        const source = tiktokData.access_token ? tiktokData : tiktokData.data
         return {
-          access_token: tiktokData.data.access_token,
-          refresh_token: tiktokData.data.refresh_token,
-          expires_in: tiktokData.data.expires_in,
-          token_type: tiktokData.data.token_type
+          access_token: accessToken,
+          refresh_token: source.refresh_token,
+          expires_in: source.expires_in,
+          token_type: source.token_type
         }
       }
-      throw new Error(tiktokData.error?.message || 'TikTok token exchange failed')
+
+      const errorMsg =
+        tiktokData.error_description ||
+        tiktokData.data?.error_description ||
+        tiktokData.error?.message ||
+        tiktokData.data?.error?.message ||
+        tiktokData.error ||
+        tiktokData.data?.error ||
+        'TikTok token exchange failed'
+      throw new Error(errorMsg)
     }
 
     case 'youtube': {
