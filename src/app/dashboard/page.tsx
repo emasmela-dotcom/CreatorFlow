@@ -2660,6 +2660,7 @@ export default function Dashboard() {
   const [userId, setUserId] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [aiCoachOpen, setAiCoachOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -2801,8 +2802,9 @@ export default function Dashboard() {
     setMobileNavOpen(false)
   }
 
-  const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string }[] = [
+  const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string; action?: string }[] = [
     { label: 'Overview', tab: 'overview' },
+    { label: 'AI coach', action: 'ai-coach' },
     { label: 'Content', tab: 'content' },
     { label: 'Calendar', tab: 'calendar' },
     { label: 'Analytics', tab: 'analytics' },
@@ -2819,7 +2821,16 @@ export default function Dashboard() {
     <div className="inline-flex items-start gap-1.5">
       <div className="inline-flex items-center gap-1.5 shrink-0">
         <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-        <AiCoachCorner token={token || null} />
+        <button
+          type="button"
+          onClick={() => setAiCoachOpen((v) => !v)}
+          aria-label={aiCoachOpen ? 'Close AI coach' : 'Open AI coach'}
+          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
+        >
+          <Sparkles className="h-4 w-4" />
+          AI coach
+        </button>
+
       </div>
       <div className="inline-flex flex-col items-start gap-0.5">
         <div className="flex flex-nowrap items-center justify-start gap-1.5 overflow-visible">
@@ -2911,7 +2922,16 @@ export default function Dashboard() {
               <nav className="inline-flex items-start gap-1.5" aria-label="Dashboard sections">
                 <div className="inline-flex items-center gap-1.5 shrink-0">
                   <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-                  <AiCoachCorner token={token || null} />
+                  <button
+          type="button"
+          onClick={() => setAiCoachOpen((v) => !v)}
+          aria-label={aiCoachOpen ? 'Close AI coach' : 'Open AI coach'}
+          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
+        >
+          <Sparkles className="h-4 w-4" />
+          AI coach
+        </button>
+
                 </div>
                 <div className="inline-flex flex-col items-start gap-0.5">
                   <div className="flex flex-nowrap items-center justify-start gap-1.5 overflow-visible">
@@ -2948,6 +2968,9 @@ export default function Dashboard() {
                       else if (item.href) {
                         setMobileNavOpen(false)
                         router.push(item.href)
+                      } else if (item.action === 'ai-coach') {
+                        setMobileNavOpen(false)
+                        setAiCoachOpen(true)
                       }
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -2962,6 +2985,8 @@ export default function Dashboard() {
           </nav>
         )}
       </header>
+
+      <AiCoachCorner token={token || null} open={aiCoachOpen} onOpenChange={setAiCoachOpen} />
 
       <div className="flex">
         {/* Sidebar */}

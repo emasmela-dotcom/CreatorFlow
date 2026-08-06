@@ -15,15 +15,30 @@ const PLATFORMS = [
 
 interface AiCoachCornerProps {
   token: string | null
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
-export default function AiCoachCorner({ token }: AiCoachCornerProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export default function AiCoachCorner({ token, open, onOpenChange }: AiCoachCornerProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
   const [draft, setDraft] = useState('')
   const [platform, setPlatform] = useState('instagram')
   const [hashtags, setHashtags] = useState('')
 
+  const isControlled = open !== undefined
+  const isOpen = isControlled ? Boolean(open) : internalOpen
+
+  const setIsOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+    if (isControlled) {
+      const nextValue = typeof value === 'function' ? value(isOpen) : value
+      onOpenChange?.(nextValue)
+    } else {
+      setInternalOpen(value)
+    }
+  }
+
   if (!token) {
+    if (isControlled && !isOpen) return null
     return (
       <a
         href="/signin"
@@ -35,19 +50,23 @@ export default function AiCoachCorner({ token }: AiCoachCornerProps) {
     )
   }
 
+  if (isControlled && !isOpen) return null
+
   return (
     <>
-      <div className="relative inline-block align-middle">
-        <button
-          type="button"
-          onClick={() => setIsOpen((v) => !v)}
-          aria-label={isOpen ? 'Close AI coach' : 'Open AI coach'}
-          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
-        >
-          <Sparkles className="h-4 w-4" />
-          AI coach
-        </button>
-      </div>
+      {!isControlled && (
+        <div className="relative inline-block align-middle">
+          <button
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            aria-label={isOpen ? 'Close AI coach' : 'Open AI coach'}
+            className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
+          >
+            <Sparkles className="h-4 w-4" />
+            AI coach
+          </button>
+        </div>
+      )}
 
       {isOpen && (
         <>
