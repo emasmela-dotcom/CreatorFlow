@@ -246,7 +246,10 @@ async function exchangeCodeForToken(
     case 'pinterest': {
       const pinterestResponse = await fetch('https://api.pinterest.com/v5/oauth/token', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+        },
         body: new URLSearchParams({
           grant_type: 'authorization_code',
           code,
@@ -255,7 +258,7 @@ async function exchangeCodeForToken(
       })
       const data = await pinterestResponse.json()
       if (!data.access_token) {
-        throw new Error(data.message || 'Pinterest token exchange failed')
+        throw new Error(data.message || data.error_description || data.error || 'Pinterest token exchange failed')
       }
       return data
     }
