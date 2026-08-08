@@ -94,7 +94,7 @@ const PLATFORM_OAUTH_URLS: Record<string, (redirectUri: string, state: string) =
     const instanceUrl = process.env.MASTODON_INSTANCE_URL
     if (!clientId) throw new Error('MASTODON_CLIENT_ID not configured')
     if (!instanceUrl) throw new Error('MASTODON_INSTANCE_URL not configured')
-    return `${instanceUrl.replace(/\/$/, '')}/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=write:statuses%20read:accounts&state=${state}`
+    return `${instanceUrl.replace(/\/$/, '')}/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent('read write')}&state=${state}`
   },
   discord: (redirectUri, state) => {
     const clientId = process.env.DISCORD_CLIENT_ID
