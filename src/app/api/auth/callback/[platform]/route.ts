@@ -311,11 +311,13 @@ async function exchangeCodeForToken(
       body.set('grant_type', 'authorization_code')
       body.set('code', code)
       body.set('redirect_uri', redirectUri)
-      body.set('client_id', clientId)
-      body.set('client_secret', clientSecret)
+      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
       const mastodonResponse = await fetch(`${instanceUrl.replace(/\/$/, '')}/oauth/token`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${credentials}`
+        },
         body: body.toString()
       })
       if (!mastodonResponse.ok) {
