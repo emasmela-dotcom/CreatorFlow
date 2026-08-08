@@ -304,19 +304,24 @@ async function exchangeCodeForToken(
 
     case 'mastodon': {
       const instanceUrl = process.env.MASTODON_INSTANCE_URL
+      if (!clientId) throw new Error('MASTODON_CLIENT_ID not configured')
+      if (!clientSecret) throw new Error('MASTODON_CLIENT_SECRET not configured')
       if (!instanceUrl) throw new Error('MASTODON_INSTANCE_URL not configured')
+      const body = new URLSearchParams()
+      body.set('grant_type', 'authorization_code')
+      body.set('code', code)
+      body.set('redirect_uri', redirectUri)
+      body.set('client_id', clientId)
+      body.set('client_secret', clientSecret)
       const mastodonResponse = await fetch(`${instanceUrl.replace(/\/$/, '')}/oauth/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          code,
-          client_id: clientId,
-          client_secret: clientSecret,
-          redirect_uri: redirectUri,
-          scope: 'write:statuses read:accounts'
-        })
+        body: body.toString()
       })
+      if (!mastodonResponse.ok) {
+        const err = await mastodonResponse.text()
+        throw new Error(`Mastodon token exchange failed: ${mastodonResponse.status} ${err}`)
+      }
       const data = await mastodonResponse.json()
       if (!data.access_token) {
         throw new Error(data.error_description || data.error || 'Mastodon token exchange failed')
