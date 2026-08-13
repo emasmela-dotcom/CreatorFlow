@@ -4,6 +4,7 @@ import { enforceContentLock, hasActiveSubscription } from '@/lib/contentLockChec
 import { verifyAuth, isValidEmail, sanitizeContent } from '@/lib/auth'
 import { postToPlatform } from '@/lib/platformPosting'
 import { ensureTrialSnapshot } from '@/lib/trialSnapshot'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 /**
  * Create a new post
@@ -31,27 +32,29 @@ export async function POST(request: NextRequest) {
     const userData = userResult.rows[0] as any
     const subscriptionTier = userData.subscription_tier
 
-    // FREE PLAN RESTRICTION: Free plan users cannot create posts
-    // Free plan is for learning tools only, not for posting
-    if (subscriptionTier === 'free') {
-      return NextResponse.json({ 
-        error: 'Post creation is not available on the free plan. The free plan is designed for learning and exploring CreatorFlow tools. Upgrade to a paid plan to create and publish posts.',
-        upgradeRequired: true,
-        plan: 'free'
-      }, { status: 403 })
-    }
-
-    // Check if user has active subscription (for paid plans)
-    const hasSubscription = await hasActiveSubscription(userId)
-    if (!hasSubscription) {
-      // Check if user is in trial period
-      const trialEnd = userData.trial_end_at ? new Date(userData.trial_end_at) : null
-      const now = new Date()
-
-      if (!trialEnd || now > trialEnd) {
+    // Free while we build: allow publish without paid plan gates
+    if (!FREE_BUILD_PHASE) {
+      // FREE PLAN RESTRICTION: Free plan users cannot create posts
+      if (subscriptionTier === 'free') {
         return NextResponse.json({ 
-          error: 'Subscription required. Upgrade to a paid plan to create new content.' 
+          error: 'Post creation is not available on the free plan. The free plan is designed for learning and exploring CreatorFlow tools. Upgrade to a paid plan to create and publish posts.',
+          upgradeRequired: true,
+          plan: 'free'
         }, { status: 403 })
+      }
+
+      // Check if user has active subscription (for paid plans)
+      const hasSubscription = await hasActiveSubscription(userId)
+      if (!hasSubscription) {
+        // Check if user is in trial period
+        const trialEnd = userData.trial_end_at ? new Date(userData.trial_end_at) : null
+        const now = new Date()
+
+        if (!trialEnd || now > trialEnd) {
+          return NextResponse.json({ 
+            error: 'Subscription required. Upgrade to a paid plan to create new content.' 
+          }, { status: 403 })
+        }
       }
     }
 

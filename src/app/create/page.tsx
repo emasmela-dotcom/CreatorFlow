@@ -342,10 +342,15 @@ function CreatePostInner() {
           formattedByPlatform[getPlatformName(platformId)] = formatForPlatform(platformId, content.trim(), hashtags.trim())
         })
         setPublishResults({ succeeded, failed, formattedByPlatform })
+        const firstError = platformResults.find((r) => !r.result?.success)?.result?.error
         if (succeeded.length > 0) {
           alert(`Posted to ${succeeded.join(', ')}. For ${failed.join(', ')}—copy below and paste into the app.`)
         } else {
-          alert('Post saved as draft. Copy below and paste into each platform to post.')
+          alert(
+            firstError
+              ? `Could not post: ${firstError}`
+              : 'Post saved as draft. Copy below and paste into each platform to post.'
+          )
         }
       } else {
         alert(`Post published successfully to ${succeeded.join(', ')}!`)
@@ -554,9 +559,9 @@ function CreatePostInner() {
             <button
               type="button"
               onClick={handleSchedule}
-              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
+              disabled={isSaving || isScheduling || isPublishing || (!FREE_BUILD_PHASE && subscriptionTier === 'free')}
               className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
+              title={!FREE_BUILD_PHASE && subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
               aria-label="Schedule post"
             >
               <Calendar className="w-4 h-4" />
@@ -565,9 +570,9 @@ function CreatePostInner() {
             <button
               type="button"
               onClick={handlePublish}
-              disabled={isSaving || isScheduling || isPublishing || subscriptionTier === 'free'}
+              disabled={isSaving || isScheduling || isPublishing || (!FREE_BUILD_PHASE && subscriptionTier === 'free')}
               className="px-3 sm:px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              title={subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
+              title={!FREE_BUILD_PHASE && subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
               aria-label="Publish now"
             >
               <Send className="w-4 h-4" />
@@ -579,7 +584,10 @@ function CreatePostInner() {
           You must be signed in.{' '}
           <span className="font-semibold text-white">Save Draft</span> stores your{' '}
           <span className="font-semibold text-white">original</span> by name in Documents for later — not formatted copies.
-          Schedule / Publish is separate. Free plan cannot schedule or publish posts.
+          Schedule / Publish is separate.
+          {FREE_BUILD_PHASE
+            ? ' Free while we build — Publish is allowed.'
+            : ' Free plan cannot schedule or publish posts.'}
         </p>
       </header>
 

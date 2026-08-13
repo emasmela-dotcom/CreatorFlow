@@ -95,7 +95,7 @@ export async function postToPlatform(
       case 'reddit':
         return await postToReddit(connection.access_token, postData)
       case 'bluesky':
-        return await postToBluesky(connection.access_token, postData)
+        return await postToBluesky(userId, connection, postData)
       case 'mastodon':
         return await postToMastodon(connection.access_token, postData)
       case 'discord':
@@ -1049,16 +1049,75 @@ async function postToReddit(accessToken: string, postData: PostData): Promise<Po
   }
 }
 
-async function postToBluesky(accessToken: string, postData: PostData): Promise<PostResult> {
+async function postToBluesky(
+  userId: string,
+  connection: any,
+  postData: PostData
+): Promise<PostResult> {
   try {
     const service = process.env.BLUESKY_SERVICE_URL || 'https://bsky.social'
-    const profileResponse = await fetch(`${service}/xrpc/com.atproto.repo.describeRepo?repo=self`, {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    })
-    const profileData = await profileResponse.json().catch(() => null)
-    const did = profileData?.did
-    if (!profileResponse.ok || !did) {
-      return { success: false, error: 'Failed to resolve Bluesky repo DID.', errorCode: 'BLUESKY_REPO_ERROR' }
+    let accessToken = connection.access_token as string
+    let did = (connection.platform_user_id as string | null) || null
+
+    const ensureSession = async (): Promise<{ ok: boolean; error?: string }> => {
+      const sessionResponse = await fetch(`${service}/xrpc/com.atproto.server.getSession`, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      if (sessionResponse.ok) {
+        const sessionData = await sessionResponse.json().catch(() => null)
+        if (sessionData?.did) did = sessionData.did
+        return { ok: true }
+      }
+
+      const refreshToken = connection.refresh_token as string | null
+      if (!refreshToken) {
+        return {
+          ok: false,
+          error: 'Bluesky session expired. Reconnect Bluesky in Connections.'
+        }
+      }
+
+      const refreshed = await refreshPlatformToken(userId, 'bluesky')
+      if (!refreshed) {
+        return {
+          ok: false,
+          error: 'Bluesky session expired. Reconnect Bluesky in Connections.'
+        }
+      }
+
+      const refreshedResult = await db.execute({
+        sql: `
+          SELECT access_token, platform_user_id FROM platform_connections
+          WHERE user_id = ? AND platform = 'bluesky' AND is_active = TRUE
+        `,
+        args: [userId]
+      })
+      if (refreshedResult.rows.length === 0) {
+        return { ok: false, error: 'Bluesky not connected.' }
+      }
+      accessToken = refreshedResult.rows[0].access_token as string
+      did = (refreshedResult.rows[0].platform_user_id as string | null) || did
+
+      const retrySession = await fetch(`${service}/xrpc/com.atproto.server.getSession`, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      const retryData = await retrySession.json().catch(() => null)
+      if (!retrySession.ok || !retryData?.did) {
+        return {
+          ok: false,
+          error: 'Bluesky session expired. Reconnect Bluesky in Connections.'
+        }
+      }
+      did = retryData.did
+      return { ok: true }
+    }
+
+    const session = await ensureSession()
+    if (!session.ok) {
+      return { success: false, error: session.error, errorCode: 'BLUESKY_SESSION_ERROR' }
+    }
+    if (!did) {
+      return { success: false, error: 'Failed to resolve Bluesky account DID.', errorCode: 'BLUESKY_REPO_ERROR' }
     }
 
     const text = postData.content.slice(0, 300)

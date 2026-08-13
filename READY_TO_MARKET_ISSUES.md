@@ -91,7 +91,7 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [ ] **Reddit** — not connected
 - [ ] **Instagram / Facebook / Threads** — Meta phone verification blocked
 - [ ] **WhatsApp** — no Connections card; needs Meta
-- [ ] After connect: **actually post or schedule** (auto-post) — **not checked** end-to-end. Do not market auto-post until checked per platform.
+- [ ] After connect: **actually post or schedule** (auto-post) — **not checked** end-to-end. Do not market auto-post until checked per platform. Bluesky: free-build publish gates + session refresh fixed in code 2026-08-13 — **await Eric live retest**.
 
 **Section 4 status:** Connects above done. Meta/Reddit/WhatsApp + auto-post open.
 
