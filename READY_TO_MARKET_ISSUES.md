@@ -190,6 +190,6 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 **Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, Bluesky **post-now**, free-now copy, copy/paste = main path, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
 
-**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path, phone AI coach open.
+**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path.
 
-**Next:** phone shot of AI coach open (or Section 1 when funded).
+**Next:** Section 1 when funded (or Meta/Reddit/WhatsApp if you want social next).
