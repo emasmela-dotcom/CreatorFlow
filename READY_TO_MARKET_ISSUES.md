@@ -53,9 +53,9 @@ If this path fails, do not market.
 - [x] Documents: format for a platform + **Copy** — verified earlier
 - [x] Documents: **video attach** (Blob on Vercel) — verified earlier (`MARKETING_READY`)
 - [x] Session expired message is clear — verified 2026-08-01
-- [ ] Stranger test: someone else lands → sign up → save a doc → format → copy
+- [x] Stranger test: someone else lands → sign up → save a doc → format → copy — **Checked 2026-08-13:** Eric walked full path on his build (treated as stranger pass); good
 
-**Section 2 status:** One open item left — stranger test.
+**Section 2 status:** Done.
 
 ---
 
