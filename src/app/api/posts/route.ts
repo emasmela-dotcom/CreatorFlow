@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { db, ensureContentPostsPlatformConstraint } from '@/lib/db'
 import { enforceContentLock, hasActiveSubscription } from '@/lib/contentLockCheck'
 import { verifyAuth, isValidEmail, sanitizeContent } from '@/lib/auth'
 import { postToPlatform } from '@/lib/platformPosting'
@@ -132,6 +132,9 @@ export async function POST(request: NextRequest) {
     }
 
     await ensureTrialSnapshot(userId)
+
+    // Live DB may still have an old platform CHECK without bluesky / newer networks
+    await ensureContentPostsPlatformConstraint()
 
     await db.execute({
       sql: `INSERT INTO content_posts 

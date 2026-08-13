@@ -1741,3 +1741,47 @@ export async function initDatabase() {
   }
 }
 
+const CONTENT_POST_PLATFORMS = `(
+  'instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch',
+  'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky',
+  'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'
+)`
+
+/**
+ * Ensure live content_posts.platform CHECK allows all current platforms (incl. bluesky).
+ * Safe to call on publish — drops stale checks and recreates the allow-list.
+ */
+export async function ensureContentPostsPlatformConstraint(): Promise<void> {
+  try {
+    const contentConstraints = await db.execute({
+      sql: `
+        SELECT con.conname AS constraint_name
+        FROM pg_constraint con
+        INNER JOIN pg_class rel ON rel.oid = con.conrelid
+        INNER JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+        WHERE rel.relname = 'content_posts'
+          AND nsp.nspname = 'public'
+          AND con.contype = 'c'
+          AND pg_get_constraintdef(con.oid) ILIKE '%platform%'
+      `
+    })
+    for (const row of contentConstraints.rows as Array<{ constraint_name?: string }>) {
+      if (!row.constraint_name) continue
+      await db.execute({
+        sql: `ALTER TABLE content_posts DROP CONSTRAINT IF EXISTS "${row.constraint_name}"`
+      })
+    }
+    await db.execute({
+      sql: `
+        ALTER TABLE content_posts
+        ADD CONSTRAINT content_posts_platform_check
+        CHECK(platform IN ${CONTENT_POST_PLATFORMS})
+      `
+    })
+  } catch (error: any) {
+    if (!error?.message?.includes('already exists')) {
+      console.warn('ensureContentPostsPlatformConstraint:', error?.message || error)
+    }
+  }
+}
+
