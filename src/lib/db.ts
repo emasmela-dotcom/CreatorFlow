@@ -1741,17 +1741,26 @@ export async function initDatabase() {
   }
 }
 
-const CONTENT_POST_PLATFORMS = `(
-  'instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch',
-  'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky',
-  'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'
-)`
-
 /**
  * Ensure live content_posts.platform CHECK allows all current platforms (incl. bluesky).
  * Safe to call on publish — drops stale checks and recreates the allow-list.
  */
 export async function ensureContentPostsPlatformConstraint(): Promise<void> {
+  const knownNames = [
+    'content_posts_platform_check',
+    'content_posts_platform_check1',
+    'content_posts_platform_check2',
+  ]
+  for (const name of knownNames) {
+    try {
+      await db.execute({
+        sql: `ALTER TABLE content_posts DROP CONSTRAINT IF EXISTS ${name}`
+      })
+    } catch (e: any) {
+      console.warn('drop content_posts platform constraint:', name, e?.message || e)
+    }
+  }
+
   try {
     const contentConstraints = await db.execute({
       sql: `
@@ -1771,17 +1780,20 @@ export async function ensureContentPostsPlatformConstraint(): Promise<void> {
         sql: `ALTER TABLE content_posts DROP CONSTRAINT IF EXISTS "${row.constraint_name}"`
       })
     }
-    await db.execute({
-      sql: `
-        ALTER TABLE content_posts
-        ADD CONSTRAINT content_posts_platform_check
-        CHECK(platform IN ${CONTENT_POST_PLATFORMS})
-      `
-    })
-  } catch (error: any) {
-    if (!error?.message?.includes('already exists')) {
-      console.warn('ensureContentPostsPlatformConstraint:', error?.message || error)
-    }
+  } catch (e: any) {
+    console.warn('list content_posts platform constraints:', e?.message || e)
   }
+
+  await db.execute({
+    sql: `
+      ALTER TABLE content_posts
+      ADD CONSTRAINT content_posts_platform_check
+      CHECK (platform IN (
+        'instagram', 'twitter', 'linkedin', 'tiktok', 'youtube', 'twitch',
+        'facebook', 'pinterest', 'threads', 'snapchat', 'reddit', 'bluesky',
+        'mastodon', 'discord', 'telegram', 'tumblr', 'wordpress'
+      ))
+    `
+  })
 }
 

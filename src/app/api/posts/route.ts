@@ -104,6 +104,17 @@ export async function POST(request: NextRequest) {
     const postId = `post_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     const now = new Date().toISOString()
 
+    // Live DB may still have an old platform CHECK without bluesky / newer networks
+    try {
+      await ensureContentPostsPlatformConstraint()
+    } catch (constraintError: any) {
+      console.error('content_posts platform constraint update failed:', constraintError)
+      return NextResponse.json({
+        success: false,
+        error: constraintError?.message || 'Failed to update platform allow-list for posts'
+      }, { status: 500 })
+    }
+
     // If status is 'published' and not scheduled, try to post directly
     let platformPostId: string | null = null
     let postingError: string | null = null
@@ -132,9 +143,6 @@ export async function POST(request: NextRequest) {
     }
 
     await ensureTrialSnapshot(userId)
-
-    // Live DB may still have an old platform CHECK without bluesky / newer networks
-    await ensureContentPostsPlatformConstraint()
 
     await db.execute({
       sql: `INSERT INTO content_posts 

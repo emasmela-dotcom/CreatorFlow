@@ -30,10 +30,14 @@ export async function POST(request: NextRequest) {
       sql: `ALTER TABLE users ADD CONSTRAINT users_subscription_tier_check 
             CHECK(subscription_tier IN ('free', 'starter', 'growth', 'pro', 'business', 'agency'))`
     })
+
+    // Also refresh content_posts platform allow-list (bluesky, etc.)
+    const { ensureContentPostsPlatformConstraint } = await import('@/lib/db')
+    await ensureContentPostsPlatformConstraint()
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Constraint updated successfully to include "free" plan' 
+      message: 'Constraints updated (users subscription_tier + content_posts platforms)' 
     })
   } catch (error: any) {
     // If constraint already exists with correct values, that's fine
