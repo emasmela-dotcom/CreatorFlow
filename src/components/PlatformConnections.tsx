@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, XCircle, Link2, ExternalLink, Loader2 } from 'lucide-react'
 
@@ -86,7 +86,9 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
   const [manualLoading, setManualLoading] = useState<string | null>(null)
   const [blueskyIdentifier, setBlueskyIdentifier] = useState('')
   const [blueskyAppPassword, setBlueskyAppPassword] = useState('')
+  const [blueskyMessage, setBlueskyMessage] = useState<{ type: 'error' | 'ok'; text: string } | null>(null)
   const [telegramChatId, setTelegramChatId] = useState('')
+  const blueskyCardRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const notConfigured = searchParams.get('error') === 'platform_not_configured'
@@ -103,9 +105,9 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     loadConnections()
   }, [token])
 
-  const loadConnections = async () => {
+  const loadConnections = async (opts?: { quiet?: boolean }) => {
     try {
-      setLoading(true)
+      if (!opts?.quiet) setLoading(true)
       const response = await fetch('/api/platforms/connections', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -116,7 +118,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     } catch (err) {
       console.error('Failed to load connections:', err)
     } finally {
-      setLoading(false)
+      if (!opts?.quiet) setLoading(false)
     }
   }
 
@@ -132,16 +134,26 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
     window.location.href = `/api/auth/connect/${platform}?token=${encodeURIComponent(token)}`
   }
 
-  const handleConnectBluesky = async () => {
+  const keepBlueskyInView = () => {
+    requestAnimationFrame(() => {
+      blueskyCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    })
+  }
+
+  const handleConnectBluesky = async (e?: React.FormEvent) => {
+    e?.preventDefault()
     if (!token) {
-      setError('Please sign in to connect an account')
+      setBlueskyMessage({ type: 'error', text: 'Please sign in to connect an account' })
+      keepBlueskyInView()
       return
     }
     if (!blueskyIdentifier.trim() || !blueskyAppPassword.trim()) {
-      setError('Enter your Bluesky handle and app password to connect.')
+      setBlueskyMessage({ type: 'error', text: 'Enter your Bluesky handle and app password to connect.' })
+      keepBlueskyInView()
       return
     }
     setError('')
+    setBlueskyMessage(null)
     setManualLoading('bluesky')
     try {
       const response = await fetch('/api/auth/connect/bluesky', {
@@ -160,9 +172,15 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         throw new Error(data?.error || 'Failed to connect Bluesky')
       }
       setBlueskyAppPassword('')
-      await loadConnections()
+      setBlueskyMessage({
+        type: 'ok',
+        text: `Connected as @${data?.handle || blueskyIdentifier.trim()}`
+      })
+      await loadConnections({ quiet: true })
+      keepBlueskyInView()
     } catch (err: any) {
-      setError(err.message || 'Failed to connect Bluesky')
+      setBlueskyMessage({ type: 'error', text: err.message || 'Failed to connect Bluesky' })
+      keepBlueskyInView()
     } finally {
       setManualLoading(null)
     }
@@ -260,6 +278,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
           return (
             <div
               key={platform.id}
+              ref={platform.id === 'bluesky' ? blueskyCardRef : undefined}
               className={`bg-gray-800 border-2 rounded-lg p-6 ${
                 connected ? 'border-green-500' : 'border-gray-700'
               }`}
@@ -320,12 +339,16 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
               ) : (
                 <>
                   {platform.id === 'bluesky' && (
-                    <div className="space-y-2 mb-3">
+                    <form
+                      className="space-y-2 mb-3"
+                      onSubmit={handleConnectBluesky}
+                    >
                       <input
                         type="text"
                         value={blueskyIdentifier}
                         onChange={(e) => setBlueskyIdentifier(e.target.value)}
                         placeholder="Bluesky handle (you.bsky.social)"
+                        autoComplete="username"
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-sm text-white"
                       />
                       <input
@@ -333,11 +356,20 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                         value={blueskyAppPassword}
                         onChange={(e) => setBlueskyAppPassword(e.target.value)}
                         placeholder="Bluesky app password"
+                        autoComplete="current-password"
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded text-sm text-white"
                       />
+                      {blueskyMessage && (
+                        <p
+                          className={`text-xs ${
+                            blueskyMessage.type === 'ok' ? 'text-green-300' : 'text-red-300'
+                          }`}
+                        >
+                          {blueskyMessage.text}
+                        </p>
+                      )}
                       <button
-                        type="button"
-                        onClick={handleConnectBluesky}
+                        type="submit"
                         disabled={manualLoading === 'bluesky' || !token}
                         className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       >
@@ -353,7 +385,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
                           </>
                         )}
                       </button>
-                    </div>
+                    </form>
                   )}
 
                   {platform.id === 'telegram' && (
