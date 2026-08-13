@@ -186,8 +186,8 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 ## Bottom line (after 2026-08-13 check)
 
-**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path (prior), several social **connects**, free-now copy, Groq key + prior coach verify.
+**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, free-now copy, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
 
-**Still open (must finish before hard marketing):** honest `/pricing` (Section 1), stranger test, forgot-password **email**, auto-post proof, Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages, AI caps built.
+**Still open (must finish before hard marketing):** honest `/pricing` (Section 1 — deferred until funded), auto-post proof, Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages, AI caps built, Groq limit error message.
 
 **Next to make Section 1 checkmarks true:** place honest plans on `/pricing`, then re-check live and mark `[x]`.
