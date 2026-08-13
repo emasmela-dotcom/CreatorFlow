@@ -35,7 +35,7 @@ If ads or the site promise more than the product does, that is the issue.
 - [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
 - [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
 - [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
-- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”.
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live (not 1 click = 1 credit; ask support if empty; don’t pay for Groq so don’t charge for Groq).
 
 **Section 1 status:** `/ai` done. Pricing honesty still open (main blocker for paid marketing).
 
