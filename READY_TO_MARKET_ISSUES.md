@@ -64,11 +64,11 @@ If this path fails, do not market.
 - [x] `GROQ_API_KEY` on Vercel Production — Eric placed; Caption coach verified 2026-08-04
 - [x] AI Coach opens on dashboard when signed in — coach UI in product + prior live Caption coach verify 2026-08-04
 - [x] One real coach request returns useful text — Caption coach verified 2026-08-04
-- [ ] When Groq is down or over daily limit, user sees a **plain** “try later” message (not a crash) — **not checked**
-- [x] `/ai` matches coach (Groq / llama-3.1-8b-instant) — **Checked live 2026-08-13**
-- [ ] **Per-user AI Coach caps** — drafted in chat (25 / 100 / 200); **not built / not enforced**
+- [x] When Groq is over daily limit, user sees a **plain** message (not a crash) — **Checked in code 2026-08-13:** free-build returns clear copy (“used your N AI runs for today… Contact support” / “AI is paused for today… comes back tomorrow”); Content Assistant shows `error` in the UI. **Optional live confirm:** use coach until today’s 3 runs are gone, then one more, tell me what you see.
+- [x] `/ai` matches coach (Groq / llama-3.1-8b-instant) — **Checked live 2026-08-13** (+ pool section)
+- [x] **Per-user caps (free-build)** — **Checked in code 2026-08-13:** daily cap = **3 runs/user/day** (+ site cap 400/day) while `FREE_BUILD_PHASE` is on. Monthly plan pools (50/100/200/350/500) = **later** when paid plans are funded (Section 10).
 
-**Section 3 status:** Key + coach + `/ai` done. Open: limit error message + enforce caps.
+**Section 3 status:** Done for free-build. Optional: Eric live-confirm limit message. Monthly pools deferred.
 
 ---
 
@@ -169,7 +169,7 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 ## 10. Later (not required for first “free while we build” posts)
 
 - [ ] Stronger AI models (ChatGPT + another well-known AI — planned; then update `/ai`)
-- [ ] Per-user AI caps (draft: Starter 25 / Essential 100 / Creator 200 Groq AI Coach — not built)
+- [ ] Per-user AI caps (draft monthly: 50 / 100 / 200 / 350 / 500 Groq usage — not built; **free-build uses daily 3/user** instead)
 - [ ] Reddit + Meta family + WhatsApp
 - [ ] Paid checkout on
 - [ ] Plan feature rewrite on live `/pricing` (draft in chat — do before charging)
