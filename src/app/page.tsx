@@ -42,9 +42,12 @@ export default function HomePage() {
                 You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
               </p>
               <div className="mb-10 max-w-2xl mx-auto rounded-2xl border border-sage-500/20 bg-sage-900/20 px-6 py-5">
-                <p className="text-lg font-semibold text-sage-300">One draft, many exports.</p>
+                <p className="text-lg font-semibold text-sage-300">One draft, many platforms.</p>
                 <p className="mt-1 text-sm text-gray-300 leading-relaxed">
-                  Save your original once. Format for any platform when you need it — nothing extra gets saved.
+                  Save your original. Format it for every platform we support. Copy and post.
+                </p>
+                <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+                  AI Coach (Groq) helps with captions and quick tips. Monthly plans — no per-word fees.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -61,7 +64,7 @@ export default function HomePage() {
                   Sign in
                 </a>
               </p>
-              <p className="text-sm text-optimist-200 mt-6">Free while we build. Paid plans with live AI later.</p>
+              <p className="text-sm text-optimist-200 mt-6">Free while we build: creatorflow365.com</p>
               <p className="text-sm text-gray-400 mt-2">Create a free account — no credit card required.</p>
             </div>
           </section>
