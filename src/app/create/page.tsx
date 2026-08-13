@@ -5,6 +5,7 @@ import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Link
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 function CreatePostInner() {
   const router = useRouter()
@@ -183,8 +184,8 @@ function CreatePostInner() {
   }
 
   const createPost = async (status: 'draft' | 'scheduled' | 'published') => {
-    // FREE PLAN RESTRICTION: Block post creation for free plan users
-    if (subscriptionTier === 'free') {
+    // FREE PLAN RESTRICTION (skipped while free-build)
+    if (!FREE_BUILD_PHASE && subscriptionTier === 'free') {
       alert('Post creation is not available on the free plan. The free plan is designed for learning and exploring CreatorFlow tools. Upgrade to a paid plan to create and publish posts.')
       router.push('/signup?plan=starter')
       return
@@ -206,8 +207,8 @@ function CreatePostInner() {
       return
     }
 
-    // Check post limit
-    if (postInfo && postInfo.remaining <= 0 && status !== 'draft') {
+    // Check post limit (skipped while free-build — banner says free while we build)
+    if (!FREE_BUILD_PHASE && postInfo && postInfo.remaining <= 0 && status !== 'draft') {
       alert('You have reached your post limit. Please upgrade your plan.')
       router.push('/dashboard')
       return
@@ -653,8 +654,8 @@ function CreatePostInner() {
               </div>
             )}
 
-            {/* FREE PLAN RESTRICTION BANNER */}
-            {subscriptionTier === 'free' && (
+            {/* FREE PLAN RESTRICTION BANNER (hidden during free-build) */}
+            {!FREE_BUILD_PHASE && subscriptionTier === 'free' && (
               <div className="bg-gradient-to-r from-optimist-600/20 to-optimist-600/20 border-2 border-optimist-500 rounded-xl p-6">
                 <div className="flex items-start gap-4">
                   <Sparkles className="w-8 h-8 text-optimist-400 flex-shrink-0" />
@@ -678,8 +679,8 @@ function CreatePostInner() {
               </div>
             )}
 
-            {/* Post Usage Warning - Low on Posts */}
-            {postInfo && postInfo.remaining <= 5 && (
+            {/* Post Usage Warning - Low on Posts (hidden during free-build) */}
+            {!FREE_BUILD_PHASE && postInfo && postInfo.remaining <= 5 && (
               <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border-2 border-yellow-500 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <AlertCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
@@ -702,8 +703,8 @@ function CreatePostInner() {
               </div>
             )}
 
-            {/* Post Usage Info - Normal */}
-            {postInfo && postInfo.remaining > 5 && (
+            {/* Post Usage Info - Normal (hidden during free-build) */}
+            {!FREE_BUILD_PHASE && postInfo && postInfo.remaining > 5 && (
               <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-300">

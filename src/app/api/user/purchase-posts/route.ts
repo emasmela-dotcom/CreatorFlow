@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import jwt from 'jsonwebtoken'
 import Stripe from 'stripe'
 import { POST_PACKAGES } from '@/lib/postPackages'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...')
 
@@ -53,6 +54,20 @@ export async function GET(request: NextRequest) {
 
     // PostgreSQL returns count as bigint, convert to number
     const postsThisMonth = postsResult.rows[0] ? Number(postsResult.rows[0].count || 0) : 0
+
+    // Free while we build: do not block publishing on monthly post caps
+    if (FREE_BUILD_PHASE) {
+      return NextResponse.json({
+        monthlyLimit: null,
+        purchasedPosts: purchasedPosts,
+        postsThisMonth: postsThisMonth,
+        totalAvailable: null,
+        remaining: 999999,
+        freeBuild: true,
+        packages: POST_PACKAGES
+      })
+    }
+
     const totalAvailable = (monthlyLimit || 0) + purchasedPosts
     const remaining = totalAvailable - postsThisMonth
 

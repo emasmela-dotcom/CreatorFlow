@@ -109,6 +109,7 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 - [ ] Test: sign up → pay (or trial) → webhook succeeds → plan shows on account
 - [ ] Failed payment / cancel path does not strand the user
 - [x] Decide: keep “Free while we build” until checkout is intentionally on — decided; **checked live:** home + pricing still say free while we build. Do not advertise paid checkout yet.
+- [x] Free-build: **New Post / Publish** not blocked by monthly post caps or “free plan learning mode” — **fixed in code 2026-08-13** (`FREE_BUILD_PHASE` skips those gates on `/create` + purchase-posts API). Live confirm: Eric publish Bluesky test after deploy.
 
 **Section 5 status:** Free-now decision done. Paid Stripe path still open.
 
