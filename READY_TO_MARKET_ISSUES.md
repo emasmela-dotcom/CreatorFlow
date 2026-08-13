@@ -162,9 +162,9 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 - [x] Documents — mobile check earlier
 - [x] `/ai` — **Checked phone 2026-08-13:** Eric screenshot; readable
 - [x] `/pricing` — **Checked phone 2026-08-13:** Eric screenshot; readable
-- [ ] Dashboard AI coach (readable, can close) — **phone not checked** (dashboard browse mode shot only; need coach open)
+- [x] Dashboard AI coach (readable, can close) — **Checked phone 2026-08-13:** Eric screenshot; coach open, readable, X to close
 
-**Section 9 status:** Sign up/in, `/ai`, `/pricing` done on phone. Open: AI coach open on phone.
+**Section 9 status:** Done.
 
 ---
 
@@ -190,6 +190,6 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 **Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, Bluesky **post-now**, free-now copy, copy/paste = main path, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
 
-**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages.
+**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path, phone AI coach open.
 
-**Next:** Section 9 phone checks (or Section 1 when funded).
+**Next:** phone shot of AI coach open (or Section 1 when funded).
