@@ -37,7 +37,7 @@ If ads or the site promise more than the product does, that is the issue.
 - [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
 - [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live (not 1 click = 1 credit; ask support if empty; don’t pay for Groq so don’t charge for Groq).
 
-**Section 1 status:** `/ai` done. Pricing honesty still open (main blocker for paid marketing).
+**Section 1 status:** `/ai` done (incl. usage pool). **Paid plan rewrite on `/pricing` = coming later** (Eric: free while we build; place locked table only when funding that build). Until then, live `/pricing` still has old/overstated bullets — boxes above stay open.
 
 ---
 
