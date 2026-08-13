@@ -147,7 +147,7 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 - [x] Homepage promise matches Documents — **Checked live 2026-08-13:** “One draft, many platforms” + Groq + no per-word + free while we build
 - [x] Do **not** claim every dashboard tool is live AI — rule kept
-- [x] Do **not** claim all social networks work until section 4 auto-post is true
+- [x] Do **not** claim all social networks work until section 4 auto-post is true — **Updated 2026-08-13:** market **copy/paste**; Bluesky post-now proven; do not claim all-network auto-post
 - [x] Do **not** run paid ads until you explicitly say so
 - [x] One primary button: create free account — **Checked live:** “Create free account” on home
 
@@ -188,8 +188,8 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 ## Bottom line (after 2026-08-13 check)
 
-**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, free-now copy, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
+**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, Bluesky **post-now**, free-now copy, copy/paste = main path, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
 
-**Still open (must finish before hard marketing):** honest `/pricing` (Section 1 — deferred until funded), auto-post proof, Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages, AI caps built, Groq limit error message.
+**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages.
 
-**Next to make Section 1 checkmarks true:** place honest plans on `/pricing`, then re-check live and mark `[x]`.
+**Next:** Section 9 phone checks (or Section 1 when funded).
