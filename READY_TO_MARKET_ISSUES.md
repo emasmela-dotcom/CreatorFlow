@@ -48,14 +48,14 @@ If this path fails, do not market.
 - [x] Homepage loads (no surprise redirect) — **Checked live 2026-08-13:** 200; home content present
 - [x] Sign up (new email) — Eric tested earlier; page **checked live** 200
 - [x] Sign in — Eric tested earlier; page **checked live** 200
-- [ ] Forgot password — **Checked live 2026-08-13:** `/forgot-password` loads (Forgot / Reset / password UI). **Mail arrival not checked** — leave open until inbox confirmed
+- [x] Forgot password — **Checked 2026-08-13:** Eric confirmed reset email + password changed good on live site
 - [x] Documents: create, save **text**, reopen later — Eric tested; `/documents` **checked live** 200
 - [x] Documents: format for a platform + **Copy** — verified earlier
 - [x] Documents: **video attach** (Blob on Vercel) — verified earlier (`MARKETING_READY`)
 - [x] Session expired message is clear — verified 2026-08-01
 - [ ] Stranger test: someone else lands → sign up → save a doc → format → copy
 
-**Section 2 status:** Core path mostly done. Open: forgot-password **email** check + stranger test.
+**Section 2 status:** One open item left — stranger test.
 
 ---
 
