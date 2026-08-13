@@ -158,13 +158,13 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 ## 9. Phone / small screen
 
 - [x] Home — mobile check earlier (2026-08-01)
-- [ ] Sign up / sign in — page loads **checked**; **phone layout not re-checked**
+- [x] Sign up / sign in — **Checked phone 2026-08-13:** Eric screenshots; readable
 - [x] Documents — mobile check earlier
-- [ ] `/ai` — desktop **checked live**; **phone layout not checked**
-- [ ] `/pricing` — desktop **checked live**; **phone layout not checked**
-- [ ] Dashboard AI coach (readable, can close) — **phone not checked**
+- [x] `/ai` — **Checked phone 2026-08-13:** Eric screenshot; readable
+- [x] `/pricing` — **Checked phone 2026-08-13:** Eric screenshot; readable
+- [ ] Dashboard AI coach (readable, can close) — **phone not checked** (dashboard browse mode shot only; need coach open)
 
-**Section 9 status:** Home + Documents done. Open: phone check signup/signin, `/ai`, `/pricing`, AI coach.
+**Section 9 status:** Sign up/in, `/ai`, `/pricing` done on phone. Open: AI coach open on phone.
 
 ---
 
