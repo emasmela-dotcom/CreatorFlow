@@ -7,7 +7,7 @@
 export const FREE_BUILD_PHASE = true
 
 /** AI runs each user gets per calendar day during the free build phase. */
-export const RUNS_PER_USER_PER_DAY = 3
+export const RUNS_PER_USER_PER_DAY = 15
 
 /** AI runs allowed across all users per calendar day (kept under the Groq free-tier ceiling). */
 export const RUNS_SITE_PER_DAY = 400
