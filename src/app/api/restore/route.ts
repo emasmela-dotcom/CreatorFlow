@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // Find the active backup for this user
     const backupResult = await db.execute({
-      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = 0 ORDER BY created_at DESC LIMIT 1',
+      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = FALSE ORDER BY created_at DESC LIMIT 1',
       args: [userId]
     })
 
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       // 4. Mark backup as restored
       await db.execute({
         sql: `UPDATE project_backups 
-              SET is_restored = 1, restored_at = ?
+              SET is_restored = TRUE, restored_at = ?
               WHERE id = ?`,
         args: [new Date().toISOString(), backup.id as string]
       })

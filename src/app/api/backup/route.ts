@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
     // Check if backup already exists for this user (should only have one active backup)
     const existingBackupResult = await db.execute({
-      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = 0 ORDER BY created_at DESC LIMIT 1',
+      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = FALSE ORDER BY created_at DESC LIMIT 1',
       args: [userId]
     })
 
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     }
 
     const result = await db.execute({
-      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = 0 ORDER BY created_at DESC LIMIT 1',
+      sql: 'SELECT * FROM project_backups WHERE user_id = ? AND is_restored = FALSE ORDER BY created_at DESC LIMIT 1',
       args: [userId]
     })
 

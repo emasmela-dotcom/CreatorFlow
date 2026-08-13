@@ -28,7 +28,7 @@ export async function ensureTrialSnapshot(userId: string): Promise<{ created: bo
 
   // Keep exactly one active backup for this trial; never overwrite it.
   const existingBackupResult = await db.execute({
-    sql: 'SELECT id FROM project_backups WHERE user_id = ? AND is_restored = 0 ORDER BY created_at DESC LIMIT 1',
+    sql: 'SELECT id FROM project_backups WHERE user_id = ? AND is_restored = FALSE ORDER BY created_at DESC LIMIT 1',
     args: [userId],
   })
 
@@ -88,7 +88,7 @@ export async function ensureTrialSnapshot(userId: string): Promise<{ created: bo
   const nowIso = now.toISOString()
   await db.execute({
     sql: `INSERT INTO project_backups (id, user_id, trial_started_at, backup_data, is_restored, created_at)
-          VALUES (?, ?, ?, ?, 0, ?)`,
+          VALUES (?, ?, ?, ?, FALSE, ?)`,
     args: [backupId, userId, nowIso, JSON.stringify(backupData), nowIso],
   })
 
