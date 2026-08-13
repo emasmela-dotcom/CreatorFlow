@@ -25,7 +25,7 @@ export default function AIPage() {
       </section>
 
       {/* Current offering */}
-      <section className="mx-auto max-w-3xl px-6 pb-16">
+      <section className="mx-auto max-w-3xl px-6 pb-10">
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 sm:p-10">
           <div className="flex items-center gap-3">
             <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
@@ -81,10 +81,42 @@ export default function AIPage() {
             <p className="mt-2 text-sm leading-relaxed text-amber-200/80">
               Capacity is shared across all CreatorFlow365 users. If the daily
               limit is reached, you will see a message asking you to try again
-              later. We do not throttle individual accounts on purpose; the limit
-              exists to keep the service stable for everyone.
+              later. We do not throttle individual accounts on purpose; the
+              limit exists to keep the service stable for everyone.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* How AI usage works */}
+      <section className="mx-auto max-w-3xl px-6 pb-10">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 sm:p-10">
+          <h2 className="text-xl font-semibold text-white">
+            How AI usage works
+          </h2>
+          <p className="mt-4 leading-relaxed text-slate-300">
+            AI is a monthly usage pool — not &ldquo;1 click = 1 credit.&rdquo;
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-300">
+            Each time you use Groq (AI Coach and any other Groq tools), some of
+            your pool is used. Longer or heavier asks use more. Short asks use
+            less.
+          </p>
+          <div className="mt-6 rounded-xl border border-slate-800 bg-slate-950/50 p-5">
+            <p className="text-sm leading-relaxed text-slate-300">
+              Example: a plan with 1,000 Groq usage does{" "}
+              <span className="font-semibold text-white">not</span> mean 1,000
+              separate answers. One long ask can use more of the pool than one
+              short ask.
+            </p>
+          </div>
+          <p className="mt-6 leading-relaxed text-slate-300">
+            When your pool is empty, ask support — more may be granted while we
+            build.
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-300">
+            I don&apos;t pay for Groq, so I don&apos;t charge you for Groq.
+          </p>
         </div>
       </section>
 
@@ -92,8 +124,8 @@ export default function AIPage() {
       <section className="mx-auto max-w-3xl px-6 pb-20">
         <h2 className="text-xl font-semibold text-white">Coming later</h2>
         <p className="mt-3 leading-relaxed text-slate-300">
-          We may add stronger models and deeper workflow integrations over time.
-          When we do, this page will be updated with the details.
+          We may add stronger models and deeper workflow integrations over
+          time. When we do, this page will be updated with the details.
         </p>
       </section>
 
@@ -104,8 +136,8 @@ export default function AIPage() {
             Try the AI Coach in your dashboard
           </h2>
           <p className="mt-3 text-slate-300">
-            Open the dashboard and start a conversation. If you are not signed
-            in yet, you will be asked to sign in first.
+            Open the dashboard and start a conversation. If you are not signed in
+            yet, you will be asked to sign in first.
           </p>
           <div className="mt-8">
             <Link
