@@ -142,8 +142,13 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
 
   const handleConnectBluesky = async (e?: React.FormEvent) => {
     e?.preventDefault()
-    if (!token) {
-      setBlueskyMessage({ type: 'error', text: 'Please sign in to connect an account' })
+    const authToken =
+      (typeof window !== 'undefined' ? localStorage.getItem('token') : null) || token
+    if (!authToken) {
+      setBlueskyMessage({
+        type: 'error',
+        text: 'Please sign in again, then connect Bluesky.'
+      })
       keepBlueskyInView()
       return
     }
@@ -160,7 +165,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${authToken}`
         },
         body: JSON.stringify({
           identifier: blueskyIdentifier.trim(),
@@ -168,6 +173,9 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
         })
       })
       const data = await response.json().catch(() => ({}))
+      if (response.status === 401) {
+        throw new Error('Your sign-in expired. Sign out, sign in again, then Connect Bluesky.')
+      }
       if (!response.ok) {
         throw new Error(data?.error || 'Failed to connect Bluesky')
       }

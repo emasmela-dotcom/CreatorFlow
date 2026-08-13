@@ -6,6 +6,7 @@
 import { NextRequest } from 'next/server'
 import jwt from 'jsonwebtoken'
 import { db } from './db'
+import { FREE_BUILD_PHASE } from './aiUsagePolicy'
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -24,7 +25,8 @@ export interface AuthUser {
 }
 
 // JWT expiration times
-const ACCESS_TOKEN_EXPIRY = '1h' // Short-lived access token
+// Free-build: longer sessions so Connect / Publish tests are not blocked by 1h expiry.
+const ACCESS_TOKEN_EXPIRY = FREE_BUILD_PHASE ? '30d' : '1h'
 const REFRESH_TOKEN_EXPIRY = '30d' // Longer-lived refresh token
 
 /**
