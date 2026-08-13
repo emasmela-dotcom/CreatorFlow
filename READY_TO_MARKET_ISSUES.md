@@ -91,9 +91,10 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [ ] **Reddit** — not connected
 - [ ] **Instagram / Facebook / Threads** — Meta phone verification blocked
 - [ ] **WhatsApp** — no Connections card; needs Meta
-- [ ] After connect: **actually post or schedule** (auto-post) — **not checked** end-to-end. Do not market auto-post until checked per platform. Bluesky: free-build publish + session refresh + Connect jump fix in code 2026-08-13 — **await Eric live retest** (reconnect, then Publish).
+- [x] **Bluesky post-now** — **Checked live 2026-08-13:** Eric published “Bluesky test 3”; post appeared on bsky.app
+- [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Do not require Connect/auto-post setup for users. Optional direct post where already proven (Bluesky).
 
-**Section 4 status:** Connects above done. Meta/Reddit/WhatsApp + auto-post open.
+**Section 4 status:** Connects above done. Bluesky post-now done. Copy/paste is the main path. Meta/Reddit/WhatsApp still open.
 
 ---
 
@@ -109,7 +110,7 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 - [ ] Test: sign up → pay (or trial) → webhook succeeds → plan shows on account
 - [ ] Failed payment / cancel path does not strand the user
 - [x] Decide: keep “Free while we build” until checkout is intentionally on — decided; **checked live:** home + pricing still say free while we build. Do not advertise paid checkout yet.
-- [x] Free-build: **New Post / Publish** not blocked by monthly post caps or “free plan learning mode” — **fixed in code 2026-08-13** (`FREE_BUILD_PHASE` skips those gates on `/create` + purchase-posts API). Live confirm: Eric publish Bluesky test after deploy.
+- [x] Free-build: **New Post / Publish** not blocked by monthly post caps or “free plan learning mode” — **fixed in code 2026-08-13**; **live confirm same day:** Eric published Bluesky test after deploy.
 
 **Section 5 status:** Free-now decision done. Paid Stripe path still open.
 
