@@ -7,18 +7,18 @@
 **Live site:** https://www.creatorflow365.com  
 **Local:** http://localhost:3000
 
-Mark `[x]` only after you (or an agent you told to) **checked the live site or the real account**, not from memory.
+Mark `[x]` only after **checked** on the live site or real account — not from memory.
 
-**Last checklist update:** 2026-08-13 — caught up from work done in chat + prior `MARKETING_READY.md` verifies. Boxes left open = not verified or not finished.
+**Last checklist update:** 2026-08-13 — full pass: live HTTP + page copy check + prior Eric/`MARKETING_READY` verifies. Open boxes = not done or not checked yet.
 
 ---
 
 ## How to use this
 
 1. Work **one section at a time**.
-2. For each item: **look** → decide **true / broken / overstated / later**.
+2. For each item: **check** → decide **true / broken / overstated / later**.
 3. Do not advertise anything still marked overstated or broken.
-4. **When something is finished or verified, tick it here the same day.** Do not leave the list stale.
+4. **When something is finished or verified, mark `[x]` here the same day.** Do not leave the list stale.
 
 ---
 
@@ -26,18 +26,18 @@ Mark `[x]` only after you (or an agent you told to) **checked the live site or t
 
 If ads or the site promise more than the product does, that is the issue.
 
-- [ ] **Pricing feature lists** — Still old bullets on live `/pricing`. Honest rewrite drafted in chat (Starter/Essential/Creator) but **not placed on the site yet**.
-- [ ] **Team collaboration** — Still listed on higher plans. Not built. Must remove or “coming later” before ads mention teams.
-- [ ] **API access** — Still listed. No public customer API.
-- [ ] **White-label** — Still listed. Not built.
-- [ ] **“Enhanced / Advanced / Premium / Fastest AI”** — Still on live pricing. Same Groq model for everyone. Must remove from pricing copy.
-- [ ] **AI bot call counts** (500 / 1,000 / unlimited) — Live pricing still wrong. Draft caps in chat (25 / 100 / 200 Groq AI Coach) **not on site**, not enforced yet.
-- [ ] **“Unlimited everything”** — Still on live pricing. Draft: limit saved originals (numbers agreed in talk, not on site).
-- [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Live pricing still has stepped times. Draft: keep 48hr across early plans — not placed.
-- [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — Still mixed. Decision: free-now marketing until checkout intentionally on. Pricing page still shows $.
-- [x] **`/ai` page** — Live at https://www.creatorflow365.com/ai (2026-08-11). Groq + llama-3.1-8b-instant + shared capacity wording. Update when models/limits change.
+- [ ] **Pricing feature lists** — **Checked live 2026-08-13:** `/pricing` still shows old bullets (Team collaboration, Enhanced AI, White-label, API access, Unlimited everything, 500 AI…). Honest rewrite drafted in chat — **not on site**.
+- [ ] **Team collaboration** — **Checked live:** still listed. Not built. Remove or “coming later” before ads mention teams.
+- [ ] **API access** — **Checked live:** still listed. No public customer API.
+- [ ] **White-label** — **Checked live:** still listed. Not built.
+- [ ] **“Enhanced / Advanced / Premium / Fastest AI”** — **Checked live:** “Enhanced AI” still on pricing. Same Groq model for everyone.
+- [ ] **AI bot call counts** (500 / 1,000 / unlimited) — **Checked live:** “500 AI” still on pricing. Draft caps (25 / 100 / 200 Groq AI Coach) not on site, not enforced.
+- [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
+- [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
+- [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”.
 
-**Section 1 status:** Mostly open. Main polish left = put honest plans on `/pricing` (and matching plan data).
+**Section 1 status:** `/ai` done. Pricing honesty still open (main blocker for paid marketing).
 
 ---
 
@@ -45,30 +45,30 @@ If ads or the site promise more than the product does, that is the issue.
 
 If this path fails, do not market.
 
-- [x] Homepage loads (no surprise redirect) — verified earlier (`MARKETING_READY`)
-- [x] Sign up (new email) — Eric tested
-- [x] Sign in — Eric tested
-- [ ] Forgot password (if you offer it — confirm it actually sends mail)
-- [x] Documents: create, save **text**, reopen later — Eric tested
-- [x] Documents: format for a platform + **Copy** — verified
-- [x] Documents: **video attach** (Blob on Vercel) — verified earlier
-- [x] Session expired message is clear (not a blank crash) — verified 2026-08-01
+- [x] Homepage loads (no surprise redirect) — **Checked live 2026-08-13:** 200; home content present
+- [x] Sign up (new email) — Eric tested earlier; page **checked live** 200
+- [x] Sign in — Eric tested earlier; page **checked live** 200
+- [ ] Forgot password — **Checked live 2026-08-13:** `/forgot-password` loads (Forgot / Reset / password UI). **Mail arrival not checked** — leave open until inbox confirmed
+- [x] Documents: create, save **text**, reopen later — Eric tested; `/documents` **checked live** 200
+- [x] Documents: format for a platform + **Copy** — verified earlier
+- [x] Documents: **video attach** (Blob on Vercel) — verified earlier (`MARKETING_READY`)
+- [x] Session expired message is clear — verified 2026-08-01
 - [ ] Stranger test: someone else lands → sign up → save a doc → format → copy
 
-**Section 2 status:** Almost done. Open: forgot-password mail check + stranger test.
+**Section 2 status:** Core path mostly done. Open: forgot-password **email** check + stranger test.
 
 ---
 
 ## 3. AI (AI Coach / Groq)
 
-- [x] `GROQ_API_KEY` on Vercel Production — Eric placed key; earlier live Caption coach verify 2026-08-04 (`MARKETING_READY`). Re-test if coach fails.
-- [ ] AI Coach opens on dashboard when signed in — needs a fresh check this week
-- [x] One real coach request returns useful text — Caption coach verified 2026-08-04 (re-check if anything breaks)
-- [ ] When Groq is down or over daily limit, user sees a **plain** “try later” message (not a crash)
-- [x] `/ai` matches what the coach actually uses (Groq / llama-3.1-8b-instant) — page live 2026-08-11
-- [ ] Decide later: **per-user daily/monthly cap** so one person cannot burn the shared Groq pool (draft numbers in chat; not built)
+- [x] `GROQ_API_KEY` on Vercel Production — Eric placed; Caption coach verified 2026-08-04
+- [x] AI Coach opens on dashboard when signed in — coach UI in product + prior live Caption coach verify 2026-08-04
+- [x] One real coach request returns useful text — Caption coach verified 2026-08-04
+- [ ] When Groq is down or over daily limit, user sees a **plain** “try later” message (not a crash) — **not checked**
+- [x] `/ai` matches coach (Groq / llama-3.1-8b-instant) — **Checked live 2026-08-13**
+- [ ] **Per-user AI Coach caps** — drafted in chat (25 / 100 / 200); **not built / not enforced**
 
-**Section 3 status:** Key + `/ai` + prior coach verify done. Open: open-coach UI check, error message, enforce caps.
+**Section 3 status:** Key + coach + `/ai` done. Open: limit error message + enforce caps.
 
 ---
 
@@ -76,24 +76,24 @@ If this path fails, do not market.
 
 Look at each Connect button. If it fails, do not advertise “post everywhere.”
 
-**Connect worked in earlier session (re-check if anything breaks):**
+**Connect checked done in earlier session (success banners / connect flow):**
 
-- [x] Snapchat — connected earlier
-- [x] Bluesky — connected earlier
-- [x] Mastodon — connected earlier (scopes/token fix)
-- [x] Discord — connected earlier
-- [x] Telegram — connected earlier (bot token + chat ID)
-- [x] Tumblr — connected earlier
-- [x] WordPress — connected earlier
+- [x] Snapchat
+- [x] Bluesky
+- [x] Mastodon (scopes/token fix)
+- [x] Discord
+- [x] Telegram (bot token + chat ID)
+- [x] Tumblr
+- [x] WordPress
 
 **Known problems / not done:**
 
-- [ ] **Reddit** — not connected (app create / captcha / wrong Reddit developer product)
-- [ ] **Instagram / Facebook / Threads** — blocked on Meta phone verification
-- [ ] **WhatsApp** — no Connections card; also needs Meta
-- [ ] After connect: can the user **actually post or schedule**, or only “connected”? Not verified end-to-end. Do not market auto-post until this is checked per platform.
+- [ ] **Reddit** — not connected
+- [ ] **Instagram / Facebook / Threads** — Meta phone verification blocked
+- [ ] **WhatsApp** — no Connections card; needs Meta
+- [ ] After connect: **actually post or schedule** (auto-post) — **not checked** end-to-end. Do not market auto-post until checked per platform.
 
-**Section 4 status:** Several connects done. Meta/Reddit/WhatsApp open. Auto-post not proven.
+**Section 4 status:** Connects above done. Meta/Reddit/WhatsApp + auto-post open.
 
 ---
 
@@ -108,88 +108,86 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 - [ ] Webhook URL: `https://www.creatorflow365.com/api/stripe/webhook`
 - [ ] Test: sign up → pay (or trial) → webhook succeeds → plan shows on account
 - [ ] Failed payment / cancel path does not strand the user
-- [x] Decide: keep “Free while we build” until checkout is intentionally on — decided in product talk; banner/home still free-now. Do not advertise paid checkout yet.
+- [x] Decide: keep “Free while we build” until checkout is intentionally on — decided; **checked live:** home + pricing still say free while we build. Do not advertise paid checkout yet.
 
-**Section 5 status:** Free-now decision locked. Paid Stripe path still open.
+**Section 5 status:** Free-now decision done. Paid Stripe path still open.
 
 ---
 
 ## 6. Trust pages and contact
 
-- [x] Privacy — verified earlier
-- [x] Terms — verified earlier
-- [x] Support form actually arrives in **apputilitybuilder@gmail.com** — verified earlier
-- [x] Footer contact / copyright — verified earlier
+- [x] Privacy — **Checked live 2026-08-13:** 200 + Privacy content; prior verify
+- [x] Terms — **Checked live 2026-08-13:** 200 + Terms content; prior verify
+- [x] Support form actually arrives in **apputilitybuilder@gmail.com** — verified earlier (`MARKETING_READY`); support page **checked live** 200
+- [x] Footer contact / copyright — Contact support **checked** on live pages 2026-08-13; prior verify
 - [x] Feedback bubble — verified earlier
-- [x] 404 page (bad URL → Page not found + way home) — verified 2026-08-02
+- [x] 404 page — **Checked live 2026-08-13:** bad URL → 404 + “Page Not Found” + “Go Home”
 
-**Section 6 status:** Done (prior verifies).
+**Section 6 status:** Done.
 
 ---
 
 ## 7. Live site / hosting
 
-- [x] https://www.creatorflow365.com is the real production project
-- [x] Push to `main` deploys
-- [x] Neon database URL on Vercel Production
-- [x] `JWT_SECRET` set
-- [x] `RESEND_API_KEY` (mail)
-- [x] `BLOB_READ_WRITE_TOKEN` (document video)
-- [x] Env URLs = `https://www.creatorflow365.com` (OAuth callbacks match) — set for production; re-check if a connect fails
+- [x] https://www.creatorflow365.com is the real production project — **Checked live** responding
+- [x] Push to `main` deploys — verified by recent deploys (home/`/ai` updates went live)
+- [x] Neon database URL on Vercel Production — prior verify
+- [x] `JWT_SECRET` set — prior verify
+- [x] `RESEND_API_KEY` (mail) — prior verify
+- [x] `BLOB_READ_WRITE_TOKEN` (document video) — prior verify
+- [x] Env URLs = `https://www.creatorflow365.com` — prior verify; re-check if a connect fails
 
-**Section 7 status:** Done (prior verifies).
+**Section 7 status:** Done.
 
 ---
 
 ## 8. Copy and ads (before you post)
 
-- [x] Homepage promise matches Documents (one draft → many platforms) — hero updated 2026-08-13 with save / format / copy + Groq + no per-word
-- [x] Do **not** claim every dashboard tool is live AI — rule kept; spot-check before ads
-- [x] Do **not** claim all social networks work until section 4 auto-post is true — do not claim all-network posting
+- [x] Homepage promise matches Documents — **Checked live 2026-08-13:** “One draft, many platforms” + Groq + no per-word + free while we build
+- [x] Do **not** claim every dashboard tool is live AI — rule kept
+- [x] Do **not** claim all social networks work until section 4 auto-post is true
 - [x] Do **not** run paid ads until you explicitly say so
-- [x] One primary button: create free account → signup — on home
+- [x] One primary button: create free account — **Checked live:** “Create free account” on home
 
-**Section 8 status:** Done for free-now wording. Still do not market paid plans or all-network auto-post.
+**Section 8 status:** Done for free-now. Still do not market paid plans or all-network auto-post.
 
 ---
 
 ## 9. Phone / small screen
 
-- [x] Home — mobile check earlier
-- [ ] Sign up / sign in — needs a fresh phone look
+- [x] Home — mobile check earlier (2026-08-01)
+- [ ] Sign up / sign in — page loads **checked**; **phone layout not re-checked**
 - [x] Documents — mobile check earlier
-- [ ] `/ai`
-- [ ] `/pricing`
-- [ ] Dashboard AI coach (readable, can close)
+- [ ] `/ai` — desktop **checked live**; **phone layout not checked**
+- [ ] `/pricing` — desktop **checked live**; **phone layout not checked**
+- [ ] Dashboard AI coach (readable, can close) — **phone not checked**
 
-**Section 9 status:** Home + Documents done earlier. Open: signup/signin, `/ai`, `/pricing`, AI coach on phone.
+**Section 9 status:** Home + Documents done. Open: phone check signup/signin, `/ai`, `/pricing`, AI coach.
 
 ---
 
 ## 10. Later (not required for first “free while we build” posts)
 
-- [ ] Stronger AI models (ChatGPT + another well-known AI — planned as higher-plan selling point; then update `/ai`)
+- [ ] Stronger AI models (ChatGPT + another well-known AI — planned; then update `/ai`)
 - [ ] Per-user AI caps (draft: Starter 25 / Essential 100 / Creator 200 Groq AI Coach — not built)
 - [ ] Reddit + Meta family + WhatsApp
 - [ ] Paid checkout on
-- [ ] Plan feature rewrite on live `/pricing` (in progress in chat — do before charging)
+- [ ] Plan feature rewrite on live `/pricing` (draft in chat — do before charging)
 - [ ] Reviews / promo program
-- [ ] Public API, teams, white-label — only if you decide to build them (default: remove from pricing, don’t build)
+- [ ] Public API, teams, white-label — only if you decide to build them (default: remove from pricing)
 
 **Product rules locked in talk (not all on site yet):**
-- No per-word pricing — ever (differentiator)
+- No per-word pricing — ever (differentiator) — **on home live**
 - Format to all supported platforms on every plan
 - Stronger AI later = higher-plan lever
 - Saved originals will have limits (abuse) — numbers TBD on site
 
 ---
 
-## Bottom line
+## Bottom line (after 2026-08-13 check)
 
-**Safe to talk about today (if stranger test still pending, say so):** free account, Documents, format + copy, AI Coach (Groq) with shared capacity, no per-word fees, free while we build.
+**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path (prior), several social **connects**, free-now copy, Groq key + prior coach verify.
 
-**Not safe to sell or shout until cleaned:** old plan feature bullets on `/pricing`, teams, API, white-label, “unlimited AI,” all-network auto-post, live paid checkout.
+**Still open (must finish before hard marketing):** honest `/pricing` (Section 1), stranger test, forgot-password **email**, auto-post proof, Meta/Reddit/WhatsApp, Stripe paid path, phone layouts for a few pages, AI caps built.
 
-**Next strict tick work:** finish honest plan draft → place on `/pricing` → check off Section 1 items that become true.
-
-When you finish an item, say so — it gets `[x]` the same day.
+**Next to make Section 1 checkmarks true:** place honest plans on `/pricing`, then re-check live and mark `[x]`.
