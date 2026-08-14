@@ -190,6 +190,6 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 **Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, Bluesky **post-now**, free-now copy, copy/paste = main path, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
 
-**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe paid path.
+**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe live pay test + cancel path.
 
-**Next:** Section 1 when funded (or Meta/Reddit/WhatsApp if you want social next).
+**Next:** Stripe live pay test (real card — small $9) or defer.
