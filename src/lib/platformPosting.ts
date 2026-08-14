@@ -1180,7 +1180,8 @@ async function postToMastodon(accessToken: string, postData: PostData): Promise<
 
 async function postToDiscord(accessToken: string, storedChannelId: string | null, postData: PostData): Promise<PostResult> {
   try {
-    const channelId = storedChannelId || process.env.DISCORD_DEFAULT_CHANNEL_ID || null
+    // Prefer env channel ID: Connect stores Discord user id in platform_user_id, which is not a channel.
+    const channelId = process.env.DISCORD_DEFAULT_CHANNEL_ID || storedChannelId || null
     if (!channelId) {
       return { success: false, error: 'Discord direct posting requires DISCORD_DEFAULT_CHANNEL_ID.', errorCode: 'DISCORD_CHANNEL_REQUIRED' }
     }

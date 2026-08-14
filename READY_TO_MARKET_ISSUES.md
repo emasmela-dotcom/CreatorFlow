@@ -88,13 +88,17 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 
 **Known problems / not done:**
 
-- [ ] **Reddit** — not connected
-- [ ] **Instagram / Facebook / Threads** — Meta phone verification blocked
-- [ ] **WhatsApp** — no Connections card; needs Meta
+- [ ] **Reddit** — parked (create-app captcha / Reddit block); copy/paste OK
+- [ ] **Instagram / Facebook / Threads** — Meta phone verification blocked; copy/paste OK
+- [ ] **WhatsApp** — no Connections card; needs Meta; copy/paste OK
 - [x] **Bluesky post-now** — **Checked live 2026-08-13:** Eric published “Bluesky test 3”; post appeared on bsky.app
-- [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Do not require Connect/auto-post setup for users. Optional direct post where already proven (Bluesky).
+- [x] **Telegram post-now** — **Checked live 2026-08-14:** “Telegram test 1” in creatorflow365_post_bot
+- [x] **Mastodon post-now** — **Checked live 2026-08-14:** “mastodon test 1” on mastodon.social/@emasmela
+- [ ] **Discord post-now** — Connect done; was Unknown Channel (used user id). Fix 2026-08-14: prefer DISCORD_DEFAULT_CHANNEL_ID — **retest after deploy**
+- [ ] **Snapchat / Tumblr / WordPress post-now** — connect done; post-now not confirmed yet
+- [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
 
-**Section 4 status:** Connects above done. Bluesky post-now done. Copy/paste is the main path. Meta/Reddit/WhatsApp still open.
+**Section 4 status:** Bluesky, Telegram, Mastodon post-now proven. Discord fix pushed — retest. Meta/Reddit/WhatsApp parked. Snapchat/Tumblr/WordPress post-now still open.
 
 ---
 
