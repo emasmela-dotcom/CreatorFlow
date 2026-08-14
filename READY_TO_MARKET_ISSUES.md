@@ -102,17 +102,17 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 
 Site can be marketed as **free while we build** without this. **Do not** market paid plans until these are checked.
 
-- [ ] Stripe **Live** mode
-- [ ] Five live prices match site: $9 / $19 / $49 / $79 / $149
-- [ ] Price IDs on Vercel (`STRIPE_PRICE_STARTER` … `STRIPE_PRICE_AGENCY`)
-- [ ] Live secret key + webhook secret
-- [ ] Webhook URL: `https://www.creatorflow365.com/api/stripe/webhook`
+- [x] Stripe **Live** mode — Eric exited sandbox 2026-08-13
+- [x] Five live prices match site: $9 / $19 / $49 / $79 / $149 — confirmed in Product catalog 2026-08-13
+- [x] Price IDs on Vercel (`STRIPE_PRICE_STARTER` … `STRIPE_PRICE_AGENCY`) — confirmed on Vercel 2026-08-13
+- [x] Live secret key + webhook secret — `sk_live_` + CreatorFlow `whsec_` on Vercel 2026-08-13; redeployed
+- [x] Webhook URL: `https://www.creatorflow365.com/api/stripe/webhook` — Active (sophisticated-oasis) 2026-08-13
 - [ ] Test: sign up → pay (or trial) → webhook succeeds → plan shows on account
 - [ ] Failed payment / cancel path does not strand the user
 - [x] Decide: keep “Free while we build” until checkout is intentionally on — decided; **checked live:** home + pricing still say free while we build. Do not advertise paid checkout yet.
 - [x] Free-build: **New Post / Publish** not blocked by monthly post caps or “free plan learning mode” — **fixed in code 2026-08-13**; **live confirm same day:** Eric published Bluesky test after deploy.
 
-**Section 5 status:** Free-now decision done. Paid Stripe path still open.
+**Section 5 status:** Live keys + prices + webhook on Vercel done. Open: live pay test + failed/cancel path.
 
 ---
 
