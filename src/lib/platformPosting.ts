@@ -920,60 +920,98 @@ async function postToPinterest(accessToken: string, postData: PostData): Promise
   }
 }
 
+const SNAPCHAT_API_BASE = 'https://businessapi.snapchat.com'
+
+async function snapchatApi(
+  accessToken: string,
+  path: string,
+  options: RequestInit = {}
+): Promise<any> {
+  const url = path.startsWith('http') ? path : `${SNAPCHAT_API_BASE}${path.startsWith('/') ? path : `/${path}`}`
+  const headers = new Headers(options.headers)
+  headers.set('Authorization', `Bearer ${accessToken}`)
+  const body = options.body
+  if (body && typeof body === 'string' && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
+  }
+  const res = await fetch(url, { ...options, headers })
+  const text = await res.text()
+  if (!res.ok) {
+    throw new Error(`Snapchat API ${res.status}: ${text}`)
+  }
+  return text ? JSON.parse(text) : {}
+}
+
 /**
- * Post to Snapchat (requires Snapchat publishing setup)
+ * Post to Snapchat Public Profile (create media → upload → post story)
  */
 async function postToSnapchat(accessToken: string, postData: PostData): Promise<PostResult> {
-  try {
-    if (!postData.mediaUrls || postData.mediaUrls.length === 0) {
-      return {
-        success: false,
-        error: 'Snapchat direct posting requires at least one public media URL.',
-        errorCode: 'SNAPCHAT_MEDIA_REQUIRED'
-      }
-    }
-
-    const publishEndpoint = process.env.SNAPCHAT_PUBLISH_ENDPOINT
-    if (!publishEndpoint) {
-      return {
-        success: false,
-        error: 'Snapchat direct posting requires SNAPCHAT_PUBLISH_ENDPOINT env var.',
-        errorCode: 'SNAPCHAT_ENDPOINT_REQUIRED'
-      }
-    }
-
-    const response = await fetch(publishEndpoint, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        caption: postData.content.slice(0, 250),
-        media_url: postData.mediaUrls[0],
-        profile_id: process.env.SNAPCHAT_PROFILE_ID || undefined
-      })
-    })
-
-    const data = await response.json().catch(() => null)
-    const snapPostId = data?.id || data?.post_id || data?.post?.id || null
-    if (!response.ok || !snapPostId) {
-      return {
-        success: false,
-        error: data?.error_description || data?.message || data?.error || 'Snapchat API rejected the publish request.',
-        errorCode: 'SNAPCHAT_API_ERROR'
-      }
-    }
-
-    return {
-      success: true,
-      platformPostId: snapPostId,
-      postId: snapPostId
-    }
-  } catch (error: any) {
+  const profileId = process.env.SNAPCHAT_PROFILE_ID
+  if (!profileId) {
     return {
       success: false,
-      error: error.message || 'Failed to post to Snapchat',
+      error: 'SNAPCHAT_PROFILE_ID is not configured',
+      errorCode: 'SNAPCHAT_PROFILE_REQUIRED'
+    }
+  }
+  const mediaUrl = postData.mediaUrls?.[0]
+  if (!mediaUrl) {
+    return {
+      success: false,
+      error: 'Snapchat stories require a media file',
+      errorCode: 'SNAPCHAT_MEDIA_REQUIRED'
+    }
+  }
+  try {
+    const mediaRes = await fetch(mediaUrl)
+    if (!mediaRes.ok) throw new Error(`Media fetch failed: ${mediaRes.status}`)
+    const mediaBuffer = await mediaRes.arrayBuffer()
+    const contentType =
+      mediaRes.headers.get('content-type') || 'application/octet-stream'
+    const mediaType = contentType.startsWith('video/') ? 'VIDEO' : 'IMAGE'
+
+    const createJson = await snapchatApi(
+      accessToken,
+      `/v1/public_profiles/${profileId}/media`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ media_type: mediaType })
+      }
+    )
+    const media = createJson.media || createJson
+    const mediaId = media?.id as string | undefined
+    const addPath = media?.add_path as string | undefined
+    const finalizePath = media?.finalize_path as string | undefined
+    if (!mediaId || !addPath) {
+      throw new Error('Snapchat media creation response missing id or add_path')
+    }
+
+    const form = new FormData()
+    form.append('file', new Blob([mediaBuffer], { type: contentType }))
+    await snapchatApi(accessToken, addPath, { method: 'POST', body: form })
+
+    if (finalizePath) {
+      await snapchatApi(accessToken, finalizePath, { method: 'POST' })
+    }
+
+    const storyJson = await snapchatApi(
+      accessToken,
+      `/v1/public_profiles/${profileId}/stories`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ media_id: mediaId })
+      }
+    )
+    const storyId = storyJson.story?.id || storyJson.id || mediaId
+    return {
+      success: true,
+      postId: storyId,
+      platformPostId: storyId
+    }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : 'Snapchat post failed',
       errorCode: 'SNAPCHAT_ERROR'
     }
   }
