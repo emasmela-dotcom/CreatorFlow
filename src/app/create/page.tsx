@@ -285,8 +285,22 @@ function CreatePostInner() {
               },
               body: formData
             })
-            const result = await response.json()
-            return { platform, ok: response.ok, result }
+            const responseText = await response.text()
+            let result: any = null
+            try {
+              result = responseText ? JSON.parse(responseText) : null
+            } catch {
+              result = {
+                success: false,
+                error:
+                  responseText?.trim()?.slice(0, 200) ||
+                  `Snapchat publish failed (${response.status})`
+              }
+            }
+            if (result && result.success === undefined && result.error) {
+              result = { ...result, success: false }
+            }
+            return { platform, ok: response.ok && !!result?.success, result }
           }
 
           const response = await fetch('/api/posts', {

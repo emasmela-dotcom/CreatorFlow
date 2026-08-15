@@ -95,7 +95,7 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [x] **Telegram post-now** — **Checked live 2026-08-14:** “Telegram test 1” in creatorflow365_post_bot
 - [x] **Mastodon post-now** — **Checked live 2026-08-14:** “mastodon test 1” on mastodon.social/@emasmela
 - [x] **Discord post-now** — **Checked live 2026-08-15:** “discord test 3” in #general (Spidey Bot webhook)
-- [ ] **Snapchat post-now** — Connect + SNAPCHAT_PROFILE_ID done. 2026-08-15: code uses Business API (media → upload → story). SNAPCHAT_PUBLISH_ENDPOINT not required. **Not proven until live story appears**
+- [ ] **Snapchat post-now** — Connect + SNAPCHAT_PROFILE_ID done. 2026-08-15: Create path `/api/publish/snapchat` + platformPosting use Business API (media → upload → story). SNAPCHAT_PUBLISH_ENDPOINT not required. Use media under ~4MB. **Not proven until live story appears**
 - [ ] **Tumblr / WordPress post-now** — connect done; post-now not confirmed yet
 - [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
 
