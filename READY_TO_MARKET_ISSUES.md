@@ -97,10 +97,10 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [x] **Discord post-now** — **Checked live 2026-08-15:** “discord test 3” in #general (Spidey Bot webhook)
 - [ ] **Snapchat post-now** — Connect + PROFILE_ID + CLIENT_ID on Vercel. Code uses Business API. Live tests return **401 unauthorized**. **Allowlist email sent 2026-08-15** to dev-support@snap.com (Client ID be13d10c-…). Waiting on Snap. Copy/paste OK until approved. **Not proven**
 - [x] **Tumblr post-now** — **Checked live 2026-08-15:** “test 1” on tumblr.com/blog/apputility
-- [ ] **WordPress post-now** — connect done; post-now not confirmed yet
+- [x] **WordPress post-now** — **Checked live 2026-08-15:** “WordPress test 1” on variousinfoexchangehome.wordpress.com
 - [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
 
-**Section 4 status:** Bluesky, Telegram, Mastodon, Discord, Tumblr post-now proven. Snapchat waiting on Snap allowlist reply. Meta/Reddit/WhatsApp parked. WordPress post-now still open.
+**Section 4 status:** Bluesky, Telegram, Mastodon, Discord, Tumblr, WordPress post-now proven. Snapchat waiting on Snap allowlist reply. Meta/Reddit/WhatsApp parked.
 
 ---
 
