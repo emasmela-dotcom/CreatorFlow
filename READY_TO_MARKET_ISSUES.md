@@ -94,11 +94,11 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [x] **Bluesky post-now** — **Checked live 2026-08-13:** Eric published “Bluesky test 3”; post appeared on bsky.app
 - [x] **Telegram post-now** — **Checked live 2026-08-14:** “Telegram test 1” in creatorflow365_post_bot
 - [x] **Mastodon post-now** — **Checked live 2026-08-14:** “mastodon test 1” on mastodon.social/@emasmela
-- [ ] **Discord post-now** — Connect done. Bot path still Missing Access after token reset. 2026-08-15: switched to DISCORD_WEBHOOK_URL (prefer webhook over bot) — **not proven until message appears in #general**
+- [x] **Discord post-now** — **Checked live 2026-08-15:** “discord test 3” in #general (Spidey Bot webhook)
 - [ ] **Snapchat / Tumblr / WordPress post-now** — connect done; post-now not confirmed yet
 - [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
 
-**Section 4 status:** Bluesky, Telegram, Mastodon post-now proven. Discord webhook path in code — post-now not proven yet. Meta/Reddit/WhatsApp parked. Snapchat/Tumblr/WordPress post-now still open.
+**Section 4 status:** Bluesky, Telegram, Mastodon, Discord post-now proven. Meta/Reddit/WhatsApp parked. Snapchat/Tumblr/WordPress post-now still open.
 
 ---
 
