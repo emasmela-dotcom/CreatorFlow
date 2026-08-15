@@ -1180,14 +1180,33 @@ async function postToMastodon(accessToken: string, postData: PostData): Promise<
 
 async function postToDiscord(accessToken: string, storedChannelId: string | null, postData: PostData): Promise<PostResult> {
   try {
-    // Prefer env channel ID: Connect stores Discord user id in platform_user_id, which is not a channel.
+    const content = postData.content.slice(0, 2000)
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL?.trim() || null
+
+    // Prefer channel webhook: avoids bot Missing Access when channel perms block the bot.
+    if (webhookUrl) {
+      const separator = webhookUrl.includes('?') ? '&' : '?'
+      const response = await fetch(`${webhookUrl}${separator}wait=true`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      })
+      const data = await response.json().catch(() => null)
+      const messageId = data?.id
+      if (!response.ok || !messageId) {
+        return { success: false, error: data?.message || 'Discord webhook rejected the message.', errorCode: 'DISCORD_WEBHOOK_ERROR' }
+      }
+      return { success: true, platformPostId: messageId, postId: messageId }
+    }
+
+    // Fallback: bot token + channel ID (Connect stores Discord user id in platform_user_id, not a channel).
     const channelId = process.env.DISCORD_DEFAULT_CHANNEL_ID || storedChannelId || null
     if (!channelId) {
-      return { success: false, error: 'Discord direct posting requires DISCORD_DEFAULT_CHANNEL_ID.', errorCode: 'DISCORD_CHANNEL_REQUIRED' }
+      return { success: false, error: 'Discord direct posting requires DISCORD_WEBHOOK_URL or DISCORD_DEFAULT_CHANNEL_ID.', errorCode: 'DISCORD_CHANNEL_REQUIRED' }
     }
     const botToken = process.env.DISCORD_BOT_TOKEN
     if (!botToken) {
-      return { success: false, error: 'Discord direct posting requires DISCORD_BOT_TOKEN env var.', errorCode: 'DISCORD_BOT_TOKEN_REQUIRED' }
+      return { success: false, error: 'Discord direct posting requires DISCORD_WEBHOOK_URL or DISCORD_BOT_TOKEN.', errorCode: 'DISCORD_BOT_TOKEN_REQUIRED' }
     }
     const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
       method: 'POST',
@@ -1195,9 +1214,7 @@ async function postToDiscord(accessToken: string, storedChannelId: string | null
         Authorization: `Bot ${botToken}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        content: postData.content.slice(0, 2000)
-      })
+      body: JSON.stringify({ content })
     })
     const data = await response.json().catch(() => null)
     const messageId = data?.id
