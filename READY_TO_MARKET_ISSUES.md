@@ -95,11 +95,11 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [x] **Telegram post-now** — **Checked live 2026-08-14:** “Telegram test 1” in creatorflow365_post_bot
 - [x] **Mastodon post-now** — **Checked live 2026-08-14:** “mastodon test 1” on mastodon.social/@emasmela
 - [x] **Discord post-now** — **Checked live 2026-08-15:** “discord test 3” in #general (Spidey Bot webhook)
-- [ ] **Snapchat post-now** — Connect + PROFILE_ID + CLIENT_ID on Vercel. Code uses Business API. Live tests return **401 unauthorized**. Blocked on Snap **Public Profile API allowlist** (email Client ID to Snap). Copy/paste OK until approved. **Not proven**
+- [ ] **Snapchat post-now** — Connect + PROFILE_ID + CLIENT_ID on Vercel. Code uses Business API. Live tests return **401 unauthorized**. **Allowlist email sent 2026-08-15** to dev-support@snap.com (Client ID be13d10c-…). Waiting on Snap. Copy/paste OK until approved. **Not proven**
 - [ ] **Tumblr / WordPress post-now** — connect done; post-now not confirmed yet
 - [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
 
-**Section 4 status:** Bluesky, Telegram, Mastodon, Discord post-now proven. Snapchat blocked on Snap allowlist (401). Meta/Reddit/WhatsApp parked. Tumblr/WordPress post-now still open.
+**Section 4 status:** Bluesky, Telegram, Mastodon, Discord post-now proven. Snapchat waiting on Snap allowlist reply (email sent). Meta/Reddit/WhatsApp parked. Tumblr/WordPress post-now still open.
 
 ---
 
