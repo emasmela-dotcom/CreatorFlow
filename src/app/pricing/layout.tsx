@@ -5,19 +5,18 @@ const baseUrl =
   'https://www.creatorflow365.com'
 const origin = baseUrl.replace(/\/$/, '')
 
-const title = 'Pricing | CreatorFlow365'
-const description =
-  'CreatorFlow365 plans: Starter $9, Essential $19, Creator $49, Professional $79, Business $149 per month. Free while we build.'
+const title = 'CreatorFlow365'
+const description = 'Free while we build. Paid plans launch later.'
 
 export const metadata: Metadata = {
   title,
   description,
-  robots: { index: true, follow: true },
-  alternates: { canonical: `${origin}/pricing` },
+  robots: { index: false, follow: false },
+  alternates: { canonical: origin },
   openGraph: {
     title,
     description,
-    url: `${origin}/pricing`,
+    url: origin,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
     type: 'website',

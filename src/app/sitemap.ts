@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guideEntries,
     { url: `${origin}/signup`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${origin}/signin`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${origin}/pricing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    // /pricing hidden while free-build — redirected to home in next.config.js
     { url: `${origin}/ai`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${origin}/select-plan`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${origin}/demo`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },

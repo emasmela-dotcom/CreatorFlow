@@ -8,6 +8,16 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
+  async redirects() {
+    return [
+      // Hide paid pricing page while free-build (banner: Free while we build)
+      {
+        source: '/pricing',
+        destination: '/',
+        permanent: false,
+      },
+    ]
+  },
   async rewrites() {
     return [
       // Allow API routes to work without trailing slashes
