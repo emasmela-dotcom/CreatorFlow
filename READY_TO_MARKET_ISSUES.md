@@ -35,7 +35,7 @@ If ads or the site promise more than the product does, that is the issue.
 - [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
 - [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
 - [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
-- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live (not 1 click = 1 credit; ask support if empty; don’t pay for Groq so don’t charge for Groq).
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live. **Updated 2026-08-19:** Option B copy live — Free AI = Groq; advanced AI later = paid; Groq free access may change then.
 
 **Section 1 status:** `/ai` done (incl. usage pool). **Paid plan rewrite on `/pricing` = coming later** (Eric: free while we build; place locked table only when funding that build). Until then, live `/pricing` still has old/overstated bullets — boxes above stay open.
 
@@ -95,7 +95,7 @@ Look at each Connect button. If it fails, do not advertise “post everywhere.�
 - [x] **Telegram post-now** — **Checked live 2026-08-14:** “Telegram test 1” in creatorflow365_post_bot
 - [x] **Mastodon post-now** — **Checked live 2026-08-14:** “mastodon test 1” on mastodon.social/@emasmela
 - [x] **Discord post-now** — **Checked live 2026-08-15:** “discord test 3” in #general (Spidey Bot webhook)
-- [ ] **Snapchat post-now** — Connect + PROFILE_ID + CLIENT_ID on Vercel. Code uses Business API. Live tests return **401 unauthorized**. **Allowlist email sent 2026-08-15** to dev-support@snap.com (Client ID be13d10c-…). Waiting on Snap. Copy/paste OK until approved. **Not proven**
+- [ ] **Snapchat post-now** — Connect + PROFILE_ID + CLIENT_ID on Vercel. Code uses Business API. Live tests return **401 unauthorized**. Allowlist: first email 2026-08-15 to wrong address `dev-support@snap.com`; **resent 2026-08-18** to correct `profile-api-dev-support@snapchat.com` (Client ID be13d10c-…). Waiting on Snap. Copy/paste OK until approved. **Not proven**
 - [x] **Tumblr post-now** — **Checked live 2026-08-15:** “test 1” on tumblr.com/blog/apputility
 - [x] **WordPress post-now** — **Checked live 2026-08-15:** “WordPress test 1” on variousinfoexchangehome.wordpress.com
 - [x] **Main user path = copy/paste** — decided 2026-08-13 (Eric). Keep Connect/auto-post where proven (competitors have it). Optional direct post where already proven.
