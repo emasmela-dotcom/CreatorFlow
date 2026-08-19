@@ -120,8 +120,7 @@ export default function AIPage() {
           <div className="mt-6 rounded-xl border border-blue-900/40 bg-blue-950/30 p-5">
             <p className="text-sm leading-relaxed text-slate-100">
               Free AI today is powered by Groq. Create an account to use it.
-              When we place more advanced AI later, those advanced models will
-              be for paid plans — Groq free access may change at that time.
+              Advanced AI on paid plans shortly — Groq free access may change at that time.
             </p>
           </div>
         </div>
@@ -131,7 +130,7 @@ export default function AIPage() {
       <section className="mx-auto max-w-3xl px-6 pb-20">
         <h2 className="text-xl font-semibold text-white">Coming later</h2>
         <p className="mt-3 leading-relaxed text-slate-300">
-          More advanced AI is planned for paid plans. When we place it, this
+          Advanced AI on paid plans shortly. When we place it, this
           page will be updated with the details.
         </p>
       </section>

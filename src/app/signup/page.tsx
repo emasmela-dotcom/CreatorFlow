@@ -217,10 +217,10 @@ function SignupPageContent() {
             <div className="text-center mb-6 sm:mb-8">
               <h2 className="text-2xl sm:text-4xl font-bold mb-4">Create your account</h2>
               <p className="text-base sm:text-lg text-gray-300 max-w-lg mx-auto">
-                Create a free account — no credit card required. Start in Documents and format your first post.
+                Create a free account — no credit card required. Groq AI is included: captions, drafts, and coaching.
               </p>
               <p className="text-sm text-optimist-200 mt-2 max-w-lg mx-auto">
-                We save your original content in Documents — not a copy for every platform.
+                Advanced AI on paid plans shortly. We save your original content in Documents — not a copy for every platform.
               </p>
               {selectedPlan && (
                 <p className="text-base sm:text-lg text-gray-300">
