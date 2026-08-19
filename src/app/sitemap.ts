@@ -32,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // /analytics, /documents, /collaborations — app UI surfaces (noindex in route layouts); omit from sitemap.
     // /create is disallowed in robots.ts — omit from sitemap to avoid conflicting crawl hints.
     { url: `${origin}/reviews`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${origin}/setup-guide`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${origin}/support`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${origin}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${origin}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
   ]

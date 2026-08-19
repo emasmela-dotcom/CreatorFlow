@@ -128,6 +128,7 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 - [x] Terms — **Checked live 2026-08-13:** 200 + Terms content; prior verify
 - [x] Support form actually arrives in **apputilitybuilder@gmail.com** — verified earlier (`MARKETING_READY`); support page **checked live** 200
 - [x] Footer contact / copyright — Contact support **checked** on live pages 2026-08-13; prior verify
+- [x] **Auto-post setup guide** — `/setup-guide` placed 2026-08-19 (Bluesky, Telegram, Mastodon, Discord, Tumblr, WordPress only; copy/paste fallback). Linked from Support + footers.
 - [x] Feedback bubble — verified earlier
 - [x] 404 page — **Checked live 2026-08-13:** bad URL → 404 + “Page Not Found” + “Go Home”
 

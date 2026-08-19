@@ -28,6 +28,13 @@ export default function SupportPage() {
             <p className="mt-2 text-sm text-gray-400">
               We reply to the email address you enter below.
             </p>
+            <p className="mt-3 text-sm text-gray-300">
+              Connecting Bluesky, Telegram, Mastodon, Discord, Tumblr, or WordPress? See the{' '}
+              <Link href="/setup-guide" className="text-optimist-400 hover:underline">
+                auto-post setup guide
+              </Link>
+              .
+            </p>
           </header>
 
           <SupportForm />

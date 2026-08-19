@@ -16,6 +16,15 @@ export default function AppSignedInFooter() {
       </p>
       <p className="mt-3 text-xs text-gray-300">
         <Link
+          href="/setup-guide"
+          className="text-optimist-400 hover:text-optimist-300 hover:underline"
+        >
+          Setup guide
+        </Link>
+        <span className="mx-2 text-gray-600" aria-hidden="true">
+          ·
+        </span>
+        <Link
           href="/support"
           className="text-optimist-400 hover:text-optimist-300 hover:underline"
         >
