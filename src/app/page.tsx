@@ -48,7 +48,7 @@ export default function HomePage() {
                   Save your original. Format it for every platform we support. Copy and post.
                 </p>
                 <p className="mt-3 text-sm text-gray-300 leading-relaxed">
-                  <strong className="text-white">Groq AI is free with your account</strong> — captions and quick tips. No per-word fees. Advanced AI on paid plans shortly.
+                  <strong className="text-white">Create a free account to use Groq AI</strong> — captions and quick tips. No per-word fees. Advanced AI on paid plans shortly.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -116,8 +116,8 @@ export default function HomePage() {
                   <p className="text-sm text-optimist-300/70">Pick a platform, preview formatted copy, and copy it. Formatted output is not saved to your library.</p>
                 </div>
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
-                  <h3 className="font-semibold text-white mb-2">Groq AI (free with account)</h3>
-                  <p className="text-sm text-optimist-300/70">Sign up to use the AI Coach — captions, drafts, and tips. Advanced AI on paid plans shortly.</p>
+                  <h3 className="font-semibold text-white mb-2">Groq AI — account required</h3>
+                  <p className="text-sm text-optimist-300/70">Create a free account to use the AI Coach — captions, drafts, and tips. Advanced AI on paid plans shortly.</p>
                 </div>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-center">
                   <h3 className="font-semibold text-white mb-1">Free while we build</h3>
-                  <p className="text-sm text-gray-400">Use Documents and Groq AI free with your account. Advanced AI on paid plans shortly.</p>
+                  <p className="text-sm text-gray-400">Create an account to use Documents and Groq AI free. Advanced AI on paid plans shortly.</p>
                 </div>
                 <div className="text-center">
                   <h3 className="font-semibold text-white mb-1">Clear updates</h3>
@@ -162,7 +162,7 @@ export default function HomePage() {
           <section className="py-20 px-6">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to simplify your workflow?</h2>
-              <p className="text-gray-400 mb-8">Create a free account — Groq AI included. Format your content for every platform.</p>
+              <p className="text-gray-400 mb-8">Create a free account to use Groq AI. Format your content for every platform.</p>
               <button
                 onClick={() => window.location.href = '/signup'}
                 className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"
