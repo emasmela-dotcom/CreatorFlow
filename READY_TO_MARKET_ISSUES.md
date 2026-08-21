@@ -35,7 +35,7 @@ If ads or the site promise more than the product does, that is the issue.
 - [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
 - [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
 - [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
-- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live. **Updated 2026-08-19:** Option B copy live — Free AI = Groq; advanced AI later = paid; Groq free access may change then.
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live. **Updated 2026-08-19:** Option B copy live — Free AI = Groq; advanced AI later = paid; Groq free access may change then. **Updated 2026-08-21:** Home/signup/`/ai` state Groq AI runs under AI Coach; account required.
 
 **Section 1 status:** `/ai` done (incl. usage pool). **Paid plan rewrite on `/pricing` = coming later** (Eric: free while we build; place locked table only when funding that build). Until then, live `/pricing` still has old/overstated bullets — boxes above stay open.
 

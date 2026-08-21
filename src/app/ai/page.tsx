@@ -19,8 +19,9 @@ export default function AIPage() {
           A coach built into your workflow
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-slate-300">
-          Groq AI is free when you create an account and sign in. We will update
-          this page whenever we add stronger models or new features.
+          Groq AI runs under AI Coach. AI Coach is free when you create an
+          account and sign in. We will update this page whenever we add stronger
+          models or new features.
         </p>
       </section>
 
@@ -119,9 +120,10 @@ export default function AIPage() {
           </p>
           <div className="mt-6 rounded-xl border border-blue-900/40 bg-blue-950/30 p-5">
             <p className="text-sm leading-relaxed text-slate-100">
-              Free AI today is powered by Groq. You must create an account and
-              sign in to use it. Advanced AI on paid plans shortly — Groq free
-              access may change at that time.
+              Free AI today is AI Coach, powered by Groq (Groq runs under AI
+              Coach). You must create an account and sign in to use it. Advanced
+              AI on paid plans shortly — Groq free access may change at that
+              time.
             </p>
           </div>
         </div>
