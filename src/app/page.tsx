@@ -37,7 +37,9 @@ export default function HomePage() {
           <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-8 md:pt-24 pb-16">
             <div className="absolute inset-0 bg-optimist-900/20" />
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
-              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 text-white">CreatorFlow365</h1>
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-blue-900 bg-clip-text text-transparent">
+                CreatorFlow365
+              </h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
                 You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
