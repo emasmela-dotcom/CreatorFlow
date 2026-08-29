@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 import { GA_TRACKING_ID, META_PIXEL_ID, isValidMetaPixelId } from '@/lib/analytics'
 import HomeButton from '@/components/HomeButton'
 import SeoSiteFooter from '@/components/SeoSiteFooter'
@@ -160,12 +161,6 @@ export default function RootLayout({
             />
           </>
         ) : null}
-        
-        {/* Vercel Analytics */}
-        <Script
-          src="https://va.vercel-scripts.com/v1/script.debug.js"
-          strategy="afterInteractive"
-        />
       </head>
       <body>
         {metaPixelId ? (
@@ -191,6 +186,7 @@ export default function RootLayout({
         <SeoSiteFooter />
         <FeedbackWrapper />
         <HomeButton />
+        <Analytics />
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`
             if ('serviceWorker' in navigator) {
