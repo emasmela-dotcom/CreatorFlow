@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import jwt from 'jsonwebtoken'
 import { db } from '@/lib/db'
+import { ENDLESS_TRIAL_END, hasEndlessTrial } from '@/lib/endlessTrial'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_...')
 
@@ -38,6 +39,22 @@ export async function GET(request: NextRequest) {
 
     const user = userResult.rows[0]
     const stripeCustomerId = user.stripe_customer_id as string
+    const userEmail = String(user.email || decoded.email || '')
+
+    if (hasEndlessTrial(userEmail)) {
+      await db.execute({
+        sql: `UPDATE users SET trial_end_at = ?, updated_at = ? WHERE id = ?`,
+        args: [ENDLESS_TRIAL_END, new Date().toISOString(), decoded.userId]
+      })
+      return NextResponse.json({
+        subscription: null,
+        isInTrial: false,
+        trialEndsAt: null,
+        daysRemaining: null,
+        plan: user.subscription_tier,
+        trialPlan: user.trial_plan,
+      })
+    }
 
     let subscription = null
     let isInTrial = false

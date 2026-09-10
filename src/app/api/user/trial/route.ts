@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import jwt from 'jsonwebtoken'
+import { ENDLESS_TRIAL_END, hasEndlessTrial } from '@/lib/endlessTrial'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
 
@@ -25,7 +26,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-    const { subscription_tier, trial_plan, trial_started_at, trial_end_at } = await request.json()
+    const { subscription_tier, trial_plan, trial_started_at, trial_end_at: requestedTrialEnd } = await request.json()
+    const trial_end_at = hasEndlessTrial(decoded.email) ? ENDLESS_TRIAL_END : requestedTrialEnd
 
     if (!subscription_tier || !trial_plan || !trial_started_at || !trial_end_at) {
       return NextResponse.json({ 
