@@ -1,10 +1,32 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+const baseUrl =
+  (typeof process.env.NEXT_PUBLIC_APP_URL === "string" &&
+    process.env.NEXT_PUBLIC_APP_URL) ||
+  "https://www.creatorflow365.com";
+const origin = baseUrl.replace(/\/$/, "");
+const title = "CreatorFlow365 AI — Your Built-In Creator Coach";
+const description =
+  "CreatorFlow365 AI helps creators write faster with an on-demand coach powered by Groq. See what it can do today and what is coming next.";
+
 export const metadata: Metadata = {
-  title: "CreatorFlow365 AI — Your Built-In Creator Coach",
-  description:
-    "CreatorFlow365 AI helps creators write faster with an on-demand coach powered by Groq. See what it can do today and what is coming next.",
+  title,
+  description,
+  alternates: { canonical: `${origin}/ai` },
+  openGraph: {
+    title,
+    description,
+    url: `${origin}/ai`,
+    siteName: "CreatorFlow365",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function AIPage() {

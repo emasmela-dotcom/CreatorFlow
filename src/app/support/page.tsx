@@ -2,9 +2,30 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import SupportForm from '@/components/SupportForm'
 
+const baseUrl =
+  (typeof process.env.NEXT_PUBLIC_APP_URL === 'string' && process.env.NEXT_PUBLIC_APP_URL) ||
+  'https://www.creatorflow365.com'
+const origin = baseUrl.replace(/\/$/, '')
+const title = 'Support | CreatorFlow365'
+const description = 'Contact CreatorFlow365 support. Send a message and we will reply by email.'
+
 export const metadata: Metadata = {
-  title: 'Support | CreatorFlow365',
-  description: 'Contact CreatorFlow365 support. Send a message and we will reply by email.',
+  title,
+  description,
+  alternates: { canonical: `${origin}/support` },
+  openGraph: {
+    title,
+    description,
+    url: `${origin}/support`,
+    siteName: 'CreatorFlow365',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+  },
 }
 
 export default function SupportPage() {

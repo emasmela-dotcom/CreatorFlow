@@ -19,16 +19,16 @@ export default function HomePage() {
             <a href="/" className="text-xl font-bold text-white hover:text-gray-200 transition-colors shrink-0">
               CreatorFlow365
             </a>
-            <div className="flex flex-wrap items-center gap-4">
+            <nav className="flex flex-wrap items-center gap-4" aria-label="Main">
               <a href="#tools" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Tools</a>
-              <button onClick={() => window.location.href = '/ai'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">AI</button>
-              <button onClick={() => window.location.href = '/creator-tools'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Creator tools</button>
-              <button onClick={() => window.location.href = '/documents'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Documents</button>
-              <button onClick={() => window.location.href = '/dashboard'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Browse app</button>
-              <button onClick={() => window.location.href = '/reviews'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Reviews</button>
-              <button onClick={() => window.location.href = '/signin'} className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Sign In</button>
-              <button onClick={() => window.location.href = '/signup'} className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all">Create free account</button>
-            </div>
+              <a href="/ai" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">AI</a>
+              <a href="/creator-tools" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Creator tools</a>
+              <a href="/documents" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Documents</a>
+              <a href="/dashboard" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Browse app</a>
+              <a href="/reviews" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Reviews</a>
+              <a href="/signin" className="px-4 py-2 text-gray-300 hover:text-white transition-colors">Sign In</a>
+              <a href="/signup" className="px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all">Create free account</a>
+            </nav>
           </div>
         </header>
 
@@ -54,12 +54,12 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button
-                  onClick={() => window.location.href = '/signup'}
+                <a
+                  href="/signup"
                   className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all"
                 >
                   Create free account
-                </button>
+                </a>
               </div>
               <p className="mt-4 text-sm text-optimist-400">
                 Already have an account?{' '}
@@ -165,13 +165,13 @@ export default function HomePage() {
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to simplify your workflow?</h2>
               <p className="text-gray-400 mb-8">Create a free account to use AI Coach (Groq under AI Coach). Format your content for every platform.</p>
-              <button
-                onClick={() => window.location.href = '/signup'}
+              <a
+                href="/signup"
                 className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all flex items-center gap-2 mx-auto"
               >
                 Create free account
                 <Play className="w-5 h-5" />
-              </button>
+              </a>
             </div>
           </section>
         </main>

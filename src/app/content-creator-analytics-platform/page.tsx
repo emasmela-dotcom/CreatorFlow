@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function ContentCreatorAnalyticsPage() {
   return (
     <main id="main-content" className="min-h-screen bg-optimist-950 text-white px-4 sm:px-6 py-12 sm:py-16">
-      <div className="max-w-4xl mx-auto space-y-8">
+      <article className="max-w-4xl mx-auto space-y-8">
         <header className="space-y-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Content Creator Analytics Platform</h1>
           <p className="text-lg text-gray-300">
@@ -158,7 +158,7 @@ export default function ContentCreatorAnalyticsPage() {
             Create free account
           </Link>
         </section>
-      </div>
+      </article>
     </main>
   )
 }
