@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 export default function AIPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
+      <article>
       {/* Hero */}
       <section className="mx-auto max-w-3xl px-6 pt-20 pb-12">
         <p className="mb-4 text-sm font-medium tracking-wide text-blue-400 uppercase">
@@ -182,6 +183,7 @@ export default function AIPage() {
       </section>
 
       {/* Footer note */}
+      </article>
       <footer className="border-t border-slate-800/60 bg-slate-950 py-8">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="text-sm text-slate-500">

@@ -46,7 +46,7 @@ export default function TermsPage() {
         <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-white">Terms of Service</h1>
         <p className="text-gray-300 text-sm mb-10">Last updated: February 2026</p>
 
-        <div className="prose prose-invert prose-gray max-w-none space-y-6 text-gray-300">
+        <article className="prose prose-invert prose-gray max-w-none space-y-6 text-gray-300">
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">1. Agreement</h2>
             <p>By using CreatorFlow365 (&quot;Service&quot;) at www.creatorflow365.com, you agree to these Terms. If you do not agree, do not use the Service.</p>
@@ -75,7 +75,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold text-white mb-2">7. Contact</h2>
             <p>For questions about these Terms, contact us at <a href="mailto:support@creatorflow365.com" className="text-optimist-300 hover:text-optimist-200 underline">support@creatorflow365.com</a>.</p>
           </section>
-        </div>
+        </article>
       </main>
     </div>
   )

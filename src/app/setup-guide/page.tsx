@@ -124,6 +124,7 @@ export default function SetupGuidePage() {
             </Link>
           </nav>
 
+          <article>
           <header className="border-b border-gray-800 pb-6">
             <p className="text-xs font-semibold uppercase tracking-wide text-optimist-400">
               Help
@@ -176,6 +177,7 @@ export default function SetupGuidePage() {
             </Link>
             .
           </p>
+          </article>
         </div>
       </main>
     </div>

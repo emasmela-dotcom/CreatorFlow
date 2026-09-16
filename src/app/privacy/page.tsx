@@ -46,7 +46,7 @@ export default function PrivacyPage() {
         <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-white">Privacy Policy</h1>
         <p className="text-gray-300 text-sm mb-10">Last updated: February 2026</p>
 
-        <div className="prose prose-invert prose-gray max-w-none space-y-6 text-gray-300">
+        <article className="prose prose-invert prose-gray max-w-none space-y-6 text-gray-300">
           <section>
             <h2 className="text-xl font-semibold text-white mb-2">1. Who we are</h2>
             <p>CreatorFlow365 (&quot;we&quot;, &quot;our&quot;) operates www.creatorflow365.com. We provide tools and services for content creators to manage, schedule, and optimize their content.</p>
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold text-white mb-2">6. Contact</h2>
             <p>For privacy questions or requests, contact us at <a href="mailto:support@creatorflow365.com" className="text-optimist-300 hover:text-optimist-200 underline">support@creatorflow365.com</a>.</p>
           </section>
-        </div>
+        </article>
       </main>
     </div>
   )

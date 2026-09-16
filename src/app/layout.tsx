@@ -80,12 +80,21 @@ export const metadata: Metadata = {
     url: SITE_ORIGIN,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
+    images: [
+      {
+        url: '/icon-512.png',
+        width: 512,
+        height: 512,
+        alt: 'CreatorFlow365',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
     description: siteDescription,
     creator: '@creatorflow365',
+    images: ['/icon-512.png'],
   },
   alternates: {
     canonical: SITE_ORIGIN,
