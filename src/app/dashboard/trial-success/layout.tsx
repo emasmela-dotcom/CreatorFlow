@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Trial started | CreatorFlow365',
-  description: 'Your free trial is active.',
+  title: 'Account ready | CreatorFlow365',
+  description: 'Free while we build. Paid plans with live AI later.',
   robots: { index: false, follow: true },
 }
 

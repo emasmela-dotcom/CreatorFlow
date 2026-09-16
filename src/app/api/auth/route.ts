@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
             subject: 'Welcome to CreatorFlow365',
             html: `
               <p>Hi,</p>
-              <p>Your CreatorFlow365 account is set up. You can sign in and start your free trial here:</p>
+              <p>Your CreatorFlow365 account is set up. Free while we build. Sign in here:</p>
               <p><a href="${appUrl}/signin">Sign in to CreatorFlow365</a></p>
               <p>If you didn't create an account, you can ignore this email.</p>
               <p>— CreatorFlow365</p>

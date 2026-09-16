@@ -38,7 +38,7 @@ export const SCHEDULER_GUIDE_FAQ: FaqPair[] = [
       'Your team can use the same free workspace today. Paid team seats and a shared schedule view are not a live paid feature yet.',
   },
   {
-    question: 'Is there a trial?',
+    question: 'Is it free?',
     answer:
       'CreatorFlow365 is free while we build. Create a free account — no credit card required. There is no paid subscribe step today.',
   },
@@ -60,8 +60,8 @@ export const ANALYTICS_GUIDE_FAQ: FaqPair[] = [
       'Agencies can use Documents today. Client reporting dashboards and white-label are not live.',
   },
   {
-    question: 'Is there a free trial?',
+    question: 'Is CreatorFlow365 free?',
     answer:
-      'CreatorFlow365 is free while we build. Create a free account with no credit card. Paid plans have not launched.',
+      'Yes. CreatorFlow365 is free while we build. Create a free account with no credit card. Paid plans have not launched.',
   },
 ]

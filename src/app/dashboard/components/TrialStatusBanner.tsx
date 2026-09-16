@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Clock, CheckCircle, CreditCard } from 'lucide-react'
 import TrialEndNotification from '@/components/TrialEndNotification'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 export default function TrialStatusBanner() {
   const [subscriptionData, setSubscriptionData] = useState<any>(null)
@@ -138,7 +139,19 @@ export default function TrialStatusBanner() {
 
   return (
     <>
-      {subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && (
+      {FREE_BUILD_PHASE && subscriptionData.isInTrial && (
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+          <div className="flex items-center gap-3">
+            <Clock className="w-5 h-5 text-blue-400 flex-shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-blue-400">Free while we build</p>
+              <p className="text-xs text-gray-300">Paid plans with live AI later. No 14-day cutoff today.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!FREE_BUILD_PHASE && subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && (
         <TrialEndNotification
           daysRemaining={subscriptionData.daysRemaining}
           onContinue={handleContinue}
@@ -158,7 +171,7 @@ export default function TrialStatusBanner() {
           <p className="mt-1">{checkoutDebug}</p>
         </div>
       )}
-      {subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && subscriptionData.daysRemaining > 3 && (
+      {!FREE_BUILD_PHASE && subscriptionData.isInTrial && subscriptionData.daysRemaining !== null && subscriptionData.daysRemaining > 3 && (
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">

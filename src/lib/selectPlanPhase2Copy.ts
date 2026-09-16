@@ -30,8 +30,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
     ],
     faq: [
       {
-        q: 'Do I need a card for the trial?',
-        a: 'No. You get a 14-day free trial without adding a credit card.',
+        q: 'Do I need a card?',
+        a: 'No. CreatorFlow365 is free while we build. No credit card. Paid plans with live AI later.',
       },
       {
         q: 'What if a tool is not in Starter?',
@@ -43,7 +43,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       },
       {
         q: 'What happens to my content if I do not subscribe?',
-        a: 'If you do not subscribe after the trial, trial changes are reverted per our Content Ownership Policy. If you subscribe, you keep what you created.',
+        a: 'Paid plans are not live yet. Your work stays in your account while we build.',
       },
     ],
   },
@@ -73,8 +73,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'Essential adds more accounts, content analytics, and twice the monthly AI calls.',
       },
       {
-        q: 'Is the trial the same?',
-        a: 'Yes—14 days free with no credit card required.',
+        q: 'Is it free?',
+        a: 'Yes. Free while we build. No credit card. Paid plans with live AI later.',
       },
       {
         q: 'Are all tools in my plan automatically included?',
@@ -121,8 +121,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'Small teams can; agencies with white-label needs usually choose Professional or Business.',
       },
       {
-        q: 'Trial terms?',
-        a: 'Same 14-day trial with no credit card; subscribe to keep trial content per policy.',
+        q: 'Is it free?',
+        a: 'Yes. Free while we build. No credit card. Paid plans with live AI later.',
       },
     ],
   },
@@ -161,8 +161,8 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
         a: 'Tools not listed for Professional require upgrading to a plan that includes them.',
       },
       {
-        q: 'Trial?',
-        a: '14-day free trial, no credit card required.',
+        q: 'Is it free?',
+        a: 'Yes. Free while we build. No credit card. Paid plans with live AI later.',
       },
     ],
   },
@@ -201,7 +201,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       },
       {
         q: 'Annual contract?',
-        a: 'Plans are month-to-month unless you negotiate otherwise; trial remains 14 days without a card.',
+        a: 'Plans are month-to-month unless you negotiate otherwise. Free while we build. Paid plans with live AI later.',
       },
     ],
   },

@@ -315,7 +315,7 @@ export const DEMO_BOT_CALLS = [
     label: 'customer-service',
     path: '/api/bots/customer-service',
     body: {
-      message: 'How does the free trial work?',
+      message: 'How does free access work while you build?',
       conversationId: 'demo-cs-1',
       customerName: 'Demo Visitor',
     },

@@ -39,13 +39,13 @@ OUTCOME:
 For people who want scheduling, AI drafting, docs, analytics, and light CRM in one membership instead of stacking subscriptions.
 
 QUERY:
-CreatorFlow365 pricing free trial
+CreatorFlow365 pricing
 
 PATH:
-/
+/select-plan
 
 OUTCOME:
-For buyers who need clear tiers, a 14-day trial without a card, and limits spelled out before signup.
+For anyone evaluating cost: free while we build, no card, paid plans with live AI later.
 
 QUERY:
 schedule Instagram and LinkedIn from one place

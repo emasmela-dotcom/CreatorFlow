@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { AlertTriangle, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
+
+interface TrialEndNotificationProps {
+  daysRemaining: number | null
+  onContinue: () => void
+  onCancel: () => void
+}
 
 interface TrialEndNotificationProps {
   daysRemaining: number | null
@@ -14,6 +21,7 @@ export default function TrialEndNotification({ daysRemaining, onContinue, onCanc
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    if (FREE_BUILD_PHASE) return
     // Show modal if trial ending soon (within 3 days) or expired
     if (daysRemaining !== null && daysRemaining <= 3) {
       setShowModal(true)
@@ -42,6 +50,10 @@ export default function TrialEndNotification({ daysRemaining, onContinue, onCanc
     } finally {
       setLoading(false)
     }
+  }
+
+  if (FREE_BUILD_PHASE) {
+    return null
   }
 
   if (daysRemaining === null || daysRemaining > 3) {

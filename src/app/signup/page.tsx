@@ -170,16 +170,16 @@ function SignupPageContent() {
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-4xl font-bold mb-4">Choose your plan</h2>
               <p className="text-base sm:text-xl text-gray-300">
-                Start your free trial with 14 days on any plan.
+                Free while we build. Paid plans with live AI later.
               </p>
               <p className="text-sm text-green-400 mt-2">
-                No credit card required to start your trial.
+                No credit card required.
               </p>
               <p className="text-xs text-gray-300 mt-1 max-w-xl mx-auto">
-                When you subscribe after the trial, content you created during the trial is kept.
+                Your work stays in your account. We will show prices before any paid plan launches.
               </p>
               <p className="text-sm text-gray-200 mt-3 font-medium max-w-xl mx-auto">
-                Your work stays yours—subscribe after trial to keep what you created and full tool access.
+                Create a free account to use Documents and AI Coach today.
               </p>
             </div>
 
@@ -321,10 +321,9 @@ function SignupPageContent() {
         {step === 'payment' && selectedPlan && (
           <div className="max-w-3xl mx-auto px-1 sm:px-0">
             <div className="text-center mb-6 sm:mb-8">
-              <h2 className="text-2xl sm:text-4xl font-bold mb-4">Keep your plan after the trial</h2>
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4">Your account is free while we build</h2>
               <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
-                Your free trial is active. What you create here stays with you when you subscribe.
-                Without a subscription, that work will not stay available—subscribe to keep it and full tool access.
+                Paid plans are not live yet. What you create stays in your account. We will show prices before any charge.
               </p>
             </div>
 
@@ -341,8 +340,7 @@ function SignupPageContent() {
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Ready to add payment?</h3>
                 <p className="text-gray-300 mb-4 text-sm sm:text-base">
-                  When you’re ready, you’ll be redirected to secure Stripe checkout to add your payment method. 
-                  Your card will not be charged until after your 14-day trial ends.
+                  Paid plans are not live yet. If checkout is offered later, you will see prices first. No charge today.
                 </p>
 
                 {selectedPlan && (

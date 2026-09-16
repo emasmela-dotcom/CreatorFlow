@@ -25,10 +25,10 @@ function TrialSuccessContent() {
             <CheckCircle className="w-10 h-10 text-white" />
           </div>
 
-          <h1 className="text-3xl font-bold mb-4">Trial started</h1>
+          <h1 className="text-3xl font-bold mb-4">Account ready</h1>
 
           <p className="text-gray-300 mb-6">
-            Your 14-day free trial is active. You have full access to the plan you chose.
+            Free while we build. Paid plans with live AI later. You can use the workspace now.
           </p>
 
           {sessionId && (
@@ -38,9 +38,9 @@ function TrialSuccessContent() {
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6 text-left">
             <p className="text-sm text-blue-300 font-semibold mb-2">What happens next</p>
             <ul className="text-xs text-gray-300 space-y-1">
-              <li>• Trial runs 14 days from today</li>
-              <li>• Billing starts after trial if you keep your plan</li>
-              <li>• Cancel anytime from dashboard settings</li>
+              <li>• Free while we build — no charge today</li>
+              <li>• Paid plans with live AI later</li>
+              <li>• We will show prices before any paid checkout</li>
             </ul>
           </div>
 
