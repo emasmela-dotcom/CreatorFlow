@@ -88,9 +88,31 @@ const platforms: {
   },
 ]
 
+const setupGuideJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Auto-post setup guide',
+  description,
+  url: `${baseUrl}${pagePath}`,
+  step: platforms.map((platform, index) => ({
+    '@type': 'HowToSection',
+    position: index + 1,
+    name: platform.name,
+    itemListElement: platform.steps.map((text, stepIndex) => ({
+      '@type': 'HowToStep',
+      position: stepIndex + 1,
+      text,
+    })),
+  })),
+}
+
 export default function SetupGuidePage() {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(setupGuideJsonLd) }}
+      />
       <main className="px-5 py-10 md:px-8 md:py-14">
         <div className="mx-auto max-w-2xl">
           <nav className="mb-8 flex flex-wrap gap-4 text-sm">
