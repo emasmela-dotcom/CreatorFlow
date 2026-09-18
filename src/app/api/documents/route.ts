@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     }
     if (!trimmedContent && !hasVideo) {
       return NextResponse.json(
-        { error: 'Add original text or attach a video before saving' },
+        { error: 'Add original text, or record or upload a photo or video before saving' },
         { status: 400 }
       )
     }

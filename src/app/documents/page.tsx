@@ -21,6 +21,7 @@ import {
   Home,
   Upload,
   Video,
+  Camera,
   Trash,
 } from 'lucide-react'
 import { formatForPlatform } from '@/lib/formatForPlatform'
@@ -63,6 +64,10 @@ function formatBytes(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`
 }
 
+function isImageName(name?: string | null): boolean {
+  return /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(name || '')
+}
+
 function DocumentsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -83,6 +88,7 @@ function DocumentsPageInner() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [videoFilename, setVideoFilename] = useState<string | null>(null)
   const [videoSizeBytes, setVideoSizeBytes] = useState<number | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [uploadingVideo, setUploadingVideo] = useState(false)
 
   const [activePlatform, setActivePlatform] = useState('instagram')
@@ -189,27 +195,38 @@ function DocumentsPageInner() {
     setVideoFilename(doc.video_filename || null)
     setVideoSizeBytes(doc.video_size_bytes || null)
     setVideoFile(null)
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl)
+      setPreviewUrl(null)
+    }
   }
 
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    if (!file.type.startsWith('video/')) {
-      setError('Only video files are allowed (mp4, mov, webm)')
+    if (!file.type.startsWith('video/') && !file.type.startsWith('image/')) {
+      setError('Only photos and videos are allowed')
       return
     }
     if (file.size > 100 * 1024 * 1024) {
-      setError('Max video size is 100MB')
+      setError('Max size is 100MB')
       return
     }
     setVideoFile(file)
     setVideoFilename(file.name)
     setVideoSizeBytes(file.size)
+    if (previewUrl) URL.revokeObjectURL(previewUrl)
+    setPreviewUrl(URL.createObjectURL(file))
     setError('')
+    e.target.value = ''
   }
 
   const removeSelectedVideo = () => {
     setVideoFile(null)
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl)
+      setPreviewUrl(null)
+    }
     if (!docId) {
       setVideoFilename(null)
       setVideoSizeBytes(null)
@@ -243,11 +260,11 @@ function DocumentsPageInner() {
         return
       }
       const data = await res.json()
-      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove video')
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to remove visual')
       if (data.document) loadDoc(data.document)
       await fetchDocs()
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to remove video')
+      setError(err instanceof Error ? err.message : 'Failed to remove visual')
     } finally {
       setSaving(false)
     }
@@ -262,7 +279,7 @@ function DocumentsPageInner() {
       return
     }
     if (!content.trim() && !videoFile && !videoUrl) {
-      setError('Add original text or attach a video before saving')
+      setError('Add original text, or record or upload a photo or video before saving')
       return
     }
 
@@ -287,13 +304,13 @@ function DocumentsPageInner() {
         }
         const uploadData = await uploadRes.json()
         if (!uploadRes.ok || !uploadData.success) {
-          throw new Error(uploadData.error || 'Video upload failed')
+          throw new Error(uploadData.error || 'Upload failed')
         }
         uploadedVideoUrl = uploadData.video_url
         uploadedVideoFilename = uploadData.video_filename
         uploadedVideoSize = uploadData.video_size_bytes
       } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : 'Video upload failed')
+        setError(err instanceof Error ? err.message : 'Upload failed')
         setUploadingVideo(false)
         return
       } finally {
@@ -574,7 +591,7 @@ function DocumentsPageInner() {
                     id="doc-content"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Paste or write your original content here..."
+                    placeholder="Write here if you want words. Record or upload the photo or video below."
                     rows={12}
                     className="mt-1.5 block w-full rounded-lg border border-optimist-800 bg-optimist-900/40 px-3 py-2.5 text-optimist-100 placeholder-optimist-500 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500 text-sm leading-relaxed resize-y"
                   />
@@ -582,10 +599,16 @@ function DocumentsPageInner() {
                 </div>
 
                 <div>
-                  <span className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">Video</span>
+                  <span className="block text-xs font-medium text-optimist-300 uppercase tracking-wider">
+                    Photo or video
+                  </span>
                   {videoUrl && !videoFile && (
                     <div className="mt-2 rounded-lg border border-optimist-800 bg-optimist-950/50 overflow-hidden">
-                      <video src={videoUrl} controls className="w-full max-h-64 object-contain" />
+                      {isImageName(videoFilename) ? (
+                        <img src={videoUrl} alt={videoFilename || 'Photo'} className="w-full max-h-64 object-contain bg-black" />
+                      ) : (
+                        <video src={videoUrl} controls className="w-full max-h-64 object-contain" />
+                      )}
                       <div className="flex items-center justify-between px-3 py-2 bg-optimist-900/30">
                         <div className="min-w-0">
                           <p className="text-xs font-medium text-optimist-100 truncate">{videoFilename}</p>
@@ -606,39 +629,67 @@ function DocumentsPageInner() {
                     </div>
                   )}
                   {videoFile && (
-                    <div className="mt-2 flex items-center justify-between rounded-lg border border-optimist-800 bg-optimist-900/30 px-3 py-2.5">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Video className="h-4 w-4 text-sage-400 shrink-0" />
-                        <div className="min-w-0">
-                          <p className="text-xs font-medium text-optimist-100 truncate">{videoFile.name}</p>
-                          <p className="text-xs text-optimist-400">{formatBytes(videoFile.size)}</p>
+                    <div className="mt-2 rounded-lg border border-optimist-800 bg-optimist-900/30 overflow-hidden">
+                      {videoFile.type.startsWith('image/') && previewUrl ? (
+                        <img
+                          src={previewUrl}
+                          alt={videoFile.name || 'Photo'}
+                          className="w-full max-h-64 object-contain bg-black"
+                        />
+                      ) : videoFile.type.startsWith('video/') && previewUrl ? (
+                        <video
+                          src={previewUrl}
+                          controls
+                          className="w-full max-h-64 object-contain"
+                        />
+                      ) : null}
+                      <div className="flex items-center justify-between px-3 py-2.5">
+                        <div className="flex items-center gap-2 min-w-0">
+                          {videoFile.type.startsWith('image/') ? (
+                            <Camera className="h-4 w-4 text-sage-400 shrink-0" />
+                          ) : (
+                            <Video className="h-4 w-4 text-sage-400 shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-xs font-medium text-optimist-100 truncate">{videoFile.name}</p>
+                            <p className="text-xs text-optimist-400">{formatBytes(videoFile.size)}</p>
+                          </div>
                         </div>
+                        <button
+                          type="button"
+                          onClick={removeSelectedVideo}
+                          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-optimist-300 hover:bg-optimist-800/50 transition-colors"
+                        >
+                          <X className="h-3 w-3" />
+                          Clear
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={removeSelectedVideo}
-                        className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-optimist-300 hover:bg-optimist-800/50 transition-colors"
-                      >
-                        <X className="h-3 w-3" />
-                        Clear
-                      </button>
                     </div>
                   )}
-                  {!videoUrl && !videoFile && (
-                    <label className="mt-2 flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-optimist-700 bg-optimist-900/20 px-4 py-6 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
-                      <Upload className="h-5 w-5 text-optimist-400" />
-                      <span className="text-sm font-medium text-optimist-300">Attach a video</span>
-                      <span className="text-xs text-optimist-500">(mp4, mov, webm — max 100MB)</span>
-                      <input type="file" accept="video/*" onChange={handleVideoSelect} className="sr-only" />
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-optimist-700 bg-optimist-900/20 px-4 py-4 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
+                      <Camera className="h-5 w-5 text-optimist-200" />
+                      <span className="text-sm font-medium text-optimist-100">Record here</span>
+                      <input
+                        type="file"
+                        accept="image/*,video/*"
+                        capture="environment"
+                        onChange={handleVideoSelect}
+                        className="sr-only"
+                      />
                     </label>
-                  )}
-                  {(videoUrl || videoFile) && (
-                    <label className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-optimist-800 px-2.5 py-1.5 text-xs font-medium text-optimist-200 hover:bg-optimist-700 transition-colors">
-                      <Upload className="h-3 w-3" />
-                      Replace video
-                      <input type="file" accept="video/*" onChange={handleVideoSelect} className="sr-only" />
+                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-optimist-700 bg-optimist-900/20 px-4 py-4 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
+                      <Upload className="h-5 w-5 text-optimist-200" />
+                      <span className="text-sm font-medium text-optimist-100">Upload file</span>
+                      <input
+                        type="file"
+                        accept="image/*,video/*"
+                        onChange={handleVideoSelect}
+                        className="sr-only"
+                      />
                     </label>
-                  )}
+                  </div>
+                  <p className="mt-1.5 text-xs text-optimist-400">Photo or video. Max 100MB.</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -689,7 +740,7 @@ function DocumentsPageInner() {
                   >
                     <Save className="h-4 w-4" />
                     {uploadingVideo
-                      ? 'Uploading video…'
+                      ? 'Uploading…'
                       : saving
                         ? 'Saving…'
                         : docId
@@ -749,7 +800,7 @@ function DocumentsPageInner() {
                               <p className="text-sm font-medium text-optimist-100 truncate">{doc.title}</p>
                             </div>
                             <p className="text-xs text-optimist-400 truncate mt-0.5">
-                              {doc.content?.slice(0, 60).replace(/\n/g, ' ') || (doc.video_url ? 'Video attached' : 'No content')}
+                              {doc.content?.slice(0, 60).replace(/\n/g, ' ') || (doc.video_url ? 'Photo or video attached' : 'No content')}
                             </p>
                           </div>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">

@@ -18,9 +18,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    if (!file.type.startsWith('video/')) {
+    if (!file.type.startsWith('video/') && !file.type.startsWith('image/')) {
       return NextResponse.json(
-        { error: 'Only video files are allowed (mp4, mov, webm)' },
+        { error: 'Only photos and videos are allowed' },
         { status: 400 }
       )
     }
