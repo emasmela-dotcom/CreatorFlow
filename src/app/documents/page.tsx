@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useEffect, useCallback, useMemo } from 'react'
+import { Suspense, useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Save,
@@ -68,6 +68,12 @@ function isImageName(name?: string | null): boolean {
   return /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(name || '')
 }
 
+function pickRecorderMime(): string {
+  if (typeof MediaRecorder === 'undefined') return ''
+  const types = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']
+  return types.find((t) => MediaRecorder.isTypeSupported(t)) || ''
+}
+
 function DocumentsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -90,6 +96,12 @@ function DocumentsPageInner() {
   const [videoSizeBytes, setVideoSizeBytes] = useState<number | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [uploadingVideo, setUploadingVideo] = useState(false)
+  const [cameraOn, setCameraOn] = useState(false)
+  const [recording, setRecording] = useState(false)
+  const liveVideoRef = useRef<HTMLVideoElement | null>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const recorderRef = useRef<MediaRecorder | null>(null)
+  const chunksRef = useRef<Blob[]>([])
 
   const [activePlatform, setActivePlatform] = useState('instagram')
   const [hashtags, setHashtags] = useState('')
@@ -199,6 +211,118 @@ function DocumentsPageInner() {
       URL.revokeObjectURL(previewUrl)
       setPreviewUrl(null)
     }
+    stopCamera()
+  }
+
+  const applyPickedFile = useCallback((file: File) => {
+    setVideoFile(file)
+    setVideoFilename(file.name)
+    setVideoSizeBytes(file.size)
+    setPreviewUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev)
+      return URL.createObjectURL(file)
+    })
+    setError('')
+  }, [])
+
+  const stopCamera = useCallback(() => {
+    if (recorderRef.current && recorderRef.current.state === 'recording') {
+      recorderRef.current.stop()
+    }
+    streamRef.current?.getTracks().forEach((track) => track.stop())
+    streamRef.current = null
+    recorderRef.current = null
+    chunksRef.current = []
+    setCameraOn(false)
+    setRecording(false)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!cameraOn || !liveVideoRef.current || !streamRef.current) return
+    liveVideoRef.current.srcObject = streamRef.current
+    liveVideoRef.current.play().catch(() => {})
+  }, [cameraOn])
+
+  const startCamera = async () => {
+    setError('')
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setError('This browser cannot use the camera here. Use Upload file, or Record here on a phone.')
+      return
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      })
+      streamRef.current = stream
+      setCameraOn(true)
+    } catch {
+      setError('Could not open the camera. Allow camera and mic, then try again.')
+    }
+  }
+
+  const takePhoto = () => {
+    const live = liveVideoRef.current
+    if (!live) return
+    const canvas = document.createElement('canvas')
+    canvas.width = live.videoWidth || 1280
+    canvas.height = live.videoHeight || 720
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    ctx.drawImage(live, 0, 0, canvas.width, canvas.height)
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) return
+        applyPickedFile(new File([blob], `photo-${Date.now()}.jpg`, { type: 'image/jpeg' }))
+        stopCamera()
+      },
+      'image/jpeg',
+      0.92
+    )
+  }
+
+  const startRecording = () => {
+    const stream = streamRef.current
+    if (!stream) return
+    chunksRef.current = []
+    const mime = pickRecorderMime()
+    let recorder: MediaRecorder
+    try {
+      recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream)
+    } catch {
+      setError('This browser cannot record video here. Use Upload file.')
+      return
+    }
+    recorderRef.current = recorder
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) chunksRef.current.push(event.data)
+    }
+    recorder.onstop = () => {
+      const type = recorder.mimeType || 'video/webm'
+      const blob = new Blob(chunksRef.current, { type })
+      const ext = type.includes('mp4') ? 'mp4' : 'webm'
+      applyPickedFile(new File([blob], `recording-${Date.now()}.${ext}`, { type }))
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+      streamRef.current = null
+      recorderRef.current = null
+      chunksRef.current = []
+      setCameraOn(false)
+      setRecording(false)
+    }
+    recorder.start()
+    setRecording(true)
+  }
+
+  const stopRecording = () => {
+    if (recorderRef.current && recorderRef.current.state === 'recording') {
+      recorderRef.current.stop()
+    }
   }
 
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,12 +336,7 @@ function DocumentsPageInner() {
       setError('Max size is 100MB')
       return
     }
-    setVideoFile(file)
-    setVideoFilename(file.name)
-    setVideoSizeBytes(file.size)
-    if (previewUrl) URL.revokeObjectURL(previewUrl)
-    setPreviewUrl(URL.createObjectURL(file))
-    setError('')
+    applyPickedFile(file)
     e.target.value = ''
   }
 
@@ -666,9 +785,17 @@ function DocumentsPageInner() {
                       </div>
                     </div>
                   )}
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-optimist-700 bg-optimist-900/20 px-4 py-4 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={startCamera}
+                      className="flex items-center justify-center gap-2 rounded-lg border border-optimist-700 bg-optimist-900/20 px-4 py-4 text-sm font-medium text-optimist-100 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors"
+                    >
                       <Camera className="h-5 w-5 text-optimist-200" />
+                      Use this camera
+                    </button>
+                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-optimist-700 bg-optimist-900/20 px-4 py-4 hover:bg-optimist-900/40 hover:border-optimist-600 transition-colors">
+                      <Video className="h-5 w-5 text-optimist-200" />
                       <span className="text-sm font-medium text-optimist-100">Record here</span>
                       <input
                         type="file"
@@ -689,7 +816,54 @@ function DocumentsPageInner() {
                       />
                     </label>
                   </div>
-                  <p className="mt-1.5 text-xs text-optimist-400">Photo or video. Max 100MB.</p>
+                  {cameraOn && (
+                    <div className="mt-2 rounded-lg border border-optimist-800 bg-black overflow-hidden">
+                      <video
+                        ref={liveVideoRef}
+                        muted
+                        playsInline
+                        autoPlay
+                        className="w-full max-h-64 object-contain bg-black"
+                      />
+                      <div className="flex flex-wrap gap-2 p-3 bg-optimist-900/80">
+                        <button
+                          type="button"
+                          onClick={takePhoto}
+                          disabled={recording}
+                          className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-black hover:bg-gray-200 disabled:opacity-50"
+                        >
+                          Take photo
+                        </button>
+                        {!recording ? (
+                          <button
+                            type="button"
+                            onClick={startRecording}
+                            className="rounded-md bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500"
+                          >
+                            Start video
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={stopRecording}
+                            className="rounded-md bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500"
+                          >
+                            Stop video
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={stopCamera}
+                          className="rounded-md bg-optimist-800 px-3 py-2 text-xs font-semibold text-optimist-100 hover:bg-optimist-700"
+                        >
+                          Close camera
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <p className="mt-1.5 text-xs text-optimist-400">
+                    Use this camera works on a computer. Record here is for a phone. Photo or video. Max 100MB.
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
