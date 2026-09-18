@@ -32,4 +32,9 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
     answer:
       'Yes. They can use the same free workspace today. White-label, unlimited team seats, and a dedicated account manager are not live. We will not list those until they are real.',
   },
+  {
+    question: 'Can I record photos and video in CreatorFlow365?',
+    answer:
+      'Yes. After you sign in, open Documents. Use this camera on a computer, Record here on a phone, or upload a photo or video you already shot.',
+  },
 ]

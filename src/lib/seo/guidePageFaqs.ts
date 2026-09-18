@@ -65,3 +65,25 @@ export const ANALYTICS_GUIDE_FAQ: FaqPair[] = [
       'Yes. CreatorFlow365 is free while we build. Create a free account with no credit card. Paid plans have not launched.',
   },
 ]
+
+export const RECORD_UPLOAD_FAQ: FaqPair[] = [
+  {
+    question: 'Can I record photos and video inside CreatorFlow365?',
+    answer:
+      'Yes. Sign in, open Documents, then use Use this camera on a computer to take a photo or record video. On a phone, use Record here.',
+  },
+  {
+    question: 'Can I upload a photo or video I already shot?',
+    answer:
+      'Yes. In Documents, use Upload file. Photos and videos are allowed. Max size is 100MB.',
+  },
+  {
+    question: 'Do I need a credit card?',
+    answer: 'No. CreatorFlow365 is free while we build. Create a free account with no credit card.',
+  },
+  {
+    question: 'Is the camera tool on a public page?',
+    answer:
+      'The camera itself is in Documents after you sign in. This page explains it so search and AI tools can read it without signing in.',
+  },
+]

@@ -191,7 +191,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'creator document workspace',
     ],
     body: [
-      'Keep briefs, scripts, and long-form notes alongside your social pipeline using the documents area in the product.',
+      'Keep briefs, scripts, photos, and video in Documents. Record with the computer camera, Record here on a phone, or upload a file you already shot.',
       'Central storage reduces the “which Google Doc was that reel script in?” problem as you scale output.',
     ],
   },
@@ -375,6 +375,11 @@ export default function CreatorToolsPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-300 leading-relaxed">
               <li>
+                <Link href="/record-and-upload-content" className="text-optimist-400 hover:underline">
+                  Record and upload photos and video in Documents
+                </Link>
+              </li>
+              <li>
                 <Link href="/ai-caption-writer-instagram-tiktok" className="text-optimist-400 hover:underline">
                   AI captions for Instagram and TikTok—drafting workflow and library
                 </Link>
@@ -415,6 +420,7 @@ export default function CreatorToolsPage() {
             <Link href="/ai-caption-writer-instagram-tiktok" className="hover:text-white transition-colors">AI captions</Link>
             <Link href="/social-media-scheduler-for-creators" className="hover:text-white transition-colors">Scheduler</Link>
             <Link href="/content-creator-analytics-platform" className="hover:text-white transition-colors">Analytics</Link>
+            <Link href="/record-and-upload-content" className="hover:text-white transition-colors">Record and upload</Link>
             <Link href="/demo" className="hover:text-white transition-colors">Demo</Link>
             <Link href="/reviews" className="hover:text-white transition-colors">Reviews</Link>
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>

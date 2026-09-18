@@ -91,3 +91,12 @@ PATH:
 
 OUTCOME:
 For short-video creators who want the same caption workflow whether they say Instagram, TikTok, or “reels.”
+
+QUERY:
+record and upload photos and video for creators
+
+PATH:
+/record-and-upload-content
+
+OUTCOME:
+For creators who want to shoot or upload photos and video in Documents, then still add words and format for platforms.

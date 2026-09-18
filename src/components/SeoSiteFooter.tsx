@@ -17,6 +17,15 @@ export default function SeoSiteFooter({ className = '' }: { className?: string }
           className="w-5 h-5 opacity-80"
         />
         <Link
+          href="/record-and-upload-content"
+          className="inline-block text-sm text-optimist-300 hover:text-optimist-200 transition-colors"
+        >
+          Record and upload
+        </Link>
+        <span className="text-gray-600" aria-hidden="true">
+          ·
+        </span>
+        <Link
           href="/setup-guide"
           className="inline-block text-sm text-optimist-300 hover:text-optimist-200 transition-colors"
         >

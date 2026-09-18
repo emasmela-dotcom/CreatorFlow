@@ -54,7 +54,7 @@ This file lives next to the app source. Editable surfaces:
 | Area | Paths |
 |------|--------|
 | Homepage | `src/app/page.tsx` |
-| Hub + guides | `src/app/creator-tools/page.tsx`, `src/app/ai-caption-writer-instagram-tiktok/page.tsx`, `src/app/social-media-scheduler-for-creators/page.tsx`, `src/app/content-creator-analytics-platform/page.tsx` |
+| Hub + guides | `src/app/creator-tools/page.tsx`, `src/app/ai-caption-writer-instagram-tiktok/page.tsx`, `src/app/social-media-scheduler-for-creators/page.tsx`, `src/app/content-creator-analytics-platform/page.tsx`, `src/app/record-and-upload-content/page.tsx` |
 | Shared FAQs + FAQ markup helpers | `src/lib/seo/homepageFaq.ts`, `src/lib/seo/guidePageFaqs.ts`, `src/lib/seo/faqJsonLd.ts` |
 | Sitemap | `src/app/sitemap.ts` |
 | Robots | `src/app/robots.ts` |

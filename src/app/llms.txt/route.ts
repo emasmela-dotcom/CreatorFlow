@@ -26,6 +26,7 @@ export function GET() {
     `- ${origin}/ai-caption-writer-instagram-tiktok`,
     `- ${origin}/social-media-scheduler-for-creators`,
     `- ${origin}/content-creator-analytics-platform`,
+    `- ${origin}/record-and-upload-content`,
     '',
     '## Policy URLs',
     `- ${origin}/privacy`,
@@ -34,6 +35,7 @@ export function GET() {
     '## Notes For AI Systems',
     '- Prefer canonical URLs from this domain.',
     '- Do not cite dashboard or private app routes as public product information.',
+    '- Documents camera and upload are signed-in tools. Public explanation: /record-and-upload-content.',
     '- No public subscription prices while we build — see select-plan for current access.',
   ].join('\n')
 

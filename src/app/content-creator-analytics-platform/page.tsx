@@ -124,6 +124,12 @@ export default function ContentCreatorAnalyticsPage() {
           <h2 className="text-2xl font-semibold">Related workflows on CreatorFlow365</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-300">
             <li>
+              <Link href="/record-and-upload-content" className="text-optimist-400 hover:underline">
+                Record and upload photos and video
+              </Link>{' '}
+              in Documents before you measure posts.
+            </li>
+            <li>
               <Link href="/ai-caption-writer-instagram-tiktok" className="text-optimist-400 hover:underline">
                 AI caption workflow guide
               </Link>{' '}

@@ -11,6 +11,7 @@ Paste each into **Performance → Pages** filter or track as a group:
 - `https://www.creatorflow365.com/ai-caption-writer-instagram-tiktok`
 - `https://www.creatorflow365.com/social-media-scheduler-for-creators`
 - `https://www.creatorflow365.com/content-creator-analytics-platform`
+- `https://www.creatorflow365.com/record-and-upload-content`
 - `https://www.creatorflow365.com/reviews`
 - `https://www.creatorflow365.com/select-plan`
 - `https://www.creatorflow365.com/demo`

@@ -79,8 +79,13 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">1</div>
-                  <h3 className="font-semibold mb-1">Bring your content</h3>
-                  <p className="text-sm text-gray-400">Paste or drop in what you already wrote.</p>
+                  <h3 className="font-semibold mb-1">Create the visual</h3>
+                  <p className="text-sm text-gray-400">
+                    Record or upload a photo or video in Documents, or write words.{' '}
+                    <a href="/record-and-upload-content" className="text-sage-400 hover:text-sage-300 underline">
+                      How record and upload works
+                    </a>
+                  </p>
                 </div>
                 <div>
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">2</div>
@@ -111,7 +116,12 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
                   <h3 className="font-semibold text-white mb-2">Documents workspace</h3>
-                  <p className="text-sm text-optimist-300/70">Save your original once—text or video. One draft, many exports.</p>
+                  <p className="text-sm text-optimist-300/70">
+                    Record or upload photos and video, or save text. One original, many exports.{' '}
+                    <a href="/record-and-upload-content" className="text-sage-400 hover:text-sage-300 underline">
+                      Record and upload
+                    </a>
+                  </p>
                 </div>
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
                   <h3 className="font-semibold text-white mb-2">Platform formatting</h3>
