@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText, Cloud, AtSign, MessageSquare, BookOpen, Newspaper } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
+import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
@@ -792,6 +793,9 @@ function CreatePostInner() {
                     AI Assistant Active
                   </span>
                 </div>
+              </div>
+              <div className="mb-4">
+                <WriteThisForMe token={token} onDraft={setContent} />
               </div>
               <div className="relative">
                 <textarea

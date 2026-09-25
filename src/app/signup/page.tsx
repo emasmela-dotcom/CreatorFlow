@@ -102,8 +102,8 @@ function SignupPageContent() {
         localStorage.setItem('user', JSON.stringify(user))
       }
 
-      // Land in dashboard with "What's next?" options (surf site, pick plan, etc.)
-      router.push('/documents?welcome=1')
+      const next = new URLSearchParams(window.location.search).get("next")
+      router.push(next === "/create" ? "/create" : "/documents?welcome=1")
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {

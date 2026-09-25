@@ -60,8 +60,8 @@ export default function SignInPage() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
 
-      // Redirect to dashboard
-      router.push('/dashboard')
+      const next = new URLSearchParams(window.location.search).get("next")
+      router.push(next === "/create" ? "/create" : "/dashboard")
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
       setLoading(false)

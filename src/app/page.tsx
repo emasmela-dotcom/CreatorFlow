@@ -1,6 +1,7 @@
 'use client'
 
 import { Play } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
@@ -8,6 +9,14 @@ import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
   useAnalytics()
+  const router = useRouter()
+  const handleCreateClick = () => {
+    if (localStorage.getItem("token")) {
+      router.push("/create")
+    } else {
+      router.push("/signup?next=/create")
+    }
+  }
 
   return (
     <>
@@ -42,7 +51,7 @@ export default function HomePage() {
               </h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
-                You already have the content. You pick the platforms. CreatorFlow adjusts it to each one&apos;s format.
+                CreatorFlow writes the draft. You format it.
               </p>
               <div className="mb-10 max-w-2xl mx-auto rounded-2xl border border-sage-500/20 bg-sage-900/20 px-6 py-5">
                 <p className="text-lg font-semibold text-sage-300">One draft, many platforms.</p>
@@ -54,12 +63,13 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a
-                  href="/signup"
+                <button
+                  type="button"
+                  onClick={handleCreateClick}
                   className="px-8 py-4 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all"
                 >
-                  Create free account
-                </a>
+                  Create content
+                </button>
               </div>
               <p className="mt-4 text-sm text-optimist-400">
                 Already have an account?{' '}
