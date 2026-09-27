@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canUseStorage, updateStorageUsage } from '@/lib/usageTracking'
 import { getDocumentLimit, PlanType } from '@/lib/planLimits'
+import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 export const dynamic = 'force-dynamic'
 
@@ -159,7 +160,7 @@ export async function POST(request: NextRequest) {
       })
     } else {
       // Check document limit for new documents
-      const docLimit = getDocumentLimit(userPlan)
+      const docLimit = FREE_BUILD_PHASE ? -1 : getDocumentLimit(userPlan)
       if (docLimit !== -1) {
         const currentDocs = await db.execute({
           sql: 'SELECT COUNT(*) as count FROM documents WHERE user_id = ?',
@@ -178,7 +179,9 @@ export async function POST(request: NextRequest) {
 
       // Check storage limit
       const contentBytes = Buffer.byteLength(trimmedTitle + trimmedContent, 'utf8') + videoSize
-      const storageCheck = await canUseStorage(user.userId, contentBytes)
+      const storageCheck = FREE_BUILD_PHASE
+        ? { allowed: true as const }
+        : await canUseStorage(user.userId, contentBytes)
       if (!storageCheck.allowed) {
         return NextResponse.json({
           error: storageCheck.message || 'Storage limit exceeded',

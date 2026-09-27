@@ -41,22 +41,10 @@ export default function WriteThisForMe({ token, onDraft }: WriteThisForMeProps) 
       const data = await res.json()
       const text = data.content.content
       onDraft(text)
-      try {
-        const saveRes = await fetch('/api/documents', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            title: (typeof text === 'string' ? text.slice(0, 60).trim() : '') || 'Draft',
-            content: text,
-          }),
-        })
-        if (!saveRes.ok) throw new Error('save failed')
-        setSaveError(null)
-      } catch {
+      if (!data.documentId) {
         setSaveError('Draft is in the box but did not save. Try Save.')
+      } else {
+        setSaveError(null)
       }
     } catch {
       setError("Something went wrong. Try again.")

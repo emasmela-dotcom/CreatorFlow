@@ -664,6 +664,25 @@ export async function POST(request: NextRequest) {
     }
     // NOT_CONFIGURED → keep template content from generateContent()
 
+    let documentId: number | string | null = null
+    try {
+      const title = String(content || topic).trim().slice(0, 60) || 'Draft'
+      const wordCount = String(content).split(/\s+/).filter((word) => word.length > 0).length
+      const doc = await db.execute({
+        sql: `
+          INSERT INTO documents
+            (user_id, title, content, category, tags, is_pinned, word_count,
+             video_url, video_filename, video_size_bytes, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+          RETURNING id
+        `,
+        args: [user.userId, title, content, 'draft', null, false, wordCount, null, null, 0],
+      })
+      documentId = (doc.rows[0] as { id?: number | string } | undefined)?.id ?? null
+    } catch (docError) {
+      console.error('Neon documents insert failed:', docError)
+    }
+
     // Ensure table exists (fallback)
     try {
       // Try to add missing columns if table exists
@@ -698,8 +717,9 @@ export async function POST(request: NextRequest) {
       )` })
     } catch (e) {}
 
-    // Save generated content
-    const result = await db.execute({
+    let generatedRow = null
+    try {
+      const result = await db.execute({
       sql: `
         INSERT INTO generated_content (
           user_id, topic, type, content_type, tone, length, platform, keywords, content, created_at
@@ -719,13 +739,18 @@ export async function POST(request: NextRequest) {
         content
       ]
     })
+      generatedRow = result.rows[0]
+    } catch (genError) {
+      console.error('Neon generated_content insert failed:', genError)
+    }
 
     // Log the AI call
     await logAICall(user.userId, 'Content Writer', '/api/bots/content-writer')
 
     return NextResponse.json({
       success: true,
-      content: result.rows[0],
+      content: generatedRow || { content },
+      documentId,
       tier,
       aiMode,
       ...(aiProvider ? { provider: aiProvider } : {}),
