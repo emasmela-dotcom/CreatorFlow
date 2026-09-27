@@ -71,6 +71,13 @@ export default function HomePage() {
                   Create content
                 </button>
               </div>
+              <p className="mt-4 text-sm text-gray-300">
+                Free account first — then it writes the draft.
+              </p>
+              <p className="mt-2 max-w-sm mx-auto text-sm text-gray-400">
+                Once your account is created and saved, you go straight into
+                CreatorFlow to start creating your content.
+              </p>
               <p className="mt-4 text-sm text-optimist-400">
                 Already have an account?{' '}
                 <a href="/signin" className="font-medium text-sage-400 hover:text-sage-300 underline">

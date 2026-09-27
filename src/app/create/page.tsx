@@ -450,6 +450,12 @@ function CreatePostInner() {
     }
   }
 
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      router.replace("/signup?next=/create")
+    }
+  }, [router])
+
   // Prefill from repurpose tool (Create post / Schedule CTAs)
   useEffect(() => {
     if (typeof window === 'undefined') return
