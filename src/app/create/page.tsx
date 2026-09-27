@@ -479,11 +479,6 @@ function CreatePostInner() {
     sessionStorage.removeItem('creatorflow_repurpose_hashtags')
   }, [searchParams])
 
-  useEffect(() => {
-    if (searchParams.get('welcome') === '1' && !sessionStorage.getItem('cf-welcome-dismissed')) {
-      setShowWelcome(true)
-    }
-  }, [searchParams])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

@@ -13,6 +13,7 @@ export default function WriteThisForMe({ token, onDraft }: WriteThisForMeProps) 
   const [topic, setTopic] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   const handleWrite = async () => {
     if (!token) {
@@ -22,6 +23,7 @@ export default function WriteThisForMe({ token, onDraft }: WriteThisForMeProps) 
     if (!topic.trim()) return
     setLoading(true)
     setError(null)
+    setSaveError(null)
     try {
       const res = await fetch("/api/bots/content-writer", {
         method: "POST",
@@ -37,7 +39,25 @@ export default function WriteThisForMe({ token, onDraft }: WriteThisForMeProps) 
       })
       if (!res.ok) throw new Error("Request failed")
       const data = await res.json()
-      onDraft(data.content.content)
+      const text = data.content.content
+      onDraft(text)
+      try {
+        const saveRes = await fetch('/api/documents', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: (typeof text === 'string' ? text.slice(0, 60).trim() : '') || 'Draft',
+            content: text,
+          }),
+        })
+        if (!saveRes.ok) throw new Error('save failed')
+        setSaveError(null)
+      } catch {
+        setSaveError('Draft is in the box but did not save. Try Save.')
+      }
     } catch {
       setError("Something went wrong. Try again.")
     } finally {
@@ -56,6 +76,7 @@ export default function WriteThisForMe({ token, onDraft }: WriteThisForMeProps) 
       />
       <div className="mt-3 flex items-center justify-between">
         {error && <p className="text-sm text-red-400">{error}</p>}
+        {saveError && <p className="text-sm text-red-400">{saveError}</p>}
         <button
           type="button"
           onClick={handleWrite}

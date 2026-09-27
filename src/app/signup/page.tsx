@@ -103,7 +103,7 @@ function SignupPageContent() {
       }
 
       const next = new URLSearchParams(window.location.search).get("next")
-      router.push(next === "/create" ? "/create" : "/documents?welcome=1")
+      router.push(next && next.startsWith('/') && !next.startsWith('//') ? next : '/create')
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
