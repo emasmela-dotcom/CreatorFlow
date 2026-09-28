@@ -816,6 +816,46 @@ function CreatePostInner() {
               )}
             </div>
 
+            {/* Media Upload */}
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-semibold mb-4">Video and photos</h3>
+              <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-gray-500 transition-colors">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  id="media-upload"
+                />
+                <label htmlFor="media-upload" className="cursor-pointer">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center">
+                      <Image className="w-8 h-8 text-gray-300" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Record or upload a photo or video</p>
+                      <p className="text-sm text-gray-300">Tap to use your camera or pick a file</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              {mediaFiles.length > 0 && (
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {mediaFiles.map((file, index) => (
+                    <div key={index} className="relative">
+                      <div className="aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+                        <Image className="w-8 h-8 text-gray-300" />
+                      </div>
+                      <button className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Platform Selection */}
             <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
@@ -854,46 +894,6 @@ function CreatePostInner() {
                   )
                 })}
               </div>
-            </div>
-
-            {/* Media Upload */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-semibold mb-4">Media</h3>
-              <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-gray-500 transition-colors">
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*,video/*"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                  id="media-upload"
-                />
-                <label htmlFor="media-upload" className="cursor-pointer">
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center">
-                      <Image className="w-8 h-8 text-gray-300" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Upload photos or videos</p>
-                      <p className="text-sm text-gray-300">Drag and drop or click to browse</p>
-                    </div>
-                  </div>
-                </label>
-              </div>
-              {mediaFiles.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {mediaFiles.map((file, index) => (
-                    <div key={index} className="relative">
-                      <div className="aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
-                        <Image className="w-8 h-8 text-gray-300" />
-                      </div>
-                      <button className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Hashtags */}
