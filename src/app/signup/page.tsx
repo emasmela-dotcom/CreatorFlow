@@ -284,6 +284,29 @@ function SignupPageContent() {
                 <p className="text-xs text-gray-300 mt-2">Minimum 6 characters</p>
               </div>
 
+              <div className="text-center space-y-2">
+                <p className="text-sm text-gray-300">
+                  Already have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = new URLSearchParams(window.location.search).get('next')
+                      router.push(next === '/create' ? '/signin?next=/create' : '/signin')
+                    }}
+                    className="text-optimist-400 hover:text-optimist-300 font-semibold"
+                  >
+                    Sign in
+                  </button>
+                </p>
+                <button
+                  type="button"
+                  onClick={() => router.push('/forgot-password')}
+                  className="text-sm text-optimist-400 hover:text-optimist-300"
+                >
+                  Forgot password?
+                </button>
+              </div>
+
               <div className="flex gap-4">
                 {!hadPlanInUrl ? (
                   <button
