@@ -744,6 +744,15 @@ function CreatePostInner() {
               </div>
             )}
 
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <h2 className="text-lg font-semibold text-white mb-3">How to create</h2>
+              <ol className="space-y-2 text-sm text-gray-200 leading-relaxed">
+                <li>1. Type what it&apos;s about, or tap <span className="font-semibold text-white">Write this for me</span>.</li>
+                <li>2. Tap <span className="font-semibold text-white">Record or upload</span> if you have a video or photo.</li>
+                <li>3. Tap <span className="font-semibold text-white">Save Draft</span> so you can come back and change it.</li>
+              </ol>
+            </div>
+
             {/* Content Editor */}
             <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
