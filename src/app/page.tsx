@@ -51,7 +51,7 @@ export default function HomePage() {
               </h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
-                CreatorFlow writes the draft. You format it.
+                Open CreatorFlow on your phone. Make your video and other content here. Come back anytime and change what you saved.
               </p>
               <div className="mb-10 max-w-2xl mx-auto rounded-2xl border border-sage-500/20 bg-sage-900/20 px-6 py-5">
                 <p className="text-lg font-semibold text-sage-300">One draft, many platforms.</p>
