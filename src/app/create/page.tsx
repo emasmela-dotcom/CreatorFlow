@@ -545,7 +545,7 @@ function CreatePostInner() {
   }, [searchParams])
 
   return (
-    <div className="min-h-screen bg-optimist-950 text-white">
+    <div className="min-h-screen bg-optimist-950 text-white overflow-x-hidden">
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -632,7 +632,7 @@ function CreatePostInner() {
         </div>
       )}
 
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row overflow-x-hidden pb-24">
         {/* Main Content */}
         <main className="flex-1 min-w-0 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
@@ -744,48 +744,8 @@ function CreatePostInner() {
               </div>
             )}
 
-            {/* Platform Selection */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Adjust format for selected platforms</h3>
-                {selectedPlatforms.length > 0 && (
-                  <span className="text-xs text-gray-300 bg-gray-700 px-2 py-1 rounded">
-                    {selectedPlatforms.length} selected
-                  </span>
-                )}
-              </div>
-              <p className="text-sm text-gray-300 mb-4">
-                Your content is already written. Choose platforms to adjust it to each platform&apos;s format and limits. Your selection is saved as the default.
-              </p>
-              <p className="text-xs text-gray-300 mb-4">
-                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress. Copy/export fallback: any platform without active API permissions.
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {platforms.map((platform) => {
-                  const Icon = platform.icon
-                  const isSelected = selectedPlatforms.includes(platform.id)
-                  return (
-                    <button
-                      key={platform.id}
-                      onClick={() => togglePlatform(platform.id)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        isSelected 
-                          ? 'border-optimist-500 bg-optimist-500/10' 
-                          : 'border-gray-600 hover:border-gray-500'
-                      }`}
-                    >
-                      <div className={`w-12 h-12 ${platform.color} rounded-lg flex items-center justify-center mb-3 mx-auto`}>
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <p className="text-sm font-medium">{platform.name}</p>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
             {/* Content Editor */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Content</h3>
                 <div className="flex items-center gap-2 text-xs text-gray-300">
@@ -854,6 +814,46 @@ function CreatePostInner() {
                   />
                 </div>
               )}
+            </div>
+
+            {/* Platform Selection */}
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white">Adjust format for selected platforms</h3>
+                {selectedPlatforms.length > 0 && (
+                  <span className="text-xs text-gray-300 bg-gray-700 px-2 py-1 rounded">
+                    {selectedPlatforms.length} selected
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-gray-300 mb-4">
+                Your content is already written. Choose platforms to adjust it to each platform&apos;s format and limits. Your selection is saved as the default.
+              </p>
+              <p className="text-xs text-gray-300 mb-4 break-words">
+                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress. Copy/export fallback: any platform without active API permissions.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {platforms.map((platform) => {
+                  const Icon = platform.icon
+                  const isSelected = selectedPlatforms.includes(platform.id)
+                  return (
+                    <button
+                      key={platform.id}
+                      onClick={() => togglePlatform(platform.id)}
+                      className={`p-4 rounded-lg border-2 transition-all ${
+                        isSelected 
+                          ? 'border-optimist-500 bg-optimist-500/10' 
+                          : 'border-gray-600 hover:border-gray-500'
+                      }`}
+                    >
+                      <div className={`w-12 h-12 ${platform.color} rounded-lg flex items-center justify-center mb-3 mx-auto`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <p className="text-sm font-medium">{platform.name}</p>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
             {/* Media Upload */}
@@ -966,7 +966,7 @@ function CreatePostInner() {
         </main>
 
         {/* Sidebar */}
-        <aside className="w-80 bg-gray-800 border-l border-gray-700 p-6">
+        <aside className="w-full lg:w-80 bg-gray-800 border-t lg:border-t-0 lg:border-l border-gray-700 p-4 sm:p-6">
           <div className="space-y-6">
             {/* Preview */}
             <div>
