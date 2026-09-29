@@ -1,0 +1,171 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft } from 'lucide-react'
+
+type SavedDoc = {
+  id: number | string
+  title?: string
+  content?: string
+  video_url?: string | null
+  video_filename?: string | null
+  video_size_bytes?: number | null
+  updated_at?: string
+}
+
+export default function SavedPage() {
+  const router = useRouter()
+  const [token, setToken] = useState('')
+  const [docs, setDocs] = useState<SavedDoc[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [editing, setEditing] = useState<SavedDoc | null>(null)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    const t = localStorage.getItem('token') || ''
+    if (!t) {
+      router.replace('/signup?next=/saved')
+      return
+    }
+    setToken(t)
+    fetch('/api/documents', {
+      headers: { Authorization: `Bearer ${t}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) throw new Error(data.error || 'Could not load saved work')
+        setDocs(data.documents || [])
+      })
+      .catch((err) => setError(err.message || 'Could not load saved work'))
+      .finally(() => setLoading(false))
+  }, [router])
+
+  const openDoc = (doc: SavedDoc) => {
+    setEditing(doc)
+    setTitle(doc.title || '')
+    setContent(doc.content || '')
+    setError(null)
+  }
+
+  const saveEdit = async () => {
+    if (!editing || !token) return
+    const trimmedTitle = title.trim() || 'Draft'
+    if (!content.trim() && !editing.video_url) {
+      setError('Add some text before saving.')
+      return
+    }
+    setSaving(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/documents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: editing.id,
+          title: trimmedTitle,
+          content,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Save failed')
+      setDocs((prev) =>
+        prev.map((d) => (String(d.id) === String(editing.id) ? { ...d, title: trimmedTitle, content } : d))
+      )
+      setEditing(null)
+    } catch (err: any) {
+      setError(err.message || 'Save failed')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-optimist-950 text-white overflow-x-hidden pb-24">
+      <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              type="button"
+              onClick={() => (editing ? setEditing(null) : router.push('/create'))}
+              className="p-2 hover:bg-gray-700 rounded-lg shrink-0"
+              aria-label={editing ? 'Back to list' : 'Back to Create'}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-xl font-bold truncate">{editing ? 'Change saved work' : 'Saved'}</h1>
+          </div>
+          {editing ? (
+            <button
+              type="button"
+              onClick={saveEdit}
+              disabled={saving}
+              className="px-4 py-2 bg-white text-black rounded-lg font-semibold text-sm disabled:opacity-50"
+            >
+              {saving ? 'Saving...' : 'Save'}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => router.push('/create')}
+              className="px-4 py-2 bg-white text-black rounded-lg font-semibold text-sm"
+            >
+              Create
+            </button>
+          )}
+        </div>
+      </header>
+
+      <main className="p-4 sm:p-6 max-w-4xl mx-auto">
+        {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
+        {loading && <p className="text-sm text-gray-300">Loading…</p>}
+
+        {!loading && !editing && docs.length === 0 && (
+          <p className="text-gray-300">Nothing saved yet. Create something, then tap Save Draft.</p>
+        )}
+
+        {!loading && !editing && (
+          <ul className="space-y-3">
+            {docs.map((doc) => (
+              <li key={String(doc.id)}>
+                <button
+                  type="button"
+                  onClick={() => openDoc(doc)}
+                  className="w-full text-left rounded-lg border border-gray-700 bg-gray-800 p-4"
+                >
+                  <p className="font-semibold text-white">{doc.title || 'Draft'}</p>
+                  <p className="mt-1 text-sm text-gray-300 line-clamp-2">
+                    {(doc.content || '').trim() || (doc.video_url ? 'Video saved' : 'No text yet')}
+                  </p>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {editing && (
+          <div className="space-y-4">
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Name"
+              className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder:text-gray-400"
+            />
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Change your content here."
+              className="w-full min-h-[220px] bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder:text-gray-400"
+            />
+          </div>
+        )}
+      </main>
+    </div>
+  )
+}

@@ -388,20 +388,11 @@ function CreatePostInner() {
       return
     }
 
-    const title = window.prompt('Name this content (required — so you can find it later in Documents):')
-    if (title === null) return
-    const trimmedTitle = title.trim()
-    if (!trimmedTitle) {
-      alert('A name is required to save your original content.')
-      return
-    }
+    const trimmedTitle = content.trim().slice(0, 60) || 'Draft'
 
     setIsSaving(true)
     try {
-      // Original text only — once — into Documents. Do not write formatted copies to content_posts.
-      const originalText = hashtags.trim()
-        ? `${content.trim()}\n\n${hashtags.trim()}`
-        : content.trim()
+      const originalText = content.trim()
 
       const response = await fetch('/api/documents', {
         method: 'POST',
@@ -416,10 +407,9 @@ function CreatePostInner() {
       })
       const result = await response.json()
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to save document')
+        throw new Error(result.error || 'Failed to save')
       }
-      alert(`Saved "${trimmedTitle}" to Documents. Open Documents anytime to reuse this original.`)
-      router.push('/documents')
+      router.push('/saved')
     } catch (error: any) {
       console.error('Save original error:', error)
       alert(error.message || 'Failed to save. Please try again.')
@@ -561,6 +551,13 @@ function CreatePostInner() {
             <h1 className="text-xl sm:text-2xl font-bold truncate">Create New Post</h1>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => router.push('/saved')}
+              className="px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white"
+            >
+              Saved
+            </button>
             <button
               type="button"
               onClick={handleSave}
