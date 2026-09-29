@@ -71,6 +71,9 @@ export default function SavedPage() {
           id: editing.id,
           title: trimmedTitle,
           content,
+          video_url: editing.video_url,
+          video_filename: editing.video_filename,
+          video_size_bytes: editing.video_size_bytes,
         }),
       })
       const data = await res.json()
