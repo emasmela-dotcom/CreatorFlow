@@ -564,7 +564,7 @@ function CreatePostInner() {
             <button
               type="button"
               onClick={handleSave}
-              disabled={isSaving || isScheduling || isPublishing}
+              disabled={isSaving}
               className="px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               title="Save original content to Documents by name"
               aria-label="Save original to Documents"
@@ -572,177 +572,13 @@ function CreatePostInner() {
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Draft'}</span>
             </button>
-            <button
-              type="button"
-              onClick={handleSchedule}
-              disabled={isSaving || isScheduling || isPublishing || (!FREE_BUILD_PHASE && subscriptionTier === 'free')}
-              className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              title={!FREE_BUILD_PHASE && subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
-              aria-label="Schedule post"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>{isScheduling ? 'Scheduling...' : 'Schedule'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={handlePublish}
-              disabled={isSaving || isScheduling || isPublishing || (!FREE_BUILD_PHASE && subscriptionTier === 'free')}
-              className="px-3 sm:px-4 py-2 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              title={!FREE_BUILD_PHASE && subscriptionTier === 'free' ? 'Post creation not available on free plan' : ''}
-              aria-label="Publish now"
-            >
-              <Send className="w-4 h-4" />
-              <span>{isPublishing ? 'Publishing...' : 'Publish'}</span>
-            </button>
           </div>
         </div>
-        <p className="mt-3 text-sm text-gray-200 max-w-3xl">
-          You must be signed in.{' '}
-          <span className="font-semibold text-white">Save Draft</span> stores your{' '}
-          <span className="font-semibold text-white">original</span> by name in Documents for later — not formatted copies.
-          Schedule / Publish is separate.
-          {FREE_BUILD_PHASE
-            ? ' Free while we build — Publish is allowed.'
-            : ' Free plan cannot schedule or publish posts.'}
-        </p>
       </header>
 
-      {showWelcome && (
-        <div className="mx-4 sm:mx-6 mt-4 bg-optimist-900 border border-optimist-700 rounded-xl px-5 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-            <div className="min-w-0">
-              <h2 className="text-base sm:text-lg font-semibold text-optimist-50 leading-snug">
-                Paste your content, pick a platform, see it formatted — this is how CreatorFlow works.
-              </h2>
-              <p className="text-optimist-200 text-sm mt-1">
-                Save Draft keeps your original in Documents by name. Formatted copies are not stored.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setShowWelcome(false)
-                sessionStorage.setItem('cf-welcome-dismissed', '1')
-              }}
-              className="shrink-0 px-4 py-2 bg-optimist-600 hover:bg-optimist-500 text-white text-sm font-semibold rounded-lg transition-colors"
-            >
-              Got it
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-col lg:flex-row overflow-x-hidden pb-24">
-        {/* Main Content */}
+      <div className="flex flex-col overflow-x-hidden pb-24">
         <main className="flex-1 min-w-0 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
-            {/* Copy to post - when some platforms don't support direct post yet */}
-            {publishResults && publishResults.failed.length > 0 && (
-              <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-4">
-                <p className="text-sm text-gray-200 mb-2">
-                  {publishResults.succeeded.length > 0 && <span>Posted to {publishResults.succeeded.join(', ')}. </span>}
-                  For <strong className="text-white">{publishResults.failed.join(', ')}</strong>—copy below and paste into the app:
-                </p>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {publishResults.failed.map((name) => (
-                    <button
-                      key={name}
-                      type="button"
-                      onClick={() => {
-                        navigator.clipboard.writeText(publishResults!.formattedByPlatform[name] || '')
-                        alert(`Copied! Paste into ${name} and post.`)
-                      }}
-                      className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 rounded text-white text-sm font-medium"
-                    >
-                      Copy for {name}
-                    </button>
-                  ))}
-                </div>
-                <div className="space-y-2 mb-2">
-                  {publishResults.failed.map((name) => (
-                    <div key={`${name}-formatted`} className="rounded bg-gray-900/60 border border-gray-700 p-3">
-                      <p className="text-xs uppercase tracking-wide text-gray-300 mb-2">{name} formatted copy</p>
-                      <pre className="text-xs whitespace-pre-wrap break-words text-gray-200">
-                        {publishResults.formattedByPlatform[name]}
-                      </pre>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setPublishResults(null)}
-                  className="text-xs text-gray-300 hover:text-gray-300"
-                >
-                  Dismiss
-                </button>
-              </div>
-            )}
-
-            {/* FREE PLAN RESTRICTION BANNER (hidden during free-build) */}
-            {!FREE_BUILD_PHASE && subscriptionTier === 'free' && (
-              <div className="bg-gradient-to-r from-optimist-600/20 to-optimist-600/20 border-2 border-optimist-500 rounded-xl p-6">
-                <div className="flex items-start gap-4">
-                  <Sparkles className="w-8 h-8 text-optimist-400 flex-shrink-0" />
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-optimist-300 mb-2">Free Plan - Learning Mode</h3>
-                    <p className="text-gray-300 mb-4">
-                      The <strong className="text-white">free plan</strong> is designed for <strong className="text-optimist-300">learning and exploring</strong> CreatorFlow tools. 
-                      You can use all AI bots, create content, and explore features, but <strong className="text-white">post creation and publishing are not available</strong> on the free plan.
-                    </p>
-                    <p className="text-sm text-gray-300 mb-4">
-                      Upgrade to a paid plan to unlock post creation, scheduling, and publishing capabilities.
-                    </p>
-                    <button
-                      onClick={() => router.push('/signup?plan=starter')}
-                      className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 hover:from-optimist-600 hover:to-optimist-600 rounded-lg font-semibold transition-all"
-                    >
-                      Upgrade to Starter Plan →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Post Usage Warning - Low on Posts (hidden during free-build) */}
-            {!FREE_BUILD_PHASE && postInfo && postInfo.remaining <= 5 && (
-              <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border-2 border-yellow-500 rounded-xl p-4">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Low on Posts</h4>
-                    <p className="text-sm text-gray-300 mb-3">
-                      You have <strong className="text-white">{postInfo.remaining} posts remaining</strong> this month.
-                      {postInfo.remaining === 0 && (
-                        <span className="text-red-400 font-semibold"> You have used all available posts</span>
-                      )}
-                    </p>
-                    <button
-                      onClick={() => router.push('/dashboard')}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-optimist-500 hover:from-blue-600 hover:to-optimist-600 rounded-lg font-semibold text-sm transition-all"
-                    >
-                      Upgrade plan →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Post Usage Info - Normal (hidden during free-build) */}
-            {!FREE_BUILD_PHASE && postInfo && postInfo.remaining > 5 && (
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-300">
-                    Posts remaining: <strong className="text-blue-400">{postInfo.remaining}</strong>
-                  </span>
-                  <button
-                    onClick={() => router.push('/dashboard')}
-                    className="text-blue-400 hover:text-blue-300 text-xs underline"
-                  >
-                    Upgrade plan
-                  </button>
-                </div>
-              </div>
-            )}
 
             <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
               <h2 className="text-lg font-semibold text-white mb-3">How to create</h2>
@@ -755,74 +591,16 @@ function CreatePostInner() {
 
             {/* Content Editor */}
             <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Content</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-300">
-                  <span className="flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    AI Assistant Active
-                  </span>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold mb-4">Write this for me</h3>
               <div className="mb-4">
                 <WriteThisForMe token={token} onDraft={setContent} />
               </div>
-              <div className="relative">
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="What's on your mind? Share your thoughts with your audience... Or paste from your Documents!"
-                  className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => router.push('/documents')}
-                  className="absolute top-2 right-2 px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 rounded text-white flex items-center gap-1 transition-colors"
-                  title="Open Documents to copy content"
-                >
-                  <FileText className="w-3 h-3" />
-                  My Documents
-                </button>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-sm text-gray-300">{content.length}/280 characters</span>
-                <div className="flex gap-2">
-                  <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                    <Hash className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                    <Link className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Inline AI status bar */}
-              {selectedPlatforms.length > 0 && content.trim().length > 0 && (
-                <div className="mt-3 flex items-center justify-between bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-sm">
-                  <div className="flex items-center gap-2 text-gray-300">
-                    <Sparkles className="w-4 h-4 text-optimist-400" />
-                    <span>AI analysis running…</span>
-                  </div>
-                  <button
-                    onClick={() => analysisRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-optimist-300 hover:text-optimist-200 underline"
-                  >
-                    Show analysis
-                  </button>
-                </div>
-              )}
-              
-              {/* Content Assistant Bot - Real-time Feedback */}
-              {selectedPlatforms.length > 0 && content.trim() && (
-                <div ref={analysisRef} className="mt-4 pt-4 border-t border-gray-700">
-                  <ContentAssistantBot
-                    content={content}
-                    platform={selectedPlatforms[0]}
-                    hashtags={hashtags}
-                    token={token}
-                  />
-                </div>
-              )}
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Type here, or tap Write this for me above."
+                className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none"
+              />
             </div>
 
             {/* Media Upload */}
@@ -864,168 +642,8 @@ function CreatePostInner() {
                 </div>
               )}
             </div>
-
-            {/* Platform Selection */}
-            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Adjust format for selected platforms</h3>
-                {selectedPlatforms.length > 0 && (
-                  <span className="text-xs text-gray-300 bg-gray-700 px-2 py-1 rounded">
-                    {selectedPlatforms.length} selected
-                  </span>
-                )}
-              </div>
-              <p className="text-sm text-gray-300 mb-4">
-                Your content is already written. Choose platforms to adjust it to each platform&apos;s format and limits. Your selection is saved as the default.
-              </p>
-              <p className="text-xs text-gray-300 mb-4 break-words">
-                Direct post: Instagram (Business/Creator + Facebook Page + approved scopes + media URL), Twitter/X, LinkedIn, TikTok, Facebook, Threads, Pinterest, Reddit, YouTube (connected account + upload-ready video URL), Snapchat (connected account + publish endpoint setup + media upload), Bluesky (app password), Mastodon (instance + OAuth), Discord (bot token + channel ID), Telegram (bot token + chat ID), Tumblr, WordPress. Copy/export fallback: any platform without active API permissions.
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {platforms.map((platform) => {
-                  const Icon = platform.icon
-                  const isSelected = selectedPlatforms.includes(platform.id)
-                  return (
-                    <button
-                      key={platform.id}
-                      onClick={() => togglePlatform(platform.id)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        isSelected 
-                          ? 'border-optimist-500 bg-optimist-500/10' 
-                          : 'border-gray-600 hover:border-gray-500'
-                      }`}
-                    >
-                      <div className={`w-12 h-12 ${platform.color} rounded-lg flex items-center justify-center mb-3 mx-auto`}>
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <p className="text-sm font-medium">{platform.name}</p>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Hashtags */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-semibold mb-4">Hashtags</h3>
-              <input
-                type="text"
-                value={hashtags}
-                onChange={(e) => setHashtags(e.target.value)}
-                placeholder="#hashtag1 #hashtag2 #hashtag3"
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-optimist-500"
-              />
-              <p className="text-sm text-gray-300 mt-2">
-                Separate hashtags with spaces. Use 3-5 hashtags for best engagement.
-              </p>
-            </div>
-
-            {/* Scheduling */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">Schedule</h3>
-                <div className="flex items-center gap-2 text-xs text-gray-300">
-                  <span className="flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    AI Assistant Active
-                  </span>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Date</label>
-                  <input
-                    type="date"
-                    value={scheduledDate}
-                    onChange={(e) => setScheduledDate(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Time</label>
-                  <input
-                    type="time"
-                    value={scheduledTime}
-                    onChange={(e) => setScheduledTime(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-optimist-500"
-                  />
-                </div>
-              </div>
-              
-              {/* Scheduling Assistant Bot */}
-              {selectedPlatforms.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-gray-700">
-                  <SchedulingAssistantBot
-                    platform={selectedPlatforms[0]}
-                token={token}
-                    onTimeSelect={(time) => {
-                      // Auto-fill time when user clicks
-                      const [hours, minutes] = time.split(':')
-                      const hour24 = hours.includes('PM') 
-                        ? parseInt(hours) + 12 
-                        : parseInt(hours)
-                      const time24 = `${hour24.toString().padStart(2, '0')}:${minutes || '00'}`
-                      setScheduledTime(time24)
-                    }}
-                  />
-                </div>
-              )}
-            </div>
           </div>
         </main>
-
-        {/* Sidebar */}
-        <aside className="w-full lg:w-80 bg-gray-800 border-t lg:border-t-0 lg:border-l border-gray-700 p-4 sm:p-6">
-          <div className="space-y-6">
-            {/* Preview */}
-            <div>
-              <h4 className="font-semibold mb-3">Preview</h4>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-full"></div>
-                  <div>
-                    <p className="font-medium text-sm">Your Name</p>
-                    <p className="text-xs text-gray-300">2h ago</p>
-                  </div>
-                </div>
-                <p className="text-sm mb-2">{content || 'Your content will appear here...'}</p>
-                {hashtags && (
-                  <p className="text-sm text-blue-400">{hashtags}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Best Times */}
-            <div>
-              <h4 className="font-semibold mb-3">Best Times to Post</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between p-2 bg-gray-700 rounded">
-                  <span>Instagram</span>
-                  <span className="text-green-400">6-9 PM</span>
-                </div>
-                <div className="flex justify-between p-2 bg-gray-700 rounded">
-                  <span>Twitter</span>
-                  <span className="text-green-400">12-3 PM</span>
-                </div>
-                <div className="flex justify-between p-2 bg-gray-700 rounded">
-                  <span>LinkedIn</span>
-                  <span className="text-green-400">8-10 AM</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Engagement Tips */}
-            <div>
-              <h4 className="font-semibold mb-3">Engagement Tips</h4>
-              <div className="space-y-2 text-sm text-gray-300">
-                <p>• Ask questions to encourage comments</p>
-                <p>• Use emojis to increase engagement</p>
-                <p>• Post when your audience is most active</p>
-                <p>• Use relevant hashtags (3-5 max)</p>
-              </div>
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   )
