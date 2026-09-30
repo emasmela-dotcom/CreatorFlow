@@ -17,6 +17,7 @@ function CreatePostInner() {
   const [scheduledTime, setScheduledTime] = useState('')
   const [hashtags, setHashtags] = useState('')
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
+  const [draftTitle, setDraftTitle] = useState('')
   const [token, setToken] = useState('')
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const analysisRef = useRef<HTMLDivElement | null>(null)
@@ -386,14 +387,17 @@ function CreatePostInner() {
       alert('Type something or record a video first')
       return
     }
+    const originalText = content.trim()
+    const trimmedTitle = draftTitle.trim() || (!mediaFile ? originalText.slice(0, 60) : '')
+    if (!trimmedTitle) {
+      alert('Type a title so you can find this later')
+      return
+    }
     if (!token) {
       alert('You must be logged in to save')
       router.push('/signin')
       return
     }
-
-    const originalText = content.trim()
-    const trimmedTitle = originalText.slice(0, 60) || mediaFile?.name || 'Draft'
 
     setIsSaving(true)
     try {
@@ -609,7 +613,7 @@ function CreatePostInner() {
               <ol className="space-y-2 text-sm text-gray-200 leading-relaxed">
                 <li>1. Type what it&apos;s about, or tap <span className="font-semibold text-white">Write this for me</span>.</li>
                 <li>2. Tap <span className="font-semibold text-white">Record</span> to shoot video, or <span className="font-semibold text-white">Upload</span> if you already have a file.</li>
-                <li>3. Tap <span className="font-semibold text-white">Save Draft</span> so you can come back and change it.</li>
+                <li>3. Type a <span className="font-semibold text-white">title</span>, then tap <span className="font-semibold text-white">Save Draft</span> so you can come back and change it.</li>
               </ol>
             </div>
 
@@ -665,29 +669,44 @@ function CreatePostInner() {
                 </label>
               </div>
               {mediaFiles.length > 0 && (
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {mediaFiles.map((file, index) => {
-                    const preview = URL.createObjectURL(file)
-                    return (
-                      <div key={`${file.name}-${file.size}-${index}`} className="relative overflow-hidden rounded-lg bg-gray-700">
-                        {file.type.startsWith('video/') ? (
-                          <video src={preview} controls playsInline className="w-full max-h-64 bg-black" />
-                        ) : file.type.startsWith('image/') ? (
-                          <img src={preview} alt={file.name} className="w-full max-h-64 object-contain bg-black" />
-                        ) : (
-                          <p className="p-4 text-sm text-white">{file.name}</p>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setMediaFiles((prev) => prev.filter((_, i) => i !== index))}
-                          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white"
-                          aria-label="Remove"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    )
-                  })}
+                <div className="mt-4 space-y-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {mediaFiles.map((file, index) => {
+                      const preview = URL.createObjectURL(file)
+                      return (
+                        <div key={`${file.name}-${file.size}-${index}`} className="relative overflow-hidden rounded-lg bg-gray-700">
+                          {file.type.startsWith('video/') ? (
+                            <video src={preview} controls playsInline className="w-full max-h-64 bg-black" />
+                          ) : file.type.startsWith('image/') ? (
+                            <img src={preview} alt={file.name} className="w-full max-h-64 object-contain bg-black" />
+                          ) : (
+                            <p className="p-4 text-sm text-white">{file.name}</p>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setMediaFiles((prev) => prev.filter((_, i) => i !== index))}
+                            className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white"
+                            aria-label="Remove"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <div>
+                    <label htmlFor="draft-title" className="mb-2 block text-sm font-medium text-white">
+                      Title
+                    </label>
+                    <input
+                      id="draft-title"
+                      type="text"
+                      value={draftTitle}
+                      onChange={(e) => setDraftTitle(e.target.value)}
+                      placeholder="Name this so you can find it later"
+                      className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
+                    />
+                  </div>
                 </div>
               )}
             </div>
