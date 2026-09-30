@@ -7,6 +7,7 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
+import { put as putBlob } from '@vercel/blob/client'
 
 function CreatePostInner() {
   const router = useRouter()
@@ -406,20 +407,31 @@ function CreatePostInner() {
       let video_size_bytes: number | null = null
 
       if (mediaFile) {
-        const formData = new FormData()
-        formData.append('file', mediaFile)
-        const uploadRes = await fetch('/api/documents/upload', {
+        const tokenRes = await fetch('/api/documents/upload-token', {
           method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            filename: mediaFile.name || 'video.mp4',
+            contentType: mediaFile.type,
+            size: mediaFile.size,
+          }),
         })
-        const uploadResult = await uploadRes.json()
-        if (!uploadRes.ok || !uploadResult.success) {
-          throw new Error(uploadResult.error || 'Could not save the video')
+        const tokenData = await tokenRes.json()
+        if (!tokenRes.ok || !tokenData.success) {
+          throw new Error(tokenData.error || 'Could not save the video')
         }
-        video_url = uploadResult.video_url
-        video_filename = uploadResult.video_filename
-        video_size_bytes = uploadResult.video_size_bytes
+        const blob = await putBlob(tokenData.pathname, mediaFile, {
+          access: 'public',
+          token: tokenData.token,
+          multipart: true,
+          contentType: mediaFile.type || 'video/mp4',
+        })
+        video_url = blob.url
+        video_filename = mediaFile.name || 'video.mp4'
+        video_size_bytes = mediaFile.size
       }
 
       const response = await fetch('/api/documents', {
