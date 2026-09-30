@@ -75,6 +75,7 @@ function CreatePostInner() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     setMediaFiles(prev => [...prev, ...files])
+    e.target.value = ''
   }
 
   const [isSaving, setIsSaving] = useState(false)
@@ -378,8 +379,11 @@ function CreatePostInner() {
   }
 
   const handleSave = async () => {
-    if (!content.trim()) {
-      alert('Please enter content to save')
+    const mediaFile = [...mediaFiles]
+      .reverse()
+      .find((file) => file.type.startsWith('video/') || file.type.startsWith('image/'))
+    if (!content.trim() && !mediaFile) {
+      alert('Type something or record a video first')
       return
     }
     if (!token) {
@@ -388,11 +392,31 @@ function CreatePostInner() {
       return
     }
 
-    const trimmedTitle = content.trim().slice(0, 60) || 'Draft'
+    const originalText = content.trim()
+    const trimmedTitle = originalText.slice(0, 60) || mediaFile?.name || 'Draft'
 
     setIsSaving(true)
     try {
-      const originalText = content.trim()
+      let video_url: string | null = null
+      let video_filename: string | null = null
+      let video_size_bytes: number | null = null
+
+      if (mediaFile) {
+        const formData = new FormData()
+        formData.append('file', mediaFile)
+        const uploadRes = await fetch('/api/documents/upload', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        })
+        const uploadResult = await uploadRes.json()
+        if (!uploadRes.ok || !uploadResult.success) {
+          throw new Error(uploadResult.error || 'Could not save the video')
+        }
+        video_url = uploadResult.video_url
+        video_filename = uploadResult.video_filename
+        video_size_bytes = uploadResult.video_size_bytes
+      }
 
       const response = await fetch('/api/documents', {
         method: 'POST',
@@ -403,6 +427,9 @@ function CreatePostInner() {
         body: JSON.stringify({
           title: trimmedTitle,
           content: originalText,
+          video_url,
+          video_filename,
+          video_size_bytes,
         }),
       })
       const result = await response.json()
@@ -581,7 +608,7 @@ function CreatePostInner() {
               <h2 className="text-lg font-semibold text-white mb-3">How to create</h2>
               <ol className="space-y-2 text-sm text-gray-200 leading-relaxed">
                 <li>1. Type what it&apos;s about, or tap <span className="font-semibold text-white">Write this for me</span>.</li>
-                <li>2. Tap <span className="font-semibold text-white">Record or upload</span> if you have a video or photo.</li>
+                <li>2. Tap <span className="font-semibold text-white">Record</span> to shoot video, or <span className="font-semibold text-white">Upload</span> if you already have a file.</li>
                 <li>3. Tap <span className="font-semibold text-white">Save Draft</span> so you can come back and change it.</li>
               </ol>
             </div>
@@ -603,39 +630,64 @@ function CreatePostInner() {
             {/* Media Upload */}
             <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
               <h3 className="text-lg font-semibold mb-4">Video and photos</h3>
-              <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-gray-500 transition-colors">
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*,video/*"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                  id="media-upload"
-                />
-                <label htmlFor="media-upload" className="cursor-pointer">
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center">
-                      <Image className="w-8 h-8 text-gray-300" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Record or upload a photo or video</p>
-                      <p className="text-sm text-gray-300">Tap to use your camera or pick a file</p>
-                    </div>
-                  </div>
+              <input
+                type="file"
+                accept="video/*"
+                capture="environment"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="media-record"
+              />
+              <input
+                type="file"
+                multiple
+                accept="image/*,video/*"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="media-upload"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label
+                  htmlFor="media-record"
+                  className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-6 text-center hover:bg-gray-600"
+                >
+                  <Video className="h-8 w-8 text-white" />
+                  <span className="font-medium text-white">Record</span>
+                  <span className="text-sm text-gray-200">Opens your camera</span>
+                </label>
+                <label
+                  htmlFor="media-upload"
+                  className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-6 text-center hover:bg-gray-600"
+                >
+                  <Image className="h-8 w-8 text-white" />
+                  <span className="font-medium text-white">Upload</span>
+                  <span className="text-sm text-gray-200">Pick a file you already have</span>
                 </label>
               </div>
               {mediaFiles.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {mediaFiles.map((file, index) => (
-                    <div key={index} className="relative">
-                      <div className="aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
-                        <Image className="w-8 h-8 text-gray-300" />
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {mediaFiles.map((file, index) => {
+                    const preview = URL.createObjectURL(file)
+                    return (
+                      <div key={`${file.name}-${file.size}-${index}`} className="relative overflow-hidden rounded-lg bg-gray-700">
+                        {file.type.startsWith('video/') ? (
+                          <video src={preview} controls playsInline className="w-full max-h-64 bg-black" />
+                        ) : file.type.startsWith('image/') ? (
+                          <img src={preview} alt={file.name} className="w-full max-h-64 object-contain bg-black" />
+                        ) : (
+                          <p className="p-4 text-sm text-white">{file.name}</p>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setMediaFiles((prev) => prev.filter((_, i) => i !== index))}
+                          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white"
+                          aria-label="Remove"
+                        >
+                          ×
+                        </button>
                       </div>
-                      <button className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">
-                        ×
-                      </button>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
             </div>
