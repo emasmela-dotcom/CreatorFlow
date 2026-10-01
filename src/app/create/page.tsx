@@ -1,13 +1,19 @@
 'use client'
 
 import { Suspense, useState, useEffect, useRef } from 'react'
-import { ArrowLeft, Image, Video, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText, Cloud, AtSign, MessageSquare, BookOpen, Newspaper } from 'lucide-react'
+import { ArrowLeft, Image, Video, Camera, Link, Calendar, Hash, Instagram, Twitter, Linkedin, Youtube, Save, Send, AlertCircle, Sparkles, FileText, Cloud, AtSign, MessageSquare, BookOpen, Newspaper } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 import { put as putBlob } from '@vercel/blob/client'
+
+function pickRecorderMime(): string {
+  if (typeof MediaRecorder === 'undefined') return ''
+  const types = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']
+  return types.find((t) => MediaRecorder.isTypeSupported(t)) || ''
+}
 
 function raceTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -22,30 +28,6 @@ function raceTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
         reject(err)
       }
     )
-  })
-}
-
-function readVideoBlob(file: File, type: string): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    const id = window.setTimeout(() => {
-      reader.abort()
-      reject(new Error('Could not read the video. Try Record again.'))
-    }, 20000)
-    reader.onload = () => {
-      window.clearTimeout(id)
-      const buf = reader.result
-      if (!(buf instanceof ArrayBuffer) || buf.byteLength === 0) {
-        reject(new Error('Could not read the video. Try Record again.'))
-        return
-      }
-      resolve(new Blob([buf], { type }))
-    }
-    reader.onerror = () => {
-      window.clearTimeout(id)
-      reject(new Error('Could not read the video. Try Record again.'))
-    }
-    reader.readAsArrayBuffer(file)
   })
 }
 
@@ -78,15 +60,14 @@ async function uploadFile(token: string, file: File, fileName: string): Promise<
     'Could not start video save. Try again.'
   )
 
-  const videoBlob = await readVideoBlob(file, type)
   const blob = await raceTimeout(
-    putBlob(tokenRes.pathname, videoBlob, {
+    putBlob(tokenRes.pathname, file, {
       access: 'public',
       token: tokenRes.token,
       contentType: type,
-      multipart: videoBlob.size > 8 * 1024 * 1024,
+      multipart: file.size > 8 * 1024 * 1024,
     }),
-    45000,
+    40000,
     'Video save is taking too long. Try again.'
   )
 
@@ -97,7 +78,7 @@ async function uploadFile(token: string, file: File, fileName: string): Promise<
   return {
     video_url: blob.url,
     video_filename: fileName,
-    video_size_bytes: videoBlob.size,
+    video_size_bytes: file.size,
   }
 }
 
@@ -112,6 +93,20 @@ function CreatePostInner() {
   const [mediaFiles, setMediaFiles] = useState<File[]>([])
   const [draftTitle, setDraftTitle] = useState('')
   const [token, setToken] = useState('')
+  const tokenRef = useRef('')
+  const [readyVideo, setReadyVideo] = useState<{
+    video_url: string
+    video_filename: string
+    video_size_bytes: number
+  } | null>(null)
+  const [videoUploading, setVideoUploading] = useState(false)
+  const [videoUploadError, setVideoUploadError] = useState<string | null>(null)
+  const [cameraOn, setCameraOn] = useState(false)
+  const [recording, setRecording] = useState(false)
+  const liveVideoRef = useRef<HTMLVideoElement | null>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const recorderRef = useRef<MediaRecorder | null>(null)
+  const chunksRef = useRef<Blob[]>([])
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
   const analysisRef = useRef<HTMLDivElement | null>(null)
   const [postInfo, setPostInfo] = useState<{
@@ -167,9 +162,97 @@ function CreatePostInner() {
   }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || [])
-    setMediaFiles(prev => [...prev, ...files])
+    const file = e.target.files?.[0]
     e.target.value = ''
+    if (!file) return
+    setMediaFiles([file])
+    void sendVideo(file)
+  }
+
+  const sendVideo = async (file: File) => {
+    const auth = tokenRef.current
+    if (!auth) {
+      setVideoUploadError('Sign in to save video')
+      return
+    }
+    setVideoUploading(true)
+    setVideoUploadError(null)
+    setReadyVideo(null)
+    try {
+      const uploaded = await uploadFile(auth, file, file.name?.trim() || 'video.mp4')
+      setReadyVideo(uploaded)
+    } catch (err: unknown) {
+      setVideoUploadError(err instanceof Error ? err.message : 'Could not save the video')
+    } finally {
+      setVideoUploading(false)
+    }
+  }
+
+  const stopCamera = () => {
+    if (recorderRef.current && recorderRef.current.state === 'recording') {
+      recorderRef.current.stop()
+    }
+    streamRef.current?.getTracks().forEach((track) => track.stop())
+    streamRef.current = null
+    recorderRef.current = null
+    chunksRef.current = []
+    setCameraOn(false)
+    setRecording(false)
+  }
+
+  const startCamera = async () => {
+    setVideoUploadError(null)
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setVideoUploadError('This phone cannot record here. Use Upload.')
+      return
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      streamRef.current = stream
+      setCameraOn(true)
+    } catch {
+      setVideoUploadError('Allow camera and mic, then tap Record again.')
+    }
+  }
+
+  const startRecording = () => {
+    const stream = streamRef.current
+    if (!stream) return
+    chunksRef.current = []
+    const mime = pickRecorderMime()
+    let recorder: MediaRecorder
+    try {
+      recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream)
+    } catch {
+      setVideoUploadError('This phone cannot record here. Use Upload.')
+      return
+    }
+    recorderRef.current = recorder
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) chunksRef.current.push(event.data)
+    }
+    recorder.onstop = () => {
+      const type = recorder.mimeType || 'video/webm'
+      const blob = new Blob(chunksRef.current, { type })
+      const ext = type.includes('mp4') ? 'mp4' : 'webm'
+      const file = new File([blob], `recording-${Date.now()}.${ext}`, { type })
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+      streamRef.current = null
+      recorderRef.current = null
+      chunksRef.current = []
+      setCameraOn(false)
+      setRecording(false)
+      setMediaFiles([file])
+      void sendVideo(file)
+    }
+    recorder.start()
+    setRecording(true)
+  }
+
+  const stopRecording = () => {
+    if (recorderRef.current && recorderRef.current.state === 'recording') {
+      recorderRef.current.stop()
+    }
   }
 
   const [isSaving, setIsSaving] = useState(false)
@@ -473,19 +556,13 @@ function CreatePostInner() {
   }
 
   const handleSave = async () => {
-    const mediaFile = [...mediaFiles]
-      .reverse()
-      .find((file) =>
-        file.type.startsWith('video/') ||
-        file.type.startsWith('image/') ||
-        !file.type
-      )
-    if (!content.trim() && !mediaFile) {
+    const hasClip = Boolean(readyVideo || mediaFiles.length > 0 || cameraOn || recording)
+    if (!content.trim() && !hasClip && !readyVideo) {
       alert('Type something or record a video first')
       return
     }
     const originalText = content.trim()
-    const trimmedTitle = draftTitle.trim() || (!mediaFile ? originalText.slice(0, 60) : '')
+    const trimmedTitle = draftTitle.trim() || (!hasClip ? originalText.slice(0, 60) : '')
     if (!trimmedTitle) {
       alert('Type a title so you can find this later')
       return
@@ -495,26 +572,18 @@ function CreatePostInner() {
       router.push('/signin')
       return
     }
+    if (videoUploading) {
+      alert('Wait until the video finishes sending.')
+      return
+    }
+    if ((mediaFiles.length > 0 || recording) && !readyVideo) {
+      alert(videoUploadError || 'The video is not ready. Try Record again.')
+      return
+    }
 
     setIsSaving(true)
-    const unlock = window.setTimeout(() => setIsSaving(false), 50000)
     try {
       const bodyContent = originalText || trimmedTitle
-      let video_url: string | null = null
-      let video_filename: string | null = null
-      let video_size_bytes: number | null = null
-
-      if (mediaFile) {
-        const fileName = mediaFile.name?.trim() || 'video.mp4'
-        const uploaded = await uploadFile(token, mediaFile, fileName)
-        video_url = uploaded.video_url
-        video_filename = uploaded.video_filename
-        video_size_bytes = uploaded.video_size_bytes
-        if (!video_url) {
-          throw new Error('Could not save the video')
-        }
-      }
-
       const response = await fetch('/api/documents', {
         method: 'POST',
         headers: {
@@ -524,9 +593,9 @@ function CreatePostInner() {
         body: JSON.stringify({
           title: trimmedTitle,
           content: bodyContent,
-          video_url,
-          video_filename,
-          video_size_bytes,
+          video_url: readyVideo?.video_url || null,
+          video_filename: readyVideo?.video_filename || null,
+          video_size_bytes: readyVideo?.video_size_bytes || null,
         }),
       })
       const result = await response.json()
@@ -535,12 +604,7 @@ function CreatePostInner() {
       }
       router.push('/saved')
     } catch (error: any) {
-      const message = String(error?.message || '')
-      if (/abort/i.test(message)) {
-        alert('Save did not finish. Try again.')
-      } else {
-        alert(message || 'Failed to save. Please try again.')
-      }
+      alert(error.message || 'Failed to save. Please try again.')
     } finally {
       setIsSaving(false)
     }
@@ -567,6 +631,22 @@ function CreatePostInner() {
       setIsPublishing(false)
     }
   }
+
+  useEffect(() => {
+    tokenRef.current = token
+  }, [token])
+
+  useEffect(() => {
+    if (!cameraOn || !liveVideoRef.current || !streamRef.current) return
+    liveVideoRef.current.srcObject = streamRef.current
+    liveVideoRef.current.play().catch(() => {})
+  }, [cameraOn])
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+    }
+  }, [])
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -733,29 +813,21 @@ function CreatePostInner() {
               <h3 className="text-lg font-semibold mb-4">Video and photos</h3>
               <input
                 type="file"
-                accept="video/*"
-                capture="environment"
-                onChange={handleFileUpload}
-                className="hidden"
-                id="media-record"
-              />
-              <input
-                type="file"
-                multiple
                 accept="image/*,video/*"
                 onChange={handleFileUpload}
                 className="hidden"
                 id="media-upload"
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label
-                  htmlFor="media-record"
-                  className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-6 text-center hover:bg-gray-600"
+                <button
+                  type="button"
+                  onClick={cameraOn ? stopCamera : startCamera}
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-6 text-center hover:bg-gray-600"
                 >
-                  <Video className="h-8 w-8 text-white" />
-                  <span className="font-medium text-white">Record</span>
-                  <span className="text-sm text-gray-200">Opens your camera</span>
-                </label>
+                  <Camera className="h-8 w-8 text-white" />
+                  <span className="font-medium text-white">{cameraOn ? 'Close camera' : 'Record'}</span>
+                  <span className="text-sm text-gray-200">Uses your camera here</span>
+                </button>
                 <label
                   htmlFor="media-upload"
                   className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-700 px-4 py-6 text-center hover:bg-gray-600"
@@ -765,6 +837,25 @@ function CreatePostInner() {
                   <span className="text-sm text-gray-200">Pick a file you already have</span>
                 </label>
               </div>
+              {cameraOn && (
+                <div className="mt-4 overflow-hidden rounded-lg border border-gray-600 bg-black">
+                  <video ref={liveVideoRef} muted playsInline autoPlay className="w-full max-h-64 bg-black" />
+                  <div className="flex gap-2 p-3 bg-gray-800">
+                    {!recording ? (
+                      <button type="button" onClick={startRecording} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white">
+                        Start video
+                      </button>
+                    ) : (
+                      <button type="button" onClick={stopRecording} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white">
+                        Stop video
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              {videoUploading && <p className="mt-3 text-sm text-white">Sending video…</p>}
+              {readyVideo && !videoUploading && <p className="mt-3 text-sm text-teal-200">Video ready</p>}
+              {videoUploadError && <p className="mt-3 text-sm text-red-400">{videoUploadError}</p>}
               {mediaFiles.length > 0 && (
                 <div className="mt-4 space-y-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -781,7 +872,10 @@ function CreatePostInner() {
                           )}
                           <button
                             type="button"
-                            onClick={() => setMediaFiles((prev) => prev.filter((_, i) => i !== index))}
+                            onClick={() => {
+                              setMediaFiles((prev) => prev.filter((_, i) => i !== index))
+                              setReadyVideo(null)
+                            }}
                             className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white"
                             aria-label="Remove"
                           >
