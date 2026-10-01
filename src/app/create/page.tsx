@@ -7,41 +7,46 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
+import { put as putBlob } from '@vercel/blob/client'
 
-function uploadFile(token: string, file: File, fileName: string): Promise<{
+async function uploadFile(token: string, file: File, fileName: string): Promise<{
   video_url: string
   video_filename: string
   video_size_bytes: number
 }> {
-  return new Promise((resolve, reject) => {
-    const formData = new FormData()
-    formData.append('file', file, fileName)
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/api/documents/upload')
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
-    xhr.timeout = 120000
-    xhr.onload = () => {
-      let data: { success?: boolean; error?: string; video_url?: string; video_filename?: string; video_size_bytes?: number } = {}
-      try {
-        data = JSON.parse(xhr.responseText || '{}')
-      } catch {
-        reject(new Error('Could not save the video'))
-        return
-      }
-      if (xhr.status >= 200 && xhr.status < 300 && data.success && data.video_url) {
-        resolve({
-          video_url: data.video_url,
-          video_filename: data.video_filename || fileName,
-          video_size_bytes: data.video_size_bytes || file.size,
-        })
-        return
-      }
-      reject(new Error(data.error || 'Could not save the video'))
-    }
-    xhr.onerror = () => reject(new Error('Could not save the video'))
-    xhr.ontimeout = () => reject(new Error('Save did not finish. Try again.'))
-    xhr.send(formData)
+  const tokenRes = await fetch('/api/documents/upload-token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      filename: fileName,
+      contentType: file.type || 'video/mp4',
+      size: file.size,
+    }),
   })
+  const tokenData = await tokenRes.json()
+  if (!tokenRes.ok || !tokenData.success || !tokenData.token || !tokenData.pathname) {
+    throw new Error(tokenData.error || 'Could not save the video')
+  }
+
+  const blob = await putBlob(tokenData.pathname, file, {
+    access: 'public',
+    token: tokenData.token,
+    contentType: file.type || 'video/mp4',
+    multipart: file.size > 4 * 1024 * 1024,
+  })
+
+  if (!blob.url) {
+    throw new Error('Could not save the video')
+  }
+
+  return {
+    video_url: blob.url,
+    video_filename: fileName,
+    video_size_bytes: file.size,
+  }
 }
 
 function CreatePostInner() {
@@ -418,7 +423,11 @@ function CreatePostInner() {
   const handleSave = async () => {
     const mediaFile = [...mediaFiles]
       .reverse()
-      .find((file) => file.type.startsWith('video/') || file.type.startsWith('image/'))
+      .find((file) =>
+        file.type.startsWith('video/') ||
+        file.type.startsWith('image/') ||
+        !file.type
+      )
     if (!content.trim() && !mediaFile) {
       alert('Type something or record a video first')
       return
@@ -443,14 +452,13 @@ function CreatePostInner() {
       let video_size_bytes: number | null = null
 
       if (mediaFile) {
-        try {
-          const fileName = mediaFile.name?.trim() || 'video.mp4'
-          const uploaded = await uploadFile(token, mediaFile, fileName)
-          video_url = uploaded.video_url
-          video_filename = uploaded.video_filename
-          video_size_bytes = uploaded.video_size_bytes
-        } catch {
-          // Keep going so the named draft still saves.
+        const fileName = mediaFile.name?.trim() || 'video.mp4'
+        const uploaded = await uploadFile(token, mediaFile, fileName)
+        video_url = uploaded.video_url
+        video_filename = uploaded.video_filename
+        video_size_bytes = uploaded.video_size_bytes
+        if (!video_url) {
+          throw new Error('Could not save the video')
         }
       }
 
