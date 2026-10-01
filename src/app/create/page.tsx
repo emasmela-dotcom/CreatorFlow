@@ -7,7 +7,42 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
-import { upload as uploadBlob } from '@vercel/blob/client'
+
+function uploadFile(token: string, file: File, fileName: string): Promise<{
+  video_url: string
+  video_filename: string
+  video_size_bytes: number
+}> {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData()
+    formData.append('file', file, fileName)
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', '/api/documents/upload')
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+    xhr.timeout = 20000
+    xhr.onload = () => {
+      let data: { success?: boolean; error?: string; video_url?: string; video_filename?: string; video_size_bytes?: number } = {}
+      try {
+        data = JSON.parse(xhr.responseText || '{}')
+      } catch {
+        reject(new Error('Could not save the video'))
+        return
+      }
+      if (xhr.status >= 200 && xhr.status < 300 && data.success && data.video_url) {
+        resolve({
+          video_url: data.video_url,
+          video_filename: data.video_filename || fileName,
+          video_size_bytes: data.video_size_bytes || file.size,
+        })
+        return
+      }
+      reject(new Error(data.error || 'Could not save the video'))
+    }
+    xhr.onerror = () => reject(new Error('Could not save the video'))
+    xhr.ontimeout = () => reject(new Error('Save did not finish. Try again.'))
+    xhr.send(formData)
+  })
+}
 
 function CreatePostInner() {
   const router = useRouter()
@@ -401,6 +436,12 @@ function CreatePostInner() {
     }
 
     setIsSaving(true)
+    let cancelled = false
+    const failsafe = window.setTimeout(() => {
+      cancelled = true
+      setIsSaving(false)
+      alert('Save did not finish. Try again.')
+    }, 25000)
     try {
       let video_url: string | null = null
       let video_filename: string | null = null
@@ -408,30 +449,14 @@ function CreatePostInner() {
 
       if (mediaFile) {
         const fileName = mediaFile.name?.trim() || 'video.mp4'
-        const fileType = mediaFile.type || 'video/mp4'
-        const namedFile = new File([mediaFile], fileName, { type: fileType })
-        const controller = new AbortController()
-        const timeoutId = window.setTimeout(() => controller.abort(), 60000)
-        try {
-          const blob = await uploadBlob(fileName, namedFile, {
-            access: 'public',
-            handleUploadUrl: '/api/documents/upload-token',
-            clientPayload: token,
-            abortSignal: controller.signal,
-            contentType: fileType,
-          })
-          video_url = blob.url
-          video_filename = fileName
-          video_size_bytes = namedFile.size
-        } catch (err: unknown) {
-          if (err instanceof DOMException && err.name === 'AbortError') {
-            throw new Error('Save is taking too long. Try again.')
-          }
-          throw err
-        } finally {
-          window.clearTimeout(timeoutId)
-        }
+        const uploaded = await uploadFile(token, mediaFile, fileName)
+        if (cancelled) return
+        video_url = uploaded.video_url
+        video_filename = uploaded.video_filename
+        video_size_bytes = uploaded.video_size_bytes
       }
+
+      if (cancelled) return
 
       const response = await fetch('/api/documents', {
         method: 'POST',
@@ -448,15 +473,18 @@ function CreatePostInner() {
         }),
       })
       const result = await response.json()
+      if (cancelled) return
       if (!response.ok || !result.success) {
         throw new Error(result.error || 'Failed to save')
       }
       router.push('/saved')
     } catch (error: any) {
+      if (cancelled) return
       console.error('Save original error:', error)
       alert(error.message || 'Failed to save. Please try again.')
     } finally {
-      setIsSaving(false)
+      window.clearTimeout(failsafe)
+      if (!cancelled) setIsSaving(false)
     }
   }
 

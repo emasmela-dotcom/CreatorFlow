@@ -11,14 +11,20 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const formData = await request.formData()
+    let formData: FormData
+    try {
+      formData = await request.formData()
+    } catch {
+      return NextResponse.json({ error: 'Could not read the video. Try again.' }, { status: 400 })
+    }
     const file = formData.get('file')
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    if (!file.type.startsWith('video/') && !file.type.startsWith('image/')) {
+    const type = file.type || (file.name?.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|heic|heif)$/) ? 'image/jpeg' : 'video/mp4')
+    if (!type.startsWith('video/') && !type.startsWith('image/')) {
       return NextResponse.json(
         { error: 'Only photos and videos are allowed' },
         { status: 400 }
@@ -31,18 +37,19 @@ export async function POST(request: NextRequest) {
     }
 
     const uuid = crypto.randomUUID()
-    const pathname = `documents/${user.userId}/${uuid}-${file.name}`
+    const filename = file.name?.trim() || 'video.mp4'
+    const pathname = `documents/${user.userId}/${uuid}-${filename}`
 
     const blob = await put(pathname, file, {
       access: 'public',
-      contentType: file.type,
+      contentType: type,
       token: process.env.VIDEO_BLOB_READ_WRITE_TOKEN,
     })
 
     return NextResponse.json({
       success: true,
       video_url: blob.url,
-      video_filename: file.name,
+      video_filename: filename,
       video_size_bytes: file.size,
     })
   } catch (err: unknown) {
