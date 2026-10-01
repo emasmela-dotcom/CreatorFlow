@@ -616,7 +616,7 @@ function CreatePostInner() {
         </div>
       </header>
 
-      <div className="flex flex-col overflow-x-hidden pb-24">
+      <div className="flex flex-col overflow-x-hidden pb-36">
         <main className="flex-1 min-w-0 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
 
@@ -718,6 +718,14 @@ function CreatePostInner() {
                       placeholder="Name this so you can find it later"
                       className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                     />
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={isSaving}
+                      className="mt-3 w-full rounded-lg bg-teal-600 px-4 py-3 text-base font-semibold text-white hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {isSaving ? 'Saving...' : 'Save'}
+                    </button>
                   </div>
                 </div>
               )}
