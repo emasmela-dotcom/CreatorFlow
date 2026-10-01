@@ -14,6 +14,10 @@ type SavedDoc = {
   updated_at?: string
 }
 
+function isImage(doc: SavedDoc): boolean {
+  return /\.(jpe?g|png|gif|webp|heic|heif)(\?|$)/i.test(doc.video_filename || doc.video_url || '')
+}
+
 export default function SavedPage() {
   const router = useRouter()
   const [token, setToken] = useState('')
@@ -160,6 +164,24 @@ export default function SavedPage() {
               placeholder="Name"
               className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder:text-gray-400"
             />
+            {editing.video_url && (
+              <div className="overflow-hidden rounded-lg border border-gray-600 bg-black">
+                {isImage(editing) ? (
+                  <img
+                    src={editing.video_url}
+                    alt={editing.video_filename || title || 'Saved photo'}
+                    className="w-full max-h-80 object-contain bg-black"
+                  />
+                ) : (
+                  <video
+                    src={editing.video_url}
+                    controls
+                    playsInline
+                    className="w-full max-h-80 bg-black"
+                  />
+                )}
+              </div>
+            )}
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
