@@ -8,6 +8,14 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
+  async headers() {
+    return [
+      {
+        source: '/create',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
+    ]
+  },
   async redirects() {
     return [
       // Hide paid pricing page while free-build (banner: Free while we build)

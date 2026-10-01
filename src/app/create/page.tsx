@@ -19,7 +19,7 @@ function uploadFile(token: string, file: File, fileName: string): Promise<{
     const xhr = new XMLHttpRequest()
     xhr.open('POST', '/api/documents/upload')
     xhr.setRequestHeader('Authorization', `Bearer ${token}`)
-    xhr.timeout = 20000
+    xhr.timeout = 120000
     xhr.onload = () => {
       let data: { success?: boolean; error?: string; video_url?: string; video_filename?: string; video_size_bytes?: number } = {}
       try {
@@ -436,27 +436,23 @@ function CreatePostInner() {
     }
 
     setIsSaving(true)
-    let cancelled = false
-    const failsafe = window.setTimeout(() => {
-      cancelled = true
-      setIsSaving(false)
-      alert('Save did not finish. Try again.')
-    }, 25000)
     try {
+      const bodyContent = originalText || trimmedTitle
       let video_url: string | null = null
       let video_filename: string | null = null
       let video_size_bytes: number | null = null
 
       if (mediaFile) {
-        const fileName = mediaFile.name?.trim() || 'video.mp4'
-        const uploaded = await uploadFile(token, mediaFile, fileName)
-        if (cancelled) return
-        video_url = uploaded.video_url
-        video_filename = uploaded.video_filename
-        video_size_bytes = uploaded.video_size_bytes
+        try {
+          const fileName = mediaFile.name?.trim() || 'video.mp4'
+          const uploaded = await uploadFile(token, mediaFile, fileName)
+          video_url = uploaded.video_url
+          video_filename = uploaded.video_filename
+          video_size_bytes = uploaded.video_size_bytes
+        } catch {
+          // Keep going so the named draft still saves.
+        }
       }
-
-      if (cancelled) return
 
       const response = await fetch('/api/documents', {
         method: 'POST',
@@ -466,25 +462,26 @@ function CreatePostInner() {
         },
         body: JSON.stringify({
           title: trimmedTitle,
-          content: originalText,
+          content: bodyContent,
           video_url,
           video_filename,
           video_size_bytes,
         }),
       })
       const result = await response.json()
-      if (cancelled) return
       if (!response.ok || !result.success) {
         throw new Error(result.error || 'Failed to save')
       }
       router.push('/saved')
     } catch (error: any) {
-      if (cancelled) return
-      console.error('Save original error:', error)
-      alert(error.message || 'Failed to save. Please try again.')
+      const message = String(error?.message || '')
+      if (/abort/i.test(message)) {
+        alert('Save did not finish. Try again.')
+      } else {
+        alert(message || 'Failed to save. Please try again.')
+      }
     } finally {
-      window.clearTimeout(failsafe)
-      if (!cancelled) setIsSaving(false)
+      setIsSaving(false)
     }
   }
 
