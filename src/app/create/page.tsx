@@ -7,7 +7,6 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
-import { put as putBlob } from '@vercel/blob/client'
 
 function pickRecorderMime(): string {
   if (typeof MediaRecorder === 'undefined') return ''
@@ -15,70 +14,42 @@ function pickRecorderMime(): string {
   return types.find((t) => MediaRecorder.isTypeSupported(t)) || ''
 }
 
-function raceTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const id = window.setTimeout(() => reject(new Error(message)), ms)
-    promise.then(
-      (value) => {
-        window.clearTimeout(id)
-        resolve(value)
-      },
-      (err) => {
-        window.clearTimeout(id)
-        reject(err)
-      }
-    )
-  })
-}
-
 async function uploadFile(token: string, file: File, fileName: string): Promise<{
   video_url: string
   video_filename: string
   video_size_bytes: number
 }> {
-  const type = file.type || 'video/mp4'
-  const tokenRes = await raceTimeout(
-    fetch('/api/documents/upload-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        filename: fileName,
-        contentType: type,
-        size: file.size,
-      }),
-    }).then(async (res) => {
-      const tokenData = await res.json()
-      if (!res.ok || !tokenData.success || !tokenData.token || !tokenData.pathname) {
-        throw new Error(tokenData.error || 'Could not save the video')
-      }
-      return tokenData as { token: string; pathname: string }
-    }),
-    15000,
-    'Could not start video save. Try again.'
-  )
-
-  const blob = await raceTimeout(
-    putBlob(tokenRes.pathname, file, {
-      access: 'public',
-      token: tokenRes.token,
-      contentType: type,
-      multipart: file.size > 8 * 1024 * 1024,
-    }),
-    40000,
-    'Video save is taking too long. Try again.'
-  )
-
-  if (!blob.url) {
-    throw new Error('Could not save the video')
+  if (file.size > 3.5 * 1024 * 1024) {
+    throw new Error('Record a shorter clip, then Save Draft.')
   }
-
-  return {
-    video_url: blob.url,
-    video_filename: fileName,
-    video_size_bytes: file.size,
+  const named = fileName.trim() || 'video.mp4'
+  const formData = new FormData()
+  formData.append('file', file, named)
+  const controller = new AbortController()
+  const timer = window.setTimeout(() => controller.abort(), 30000)
+  try {
+    const res = await fetch('/api/documents/upload', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+      signal: controller.signal,
+    })
+    const data = await res.json()
+    if (!res.ok || !data.success || !data.video_url) {
+      throw new Error(data.error || 'Could not save the video')
+    }
+    return {
+      video_url: data.video_url,
+      video_filename: data.video_filename || named,
+      video_size_bytes: data.video_size_bytes || file.size,
+    }
+  } catch (err: unknown) {
+    if (err instanceof DOMException && err.name === 'AbortError') {
+      throw new Error('Video save is taking too long. Try a shorter clip.')
+    }
+    throw err
+  } finally {
+    window.clearTimeout(timer)
   }
 }
 
@@ -207,7 +178,15 @@ function CreatePostInner() {
       return
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: 'environment',
+          width: { ideal: 640 },
+          height: { ideal: 360 },
+          frameRate: { ideal: 15 },
+        },
+        audio: true,
+      })
       streamRef.current = stream
       setCameraOn(true)
     } catch {
@@ -222,10 +201,17 @@ function CreatePostInner() {
     const mime = pickRecorderMime()
     let recorder: MediaRecorder
     try {
-      recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream)
+      const options: MediaRecorderOptions = mime ? { mimeType: mime } : {}
+      options.videoBitsPerSecond = 250000
+      options.audioBitsPerSecond = 64000
+      recorder = new MediaRecorder(stream, options)
     } catch {
-      setVideoUploadError('This phone cannot record here. Use Upload.')
-      return
+      try {
+        recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream)
+      } catch {
+        setVideoUploadError('This phone cannot record here. Use Upload.')
+        return
+      }
     }
     recorderRef.current = recorder
     recorder.ondataavailable = (event) => {
@@ -245,7 +231,7 @@ function CreatePostInner() {
       setMediaFiles([file])
       void sendVideo(file)
     }
-    recorder.start()
+    recorder.start(1000)
     setRecording(true)
   }
 
