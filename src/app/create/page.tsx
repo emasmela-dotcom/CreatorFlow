@@ -7,7 +7,7 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
-import { put as putBlob } from '@vercel/blob/client'
+import { upload as uploadBlob } from '@vercel/blob/client'
 
 function CreatePostInner() {
   const router = useRouter()
@@ -407,31 +407,30 @@ function CreatePostInner() {
       let video_size_bytes: number | null = null
 
       if (mediaFile) {
-        const tokenRes = await fetch('/api/documents/upload-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            filename: mediaFile.name || 'video.mp4',
-            contentType: mediaFile.type,
-            size: mediaFile.size,
-          }),
-        })
-        const tokenData = await tokenRes.json()
-        if (!tokenRes.ok || !tokenData.success) {
-          throw new Error(tokenData.error || 'Could not save the video')
+        const fileName = mediaFile.name?.trim() || 'video.mp4'
+        const fileType = mediaFile.type || 'video/mp4'
+        const namedFile = new File([mediaFile], fileName, { type: fileType })
+        const controller = new AbortController()
+        const timeoutId = window.setTimeout(() => controller.abort(), 60000)
+        try {
+          const blob = await uploadBlob(fileName, namedFile, {
+            access: 'public',
+            handleUploadUrl: '/api/documents/upload-token',
+            clientPayload: token,
+            abortSignal: controller.signal,
+            contentType: fileType,
+          })
+          video_url = blob.url
+          video_filename = fileName
+          video_size_bytes = namedFile.size
+        } catch (err: unknown) {
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            throw new Error('Save is taking too long. Try again.')
+          }
+          throw err
+        } finally {
+          window.clearTimeout(timeoutId)
         }
-        const blob = await putBlob(tokenData.pathname, mediaFile, {
-          access: 'public',
-          token: tokenData.token,
-          multipart: true,
-          contentType: mediaFile.type || 'video/mp4',
-        })
-        video_url = blob.url
-        video_filename = mediaFile.name || 'video.mp4'
-        video_size_bytes = mediaFile.size
       }
 
       const response = await fetch('/api/documents', {
@@ -718,14 +717,6 @@ function CreatePostInner() {
                       placeholder="Name this so you can find it later"
                       className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
                     />
-                    <button
-                      type="button"
-                      onClick={handleSave}
-                      disabled={isSaving}
-                      className="mt-3 w-full rounded-lg bg-teal-600 px-4 py-3 text-base font-semibold text-white hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      {isSaving ? 'Saving...' : 'Save'}
-                    </button>
                   </div>
                 </div>
               )}
