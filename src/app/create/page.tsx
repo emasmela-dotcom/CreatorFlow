@@ -9,34 +9,86 @@ import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 import { put as putBlob } from '@vercel/blob/client'
 
+function raceTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const id = window.setTimeout(() => reject(new Error(message)), ms)
+    promise.then(
+      (value) => {
+        window.clearTimeout(id)
+        resolve(value)
+      },
+      (err) => {
+        window.clearTimeout(id)
+        reject(err)
+      }
+    )
+  })
+}
+
+function readVideoBlob(file: File, type: string): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    const id = window.setTimeout(() => {
+      reader.abort()
+      reject(new Error('Could not read the video. Try Record again.'))
+    }, 20000)
+    reader.onload = () => {
+      window.clearTimeout(id)
+      const buf = reader.result
+      if (!(buf instanceof ArrayBuffer) || buf.byteLength === 0) {
+        reject(new Error('Could not read the video. Try Record again.'))
+        return
+      }
+      resolve(new Blob([buf], { type }))
+    }
+    reader.onerror = () => {
+      window.clearTimeout(id)
+      reject(new Error('Could not read the video. Try Record again.'))
+    }
+    reader.readAsArrayBuffer(file)
+  })
+}
+
 async function uploadFile(token: string, file: File, fileName: string): Promise<{
   video_url: string
   video_filename: string
   video_size_bytes: number
 }> {
-  const tokenRes = await fetch('/api/documents/upload-token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      filename: fileName,
-      contentType: file.type || 'video/mp4',
-      size: file.size,
+  const type = file.type || 'video/mp4'
+  const tokenRes = await raceTimeout(
+    fetch('/api/documents/upload-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        filename: fileName,
+        contentType: type,
+        size: file.size,
+      }),
+    }).then(async (res) => {
+      const tokenData = await res.json()
+      if (!res.ok || !tokenData.success || !tokenData.token || !tokenData.pathname) {
+        throw new Error(tokenData.error || 'Could not save the video')
+      }
+      return tokenData as { token: string; pathname: string }
     }),
-  })
-  const tokenData = await tokenRes.json()
-  if (!tokenRes.ok || !tokenData.success || !tokenData.token || !tokenData.pathname) {
-    throw new Error(tokenData.error || 'Could not save the video')
-  }
+    15000,
+    'Could not start video save. Try again.'
+  )
 
-  const blob = await putBlob(tokenData.pathname, file, {
-    access: 'public',
-    token: tokenData.token,
-    contentType: file.type || 'video/mp4',
-    multipart: file.size > 4 * 1024 * 1024,
-  })
+  const videoBlob = await readVideoBlob(file, type)
+  const blob = await raceTimeout(
+    putBlob(tokenRes.pathname, videoBlob, {
+      access: 'public',
+      token: tokenRes.token,
+      contentType: type,
+      multipart: videoBlob.size > 8 * 1024 * 1024,
+    }),
+    45000,
+    'Video save is taking too long. Try again.'
+  )
 
   if (!blob.url) {
     throw new Error('Could not save the video')
@@ -45,7 +97,7 @@ async function uploadFile(token: string, file: File, fileName: string): Promise<
   return {
     video_url: blob.url,
     video_filename: fileName,
-    video_size_bytes: file.size,
+    video_size_bytes: videoBlob.size,
   }
 }
 
@@ -445,6 +497,7 @@ function CreatePostInner() {
     }
 
     setIsSaving(true)
+    const unlock = window.setTimeout(() => setIsSaving(false), 50000)
     try {
       const bodyContent = originalText || trimmedTitle
       let video_url: string | null = null
