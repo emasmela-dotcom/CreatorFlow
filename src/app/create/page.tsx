@@ -19,14 +19,11 @@ async function uploadFile(token: string, file: File, fileName: string): Promise<
   video_filename: string
   video_size_bytes: number
 }> {
-  if (file.size > 3.5 * 1024 * 1024) {
-    throw new Error('Record a shorter clip, then Save Draft.')
-  }
   const named = fileName.trim() || 'video.mp4'
   const formData = new FormData()
   formData.append('file', file, named)
   const controller = new AbortController()
-  const timer = window.setTimeout(() => controller.abort(), 30000)
+  const timer = window.setTimeout(() => controller.abort(), 60000)
   try {
     const res = await fetch('/api/documents/upload', {
       method: 'POST',
@@ -45,7 +42,7 @@ async function uploadFile(token: string, file: File, fileName: string): Promise<
     }
   } catch (err: unknown) {
     if (err instanceof DOMException && err.name === 'AbortError') {
-      throw new Error('Video save is taking too long. Try a shorter clip.')
+      throw new Error('Could not save the video. Try again.')
     }
     throw err
   } finally {
