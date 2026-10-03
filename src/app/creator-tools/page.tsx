@@ -22,8 +22,6 @@ export const metadata: Metadata = {
     'content repurposing',
     'creator analytics dashboard',
     'micro saas for creators',
-    'creator CRM',
-    'brand deal follow up',
     'content library for creators',
   ],
   openGraph: {
@@ -87,8 +85,8 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'micro saas for creators',
     ],
     body: [
-      'Creators often pay for a scheduler, a hashtag tool, a doc hub, analytics, and a CRM separately. CreatorFlow365 is building toward one workspace. Today the live core is Documents: save your original once and format for platforms when you need it.',
-      'Scheduling, analytics, AI tools, and CRM pieces are in progress. Free while we build.',
+      'Creators often pay for a scheduler, a hashtag tool, a doc hub, and analytics separately. CreatorFlow365 is building toward one workspace. Today the live core is Documents: save your original once and format for platforms when you need it.',
+      'Scheduling, analytics, and AI tools are in progress. Free while we build.',
     ],
   },
   {
@@ -196,19 +194,6 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
     ],
   },
   {
-    id: 'follow-thru-crm',
-    title: 'Follow Thru CRM—track brands, collaborators, and promises',
-    queries: [
-      'CRM for influencers',
-      'track brand deals creators',
-      'follow up tool for content creators',
-    ],
-    body: [
-      'Follow Thru is included to help you track people, promises, and next actions without a corporate sales CRM.',
-      'It is built for creator workflows: collaborations, sponsors, and high-value relationships—not generic enterprise pipelines.',
-    ],
-  },
-  {
     id: 'collaborations',
     title: 'Collaborations & partnership workflows',
     queries: [
@@ -216,7 +201,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'manage brand partnerships content creator',
     ],
     body: [
-      'When you work with other creators or brands, having collaboration tooling in the same product as content and CRM reduces context switching.',
+      'When you work with other creators or brands, having collaboration tooling in the same product as content reduces context switching.',
       'Explore the collaborations area from your account when you are ready to coordinate joint campaigns.',
     ],
   },
@@ -293,7 +278,7 @@ export default function CreatorToolsPage() {
               text. One draft, many exports.
             </p>
             <p className="text-lg text-gray-300 leading-relaxed">
-              Scheduling, analytics, AI tools, and CRM features are in progress. This page maps common creator searches
+              Scheduling, analytics, and AI tools are in progress. This page maps common creator searches
               to what works now and what is coming.
             </p>
             <p className="text-base text-gray-300 leading-relaxed">
@@ -392,11 +377,6 @@ export default function CreatorToolsPage() {
               <li>
                 <Link href="/content-creator-analytics-platform" className="text-optimist-400 hover:underline">
                   Creator analytics—performance next to drafts and schedules
-                </Link>
-              </li>
-              <li>
-                <Link href="/follow-thru" className="text-optimist-400 hover:underline">
-                  Creator CRM for brand deals and follow-ups (Follow Thru)
                 </Link>
               </li>
               <li>

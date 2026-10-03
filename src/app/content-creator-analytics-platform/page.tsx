@@ -147,11 +147,6 @@ export default function ContentCreatorAnalyticsPage() {
               </Link>.
             </li>
             <li>
-              <Link href="/follow-thru" className="text-optimist-400 hover:underline">
-                Follow Thru CRM for collaborators and deals
-              </Link>.
-            </li>
-            <li>
               <Link href="/reviews" className="text-optimist-400 hover:underline">
                 CreatorFlow365 reviews
               </Link>.

@@ -52,7 +52,7 @@ export default function SocialSchedulerPage() {
             Free while we build. Create a free account — no credit card required. Use Documents for platform-ready copy today.
           </p>
           <p className="text-sm text-gray-300">
-            Full creator hub (calendar, hashtags, CRM):{' '}
+            Full creator hub (calendar, hashtags):{' '}
             <Link href="/creator-tools" className="text-optimist-400 hover:underline">
               creator tools &amp; workspace overview
             </Link>
@@ -143,11 +143,6 @@ export default function SocialSchedulerPage() {
             <li>
               <Link href="/creator-tools" className="text-optimist-400 hover:underline">
                 Creator tools directory
-              </Link>.
-            </li>
-            <li>
-              <Link href="/follow-thru" className="text-optimist-400 hover:underline">
-                Follow Thru CRM for creators
               </Link>.
             </li>
             <li>

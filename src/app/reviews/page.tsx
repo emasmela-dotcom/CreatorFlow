@@ -182,7 +182,7 @@ export default function ReviewsPage() {
           <ul className="space-y-2 text-gray-300 text-center sm:text-left sm:list-disc sm:pl-8 leading-relaxed">
             <li>
               <a href="/creator-tools" className="text-optimist-400 hover:underline">
-                Creator tools hub—calendar, hashtags, CRM, analytics overview
+                Creator tools hub—calendar, hashtags, analytics overview
               </a>
             </li>
             <li>

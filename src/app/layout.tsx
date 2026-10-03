@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
   description: siteDescription,
-  keywords: 'creator workspace, social media scheduling, AI content writer, creator analytics, content calendar, multi-platform publishing, creator collaboration, creator CRM, social media management, creator tools',
+  keywords: 'creator workspace, social media scheduling, AI content writer, creator analytics, content calendar, multi-platform publishing, creator collaboration, social media management, creator tools',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
   publisher: 'CreatorFlow365',

@@ -148,12 +148,6 @@ export default function AICaptionWriterPage() {
               for other surfaces beyond captions.
             </li>
             <li>
-              <Link href="/follow-thru" className="text-optimist-400 hover:underline">
-                Follow Thru CRM for brands and collaborators
-              </Link>{' '}
-              next to your calendar.
-            </li>
-            <li>
               <Link href="/reviews" className="text-optimist-400 hover:underline">
                 CreatorFlow365 reviews and feedback
               </Link>.

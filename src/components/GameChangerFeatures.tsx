@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { 
   TrendingUp, Mic, RefreshCw, DollarSign, 
   Bell, TestTube, List, Hash, Handshake,
-  Sparkles, CheckCircle, XCircle, AlertCircle, ArrowLeftRight, CheckSquare
+  Sparkles, CheckCircle, XCircle, AlertCircle, ArrowLeftRight
 } from 'lucide-react'
 
 interface GameChangerFeaturesProps {
@@ -23,7 +22,6 @@ export const GAME_CHANGER_FEATURES = [
   { id: 'content-series', name: 'Content Series', icon: List, color: 'sage' },
   { id: 'hashtag-optimizer', name: 'Hashtag Optimizer', icon: Hash, color: 'teal' },
   { id: 'marketplace', name: 'Collaboration Marketplace', icon: Handshake, color: 'cyan' },
-  { id: 'follow-thru-crm', name: 'Follow Thru CRM', icon: CheckSquare, color: 'optimist' }
 ] as const
 
 function getFeatureHelp(id: string): { when: string; why: string; how: string } {
@@ -87,12 +85,6 @@ function getFeatureHelp(id: string): { when: string; why: string; how: string } 
         when: 'When you want to find brand deals or collaborations.',
         why: 'Monetize your audience with matched opportunities.',
         how: 'Browse available deals and express interest directly.'
-      }
-    case 'follow-thru-crm':
-      return {
-        when: 'When you need to track who owes you what and when.',
-        why: 'Never lose a brand deal or follow-up in DMs again.',
-        how: 'Log promises, set due dates, and see overdue items at a glance.'
       }
     default:
       return { when: '', why: '', how: '' }
@@ -186,7 +178,6 @@ function getFeatureDescription(id: string): string {
     'content-series': 'Generate multi-part series',
     'hashtag-optimizer': 'AI-optimized hashtags',
     'marketplace': 'Connect with brand opportunities',
-    'follow-thru-crm': 'Track what you\'re waiting on and who you\'re waiting on it from'
   }
   return descriptions[id] || 'Advanced feature'
 }
@@ -213,14 +204,6 @@ function renderFeatureUI(featureId: string, token: string, onClose: () => void) 
       return <HashtagOptimizerUI token={token} />
     case 'marketplace':
       return <CollaborationMarketplaceUI token={token} />
-    case 'follow-thru-crm':
-      return (
-        <div className="space-y-4">
-          <FeatureHelpBlock featureId="follow-thru-crm" />
-          <p className="text-gray-300">Track promises, people, and follow-ups. They owe you / You owe them / Overdue / Upcoming.</p>
-          <Link href="/follow-thru" className="inline-flex items-center gap-2 rounded-lg bg-optimist-600 px-4 py-2 text-white hover:bg-optimist-500">Open Follow Thru CRM →</Link>
-        </div>
-      )
     default:
       return <div>Feature UI coming soon</div>
   }

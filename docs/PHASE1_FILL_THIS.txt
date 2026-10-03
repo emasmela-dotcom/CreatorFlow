@@ -66,15 +66,6 @@ OUTCOME:
 For creators optimizing captions and tags who start from the tools hub and drill into the caption guide when they want a focused workflow.
 
 QUERY:
-creator CRM brand deals follow up
-
-PATH:
-/follow-thru
-
-OUTCOME:
-For creators tracking sponsors and follow-ups who need Follow Thru alongside the main workspace described on creator-tools.
-
-QUERY:
 content calendar app for creators
 
 PATH:
