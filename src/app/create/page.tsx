@@ -615,6 +615,19 @@ function CreatePostInner() {
     }
   }
 
+  const copyFormatted = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      ta.remove()
+    }
+  }
+
   useEffect(() => {
     tokenRef.current = token
   }, [token])
@@ -725,6 +738,24 @@ function CreatePostInner() {
     }
   }, [searchParams])
 
+  useEffect(() => {
+    const editId = searchParams.get('edit')
+    if (!editId) return
+    const auth = localStorage.getItem('token') || token
+    if (!auth) return
+    fetch('/api/posts', {
+      headers: { Authorization: `Bearer ${auth}` }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const post = (data.posts || []).find((p: { id: string }) => String(p.id) === String(editId))
+        if (!post) return
+        setContent(post.content || '')
+        if (post.platform) setSelectedPlatforms([post.platform])
+      })
+      .catch(() => {})
+  }, [searchParams, token])
+
   return (
     <div className="min-h-screen bg-optimist-950 text-white overflow-x-hidden">
       {/* Header */}
@@ -760,11 +791,31 @@ function CreatePostInner() {
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Draft'}</span>
             </button>
+            <button
+              type="button"
+              onClick={handleSchedule}
+              disabled={isScheduling}
+              className="px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              aria-label="Schedule post"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>{isScheduling ? 'Scheduling...' : 'Schedule'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={handlePublish}
+              disabled={isPublishing}
+              className="px-3 sm:px-4 py-2 bg-optimist-600 hover:bg-optimist-500 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              aria-label="Publish post"
+            >
+              <Send className="w-4 h-4" />
+              <span>{isPublishing ? 'Publishing...' : 'Publish'}</span>
+            </button>
           </div>
         </div>
       </header>
 
-      <div className="flex flex-col overflow-x-hidden pb-36">
+      <div className="flex flex-col overflow-x-hidden pb-8">
         <main className="flex-1 min-w-0 p-4 sm:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
 
@@ -774,6 +825,7 @@ function CreatePostInner() {
                 <li>1. Type what it&apos;s about, or tap <span className="font-semibold text-white">Write this for me</span>.</li>
                 <li>2. Tap <span className="font-semibold text-white">Record</span> to shoot video, or <span className="font-semibold text-white">Upload</span> if you already have a file.</li>
                 <li>3. Type a <span className="font-semibold text-white">title</span>, then tap <span className="font-semibold text-white">Save Draft</span> so you can come back and change it.</li>
+                <li>4. Pick platforms, add hashtags if you want, then tap <span className="font-semibold text-white">Publish</span> or <span className="font-semibold text-white">Schedule</span>.</li>
               </ol>
             </div>
 
@@ -788,6 +840,20 @@ function CreatePostInner() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Type here, or tap Write this for me above."
                 className="w-full h-40 bg-gray-700 border border-gray-600 rounded-lg p-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500 resize-none"
+              />
+            </div>
+
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <label htmlFor="draft-title" className="mb-2 block text-sm font-medium text-white">
+                Title
+              </label>
+              <input
+                id="draft-title"
+                type="text"
+                value={draftTitle}
+                onChange={(e) => setDraftTitle(e.target.value)}
+                placeholder="Name this so you can find it later"
+                className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
               />
             </div>
 
@@ -868,22 +934,115 @@ function CreatePostInner() {
                       )
                     })}
                   </div>
-                  <div>
-                    <label htmlFor="draft-title" className="mb-2 block text-sm font-medium text-white">
-                      Title
-                    </label>
-                    <input
-                      id="draft-title"
-                      type="text"
-                      value={draftTitle}
-                      onChange={(e) => setDraftTitle(e.target.value)}
-                      placeholder="Name this so you can find it later"
-                      className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
-                    />
-                  </div>
                 </div>
               )}
             </div>
+
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-semibold mb-4">Platforms</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {platforms.map((platform) => {
+                  const Icon = platform.icon
+                  const selected = selectedPlatforms.includes(platform.id)
+                  return (
+                    <button
+                      key={platform.id}
+                      type="button"
+                      onClick={() => togglePlatform(platform.id)}
+                      className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
+                        selected
+                          ? 'border-optimist-500 bg-optimist-600/30 text-white'
+                          : 'border-gray-600 bg-gray-700 text-gray-200 hover:bg-gray-600'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{platform.name}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <label htmlFor="post-hashtags" className="mb-2 flex items-center gap-2 text-sm font-medium text-white">
+                <Hash className="h-4 w-4" />
+                Hashtags
+              </label>
+              <input
+                id="post-hashtags"
+                type="text"
+                value={hashtags}
+                onChange={(e) => setHashtags(e.target.value)}
+                placeholder="#creator #tips"
+                className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-optimist-500"
+              />
+            </div>
+
+            <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-semibold mb-4">Schedule</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="schedule-date" className="mb-2 block text-sm text-gray-200">Date</label>
+                  <input
+                    id="schedule-date"
+                    type="date"
+                    value={scheduledDate}
+                    onChange={(e) => setScheduledDate(e.target.value)}
+                    className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="schedule-time" className="mb-2 block text-sm text-gray-200">Time</label>
+                  <input
+                    id="schedule-time"
+                    type="time"
+                    value={scheduledTime}
+                    onChange={(e) => setScheduledTime(e.target.value)}
+                    className="w-full rounded-lg border border-gray-600 bg-gray-700 p-3 text-white"
+                  />
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={handleSchedule}
+                  disabled={isScheduling}
+                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm disabled:opacity-50"
+                >
+                  {isScheduling ? 'Scheduling...' : 'Schedule'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePublish}
+                  disabled={isPublishing}
+                  className="px-4 py-2 bg-optimist-600 hover:bg-optimist-500 rounded-lg text-sm disabled:opacity-50"
+                >
+                  {isPublishing ? 'Publishing...' : 'Publish'}
+                </button>
+              </div>
+            </div>
+
+            {publishResults && (
+              <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700 space-y-3">
+                <h3 className="text-lg font-semibold">Publish results</h3>
+                {publishResults.succeeded.length > 0 && (
+                  <p className="text-sm text-teal-200">Posted to {publishResults.succeeded.join(', ')}</p>
+                )}
+                {publishResults.failed.map((name) => (
+                  <div key={name} className="rounded-lg border border-gray-600 bg-gray-900 p-3 space-y-2">
+                    <p className="text-sm font-medium text-white">{name}</p>
+                    <pre className="whitespace-pre-wrap text-sm text-gray-200">{publishResults.formattedByPlatform[name]}</pre>
+                    <button
+                      type="button"
+                      onClick={() => copyFormatted(publishResults.formattedByPlatform[name] || '')}
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm"
+                    >
+                      Copy formatted
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </main>
       </div>

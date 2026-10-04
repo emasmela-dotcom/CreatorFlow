@@ -141,7 +141,7 @@ export async function getPosts(
         c.name as category_name,
         c.icon as category_icon
       FROM message_board_posts p
-      JOIN users u ON u.id = p.user_id
+      LEFT JOIN users u ON u.id = p.user_id
       LEFT JOIN message_board_categories c ON c.id = p.category_id
       WHERE 1=1
     `
@@ -211,7 +211,7 @@ export async function getPost(postId: number): Promise<MessageBoardPost | null> 
           c.name as category_name,
           c.icon as category_icon
         FROM message_board_posts p
-        JOIN users u ON u.id = p.user_id
+        LEFT JOIN users u ON u.id = p.user_id
         LEFT JOIN message_board_categories c ON c.id = p.category_id
         WHERE p.id = ?
       `,

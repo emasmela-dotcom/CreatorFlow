@@ -10,7 +10,7 @@ import PlatformConnections from '@/components/PlatformConnections'
 import SocialListening from '@/components/SocialListening'
 import TeamCollaboration from '@/components/TeamCollaboration'
 import AdvancedAnalytics from '@/components/AdvancedAnalytics'
-import GameChangerFeatures from '@/components/GameChangerFeatures'
+import GameChangerFeatures, { CollaborationMarketplaceUI } from '@/components/GameChangerFeatures'
 import WhosOn from '@/components/WhosOn'
 import CreatorChat from '@/components/CreatorChat'
 import MessageBoard from '@/components/MessageBoard'
@@ -2338,9 +2338,13 @@ function CalendarView({ token }: { token: string }) {
 
   useEffect(() => {
     loadCalendarEvents()
-  }, [currentMonth])
+  }, [currentMonth, token])
 
   const loadCalendarEvents = async () => {
+    if (!token) {
+      setLoading(false)
+      return
+    }
     try {
       const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
       const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0)
@@ -2802,6 +2806,30 @@ export default function Dashboard() {
     setMobileNavOpen(false)
   }
 
+  const uniquePosts = Array.from(new Map(posts.map((p) => [p.id, p])).values())
+  const contentSearch = headerSearch.trim().toLowerCase()
+  const visiblePosts = uniquePosts.filter((p) => {
+    if (!contentSearch) return true
+    return (
+      (p.content || '').toLowerCase().includes(contentSearch) ||
+      (p.platform || '').toLowerCase().includes(contentSearch) ||
+      (p.status || '').toLowerCase().includes(contentSearch)
+    )
+  })
+
+  const exportPost = (post: (typeof posts)[number]) => {
+    const blob = new Blob(
+      [`${post.platform}\n${post.status}\n\n${post.content || ''}`],
+      { type: 'text/plain' }
+    )
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${post.platform}-${post.id}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string; action?: string }[] = [
     { label: 'Overview', tab: 'overview' },
     { label: 'AI coach', action: 'ai-coach' },
@@ -3219,7 +3247,7 @@ export default function Dashboard() {
                 <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
                   <h3 className="text-lg font-semibold mb-4">Recent Posts</h3>
                   <div className="space-y-4">
-                    {posts.slice(0, 5).map((post) => (
+                    {uniquePosts.slice(0, 5).map((post) => (
                       <div key={post.id} className={`flex items-center justify-between p-4 rounded-lg ${
                         post.isLocked ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-gray-700'
                       }`}>
@@ -3288,18 +3316,28 @@ export default function Dashboard() {
                     title="Content Management"
                   />
                 </div>
-                <button
-                  onClick={() => router.push('/create')}
-                  className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2"
-                >
-                  <Plus className="w-5 h-5" />
-                  Create New Post
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedBot('hashtag-research')}
+                    className="px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  >
+                    <Tag className="w-5 h-5" />
+                    Hashtag research
+                  </button>
+                  <button
+                    onClick={() => router.push('/create')}
+                    className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Create New Post
+                  </button>
+                </div>
               </div>
 
-              {posts.length === 0 ? (
+              {visiblePosts.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-300 mb-4">No posts yet. Create your first post!</p>
+                  <p className="text-gray-300 mb-4">{uniquePosts.length === 0 ? 'No posts yet. Create your first post!' : 'No posts match that search.'}</p>
                   <button
                     onClick={() => router.push('/create')}
                     className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
@@ -3309,7 +3347,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {posts.map((post) => (
+                  {visiblePosts.map((post) => (
                     <div 
                       key={post.id} 
                       className={`bg-gray-800 p-6 rounded-lg border ${
@@ -3358,8 +3396,7 @@ export default function Dashboard() {
                               alert('This content is locked. Upgrade to edit it.')
                               return
                             }
-                            // Handle edit
-                            console.log('Edit post', post.id)
+                            router.push(`/create?edit=${encodeURIComponent(post.id)}`)
                           }}
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
@@ -3376,8 +3413,7 @@ export default function Dashboard() {
                               alert('This content is locked. Upgrade to export it.')
                               return
                             }
-                            // Handle export
-                            console.log('Export post', post.id)
+                            exportPost(post)
                           }}
                           disabled={post.isLocked}
                           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
@@ -3394,6 +3430,10 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
+          )}
+
+          {activeTab === 'calendar' && (
+            <CalendarView token={token} />
           )}
 
           {activeTab === 'analytics' && (
@@ -3439,39 +3479,10 @@ export default function Dashboard() {
             </div>
           )}
 
-          {activeTab === 'community' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-1">
-                  <WhosOn token={token} />
-                </div>
-                <div className="lg:col-span-2">
-                  <ContentTypesSettings token={token} />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-4">Real-Time Chat</h3>
-                  <CreatorChat token={token} />
-                </div>
-                <div>
-                  <MessageBoard token={token} />
-                </div>
-              </div>
-            </div>
-          )}
-
           {activeTab === 'collaborations' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">Brand Collaborations</h2>
-              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                <h3 className="text-lg font-semibold mb-4">Active Partnerships</h3>
-                <div className="text-center py-12 text-gray-300">
-                  <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" aria-hidden />
-                  <p>No active collaborations yet</p>
-                  <p className="text-sm">Start reaching out to brands to grow your partnerships</p>
-                </div>
-              </div>
+              <CollaborationMarketplaceUI token={token} />
             </div>
           )}
 

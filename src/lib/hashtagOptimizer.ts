@@ -150,7 +150,17 @@ export async function getOptimizedHashtags(
       .filter(h => !contentHashtags.includes(h.toLowerCase()))
       .slice(0, count)
 
-    return suggested.map(h => `#${h}`)
+    if (suggested.length > 0) {
+      return suggested.map(h => `#${h}`)
+    }
+
+    const words = content
+      .toLowerCase()
+      .replace(/[^\w\s#]/g, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 4 && !w.startsWith('#') && !/^\d+$/.test(w))
+    const unique = Array.from(new Set(words)).slice(0, count)
+    return unique.map((h) => `#${h}`)
   } catch (error: any) {
     console.error('Error getting optimized hashtags:', error)
     return []

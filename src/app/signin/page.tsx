@@ -164,13 +164,12 @@ export default function SignInPage() {
           </button>
 
           <div className="text-center space-y-2">
-            <button
-              type="button"
-              onClick={() => router.push('/forgot-password')}
+            <a
+              href="/forgot-password"
               className="text-sm text-optimist-400 hover:text-optimist-300 transition-colors"
             >
               Forgot password?
-            </button>
+            </a>
             <p className="text-sm text-gray-300">
               Don't have an account?{' '}
               <button

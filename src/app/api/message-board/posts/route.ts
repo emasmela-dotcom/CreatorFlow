@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
 import { getPosts, createPost, getPost } from '@/lib/messageBoard'
 import { updateUserActivity } from '@/lib/activeUsers'
+import { initDatabase } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,7 +73,18 @@ export async function POST(request: NextRequest) {
     // Update user activity
     await updateUserActivity(user.userId)
 
-    const postId = await createPost(user.userId, title, content, categoryId)
+    let postId
+    try {
+      postId = await createPost(user.userId, title, content, categoryId)
+    } catch (createError: any) {
+      const msg = createError?.message || ''
+      if (msg.includes('does not exist') || msg.includes('relation')) {
+        await initDatabase()
+        postId = await createPost(user.userId, title, content, categoryId)
+      } else {
+        throw createError
+      }
+    }
 
     return NextResponse.json({
       success: true,

@@ -66,6 +66,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
   const [newPostContent, setNewPostContent] = useState('')
   const [newReply, setNewReply] = useState('')
   const [loading, setLoading] = useState(false)
+  const [formError, setFormError] = useState('')
 
   useEffect(() => {
     loadCategories()
@@ -133,6 +134,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
     if (!newPostTitle.trim() || !newPostContent.trim()) return
 
     setLoading(true)
+    setFormError('')
     try {
       const res = await fetch('/api/message-board/posts', {
         method: 'POST',
@@ -152,9 +154,12 @@ export default function MessageBoard({ token }: MessageBoardProps) {
         setNewPostContent('')
         setShowNewPost(false)
         loadPosts()
+      } else {
+        setFormError(data.error || 'Could not post')
       }
     } catch (error) {
       console.error('Error creating post:', error)
+      setFormError('Could not post')
     } finally {
       setLoading(false)
     }
@@ -361,6 +366,7 @@ export default function MessageBoard({ token }: MessageBoardProps) {
               className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-optimist-500 min-h-[120px] resize-y"
               required
             />
+            {formError && <p className="text-sm text-red-400">{formError}</p>}
             <div className="flex gap-2">
               <button
                 type="submit"

@@ -66,13 +66,13 @@ function getFeatureHelp(id: string): { when: string; why: string; how: string } 
       return {
         when: 'When you want to test two versions of a post.',
         why: 'Learn what wording or format gets better engagement.',
-        how: 'Full panel coming soon — backend is ready.'
+        how: 'Enter a test name and the original plus A and B post IDs. Create the test, then load results by test ID.'
       }
     case 'content-series':
       return {
         when: 'When you want to plan a multi-part story or campaign.',
         why: 'Keep audiences coming back with connected content.',
-        how: 'Full panel coming soon — backend is ready.'
+        how: 'Enter a series name, topic, and number of parts. CreatorFlow saves the series and generates the parts.'
       }
     case 'hashtag-optimizer':
       return {
@@ -326,19 +326,31 @@ function BrandVoiceUI({ token }: { token: string }) {
   const [profile, setProfile] = useState<any>(null)
   const [content, setContent] = useState('')
   const [matchResult, setMatchResult] = useState<any>(null)
+  const [error, setError] = useState('')
 
   const analyze = async () => {
     setLoading(true)
+    setError('')
     try {
       const res = await fetch('/api/brand-voice/analyze', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
-      const data = await res.json()
-      if (data.success) {
-        setProfile(data.profile)
+      const text = await res.text()
+      let data: any = {}
+      try {
+        data = text ? JSON.parse(text) : {}
+      } catch {
+        setError(text?.slice(0, 200) || 'Could not analyze brand voice')
+        return
       }
-    } catch (error) {
-      console.error('Analysis error:', error)
+      if (data.success && data.profile) {
+        setProfile(data.profile)
+      } else {
+        setError(data.error || 'Could not analyze brand voice')
+      }
+    } catch (err) {
+      console.error('Analysis error:', err)
+      setError('Could not analyze brand voice')
     } finally {
       setLoading(false)
     }
@@ -382,6 +394,10 @@ function BrandVoiceUI({ token }: { token: string }) {
       >
         {loading ? 'Analyzing...' : 'Analyze My Brand Voice'}
       </button>
+
+      {error && (
+        <p className="text-sm text-red-400">{error}</p>
+      )}
 
       {profile && (
         <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
@@ -739,6 +755,77 @@ function TrendAlertsUI({ token }: { token: string }) {
 }
 
 function ABTestingUI({ token }: { token: string }) {
+  const [testName, setTestName] = useState('')
+  const [originalPostId, setOriginalPostId] = useState('')
+  const [variantAPostId, setVariantAPostId] = useState('')
+  const [variantBPostId, setVariantBPostId] = useState('')
+  const [testGroupId, setTestGroupId] = useState('')
+  const [results, setResults] = useState<any>(null)
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const create = async () => {
+    if (!testName.trim() || !originalPostId.trim() || !variantAPostId.trim() || !variantBPostId.trim()) {
+      setMessage('Fill in the test name and the three post IDs.')
+      return
+    }
+    setLoading(true)
+    setMessage('')
+    try {
+      const res = await fetch('/api/ab-testing', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          action: 'create',
+          testName: testName.trim(),
+          originalPostId: originalPostId.trim(),
+          variantAPostId: variantAPostId.trim(),
+          variantBPostId: variantBPostId.trim(),
+          status: 'active'
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setTestGroupId(String(data.id))
+        setMessage(`Test created. ID ${data.id}`)
+      } else {
+        setMessage(data.error || 'Could not create test')
+      }
+    } catch {
+      setMessage('Could not create test')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadResults = async () => {
+    const id = parseInt(testGroupId || '0', 10)
+    if (!id) {
+      setMessage('Enter a test ID')
+      return
+    }
+    setLoading(true)
+    setMessage('')
+    try {
+      const res = await fetch(`/api/ab-testing?testGroupId=${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      const data = await res.json()
+      if (data.success) {
+        setResults(data.results)
+      } else {
+        setMessage(data.error || 'No results yet')
+      }
+    } catch {
+      setMessage('Could not load results')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -747,12 +834,144 @@ function ABTestingUI({ token }: { token: string }) {
       </h3>
       <p className="text-gray-300">Test content variations and compare performance</p>
       <FeatureHelpBlock featureId="ab-testing" />
-      <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
+
+      <div className="space-y-3">
+        <input
+          type="text"
+          value={testName}
+          onChange={(e) => setTestName(e.target.value)}
+          placeholder="Test name"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <input
+          type="text"
+          value={originalPostId}
+          onChange={(e) => setOriginalPostId(e.target.value)}
+          placeholder="Original post ID"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <input
+          type="text"
+          value={variantAPostId}
+          onChange={(e) => setVariantAPostId(e.target.value)}
+          placeholder="Variant A post ID"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <input
+          type="text"
+          value={variantBPostId}
+          onChange={(e) => setVariantBPostId(e.target.value)}
+          placeholder="Variant B post ID"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <button
+          type="button"
+          onClick={create}
+          disabled={loading}
+          className="w-full px-4 py-2 bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Working...' : 'Create A/B test'}
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        <input
+          type="text"
+          value={testGroupId}
+          onChange={(e) => setTestGroupId(e.target.value)}
+          placeholder="Test ID"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <button
+          type="button"
+          onClick={loadResults}
+          disabled={loading}
+          className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors disabled:opacity-50"
+        >
+          Load results
+        </button>
+      </div>
+
+      {message && <p className="text-sm text-gray-200">{message}</p>}
+
+      {results && (
+        <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700 space-y-2 text-sm text-gray-200">
+          <p>Variant A engagement: {results.variantA?.engagement ?? 0}</p>
+          <p>Variant B engagement: {results.variantB?.engagement ?? 0}</p>
+          <p>Winner: {results.winner || 'Not enough data yet'}</p>
+        </div>
+      )}
     </div>
   )
 }
 
 function ContentSeriesUI({ token }: { token: string }) {
+  const [seriesName, setSeriesName] = useState('')
+  const [topic, setTopic] = useState('')
+  const [totalParts, setTotalParts] = useState('3')
+  const [series, setSeries] = useState<any[]>([])
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const loadSeries = async () => {
+    try {
+      const res = await fetch('/api/content-series', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSeries(data.series || [])
+      }
+    } catch {
+      setSeries([])
+    }
+  }
+
+  useEffect(() => {
+    if (token) loadSeries()
+  }, [token])
+
+  const create = async () => {
+    if (!seriesName.trim() || !topic.trim()) {
+      setMessage('Add a series name and topic.')
+      return
+    }
+    setLoading(true)
+    setMessage('')
+    try {
+      const res = await fetch('/api/content-series', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          series: {
+            seriesName: seriesName.trim(),
+            topic: topic.trim(),
+            totalParts: parseInt(totalParts, 10) || 3,
+            currentPart: 1,
+            status: 'draft'
+          },
+          generatePosts: true
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setMessage(`Series created. ID ${data.seriesId}`)
+        setSeriesName('')
+        setTopic('')
+        await loadSeries()
+      } else {
+        setMessage(data.error || 'Could not create series')
+      }
+    } catch {
+      setMessage('Could not create series')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -761,7 +980,51 @@ function ContentSeriesUI({ token }: { token: string }) {
       </h3>
       <p className="text-gray-300">Create multi-part content series automatically</p>
       <FeatureHelpBlock featureId="content-series" />
-      <p className="text-sm text-gray-300">Full panel coming soon — backend is ready.</p>
+
+      <input
+        type="text"
+        value={seriesName}
+        onChange={(e) => setSeriesName(e.target.value)}
+        placeholder="Series name"
+        className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+      />
+      <input
+        type="text"
+        value={topic}
+        onChange={(e) => setTopic(e.target.value)}
+        placeholder="Topic"
+        className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+      />
+      <input
+        type="number"
+        min={2}
+        max={12}
+        value={totalParts}
+        onChange={(e) => setTotalParts(e.target.value)}
+        placeholder="Number of parts"
+        className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+      />
+      <button
+        type="button"
+        onClick={create}
+        disabled={loading}
+        className="w-full px-4 py-2 bg-optimist-600 hover:bg-optimist-700 rounded-lg transition-colors disabled:opacity-50"
+      >
+        {loading ? 'Creating...' : 'Create series'}
+      </button>
+      {message && <p className="text-sm text-gray-200">{message}</p>}
+      {series.length === 0 ? (
+        <p className="text-sm text-gray-300">No series yet</p>
+      ) : (
+        <div className="space-y-2">
+          {series.map((item: any) => (
+            <div key={item.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+              <div className="font-semibold text-white">{item.seriesName}</div>
+              <div className="text-sm text-gray-300">{item.topic} • {item.totalParts} parts • {item.status}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -771,21 +1034,40 @@ function HashtagOptimizerUI({ token }: { token: string }) {
   const [platform, setPlatform] = useState('instagram')
   const [hashtags, setHashtags] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
   const optimize = async () => {
     if (!content.trim()) return
 
     setLoading(true)
+    setMessage('')
     try {
       const res = await fetch(`/api/hashtag-optimizer?platform=${platform}&content=${encodeURIComponent(content)}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
-      const data = await res.json()
+      const text = await res.text()
+      let data: any = {}
+      try {
+        data = text ? JSON.parse(text) : {}
+      } catch {
+        setHashtags([])
+        setMessage(text?.slice(0, 200) || 'Could not get hashtags')
+        return
+      }
       if (data.success) {
-        setHashtags(data.hashtags || [])
+        const tags = Array.isArray(data.hashtags) ? data.hashtags : []
+        setHashtags(tags)
+        if (tags.length === 0) {
+          setMessage('No hashtags yet from your past posts. Try different words in the content.')
+        }
+      } else {
+        setHashtags([])
+        setMessage(data.error || 'Could not get hashtags')
       }
     } catch (error) {
       console.error('Error:', error)
+      setHashtags([])
+      setMessage('Could not get hashtags')
     } finally {
       setLoading(false)
     }
@@ -833,6 +1115,8 @@ function HashtagOptimizerUI({ token }: { token: string }) {
           {loading ? 'Optimizing...' : 'Get Optimized Hashtags'}
         </button>
 
+        {message && <p className="text-sm text-gray-200">{message}</p>}
+
         {hashtags.length > 0 && (
           <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
             <div className="text-sm font-semibold text-gray-300 mb-2">Suggested Hashtags:</div>
@@ -850,15 +1134,22 @@ function HashtagOptimizerUI({ token }: { token: string }) {
   )
 }
 
-function CollaborationMarketplaceUI({ token }: { token: string }) {
+export function CollaborationMarketplaceUI({ token }: { token: string }) {
   const [opportunities, setOpportunities] = useState<any[]>([])
+  const [collaborations, setCollaborations] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [brandName, setBrandName] = useState('')
+  const [opportunityTitle, setOpportunityTitle] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     loadOpportunities()
-  }, [])
+    loadCollaborations()
+  }, [token])
 
   const loadOpportunities = async () => {
+    if (!token) return
     setLoading(true)
     try {
       const res = await fetch('/api/collaboration-marketplace?type=opportunities', {
@@ -875,6 +1166,83 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
     }
   }
 
+  const loadCollaborations = async () => {
+    if (!token) return
+    try {
+      const res = await fetch('/api/collaboration-marketplace?type=collaborations', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const data = await res.json()
+      if (data.success) {
+        setCollaborations(data.collaborations || [])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+
+  const apply = async (opportunityId: number) => {
+    setMessage('')
+    try {
+      const res = await fetch('/api/collaboration-marketplace', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ action: 'apply', opportunityId })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setMessage('Application sent')
+        await loadCollaborations()
+      } else {
+        setMessage(data.error || 'Could not apply')
+      }
+    } catch {
+      setMessage('Could not apply')
+    }
+  }
+
+  const createOpportunity = async () => {
+    if (!brandName.trim() || !opportunityTitle.trim() || !description.trim()) {
+      setMessage('Add a brand name, title, and description.')
+      return
+    }
+    setMessage('')
+    try {
+      const res = await fetch('/api/collaboration-marketplace', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          action: 'create-opportunity',
+          brandName: brandName.trim(),
+          opportunityTitle: opportunityTitle.trim(),
+          description: description.trim(),
+          compensationType: 'paid',
+          requirements: 'Open',
+          platforms: ['instagram'],
+          status: 'active'
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setMessage('Opportunity posted')
+        setBrandName('')
+        setOpportunityTitle('')
+        setDescription('')
+        await loadOpportunities()
+      } else {
+        setMessage(data.error || 'Could not post opportunity')
+      }
+    } catch {
+      setMessage('Could not post opportunity')
+    }
+  }
+
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -882,6 +1250,51 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
         Collaboration Marketplace
       </h3>
       <FeatureHelpBlock featureId="marketplace" />
+
+      <div className="space-y-3 bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+        <h4 className="font-semibold text-white">Start reaching out</h4>
+        <input
+          type="text"
+          value={brandName}
+          onChange={(e) => setBrandName(e.target.value)}
+          placeholder="Brand name"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <input
+          type="text"
+          value={opportunityTitle}
+          onChange={(e) => setOpportunityTitle(e.target.value)}
+          placeholder="Opportunity title"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="What you want to work on"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white min-h-[80px]"
+        />
+        <button
+          type="button"
+          onClick={createOpportunity}
+          className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-white"
+        >
+          Post opportunity
+        </button>
+      </div>
+
+      {message && <p className="text-sm text-gray-200">{message}</p>}
+
+      {collaborations.length > 0 && (
+        <div className="space-y-2">
+          <h4 className="font-semibold text-white">Your partnerships</h4>
+          {collaborations.map((item: any) => (
+            <div key={item.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+              <div className="font-semibold text-white">{item.opportunityTitle || item.brandName}</div>
+              <div className="text-sm text-gray-300">{item.brandName} • {item.applicationStatus}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
@@ -899,6 +1312,13 @@ function CollaborationMarketplaceUI({ token }: { token: string }) {
                   ${opp.compensationAmount} - {opp.compensationType}
                 </div>
               )}
+              <button
+                type="button"
+                onClick={() => apply(opp.id)}
+                className="mt-3 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-sm text-white"
+              >
+                Apply
+              </button>
             </div>
           ))}
         </div>
