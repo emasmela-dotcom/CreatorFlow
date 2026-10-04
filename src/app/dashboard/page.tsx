@@ -1959,6 +1959,11 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
   const [unreadCount, setUnreadCount] = useState(0)
   const [filter, setFilter] = useState({ status: 'all', platform: 'all', type: 'all' })
   const [loading, setLoading] = useState(false)
+  const [addPlatform, setAddPlatform] = useState('instagram')
+  const [addType, setAddType] = useState('comment')
+  const [addAuthor, setAddAuthor] = useState('')
+  const [addContent, setAddContent] = useState('')
+  const [addError, setAddError] = useState('')
 
   const loadEngagements = async () => {
     setLoading(true)
@@ -2004,6 +2009,38 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
     }
   }
 
+  const addEngagement = async () => {
+    if (!addContent.trim()) return
+    setAddError('')
+    try {
+      const response = await fetch('/api/engagement-inbox', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          action: 'add',
+          platform: addPlatform,
+          type: addType,
+          author_name: addAuthor.trim() || null,
+          content: addContent.trim()
+        })
+      })
+      const data = await response.json()
+      if (data.success) {
+        setAddContent('')
+        setAddAuthor('')
+        loadEngagements()
+      } else {
+        setAddError(data.error || 'Could not add')
+      }
+    } catch (err) {
+      console.error('Failed to add engagement:', err)
+      setAddError('Could not add')
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -2015,6 +2052,52 @@ function EngagementInboxUI({ token, onClose }: { token: string, onClose: () => v
             </span>
           )}
         </h3>
+      </div>
+
+      <div className="space-y-2">
+        <input
+          value={addAuthor}
+          onChange={(e) => setAddAuthor(e.target.value)}
+          placeholder="Author name"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+        />
+        <select
+          value={addPlatform}
+          onChange={(e) => setAddPlatform(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+        >
+          <option value="instagram">instagram</option>
+          <option value="twitter">twitter</option>
+          <option value="tiktok">tiktok</option>
+          <option value="youtube">youtube</option>
+          <option value="linkedin">linkedin</option>
+        </select>
+        <select
+          value={addType}
+          onChange={(e) => setAddType(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+        >
+          <option value="comment">comment</option>
+          <option value="message">message</option>
+          <option value="mention">mention</option>
+          <option value="reply">reply</option>
+        </select>
+        <textarea
+          value={addContent}
+          onChange={(e) => setAddContent(e.target.value)}
+          placeholder="Comment or message"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+          rows={2}
+        />
+        <button
+          type="button"
+          onClick={addEngagement}
+          disabled={!addContent.trim()}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm disabled:opacity-50"
+        >
+          Add
+        </button>
+        {addError && <p className="text-sm text-red-400">{addError}</p>}
       </div>
 
       <div className="flex gap-2 flex-wrap">
@@ -3324,6 +3407,22 @@ export default function Dashboard() {
                   >
                     <Tag className="w-5 h-5" />
                     Hashtag research
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedBot('content-templates')}
+                    className="px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  >
+                    <Layers className="w-5 h-5" />
+                    Templates
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedBot('engagement-inbox')}
+                    className="px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    Engagement inbox
                   </button>
                   <button
                     onClick={() => router.push('/create')}
