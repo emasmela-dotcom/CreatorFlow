@@ -106,7 +106,6 @@ export async function getChannelMessages(channelId: number, limit: number = 50):
         SELECT cm.*
         FROM chat_messages cm
         WHERE cm.channel_id = ?
-          AND cm.deleted_at IS NULL
         ORDER BY cm.created_at DESC
         LIMIT ?
       `,
