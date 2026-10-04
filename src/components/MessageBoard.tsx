@@ -73,8 +73,9 @@ export default function MessageBoard({ token }: MessageBoardProps) {
   }, [])
 
   useEffect(() => {
+    if (!token) return
     loadPosts()
-  }, [selectedCategory])
+  }, [selectedCategory, token])
 
   useEffect(() => {
     if (selectedPost) {

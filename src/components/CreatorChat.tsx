@@ -38,8 +38,9 @@ export default function CreatorChat({ token }: CreatorChatProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!token) return
     loadChannels()
-  }, [])
+  }, [token])
 
   useEffect(() => {
     if (selectedChannel) {
