@@ -427,6 +427,14 @@ function BrandVoiceUI({ token }: { token: string }) {
           className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white min-h-[100px]"
           onBlur={checkMatch}
         />
+        <button
+          type="button"
+          onClick={checkMatch}
+          disabled={loading || !content.trim()}
+          className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Checking...' : 'Check match'}
+        </button>
       </div>
 
       {matchResult && (
@@ -639,6 +647,9 @@ function RevenueTrackerUI({ token }: { token: string }) {
   const [loading, setLoading] = useState(false)
   const [summary, setSummary] = useState<any>(null)
   const [sources, setSources] = useState<any[]>([])
+  const [sourceName, setSourceName] = useState('')
+  const [sourceType, setSourceType] = useState('sponsorship')
+  const [formError, setFormError] = useState('')
 
   useEffect(() => {
     loadData()
@@ -668,6 +679,38 @@ function RevenueTrackerUI({ token }: { token: string }) {
     }
   }
 
+  const addSource = async () => {
+    if (!sourceName.trim()) return
+    setLoading(true)
+    setFormError('')
+    try {
+      const res = await fetch('/api/revenue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          type: 'source',
+          sourceName: sourceName.trim(),
+          sourceType
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSourceName('')
+        await loadData()
+      } else {
+        setFormError(data.error || 'Could not add source')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setFormError('Could not add source')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -683,6 +726,36 @@ function RevenueTrackerUI({ token }: { token: string }) {
           <div className="text-sm text-gray-300 mt-2">{summary.transactionCount} transactions</div>
         </div>
       )}
+
+      <div className="space-y-2">
+        <div className="text-sm font-semibold text-gray-300">Add income source</div>
+        <input
+          value={sourceName}
+          onChange={(e) => setSourceName(e.target.value)}
+          placeholder="Source name"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <select
+          value={sourceType}
+          onChange={(e) => setSourceType(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        >
+          <option value="sponsorship">sponsorship</option>
+          <option value="affiliate">affiliate</option>
+          <option value="product">product</option>
+          <option value="ads">ads</option>
+          <option value="other">other</option>
+        </select>
+        <button
+          type="button"
+          onClick={addSource}
+          disabled={loading || !sourceName.trim()}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Saving...' : 'Add source'}
+        </button>
+        {formError && <p className="text-sm text-red-400">{formError}</p>}
+      </div>
 
       <div>
         <div className="text-sm font-semibold text-gray-300 mb-2">Revenue Sources</div>
@@ -706,6 +779,10 @@ function RevenueTrackerUI({ token }: { token: string }) {
 function TrendAlertsUI({ token }: { token: string }) {
   const [alerts, setAlerts] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const [platform, setPlatform] = useState('instagram')
+  const [formError, setFormError] = useState('')
+  const [formOk, setFormOk] = useState('')
 
   useEffect(() => {
     loadAlerts()
@@ -728,6 +805,40 @@ function TrendAlertsUI({ token }: { token: string }) {
     }
   }
 
+  const saveKeyword = async () => {
+    if (!keyword.trim()) return
+    setLoading(true)
+    setFormError('')
+    setFormOk('')
+    try {
+      const res = await fetch('/api/trend-alerts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          keywords: [keyword.trim()],
+          platforms: [platform],
+          alertFrequency: 'daily'
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setKeyword('')
+        setFormOk('Keyword saved')
+        await loadAlerts()
+      } else {
+        setFormError(data.error || 'Could not save keyword')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setFormError('Could not save keyword')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -735,6 +846,36 @@ function TrendAlertsUI({ token }: { token: string }) {
         Trend Alerts
       </h3>
       <FeatureHelpBlock featureId="trend-alerts" />
+
+      <div className="space-y-2">
+        <input
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="Keyword"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        />
+        <select
+          value={platform}
+          onChange={(e) => setPlatform(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+        >
+          <option value="instagram">instagram</option>
+          <option value="twitter">twitter</option>
+          <option value="tiktok">tiktok</option>
+          <option value="youtube">youtube</option>
+          <option value="linkedin">linkedin</option>
+        </select>
+        <button
+          type="button"
+          onClick={saveKeyword}
+          disabled={loading || !keyword.trim()}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Saving...' : 'Set keyword'}
+        </button>
+        {formOk && <p className="text-sm text-green-400">{formOk}</p>}
+        {formError && <p className="text-sm text-red-400">{formError}</p>}
+      </div>
 
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
