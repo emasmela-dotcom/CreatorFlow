@@ -37,7 +37,12 @@ export async function getRevenueSources(userId: string): Promise<RevenueSource[]
       args: [userId]
     })
 
-    return result.rows as RevenueSource[]
+    return result.rows.map((row: any) => ({
+      id: row.id,
+      sourceName: row.source_name || row.sourceName,
+      sourceType: row.source_type || row.sourceType,
+      isActive: row.is_active ?? row.isActive
+    }))
   } catch (error: any) {
     console.error('Error getting revenue sources:', error)
     return []
