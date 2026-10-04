@@ -134,15 +134,8 @@ export async function getPosts(
   try {
     let sql = `
       SELECT 
-        p.*,
-        u.email,
-        u.full_name,
-        u.avatar_url,
-        c.name as category_name,
-        c.icon as category_icon
+        p.*
       FROM message_board_posts p
-      LEFT JOIN users u ON u.id = p.user_id
-      LEFT JOIN message_board_categories c ON c.id = p.category_id
       WHERE 1=1
     `
     const args: any[] = []
@@ -152,7 +145,7 @@ export async function getPosts(
       args.push(categoryId)
     }
 
-    sql += ' ORDER BY p.is_pinned DESC, p.last_reply_at DESC NULLS LAST, p.created_at DESC LIMIT ? OFFSET ?'
+    sql += ' ORDER BY p.created_at DESC LIMIT ? OFFSET ?'
     args.push(limit, offset)
 
     const result = await db.execute({ sql, args })
@@ -171,14 +164,10 @@ export async function getPosts(
       updatedAt: row.updated_at,
       lastReplyAt: row.last_reply_at,
       user: {
-        email: row.email,
-        fullName: row.full_name || row.email?.split('@')[0] || 'Creator',
-        avatarUrl: row.avatar_url
-      },
-      category: row.category_name ? {
-        name: row.category_name,
-        icon: row.category_icon
-      } : undefined
+        email: '',
+        fullName: 'Creator',
+        avatarUrl: undefined
+      }
     }))
   } catch (error: any) {
     console.error('Error getting posts:', error)
@@ -204,15 +193,8 @@ export async function getPost(postId: number): Promise<MessageBoardPost | null> 
     const result = await db.execute({
       sql: `
         SELECT 
-          p.*,
-          u.email,
-          u.full_name,
-          u.avatar_url,
-          c.name as category_name,
-          c.icon as category_icon
+          p.*
         FROM message_board_posts p
-        LEFT JOIN users u ON u.id = p.user_id
-        LEFT JOIN message_board_categories c ON c.id = p.category_id
         WHERE p.id = ?
       `,
       args: [postId]
@@ -237,14 +219,10 @@ export async function getPost(postId: number): Promise<MessageBoardPost | null> 
       updatedAt: row.updated_at,
       lastReplyAt: row.last_reply_at,
       user: {
-        email: row.email,
-        fullName: row.full_name || row.email?.split('@')[0] || 'Creator',
-        avatarUrl: row.avatar_url
-      },
-      category: row.category_name ? {
-        name: row.category_name,
-        icon: row.category_icon
-      } : undefined
+        email: '',
+        fullName: 'Creator',
+        avatarUrl: undefined
+      }
     }
   } catch (error: any) {
     console.error('Error getting post:', error)
@@ -286,12 +264,8 @@ export async function getReplies(postId: number): Promise<MessageBoardReply[]> {
     const result = await db.execute({
       sql: `
         SELECT 
-          r.*,
-          u.email,
-          u.full_name,
-          u.avatar_url
+          r.*
         FROM message_board_replies r
-        JOIN users u ON u.id = r.user_id
         WHERE r.post_id = ?
           AND r.deleted_at IS NULL
         ORDER BY r.created_at ASC
@@ -308,9 +282,9 @@ export async function getReplies(postId: number): Promise<MessageBoardReply[]> {
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       user: {
-        email: row.email,
-        fullName: row.full_name || row.email?.split('@')[0] || 'Creator',
-        avatarUrl: row.avatar_url
+        email: '',
+        fullName: 'Creator',
+        avatarUrl: undefined
       }
     }))
 
