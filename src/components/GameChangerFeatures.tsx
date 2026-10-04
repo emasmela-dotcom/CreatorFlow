@@ -765,8 +765,8 @@ function RevenueTrackerUI({ token }: { token: string }) {
           <div className="space-y-2">
             {sources.map((source: any) => (
               <div key={source.id} className="bg-gray-800/50 rounded p-3">
-                <div className="text-white font-semibold">{source.sourceName}</div>
-                <div className="text-sm text-gray-300">{source.sourceType}</div>
+                <div className="text-white font-semibold">{source.sourceName || source.source_name}</div>
+                <div className="text-sm text-gray-300">{source.sourceType || source.source_type}</div>
               </div>
             ))}
           </div>

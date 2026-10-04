@@ -103,13 +103,8 @@ export async function getChannelMessages(channelId: number, limit: number = 50):
   try {
     const result = await db.execute({
       sql: `
-        SELECT 
-          cm.*,
-          u.email,
-          u.full_name,
-          u.avatar_url
+        SELECT cm.*
         FROM chat_messages cm
-        JOIN users u ON u.id = cm.user_id
         WHERE cm.channel_id = ?
           AND cm.deleted_at IS NULL
         ORDER BY cm.created_at DESC
@@ -126,9 +121,9 @@ export async function getChannelMessages(channelId: number, limit: number = 50):
       messageType: row.message_type,
       createdAt: row.created_at,
       user: {
-        email: row.email,
-        fullName: row.full_name || row.email?.split('@')[0] || 'Creator',
-        avatarUrl: row.avatar_url
+        email: '',
+        fullName: 'Creator',
+        avatarUrl: undefined
       }
     }))
 
