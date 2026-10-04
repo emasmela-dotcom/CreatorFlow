@@ -785,18 +785,19 @@ function TrendAlertsUI({ token }: { token: string }) {
   const [formOk, setFormOk] = useState('')
 
   useEffect(() => {
+    if (!token) return
     loadAlerts()
-  }, [])
+  }, [token])
 
   const loadAlerts = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/trend-alerts?type=alerts', {
+      const res = await fetch('/api/trend-alerts?type=subscriptions', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       const data = await res.json()
       if (data.success) {
-        setAlerts(data.alerts || [])
+        setAlerts(data.subscriptions || [])
       }
     } catch (error) {
       console.error('Error:', error)
@@ -880,13 +881,17 @@ function TrendAlertsUI({ token }: { token: string }) {
       {loading ? (
         <div className="text-center text-gray-300 py-8">Loading...</div>
       ) : alerts.length === 0 ? (
-        <div className="text-center text-gray-300 py-8">No trend alerts yet</div>
+        <div className="text-center text-gray-300 py-8">No keywords set yet</div>
       ) : (
         <div className="space-y-3">
           {alerts.map((alert: any) => (
             <div key={alert.id} className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
-              <div className="font-semibold text-white">#{alert.keyword}</div>
-              <div className="text-sm text-gray-300">{alert.platform}</div>
+              <div className="font-semibold text-white">
+                #{(alert.keywords || []).join(' #') || alert.keyword}
+              </div>
+              <div className="text-sm text-gray-300">
+                {(alert.platforms || []).join(', ') || alert.platform}
+              </div>
             </div>
           ))}
         </div>
