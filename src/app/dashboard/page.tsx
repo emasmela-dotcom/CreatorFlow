@@ -2924,6 +2924,7 @@ export default function Dashboard() {
     { label: 'Tools', tab: 'game-changers' },
     { label: 'Listening', tab: 'social-listening' },
     { label: 'Community', tab: 'community' },
+    { label: 'Bots', tab: 'bots' },
     { label: 'Create', href: '/create' },
     { label: 'Documents', href: '/documents' },
   ]
@@ -2958,6 +2959,7 @@ export default function Dashboard() {
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
+          <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'bots' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('bots')}>Bots</button>
         </div>
       </div>
     </div>
@@ -3059,6 +3061,7 @@ export default function Dashboard() {
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
+                    <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'bots' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('bots')}>Bots</button>
                   </div>
                 </div>
               </nav>
@@ -3582,6 +3585,41 @@ export default function Dashboard() {
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">Brand Collaborations</h2>
               <CollaborationMarketplaceUI token={token} />
+            </div>
+          )}
+
+          {activeTab === 'bots' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">AI Bots</h2>
+              <p className="text-gray-300">Open a bot to use it now.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {[
+                  { id: 'content-writer', label: 'Content Writer' },
+                  { id: 'content-repurposing', label: 'Content Repurposing' },
+                  { id: 'content-gap-analyzer', label: 'Content Gap Analyzer' },
+                  { id: 'expense-tracker', label: 'Expense Tracker' },
+                  { id: 'invoice-generator', label: 'Invoice Generator' },
+                  { id: 'email-sorter', label: 'Email Sorter' },
+                  { id: 'customer-service', label: 'Customer Service' },
+                  { id: 'product-recommendation', label: 'Product Recommendation' },
+                  { id: 'sales-lead-qualifier', label: 'Sales Lead Qualifier' },
+                  { id: 'website-chat', label: 'Website Chat' },
+                  { id: 'meeting-scheduler', label: 'Meeting Scheduler' },
+                  { id: 'social-media-manager', label: 'Social Media Manager' },
+                  { id: 'hashtag-research', label: 'Hashtag Research' },
+                  { id: 'content-templates', label: 'Content Templates' },
+                  { id: 'engagement-inbox', label: 'Engagement Inbox' }
+                ].map((bot) => (
+                  <button
+                    key={bot.id}
+                    type="button"
+                    onClick={() => setSelectedBot(bot.id)}
+                    className="p-4 rounded-lg border border-gray-700 bg-gray-800/50 text-left text-white hover:bg-gray-700"
+                  >
+                    {bot.label}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
