@@ -106,10 +106,10 @@ export async function getChannelMessages(channelId: number, limit: number = 50):
         SELECT cm.*
         FROM chat_messages cm
         WHERE cm.channel_id = ?
-        ORDER BY cm.created_at DESC
-        LIMIT ?
+        ORDER BY cm.created_at ASC
+        LIMIT 50
       `,
-      args: [channelId, limit]
+      args: [channelId]
     })
 
     const messages = result.rows.map((row: any) => ({
@@ -126,8 +126,7 @@ export async function getChannelMessages(channelId: number, limit: number = 50):
       }
     }))
 
-    // Reverse to show oldest first
-    return messages.reverse()
+    return messages
   } catch (error: any) {
     console.error('Error getting channel messages:', error)
     return []
