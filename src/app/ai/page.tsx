@@ -73,7 +73,7 @@ export default function AIPage() {
                 Model in use
               </dt>
               <dd className="mt-1 text-base font-medium text-white">
-                llama-3.1-8b-instant
+                openai/gpt-oss-20b
               </dd>
             </div>
           </dl>

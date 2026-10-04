@@ -43,8 +43,7 @@
 ### Vercel / Groq account (Eric’s side)
 
 - `GROQ_API_KEY` is on Vercel (seen in env list).
-- Default model in code: `GROQ_MODEL` or **`llama-3.1-8b-instant`** (good free-tier ceiling: ~500K tokens/day, 14.4K requests/day per Groq Limits screen).
-- Eric’s Groq Limits screenshot (2026-08-04): org shows Developer-plan-style limits table; `llama-3.1-8b-instant` is the right model for free-build volume.
+- Default model in code: `GROQ_MODEL` or **`openai/gpt-oss-20b`**. `llama-3.1-8b-instant` is sales-only on Groq now and is remapped to `openai/gpt-oss-20b`.
 - Optional: set Vercel `AI_DEFAULT_PROVIDER` = `groq` (belt and suspenders; free-build code should already ignore openai).
 
 ### NOT finished / NOT verified

@@ -84,8 +84,10 @@ async function callGroq(options: CallLLMOptions): Promise<CallLLMResult> {
     }
   }
 
+  const requested =
+    options.model || process.env.GROQ_MODEL || 'openai/gpt-oss-20b'
   const model =
-    options.model || process.env.GROQ_MODEL || 'llama-3.1-8b-instant'
+    requested === 'llama-3.1-8b-instant' ? 'openai/gpt-oss-20b' : requested
 
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 30000)

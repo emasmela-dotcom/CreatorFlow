@@ -35,7 +35,7 @@ If ads or the site promise more than the product does, that is the issue.
 - [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
 - [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
 - [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
-- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + `llama-3.1-8b-instant` + “Capacity is shared”. **Updated 2026-08-13:** “How AI usage works” pool section live. **Updated 2026-08-19:** Option B copy live — Free AI = Groq; advanced AI later = paid; Groq free access may change then. **Updated 2026-08-21:** Home/signup/`/ai` state Groq AI runs under AI Coach; account required.
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + model name. **Updated 2026-10-04:** model in use is `openai/gpt-oss-20b` (`llama-3.1-8b-instant` is sales-only).
 
 **Section 1 status:** `/ai` done (incl. usage pool). **Paid plan rewrite on `/pricing` = coming later** (Eric: free while we build; place locked table only when funding that build). Until then, live `/pricing` still has old/overstated bullets — boxes above stay open.
 
@@ -65,7 +65,7 @@ If this path fails, do not market.
 - [x] AI Coach opens on dashboard when signed in — coach UI in product + prior live Caption coach verify 2026-08-04
 - [x] One real coach request returns useful text — Caption coach verified 2026-08-04
 - [x] When Groq is over daily limit, user sees a **plain** message (not a crash) — **Checked in code 2026-08-13:** free-build returns clear copy (“used your N AI runs for today… Contact support” / “AI is paused for today… comes back tomorrow”); Content Assistant shows `error` in the UI. **Optional live confirm:** use coach until today’s 3 runs are gone, then one more, tell me what you see.
-- [x] `/ai` matches coach (Groq / llama-3.1-8b-instant) — **Checked live 2026-08-13** (+ pool section)
+- [x] `/ai` matches coach (Groq / openai/gpt-oss-20b) — **Updated 2026-10-04**
 - [x] **Per-user caps (free-build)** — **Checked in code 2026-08-13:** daily cap = **15 runs/user/day** (+ site cap 400/day) while `FREE_BUILD_PHASE` is on (raised from 3 → 15 same day). Monthly plan pools (50/100/200/350/500) = **later** when paid plans are funded (Section 10).
 
 **Section 3 status:** Done for free-build. Optional: Eric live-confirm limit message. Monthly pools deferred.
