@@ -64,7 +64,7 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         },
         {
           q: 'What\'s included in the free plan?',
-          a: 'Free plan includes all core tools and AI bots, but with limits: 1 social account, 10 documents, 5 hashtag sets, 3 templates, 50 AI calls/month.'
+          a: 'Free plan includes all core tools, but with limits: 1 social account, 10 documents, 5 hashtag sets, 3 templates, 50 AI calls/month.'
         }
       ]
     },

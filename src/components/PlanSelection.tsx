@@ -35,7 +35,7 @@ const plans: Plan[] = [
       'Unlimited documents',
       'Unlimited hashtag sets',
       'Unlimited templates',
-      '500 AI bot calls per month',
+      '500 AI calls per month',
       'Enhanced AI features',
       'Email support (48hr response)'
     ]
@@ -48,7 +48,7 @@ const plans: Plan[] = [
     features: [
       '5 social accounts',
       'Unlimited everything',
-      '1,000 AI bot calls per month',
+      '1,000 AI calls per month',
       'Advanced AI features',
       'Content analytics',
       'Priority support (24hr response)'
@@ -62,7 +62,7 @@ const plans: Plan[] = [
     popular: true,
     features: [
       '10 social accounts',
-      'Unlimited AI bot calls',
+      'Unlimited AI calls',
       'Premium AI features',
       'Analytics with clear insights',
       'Team collaboration (up to 3)',
