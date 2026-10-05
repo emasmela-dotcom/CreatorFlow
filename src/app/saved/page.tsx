@@ -30,6 +30,7 @@ export default function SavedPage() {
   const [saving, setSaving] = useState(false)
   const [playUrl, setPlayUrl] = useState<string | null>(null)
   const [playError, setPlayError] = useState(false)
+  const [playReady, setPlayReady] = useState(false)
 
   useEffect(() => {
     const t = localStorage.getItem('token') || ''
@@ -54,36 +55,56 @@ export default function SavedPage() {
     if (!editing?.video_url || !token || isImage(editing)) {
       setPlayUrl(isImage(editing) ? editing?.video_url || null : null)
       setPlayError(false)
+      setPlayReady(false)
       return
     }
 
     let objectUrl = ''
     let cancelled = false
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => controller.abort(), 15000)
     setPlayUrl(null)
     setPlayError(false)
+    setPlayReady(false)
 
     fetch(`/api/documents/media?id=${encodeURIComponent(String(editing.id))}`, {
       headers: { Authorization: `Bearer ${token}` },
+      signal: controller.signal,
     })
       .then(async (res) => {
-        if (!res.ok) throw new Error('Could not load video')
+        const type = res.headers.get('content-type') || ''
+        if (!res.ok || type.includes('application/json') || type.includes('text/html')) {
+          throw new Error('Could not load video')
+        }
         return res.blob()
       })
       .then((blob) => {
         if (cancelled) return
-        if (!blob.size) throw new Error('empty')
+        const type = blob.type || ''
+        if (!blob.size || type.includes('json') || type.includes('html')) {
+          throw new Error('empty')
+        }
         objectUrl = URL.createObjectURL(blob)
         setPlayUrl(objectUrl)
       })
       .catch(() => {
         if (!cancelled) setPlayError(true)
       })
+      .finally(() => window.clearTimeout(timer))
 
     return () => {
       cancelled = true
+      controller.abort()
+      window.clearTimeout(timer)
       if (objectUrl) URL.revokeObjectURL(objectUrl)
     }
   }, [editing, token])
+
+  useEffect(() => {
+    if (!playUrl || playReady || playError || isImage(editing || {})) return
+    const id = window.setTimeout(() => setPlayError(true), 8000)
+    return () => window.clearTimeout(id)
+  }, [playUrl, playReady, playError, editing])
 
   const openDoc = (doc: SavedDoc) => {
     setEditing(doc)
@@ -202,27 +223,35 @@ export default function SavedPage() {
               className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder:text-gray-400"
             />
             {editing.video_url && (
-              <div className="overflow-hidden rounded-lg border border-gray-600 bg-black">
-                {isImage(editing) ? (
-                  <img
-                    src={playUrl || editing.video_url}
-                    alt={editing.video_filename || title || 'Saved photo'}
-                    className="w-full max-h-80 object-contain bg-black"
-                  />
-                ) : playError ? (
-                  <p className="p-4 text-sm text-white">This video cannot play on this phone.</p>
-                ) : playUrl ? (
-                  <video
-                    src={playUrl}
-                    controls
-                    playsInline
-                    preload="auto"
-                    className="w-full max-h-80 bg-black"
-                    onError={() => setPlayError(true)}
-                  />
-                ) : (
-                  <p className="p-4 text-sm text-gray-200">Loading video…</p>
-                )}
+              <div className="space-y-2">
+                <div className="overflow-hidden rounded-lg border border-gray-600 bg-black">
+                  {isImage(editing) ? (
+                    <img
+                      src={playUrl || editing.video_url}
+                      alt={editing.video_filename || title || 'Saved photo'}
+                      className="w-full max-h-80 object-contain bg-black"
+                    />
+                  ) : playError ? null : playUrl ? (
+                    <video
+                      src={playUrl}
+                      controls
+                      playsInline
+                      preload="auto"
+                      className="w-full max-h-80 bg-black"
+                      onLoadedData={() => setPlayReady(true)}
+                      onError={() => setPlayError(true)}
+                    />
+                  ) : null}
+                </div>
+                <p className="text-sm text-white">
+                  {isImage(editing)
+                    ? ''
+                    : playError
+                      ? 'This video cannot play on this phone.'
+                      : playReady
+                        ? 'Tap play.'
+                        : 'Loading video…'}
+                </p>
               </div>
             )}
             <textarea

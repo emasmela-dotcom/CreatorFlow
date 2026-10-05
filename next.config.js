@@ -14,6 +14,10 @@ const nextConfig = {
         source: '/create',
         headers: [{ key: 'Cache-Control', value: 'no-store' }],
       },
+      {
+        source: '/saved',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
     ]
   },
   async redirects() {
