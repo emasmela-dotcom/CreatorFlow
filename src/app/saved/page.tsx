@@ -222,38 +222,36 @@ export default function SavedPage() {
               placeholder="Name"
               className="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder:text-gray-400"
             />
-            {editing.video_url && (
-              <div className="space-y-2">
-                <div className="overflow-hidden rounded-lg border border-gray-600 bg-black">
-                  {isImage(editing) ? (
-                    <img
-                      src={playUrl || editing.video_url}
-                      alt={editing.video_filename || title || 'Saved photo'}
-                      className="w-full max-h-80 object-contain bg-black"
-                    />
-                  ) : playError ? null : playUrl ? (
-                    <video
-                      src={playUrl}
-                      controls
-                      playsInline
-                      preload="auto"
-                      className="w-full max-h-80 bg-black"
-                      onLoadedData={() => setPlayReady(true)}
-                      onError={() => setPlayError(true)}
-                    />
-                  ) : null}
-                </div>
-                <p className="text-sm text-white">
-                  {isImage(editing)
+            <div className="overflow-hidden rounded-lg border-2 border-yellow-400 bg-black min-h-[10rem] flex flex-col items-center justify-center">
+              {isImage(editing) ? (
+                <img
+                  src={playUrl || editing.video_url || ''}
+                  alt={editing.video_filename || title || 'Saved photo'}
+                  className="w-full max-h-80 object-contain bg-black"
+                />
+              ) : playUrl && !playError ? (
+                <video
+                  src={playUrl}
+                  controls
+                  playsInline
+                  preload="auto"
+                  className="w-full max-h-80 bg-black"
+                  onLoadedData={() => setPlayReady(true)}
+                  onError={() => setPlayError(true)}
+                />
+              ) : null}
+              <p className="text-lg font-bold text-yellow-300 text-center p-4">
+                {!editing.video_url
+                  ? 'This save has no video.'
+                  : isImage(editing)
                     ? ''
                     : playError
                       ? 'This video cannot play on this phone.'
                       : playReady
                         ? 'Tap play.'
                         : 'Loading video…'}
-                </p>
-              </div>
-            )}
+              </p>
+            </div>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
