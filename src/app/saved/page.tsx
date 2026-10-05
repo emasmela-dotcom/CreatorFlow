@@ -14,7 +14,8 @@ type SavedDoc = {
   updated_at?: string
 }
 
-function isImage(doc: SavedDoc): boolean {
+function isImage(doc: SavedDoc | null | undefined): boolean {
+  if (!doc) return false
   return /\.(jpe?g|png|gif|webp|heic|heif)(\?|$)/i.test(doc.video_filename || doc.video_url || '')
 }
 
@@ -101,7 +102,7 @@ export default function SavedPage() {
   }, [editing, token])
 
   useEffect(() => {
-    if (!playUrl || playReady || playError || isImage(editing || {})) return
+    if (!playUrl || playReady || playError || isImage(editing)) return
     const id = window.setTimeout(() => setPlayError(true), 8000)
     return () => window.clearTimeout(id)
   }, [playUrl, playReady, playError, editing])
@@ -186,6 +187,17 @@ export default function SavedPage() {
           )}
         </div>
       </header>
+      {editing && !isImage(editing) && (
+        <p className="px-4 py-3 text-base font-bold text-black bg-yellow-300">
+          {!editing.video_url
+            ? 'This save has no video.'
+            : playError
+              ? 'This video cannot play on this phone.'
+              : playReady
+                ? 'Tap play.'
+                : 'Loading video…'}
+        </p>
+      )}
 
       <main className="p-4 sm:p-6 max-w-4xl mx-auto">
         {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
