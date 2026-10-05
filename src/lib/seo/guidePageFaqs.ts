@@ -70,12 +70,12 @@ export const RECORD_UPLOAD_FAQ: FaqPair[] = [
   {
     question: 'Can I record photos and video inside CreatorFlow365?',
     answer:
-      'Yes. Sign in, open Documents, then use Use this camera on a computer to take a photo or record video. On a phone, use Record here.',
+      'Yes. Sign in, open Create, then tap Record on a phone to shoot video, or Upload if you already have a file.',
   },
   {
     question: 'Can I upload a photo or video I already shot?',
     answer:
-      'Yes. In Documents, use Upload file. Photos and videos are allowed. Max size is 100MB.',
+      'Yes. On Create, tap Upload. Photos and videos are allowed. Max size is 100MB.',
   },
   {
     question: 'Do I need a credit card?',
@@ -84,6 +84,6 @@ export const RECORD_UPLOAD_FAQ: FaqPair[] = [
   {
     question: 'Is the camera tool on a public page?',
     answer:
-      'The camera itself is in Documents after you sign in. This page explains it so search and AI tools can read it without signing in.',
+      'Record lives on Create after you sign in. This page explains it so search and AI tools can read it without signing in.',
   },
 ]

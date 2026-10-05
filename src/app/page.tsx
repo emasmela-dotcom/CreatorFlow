@@ -98,7 +98,7 @@ export default function HomePage() {
                   <div className="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-sm font-bold mx-auto mb-4">1</div>
                   <h3 className="font-semibold mb-1">Create the visual</h3>
                   <p className="text-sm text-gray-400">
-                    Record or upload a photo or video in Documents, or write words.{' '}
+                    Record or upload a photo or video on Create, or write words.{' '}
                     <a href="/record-and-upload-content" className="text-sage-400 hover:text-sage-300 underline">
                       How record and upload works
                     </a>
@@ -122,7 +122,7 @@ export default function HomePage() {
           <section id="tools" className="py-20 px-6 scroll-mt-24">
             <div className="max-w-5xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">One workspace. Every platform.</h2>
-              <p className="text-gray-400 mb-10 max-w-xl mx-auto">Save once in Documents. Format for any major platform when you need it—without switching apps.</p>
+              <p className="text-gray-400 mb-10 max-w-xl mx-auto">Save once on Create. Format for any major platform when you need it—without switching apps.</p>
 
               <div className="flex flex-wrap justify-center gap-2 mb-16">
                 {['Instagram', 'TikTok', 'X / Twitter', 'LinkedIn', 'YouTube', 'Facebook', 'Threads', 'Pinterest', 'Bluesky', 'Reddit', 'Snapchat', 'Mastodon', 'Discord', 'Telegram', 'Tumblr', 'WordPress'].map((p) => (
@@ -132,9 +132,9 @@ export default function HomePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 <div className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800">
-                  <h3 className="font-semibold text-white mb-2">Documents workspace</h3>
+                  <h3 className="font-semibold text-white mb-2">Create</h3>
                   <p className="text-sm text-optimist-300/70">
-                    Record or upload photos and video, or save text. One original, many exports.{' '}
+                    Record or upload photos and video, or write words. Save Draft so you can come back.{' '}
                     <a href="/record-and-upload-content" className="text-sage-400 hover:text-sage-300 underline">
                       Record and upload
                     </a>

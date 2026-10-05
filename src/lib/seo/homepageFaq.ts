@@ -5,7 +5,7 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
   {
     question: 'How does CreatorFlow365 work with social platforms?',
     answer:
-      'You save your original in Documents, pick the platforms, and CreatorFlow365 formats the copy for each one. You copy that text and post it. Some accounts can be connected. We only describe auto-posting after it is proven live.',
+      'You save your original on Create, pick the platforms, and CreatorFlow365 formats the copy for each one. You copy that text and post it. Some accounts can be connected. We only describe auto-posting after it is proven live.',
   },
   {
     question: 'Is CreatorFlow365 free?',
@@ -35,6 +35,6 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
   {
     question: 'Can I record photos and video in CreatorFlow365?',
     answer:
-      'Yes. After you sign in, open Documents. Use this camera on a computer, Record here on a phone, or upload a photo or video you already shot.',
+      'Yes. After you sign in, open Create. Tap Record on a phone, or Upload if you already have a file. Type a title, then tap Save Draft so you can come back.',
   },
 ]

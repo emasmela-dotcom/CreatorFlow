@@ -8,7 +8,7 @@ const pagePath = '/record-and-upload-content'
 
 const title = 'Record and Upload Photos & Video | CreatorFlow365'
 const description =
-  'Create visual content in CreatorFlow365 Documents: camera on a computer, Record here on a phone, or upload a file you already shot. Free while we build.'
+  'Create visual content in CreatorFlow365 Create: Record on a phone, or Upload a file you already shot. Free while we build.'
 
 const howToJsonLd = {
   '@context': 'https://schema.org',
@@ -20,20 +20,20 @@ const howToJsonLd = {
     {
       '@type': 'HowToStep',
       position: 1,
-      name: 'Sign in and open Documents',
-      text: 'Create a free account, sign in, and open Documents.',
+      name: 'Sign in and open Create',
+      text: 'Create a free account, sign in, and open Create.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Record or upload',
-      text: 'On a computer, choose Use this camera to take a photo or record video. On a phone, use Record here. Or choose Upload file for a photo or video you already shot.',
+      text: 'On a phone, tap Record to shoot video, or Upload if you already have a file.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Save original',
-      text: 'Add a title if you need one, then save. The photo or video stays in your account.',
+      text: 'Type a title, then tap Save Draft. The photo or video stays in your account so you can come back.',
     },
   ],
 }
@@ -76,11 +76,11 @@ export default function RecordAndUploadPage() {
             Creators can make visual content in CreatorFlow365, not only paste words they made somewhere else.
           </p>
           <p className="text-gray-300">
-            In Documents you can use the computer camera, record on a phone, or upload a file you already shot. Then you
+            On Create you can Record on a phone, or Upload a file you already shot. Then you
             can still add words and format for platforms.
           </p>
           <p className="text-sm text-optimist-400">
-            The camera lives in Documents after you sign in. This page is public so Google and AI tools can read how it
+            Record lives on Create after you sign in. This page is public so Google and AI tools can read how it
             works. Free while we build.
           </p>
         </header>
@@ -88,12 +88,11 @@ export default function RecordAndUploadPage() {
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold">How to record or upload</h2>
           <ol className="list-decimal pl-6 space-y-2 text-gray-300">
-            <li>Create a free account, sign in, and open Documents.</li>
+            <li>Create a free account, sign in, and open Create.</li>
             <li>
-              On a computer, choose Use this camera to take a photo or record video. On a phone, use Record here. Or
-              choose Upload file for a photo or video you already shot.
+              On a phone, tap Record to shoot video, or Upload if you already have a file.
             </li>
-            <li>Add a title if you need one, then save. The photo or video stays in your account.</li>
+            <li>Type a title, then tap Save Draft. The photo or video stays in your account so you can come back.</li>
           </ol>
         </section>
 
@@ -147,8 +146,8 @@ export default function RecordAndUploadPage() {
           <Link href="/signup" className="px-5 py-3 bg-white text-black rounded-lg font-semibold">
             Create free account
           </Link>
-          <Link href="/signin" className="px-5 py-3 border border-gray-600 rounded-lg font-semibold text-white">
-            Sign in to Documents
+          <Link href="/signin?next=/create" className="px-5 py-3 border border-gray-600 rounded-lg font-semibold text-white">
+            Sign in to Create
           </Link>
         </section>
       </article>
