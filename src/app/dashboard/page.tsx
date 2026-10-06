@@ -1302,7 +1302,10 @@ export default function Dashboard() {
         <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
         <button
           type="button"
-          onClick={() => setAiCoachOpen((v) => !v)}
+          onClick={() => {
+            setClaudeOpen(false)
+            setAiCoachOpen((v) => !v)
+          }}
           aria-label={aiCoachOpen ? 'Close AI coach' : 'Open AI coach'}
           className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
         >
@@ -1414,7 +1417,10 @@ export default function Dashboard() {
                   <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
                   <button
           type="button"
-          onClick={() => setAiCoachOpen((v) => !v)}
+          onClick={() => {
+            setClaudeOpen(false)
+            setAiCoachOpen((v) => !v)
+          }}
           aria-label={aiCoachOpen ? 'Close AI coach' : 'Open AI coach'}
           className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
         >

@@ -323,6 +323,7 @@ async function callProvider(
 ): Promise<CallLLMResult> {
   if (provider === 'groq') return callGroq(options)
   if (provider === 'grok') return callGrok(options)
+  if (provider === 'claude') return callClaude(options)
   return callOpenAI(options)
 }
 

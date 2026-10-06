@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeAICall, logAICall } from '@/lib/usageTracking'
-import { callLLM, isGroqConfigured } from '@/lib/ai/llm'
+import { callLLM, isGroqConfigured, type AIProvider } from '@/lib/ai/llm'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
 /**
@@ -235,7 +235,7 @@ async function analyzeContentWithLLM(
   hashtags: string,
   userId: string
 ): Promise<
-  | { ok: true; analysis: BotAnalysis; provider: 'groq' | 'grok' | 'openai' }
+  | { ok: true; analysis: BotAnalysis; provider: AIProvider }
   | { ok: false; code: 'NOT_CONFIGURED' | 'PROVIDER_ERROR' | 'USAGE_LIMIT' | 'PARSE_ERROR'; error?: string }
 > {
   const result = await callLLM({
@@ -287,7 +287,7 @@ async function analyzeContentAI(
   hashtags: string,
   performanceLevel: string,
   userId: string
-): Promise<{ analysis: BotAnalysis; aiMode: 'template' | 'live'; provider?: 'groq' | 'grok' | 'openai' }> {
+): Promise<{ analysis: BotAnalysis; aiMode: 'template' | 'live'; provider?: AIProvider }> {
   const llm = await analyzeContentWithLLM(content, platform, hashtags, userId)
   if (llm.ok) {
     return { analysis: llm.analysis, aiMode: 'live', provider: llm.provider }
@@ -337,7 +337,7 @@ export async function POST(request: NextRequest) {
     // Analyze based on tier (free build: all signed-in users get live Groq when key is set)
     let analysis: BotAnalysis
     let aiMode: 'template' | 'live' = 'template'
-    let aiProvider: 'groq' | 'grok' | 'openai' | undefined
+    let aiProvider: AIProvider | undefined
 
     if (useLiveGroq || performanceLevel === 'ai' || performanceLevel === 'advanced' || performanceLevel === 'premium') {
       const aiResult = await analyzeContentAI(
