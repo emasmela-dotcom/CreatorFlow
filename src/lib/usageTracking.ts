@@ -8,6 +8,7 @@ import { getPlanLimits, PlanType } from './planLimits'
 import {
   FREE_BUILD_PHASE,
   RUNS_SITE_PER_DAY,
+  CLAUDE_WRITES_PER_DAY,
   getUserDailyLimit
 } from './aiUsagePolicy'
 
@@ -516,5 +517,40 @@ export async function getUserUsageSummary(userId: string): Promise<{
       storage: { currentMB: 0, limitMB: 0, unlimited: false }
     }
   }
+}
+
+export async function getUserDailyClaudeCalls(userId: string): Promise<number> {
+  try {
+    const result = await db.execute({
+      sql: `
+        SELECT COUNT(*) AS count
+        FROM ai_call_logs
+        WHERE user_id = ? AND bot_name = ? AND created_at >= CURRENT_DATE
+      `,
+      args: [userId, 'Claude'],
+    })
+    return parseInt(String(result.rows[0]?.count || 0), 10)
+  } catch (error: unknown) {
+    console.error('Error getting daily Claude call count:', error)
+    return 0
+  }
+}
+
+export async function canMakeClaudeCall(userId: string): Promise<{
+  allowed: boolean
+  current: number
+  limit: number
+  message?: string
+}> {
+  const current = await getUserDailyClaudeCalls(userId)
+  if (current >= CLAUDE_WRITES_PER_DAY) {
+    return {
+      allowed: false,
+      current,
+      limit: CLAUDE_WRITES_PER_DAY,
+      message: `You've used your ${CLAUDE_WRITES_PER_DAY} Claude writes for today. They reset tomorrow.`,
+    }
+  }
+  return { allowed: true, current, limit: CLAUDE_WRITES_PER_DAY }
 }
 

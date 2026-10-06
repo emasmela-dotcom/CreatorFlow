@@ -1,7 +1,7 @@
 import { canMakeAICall } from '@/lib/usageTracking'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
-export type AIProvider = 'groq' | 'grok' | 'openai'
+export type AIProvider = 'groq' | 'grok' | 'openai' | 'claude'
 
 export interface LLMMessage {
   role: 'system' | 'user' | 'assistant'
@@ -372,4 +372,90 @@ export async function callLLM(
       error: 'All configured AI providers failed.',
     }
   )
+}
+
+export function isClaudeConfigured(): boolean {
+  return !!process.env.ANTHROPIC_API_KEY
+}
+
+export async function callClaude(options: CallLLMOptions): Promise<CallLLMResult> {
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    return {
+      ok: false,
+      code: 'NOT_CONFIGURED',
+      error: 'Claude is not set up yet. Add credits when you are able.',
+    }
+  }
+
+  const model = options.model || process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'
+  const system = options.messages.find((m) => m.role === 'system')?.content
+  const messages = options.messages
+    .filter((m) => m.role !== 'system')
+    .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 60000)
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: options.maxTokens ?? 1024,
+        temperature: options.temperature ?? 0.7,
+        ...(system ? { system } : {}),
+        messages,
+      }),
+      signal: controller.signal,
+    })
+
+    clearTimeout(timeoutId)
+
+    if (!res.ok) {
+      const body = await res.text()
+      return {
+        ok: false,
+        code: 'PROVIDER_ERROR',
+        error: `Claude error (${res.status}): ${body}`,
+      }
+    }
+
+    const data = await res.json()
+    const text = Array.isArray(data.content)
+      ? data.content
+          .filter((part: { type?: string; text?: string }) => part.type === 'text' && part.text)
+          .map((part: { text: string }) => part.text)
+          .join('\n')
+      : ''
+    if (!text) {
+      return {
+        ok: false,
+        code: 'PROVIDER_ERROR',
+        error: 'Claude returned an empty reply.',
+      }
+    }
+
+    return { ok: true, text, provider: 'claude' }
+  } catch (err: unknown) {
+    clearTimeout(timeoutId)
+    if (err instanceof Error && err.name === 'AbortError') {
+      return {
+        ok: false,
+        code: 'PROVIDER_ERROR',
+        error: 'Claude timed out.',
+      }
+    }
+    const message = err instanceof Error ? err.message : 'Unknown Claude error.'
+    return {
+      ok: false,
+      code: 'PROVIDER_ERROR',
+      error: message,
+    }
+  }
 }

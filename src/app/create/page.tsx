@@ -5,6 +5,7 @@ import { ArrowLeft, Image, Video, Camera, Link, Calendar, Hash, Instagram, Twitt
 import { useRouter, useSearchParams } from 'next/navigation'
 import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
+import ClaudeWrite from '@/components/ClaudeWrite'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
 import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
 
@@ -834,6 +835,9 @@ function CreatePostInner() {
               <h3 className="text-lg font-semibold mb-4">Write this for me</h3>
               <div className="mb-4">
                 <WriteThisForMe token={token} onDraft={setContent} />
+              </div>
+              <div className="mb-4">
+                <ClaudeWrite token={token} onDraft={setContent} />
               </div>
               <textarea
                 value={content}
