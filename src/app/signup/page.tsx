@@ -177,6 +177,9 @@ function SignupPageContent() {
               <p className="text-xs text-gray-300 mt-1 max-w-xl mx-auto">
                 Your work stays in your account.
               </p>
+              <p className="mt-3 text-sm text-white max-w-xl mx-auto leading-relaxed">
+                People = how many humans can log into CreatorFlow. Pages = how many social pages you can hook up (Instagram, TikTok, and so on).
+              </p>
             </div>
 
             <PlanSelection

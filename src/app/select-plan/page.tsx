@@ -17,6 +17,11 @@ export default function SelectPlanPage() {
         <p className="mt-4 text-lg text-gray-300 text-center max-w-2xl mx-auto">
           Free while we build. These prices start when paid plans go live. No charge today.
         </p>
+        <p className="mt-4 text-base text-white text-center max-w-2xl mx-auto leading-relaxed">
+          <span className="font-semibold">People</span> = how many humans can log into CreatorFlow.
+          {' '}
+          <span className="font-semibold">Pages</span> = how many social pages you can hook up (Instagram, TikTok, and so on).
+        </p>
         <div className="mt-12">
           <PlanSelection selectedPlan={selected} onSelectPlan={setSelected} />
         </div>

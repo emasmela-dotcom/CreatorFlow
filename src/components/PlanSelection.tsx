@@ -32,7 +32,8 @@ const plans: Plan[] = [
     description: 'For one person starting out.',
     features: [
       'Record, save, come back and change it',
-      '3 social accounts',
+      '1 person can log in',
+      '3 social pages (Instagram, TikTok, and so on)',
       '10 Claude writes per day',
     ]
   },
@@ -44,8 +45,8 @@ const plans: Plan[] = [
     popular: true,
     features: [
       'Everything in Starter',
-      '10 social accounts',
-      '3 people on the team',
+      '3 people can log in',
+      '10 social pages (Instagram, TikTok, and so on)',
       '10 Claude writes per day',
     ]
   },
@@ -56,7 +57,8 @@ const plans: Plan[] = [
     description: 'For a shop with many pages.',
     features: [
       'Everything in Creator',
-      'Unlimited accounts and team',
+      'As many people as you want can log in',
+      'As many social pages as you want',
       '10 Claude writes per day',
     ]
   }
