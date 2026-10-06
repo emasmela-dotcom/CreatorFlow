@@ -29,74 +29,35 @@ const plans: Plan[] = [
     id: 'starter',
     name: 'Starter',
     price: 9,
-    description: 'Remove limits - unlock full potential',
+    description: 'For one person starting out.',
     features: [
+      'Record, save, come back and change it',
       '3 social accounts',
-      'Unlimited documents',
-      'Unlimited hashtag sets',
-      'Unlimited templates',
-      '500 AI calls per month',
-      'Enhanced AI features',
-      'Email support (48hr response)'
-    ]
-  },
-  {
-    id: 'growth',
-    name: 'Essential',
-    price: 19,
-    description: 'For creators building their workflow',
-    features: [
-      '5 social accounts',
-      'Unlimited everything',
-      '1,000 AI calls per month',
-      'Advanced AI features',
-      'Content analytics',
-      'Priority support (24hr response)'
+      '10 Claude writes per day',
     ]
   },
   {
     id: 'pro',
     name: 'Creator',
     price: 49,
-    description: 'For serious creators who want everything',
+    description: 'For someone posting for real.',
     popular: true,
     features: [
+      'Everything in Starter',
       '10 social accounts',
-      'Unlimited AI calls',
-      'Premium AI features',
-      'Analytics with clear insights',
-      'Team collaboration (up to 3)',
-      'API access & priority support'
-    ]
-  },
-  {
-    id: 'business',
-    name: 'Professional',
-    price: 79,
-    description: 'Complete toolkit for professional creators',
-    features: [
-      'Unlimited social accounts',
-      'Fastest AI performance',
-      'Advanced analytics & reporting',
-      'Team collaboration (up to 10)',
-      'White-label options',
-      'Priority support (6hr response)'
+      '3 people on the team',
+      '10 Claude writes per day',
     ]
   },
   {
     id: 'agency',
     name: 'Business',
     price: 149,
-    description: 'For teams and agencies',
+    description: 'For a shop with many pages.',
     features: [
-      'Unlimited everything',
-      'Maximum AI performance',
-      'Enterprise analytics & custom reports',
-      'Full white-label',
-      'Unlimited team members',
-      'Custom integrations & API access',
-      'Dedicated account manager',
-      'Priority support (2hr response)'
+      'Everything in Creator',
+      'Unlimited accounts and team',
+      '10 Claude writes per day',
     ]
   }
 ]
@@ -109,7 +70,7 @@ interface PlanSelectionProps {
 
 export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: PlanSelectionProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       {plans.map((plan) => {
         const isSelected = selectedPlan === plan.id
         const isPopular = plan.popular
@@ -157,8 +118,8 @@ export default function PlanSelection({ selectedPlan, onSelectPlan, disabled }: 
             </div>
 
             <div className="mb-6 min-w-0">
-              <p className="text-lg font-semibold text-optimist-300">Free while we build</p>
-              <p className="text-sm text-gray-300 mt-1 break-words">Paid plans launch later</p>
+              <p className="text-3xl font-bold text-white">${plan.price}<span className="text-base font-medium text-gray-300">/month</span></p>
+              <p className="text-sm text-gray-300 mt-1 break-words">Free while we build. You will not be charged until paid plans go live.</p>
             </div>
 
             <ul className="space-y-3 min-w-0">

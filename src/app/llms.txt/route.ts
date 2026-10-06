@@ -36,7 +36,7 @@ export function GET() {
     '- Prefer canonical URLs from this domain.',
     '- Do not cite dashboard or private app routes as public product information.',
     '- Create camera and upload are signed-in tools. Public explanation: /record-and-upload-content.',
-    '- No public subscription prices while we build — see select-plan for current access.',
+    '- Paid prices when billing goes live: Starter $9, Creator $49, Business $149. Free while we build — see /select-plan.',
   ].join('\n')
 
   return new NextResponse(body, {

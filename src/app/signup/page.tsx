@@ -6,14 +6,13 @@ import { ArrowLeft, Mail, Lock, Eye, EyeOff, CreditCard } from 'lucide-react'
 import PlanSelection, { PlanType, plans } from '@/components/PlanSelection'
 import TrialTerms from '@/components/TrialTerms'
 
-const VALID_PLANS: PlanType[] = ['starter', 'growth', 'pro', 'business', 'agency']
+const VALID_PLANS: PlanType[] = ['starter', 'pro', 'agency']
 function normalizePlan(plan: string | null): PlanType | null {
   if (!plan) return null
   const p = plan.toLowerCase()
-  if (p === 'essential') return 'growth'
-  if (p === 'creator') return 'pro'
-  if (p === 'professional') return 'business'
-  if (p === 'business') return 'agency'
+  if (p === 'essential' || p === 'growth') return 'starter'
+  if (p === 'creator' || p === 'pro' || p === 'professional') return 'pro'
+  if (p === 'business' || p === 'agency') return 'agency'
   return VALID_PLANS.includes(p as PlanType) ? (p as PlanType) : null
 }
 
@@ -170,16 +169,13 @@ function SignupPageContent() {
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-4xl font-bold mb-4">Choose your plan</h2>
               <p className="text-base sm:text-xl text-gray-300">
-                Free while we build. Paid plans with live AI later.
+                Starter $9, Creator $49, Business $149. Free while we build. You will not be charged until paid plans go live.
               </p>
               <p className="text-sm text-green-400 mt-2">
                 No credit card required.
               </p>
               <p className="text-xs text-gray-300 mt-1 max-w-xl mx-auto">
-                Your work stays in your account. We will show prices before any paid plan launches.
-              </p>
-              <p className="text-sm text-gray-200 mt-3 font-medium max-w-xl mx-auto">
-                Create a free account to use Documents and AI Coach today.
+                Your work stays in your account.
               </p>
             </div>
 

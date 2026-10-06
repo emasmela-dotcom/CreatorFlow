@@ -5,9 +5,9 @@ const baseUrl =
   'https://www.creatorflow365.com'
 const origin = baseUrl.replace(/\/$/, '')
 
-const title = 'Plans Coming Soon | CreatorFlow365'
+const title = 'Plans | CreatorFlow365'
 const description =
-  'Free while we build. Create a free account and use Documents today. Paid plans with live AI launch later.'
+  'Starter $9, Creator $49, Business $149. Free while we build. You will not be charged until paid plans go live.'
 
 export const metadata: Metadata = {
   title,
