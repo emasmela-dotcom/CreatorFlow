@@ -17,6 +17,7 @@ import MessageBoard from '@/components/MessageBoard'
 import ContentTypesSettings from '@/components/ContentTypesSettings'
 import MoreAiToolsRow from '@/components/MoreAiToolsRow'
 import AiCoachCorner from '@/components/AiCoachCorner'
+import ClaudeCorner from '@/components/ClaudeCorner'
 import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
 function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -1113,6 +1114,7 @@ export default function Dashboard() {
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [aiCoachOpen, setAiCoachOpen] = useState(false)
+  const [claudeOpen, setClaudeOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -1281,6 +1283,7 @@ export default function Dashboard() {
   const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string; action?: string }[] = [
     { label: 'Overview', tab: 'overview' },
     { label: 'AI coach', action: 'ai-coach' },
+    { label: 'Claude', action: 'claude' },
     { label: 'Content', tab: 'content' },
     { label: 'Calendar', tab: 'calendar' },
     { label: 'Analytics', tab: 'analytics' },
@@ -1305,6 +1308,17 @@ export default function Dashboard() {
         >
           <Sparkles className="h-4 w-4" />
           AI coach
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setAiCoachOpen(false)
+            setClaudeOpen((v) => !v)
+          }}
+          aria-label={claudeOpen ? 'Close Claude' : 'Open Claude'}
+          className="inline-flex items-center gap-2 rounded-lg bg-yellow-300 px-3 py-1.5 text-sm font-semibold text-black shadow hover:bg-yellow-200 transition-colors"
+        >
+          Claude
         </button>
 
       </div>
@@ -1407,6 +1421,17 @@ export default function Dashboard() {
           <Sparkles className="h-4 w-4" />
           AI coach
         </button>
+        <button
+          type="button"
+          onClick={() => {
+            setAiCoachOpen(false)
+            setClaudeOpen((v) => !v)
+          }}
+          aria-label={claudeOpen ? 'Close Claude' : 'Open Claude'}
+          className="inline-flex items-center gap-2 rounded-lg bg-yellow-300 px-3 py-1.5 text-sm font-semibold text-black shadow hover:bg-yellow-200 transition-colors"
+        >
+          Claude
+        </button>
 
                 </div>
                 <div className="inline-flex flex-col items-start gap-0.5">
@@ -1446,7 +1471,12 @@ export default function Dashboard() {
                         router.push(item.href)
                       } else if (item.action === 'ai-coach') {
                         setMobileNavOpen(false)
+                        setClaudeOpen(false)
                         setAiCoachOpen(true)
+                      } else if (item.action === 'claude') {
+                        setMobileNavOpen(false)
+                        setAiCoachOpen(false)
+                        setClaudeOpen(true)
                       }
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -1463,6 +1493,7 @@ export default function Dashboard() {
       </header>
 
       <AiCoachCorner token={token || null} open={aiCoachOpen} onOpenChange={setAiCoachOpen} />
+      <ClaudeCorner token={token || null} open={claudeOpen} onOpenChange={setClaudeOpen} />
 
       <div className="flex">
         {/* Sidebar */}
