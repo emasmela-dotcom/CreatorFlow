@@ -34,7 +34,7 @@ const plans: Plan[] = [
       'Record, save, come back and change it',
       '1 person can log in',
       '3 social pages (Instagram, TikTok, and so on)',
-      '10 Claude writes per day',
+      '10 Claude writes per day for the whole plan',
     ]
   },
   {
@@ -47,7 +47,7 @@ const plans: Plan[] = [
       'Everything in Starter',
       '3 people can log in',
       '10 social pages (Instagram, TikTok, and so on)',
-      '10 Claude writes per day',
+      '10 Claude writes per day for the whole plan',
     ]
   },
   {
@@ -59,7 +59,7 @@ const plans: Plan[] = [
       'Everything in Creator',
       'As many people as you want can log in',
       'As many social pages as you want',
-      '10 Claude writes per day',
+      '10 Claude writes per day for the whole plan',
     ]
   }
 ]

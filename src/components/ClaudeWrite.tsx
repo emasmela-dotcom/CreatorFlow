@@ -46,7 +46,7 @@ export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
   return (
     <div className="rounded-lg border border-yellow-400 bg-gray-900 p-4">
       <p className="mb-2 text-sm font-semibold text-white">Claude</p>
-      <p className="mb-3 text-sm text-gray-200">10 writes per day. Add-on.</p>
+      <p className="mb-3 text-sm text-gray-200">10 writes per day for the whole plan. Add-on.</p>
       <textarea
         value={topic}
         onChange={(e) => setTopic(e.target.value)}

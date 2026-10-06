@@ -20,7 +20,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       'Record, save, come back and change it',
       '1 person can log in',
       '3 social pages (Instagram, TikTok, and so on)',
-      '10 Claude writes per day',
+      '10 Claude writes per day for the whole plan',
     ],
     whoBullets: [
       'One person starting out',
@@ -47,7 +47,7 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
       'Everything in Starter',
       '3 people can log in',
       '10 social pages (Instagram, TikTok, and so on)',
-      '10 Claude writes per day',
+      '10 Claude writes per day for the whole plan',
     ],
     whoBullets: [
       'Someone posting for real',
@@ -72,8 +72,9 @@ export const PHASE2_BY_PLAN: Record<PlanId, Phase2PlanCopy> = {
     ],
     includedBullets: [
       'Everything in Creator',
-      'Unlimited accounts and team',
-      '10 Claude writes per day',
+      'As many people as you want can log in',
+      'As many social pages as you want',
+      '10 Claude writes per day for the whole plan',
     ],
     whoBullets: [
       'A shop with many pages',

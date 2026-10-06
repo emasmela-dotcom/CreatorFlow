@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: result.error }, { status })
   }
 
-  await logAICall(user.userId, 'Claude', '/api/ai/claude-write')
+  await logAICall(limit.planOwnerId, 'Claude', '/api/ai/claude-write')
 
   return NextResponse.json({ success: true, content: result.text })
 }

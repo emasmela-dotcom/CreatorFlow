@@ -11,6 +11,7 @@ import {
   CLAUDE_WRITES_PER_DAY,
   getUserDailyLimit
 } from './aiUsagePolicy'
+import { getPlanOwnerIdForUser } from './teamCollaboration'
 
 /**
  * Initialize usage tracking tables
@@ -540,17 +541,20 @@ export async function canMakeClaudeCall(userId: string): Promise<{
   allowed: boolean
   current: number
   limit: number
+  planOwnerId: string
   message?: string
 }> {
-  const current = await getUserDailyClaudeCalls(userId)
+  const planOwnerId = await getPlanOwnerIdForUser(userId)
+  const current = await getUserDailyClaudeCalls(planOwnerId)
   if (current >= CLAUDE_WRITES_PER_DAY) {
     return {
       allowed: false,
       current,
       limit: CLAUDE_WRITES_PER_DAY,
-      message: `You've used your ${CLAUDE_WRITES_PER_DAY} Claude writes for today. They reset tomorrow.`,
+      planOwnerId,
+      message: `This plan has used its ${CLAUDE_WRITES_PER_DAY} Claude writes for today. They reset tomorrow.`,
     }
   }
-  return { allowed: true, current, limit: CLAUDE_WRITES_PER_DAY }
+  return { allowed: true, current, limit: CLAUDE_WRITES_PER_DAY, planOwnerId }
 }
 

@@ -28,5 +28,5 @@ export function getUserDailyLimit(userId: string): number {
   return USER_DAILY_OVERRIDES[userId] ?? RUNS_PER_USER_PER_DAY
 }
 
-/** Claude writes allowed per user per calendar day. */
+/** Claude writes allowed per plan per calendar day. Raise this number later. */
 export const CLAUDE_WRITES_PER_DAY = 10

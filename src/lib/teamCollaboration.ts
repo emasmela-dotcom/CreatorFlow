@@ -186,6 +186,17 @@ export async function hasTeamPermission(
   return permissions.includes(permission)
 }
 
+/** Billing / plan owner for shared caps. Solo users are their own owner. */
+export async function getPlanOwnerIdForUser(userId: string): Promise<string> {
+  try {
+    const teams = await getUserTeams(userId)
+    const ownerId = teams[0]?.ownerId
+    return ownerId || userId
+  } catch {
+    return userId
+  }
+}
+
 /**
  * Create content approval request
  */
