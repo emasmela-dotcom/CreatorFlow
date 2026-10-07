@@ -33,7 +33,7 @@ export default function ClaudeCorner({ token, open, onOpenChange }: ClaudeCorner
         role="dialog"
         aria-modal="true"
         aria-label="Claude"
-        className="relative z-10 my-4 w-full max-w-sm rounded-2xl bg-gray-800 ring-1 ring-yellow-400 shadow-2xl"
+        className="relative z-10 my-4 w-full max-w-sm rounded-2xl bg-gray-800 ring-1 ring-optimist-500 shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-gray-700 px-4 py-3">
           <span className="text-sm font-semibold text-white">Claude</span>

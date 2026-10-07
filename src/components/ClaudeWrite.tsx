@@ -44,7 +44,7 @@ export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
   }
 
   return (
-    <div className="rounded-lg border border-yellow-400 bg-gray-900 p-4">
+    <div className="rounded-lg border border-optimist-500 bg-gray-900 p-4">
       <p className="mb-2 text-sm font-semibold text-white">Claude</p>
       <p className="mb-3 text-sm text-gray-200">10 writes per day for the whole plan. Add-on.</p>
       <textarea
@@ -52,7 +52,7 @@ export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
         onChange={(e) => setTopic(e.target.value)}
         placeholder="What should Claude write about?"
         rows={3}
-        className="w-full resize-none rounded-md border border-gray-600 bg-gray-950 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:border-yellow-400 focus:outline-none"
+        className="w-full resize-none rounded-md border border-gray-600 bg-gray-950 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:border-optimist-500 focus:outline-none"
       />
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
         {error && <p className="text-sm text-red-400">{error}</p>}
@@ -60,7 +60,7 @@ export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
           type="button"
           onClick={handleWrite}
           disabled={loading || !topic.trim()}
-          className="rounded-md bg-yellow-300 px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-200 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? 'Writing…' : 'Write with Claude'}
         </button>

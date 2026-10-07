@@ -1282,8 +1282,6 @@ export default function Dashboard() {
 
   const mobileNavLinks: { label: string; tab?: typeof activeTab; href?: string; action?: string }[] = [
     { label: 'Overview', tab: 'overview' },
-    { label: 'AI coach', action: 'ai-coach' },
-    { label: 'Claude', action: 'claude' },
     { label: 'Content', tab: 'content' },
     { label: 'Calendar', tab: 'calendar' },
     { label: 'Analytics', tab: 'analytics' },
@@ -1296,10 +1294,15 @@ export default function Dashboard() {
     { label: 'Documents', href: '/documents' },
   ]
 
-  const navButtons = (
-    <div className="inline-flex items-start gap-1.5">
-      <div className="inline-flex items-center gap-1.5 shrink-0">
-        <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+  const aiModelsSection = (
+    <div
+      className="inline-flex flex-col gap-1 rounded-xl border border-optimist-700 bg-gray-800 px-2 py-1"
+      aria-label="AI models"
+    >
+      <span className="px-0.5 text-[10px] font-semibold uppercase tracking-wide text-optimist-400">
+        AI models
+      </span>
+      <div className="inline-flex items-center gap-1.5">
         <button
           type="button"
           onClick={() => {
@@ -1319,10 +1322,19 @@ export default function Dashboard() {
             setClaudeOpen((v) => !v)
           }}
           aria-label={claudeOpen ? 'Close Claude' : 'Open Claude'}
-          className="inline-flex items-center gap-2 rounded-lg bg-yellow-300 px-3 py-1.5 text-sm font-semibold text-black shadow hover:bg-yellow-200 transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-optimist-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-optimist-500 transition-colors"
         >
           Claude
         </button>
+      </div>
+    </div>
+  )
+
+  const navButtons = (
+    <div className="inline-flex items-start gap-1.5">
+      <div className="inline-flex items-center gap-1.5 shrink-0">
+        <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+        {aiModelsSection}
 
       </div>
       <div className="inline-flex flex-col items-start gap-0.5">
@@ -1415,30 +1427,7 @@ export default function Dashboard() {
               <nav className="inline-flex items-start gap-1.5" aria-label="Dashboard sections">
                 <div className="inline-flex items-center gap-1.5 shrink-0">
                   <button className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === 'overview' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('overview')}>Overview</button>
-                  <button
-          type="button"
-          onClick={() => {
-            setClaudeOpen(false)
-            setAiCoachOpen((v) => !v)
-          }}
-          aria-label={aiCoachOpen ? 'Close AI coach' : 'Open AI coach'}
-          className="inline-flex items-center gap-2 rounded-lg bg-sage-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-sage-500 transition-colors"
-        >
-          <Sparkles className="h-4 w-4" />
-          AI coach
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setAiCoachOpen(false)
-            setClaudeOpen((v) => !v)
-          }}
-          aria-label={claudeOpen ? 'Close Claude' : 'Open Claude'}
-          className="inline-flex items-center gap-2 rounded-lg bg-yellow-300 px-3 py-1.5 text-sm font-semibold text-black shadow hover:bg-yellow-200 transition-colors"
-        >
-          Claude
-        </button>
-
+                  {aiModelsSection}
                 </div>
                 <div className="inline-flex flex-col items-start gap-0.5">
                   <div className="flex flex-nowrap items-center justify-start gap-1.5 overflow-visible">
@@ -1463,6 +1452,36 @@ export default function Dashboard() {
         )}
         {mobileNavOpen && (
           <nav className="lg:hidden border-t border-gray-700 bg-gray-800 px-4 py-3" aria-label="Dashboard navigation">
+            <div className="mb-3 rounded-xl border border-optimist-700 bg-gray-800 p-2" aria-label="AI models">
+              <p className="mb-2 px-0.5 text-[10px] font-semibold uppercase tracking-wide text-optimist-400">
+                AI models
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileNavOpen(false)
+                    setClaudeOpen(false)
+                    setAiCoachOpen(true)
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-sage-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sage-500"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  AI coach
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileNavOpen(false)
+                    setAiCoachOpen(false)
+                    setClaudeOpen(true)
+                  }}
+                  className="rounded-lg bg-optimist-600 px-3 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
+                >
+                  Claude
+                </button>
+              </div>
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {mobileNavLinks.map((item) => {
                 const isActive = item.tab ? activeTab === item.tab : false
@@ -1475,14 +1494,6 @@ export default function Dashboard() {
                       else if (item.href) {
                         setMobileNavOpen(false)
                         router.push(item.href)
-                      } else if (item.action === 'ai-coach') {
-                        setMobileNavOpen(false)
-                        setClaudeOpen(false)
-                        setAiCoachOpen(true)
-                      } else if (item.action === 'claude') {
-                        setMobileNavOpen(false)
-                        setAiCoachOpen(false)
-                        setClaudeOpen(true)
                       }
                     }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
