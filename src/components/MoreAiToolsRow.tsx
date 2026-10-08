@@ -26,13 +26,11 @@ const PLATFORMS = [
   'wordpress'
 ] as const
 
-export default function MoreAiToolsRow({ token }: { token: string }) {
+export default function MoreAiToolsRow({ token, locked = false }: { token: string; locked?: boolean }) {
   const [active, setActive] = useState<ToolId | null>(null)
   const [platform, setPlatform] = useState<string>('instagram')
   const [draft, setDraft] = useState('')
   const [hashtags, setHashtags] = useState('')
-
-  if (!token) return null
 
   const tools: { id: ToolId; label: string }[] = [
     { id: 'assistant', label: 'Caption coach' },
@@ -58,6 +56,7 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
             }`}
           >
             {tool.label}
+            {locked ? ' · Paid' : ''}
           </button>
         ))}
       </div>
@@ -79,7 +78,20 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
         </label>
       </div>
 
-      {active === 'assistant' && (
+      {locked && active ? (
+        <div className="space-y-3 border-t border-gray-700 pt-4">
+          <p className="text-sm font-semibold text-white">This tool is on a paid plan.</p>
+          <p className="text-sm text-gray-300">You can see it here. Use starts when you pay.</p>
+          <a
+            href="/select-plan"
+            className="inline-flex items-center rounded-lg bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
+          >
+            See plans
+          </a>
+        </div>
+      ) : null}
+
+      {!locked && active === 'assistant' && (
         <div className="space-y-3 border-t border-gray-700 pt-4">
           <textarea
             value={draft}
@@ -103,13 +115,13 @@ export default function MoreAiToolsRow({ token }: { token: string }) {
         </div>
       )}
 
-      {active === 'schedule' && (
+      {!locked && active === 'schedule' && (
         <div className="border-t border-gray-700 pt-4">
           <SchedulingAssistantBot platform={platform} token={token} />
         </div>
       )}
 
-      {active === 'trends' && (
+      {!locked && active === 'trends' && (
         <div className="border-t border-gray-700 pt-4">
           <TrendScoutBot platform={platform} token={token} />
         </div>

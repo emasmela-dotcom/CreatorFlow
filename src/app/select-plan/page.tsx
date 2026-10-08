@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import PlanSelection, { PlanType } from '@/components/PlanSelection'
+import { FEATURED_PAID_TOOLS } from '@/lib/toolsByPlan'
 
 export default function SelectPlanPage() {
   const router = useRouter()
@@ -33,6 +34,26 @@ export default function SelectPlanPage() {
           >
             Create free account
           </button>
+        </div>
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold text-white text-center">Tools on paid plans</h2>
+          <p className="mt-3 text-gray-300 text-center max-w-2xl mx-auto">
+            You can see these tools in the app. Use starts when paid plans go live.
+          </p>
+          <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+            {FEATURED_PAID_TOOLS.map((tool) => (
+              <li
+                key={tool.name}
+                className="rounded-xl border border-optimist-800 bg-optimist-900/40 px-4 py-3"
+              >
+                <p className="font-semibold text-white">
+                  {tool.name}{' '}
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-optimist-400">Paid</span>
+                </p>
+                <p className="mt-1 text-sm text-gray-300">{tool.blurb}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>

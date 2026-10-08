@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import AnalyticsProvider from '@/components/AnalyticsProvider'
 import { useAnalytics } from '@/components/AnalyticsProvider'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
+import { FEATURED_PAID_TOOLS } from '@/lib/toolsByPlan'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
 
 export default function HomePage() {
@@ -148,6 +149,26 @@ export default function HomePage() {
                   <h3 className="font-semibold text-white mb-2">AI Coach — account required</h3>
                   <p className="text-sm text-optimist-300/70">Groq AI runs under AI Coach. Create a free account to use it — captions, drafts, and tips. Advanced AI on paid plans shortly.</p>
                 </div>
+              </div>
+
+              <h3 className="text-2xl font-bold mt-16 mb-3">Tools in the app</h3>
+              <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+                You can see every paid tool. Use starts when you pay.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-left">
+                {FEATURED_PAID_TOOLS.map((tool) => (
+                  <a
+                    key={tool.name}
+                    href="/select-plan"
+                    className="p-5 rounded-xl bg-optimist-900/50 border border-optimist-800 hover:border-optimist-600 transition-colors"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <h4 className="font-semibold text-white">{tool.name}</h4>
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-optimist-400">Paid</span>
+                    </div>
+                    <p className="text-sm text-optimist-300/70">{tool.blurb}</p>
+                  </a>
+                ))}
               </div>
             </div>
           </section>

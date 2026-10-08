@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation'
 interface ClaudeWriteProps {
   token: string
   onDraft: (text: string) => void
+  locked?: boolean
 }
 
-export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
+export default function ClaudeWrite({ token, onDraft, locked = false }: ClaudeWriteProps) {
   const router = useRouter()
   const [topic, setTopic] = useState('')
   const [loading, setLoading] = useState(false)
@@ -41,6 +42,22 @@ export default function ClaudeWrite({ token, onDraft }: ClaudeWriteProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (locked) {
+    return (
+      <div className="rounded-lg border border-optimist-500 bg-gray-900 p-4">
+        <p className="mb-2 text-sm font-semibold text-white">Claude <span className="text-[10px] font-semibold uppercase tracking-wide text-optimist-400">Paid</span></p>
+        <p className="mb-3 text-sm text-gray-200">Type what you want. Get a draft you can edit. 10 writes per day for the whole plan.</p>
+        <p className="mb-3 text-sm text-gray-300">You can see this tool. Use starts when you pay.</p>
+        <a
+          href="/select-plan"
+          className="inline-flex items-center rounded-md bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
+        >
+          See plans
+        </a>
+      </div>
+    )
   }
 
   return (

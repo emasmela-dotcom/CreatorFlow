@@ -9,6 +9,7 @@ import {
 
 interface GameChangerFeaturesProps {
   token: string
+  locked?: boolean
 }
 
 export const GAME_CHANGER_FEATURES = [
@@ -112,7 +113,7 @@ export function GameChangerFeatureDetail({ featureId, token, onClose }: { featur
   )
 }
 
-export default function GameChangerFeatures({ token }: GameChangerFeaturesProps) {
+export default function GameChangerFeatures({ token, locked = false }: GameChangerFeaturesProps) {
   const [activeFeature, setActiveFeature] = useState<string | null>(null)
   const features = GAME_CHANGER_FEATURES
 
@@ -126,6 +127,11 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
         <p className="text-gray-300 mb-4">
           Tools that help you check, format, and manage content you already have—before and after you post.
         </p>
+        {locked ? (
+          <p className="text-sm text-optimist-300">
+            You can see every tool. Use starts on a paid plan.
+          </p>
+        ) : null}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -144,6 +150,11 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
               <div className="flex items-center gap-3 mb-2">
                 <feature.icon className={`w-6 h-6 text-${feature.color}-400`} />
                 <h3 className="font-semibold text-white">{feature.name}</h3>
+                {locked ? (
+                  <span className="ml-auto text-[10px] font-semibold uppercase tracking-wide text-optimist-400">
+                    Paid
+                  </span>
+                ) : null}
               </div>
               <p className="text-sm text-gray-300">
                 {getFeatureDescription(feature.id)}
@@ -159,7 +170,20 @@ export default function GameChangerFeatures({ token }: GameChangerFeaturesProps)
 
       {activeFeature && (
         <div className="mt-6 bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-          {renderFeatureUI(activeFeature, token, () => setActiveFeature(null))}
+          {locked ? (
+            <div className="space-y-3">
+              <p className="text-white font-semibold">This tool is on a paid plan.</p>
+              <p className="text-sm text-gray-300">You can see it here. Use starts when you pay.</p>
+              <a
+                href="/select-plan"
+                className="inline-flex items-center rounded-lg bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
+              >
+                See plans
+              </a>
+            </div>
+          ) : (
+            renderFeatureUI(activeFeature, token, () => setActiveFeature(null))
+          )}
         </div>
       )}
     </div>

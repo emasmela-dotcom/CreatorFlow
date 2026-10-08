@@ -3,8 +3,30 @@
  * All AI allowances are controlled from this one file.
  */
 
+import { hasEndlessTrial } from './endlessTrial'
+
 /** While true, every user gets the same daily allowance regardless of plan. */
 export const FREE_BUILD_PHASE = true
+
+const PAID_PLAN_TIERS = ['starter', 'growth', 'pro', 'business', 'agency']
+
+/**
+ * Paid tools are shown to everyone. Use is allowed for paying plans.
+ * Owner login can use them so the site can be checked before launch.
+ * While the free-build phase is on, nobody else is treated as paying yet.
+ */
+export function canUsePaidTools(
+  email?: string | null,
+  plan?: string | null
+): boolean {
+  if (hasEndlessTrial(email)) return true
+  if (FREE_BUILD_PHASE) return false
+  if (!plan) return false
+  return PAID_PLAN_TIERS.includes(plan)
+}
+
+/** @deprecated Use canUsePaidTools */
+export const canSeePaidAiModels = canUsePaidTools
 
 /** AI runs each user gets per calendar day during the free build phase. */
 export const RUNS_PER_USER_PER_DAY = 15

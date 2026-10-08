@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { FEATURED_PAID_TOOLS } from '@/lib/toolsByPlan'
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.com'
 
@@ -281,6 +282,21 @@ export default function CreatorToolsPage() {
               Scheduling, analytics, and AI tools are in progress. This page maps common creator searches
               to what works now and what is coming.
             </p>
+            <div className="rounded-xl border border-gray-800 p-5 bg-gray-950/40">
+              <h2 className="text-lg font-semibold text-white mb-2">Tools in the app</h2>
+              <p className="text-sm text-gray-300 mb-4">
+                You can see these tools. Use starts on a paid plan.
+              </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {FEATURED_PAID_TOOLS.map((tool) => (
+                  <li key={tool.name} className="text-sm text-gray-200">
+                    <span className="font-semibold text-white">{tool.name}</span>
+                    {' — '}
+                    {tool.blurb}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <p className="text-base text-gray-300 leading-relaxed">
               Skim by section, share a heading link, or jump to the three guides at the bottom when one intent is all you
               need.

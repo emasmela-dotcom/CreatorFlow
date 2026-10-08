@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
 import { canMakeClaudeCall, logAICall } from '@/lib/usageTracking'
 import { callClaude } from '@/lib/ai/llm'
+import { canUsePaidTools } from '@/lib/aiUsagePolicy'
+import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,6 +23,24 @@ export async function POST(request: NextRequest) {
 
   if (!topic) {
     return NextResponse.json({ error: 'Type what to write about.' }, { status: 400 })
+  }
+
+  let plan: string | null = null
+  try {
+    const userResult = await db.execute({
+      sql: 'SELECT subscription_tier FROM users WHERE id = ?',
+      args: [user.userId],
+    })
+    plan = (userResult.rows[0] as { subscription_tier?: string | null } | undefined)?.subscription_tier || null
+  } catch {
+    plan = null
+  }
+
+  if (!canUsePaidTools(user.email, plan)) {
+    return NextResponse.json(
+      { error: 'Claude is on a paid plan. You can see it. Use starts when you pay.' },
+      { status: 403 }
+    )
   }
 
   const limit = await canMakeClaudeCall(user.userId)

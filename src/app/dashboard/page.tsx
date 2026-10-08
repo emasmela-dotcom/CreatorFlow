@@ -18,6 +18,7 @@ import ContentTypesSettings from '@/components/ContentTypesSettings'
 import MoreAiToolsRow from '@/components/MoreAiToolsRow'
 import AiCoachCorner from '@/components/AiCoachCorner'
 import ClaudeCorner from '@/components/ClaudeCorner'
+import { canUsePaidTools } from '@/lib/aiUsagePolicy'
 import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
 function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -1111,10 +1112,12 @@ export default function Dashboard() {
   const [headerSearch, setHeaderSearch] = useState('')
   const headerSearchInputRef = useRef<HTMLInputElement>(null)
   const [userId, setUserId] = useState<string>('')
+  const [userEmail, setUserEmail] = useState<string>('')
   const [headerVariant, setHeaderVariant] = useState<'center' | 'full'>('center')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [aiCoachOpen, setAiCoachOpen] = useState(false)
   const [claudeOpen, setClaudeOpen] = useState(false)
+  const canUsePaid = canUsePaidTools(userEmail, subscriptionTier)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -1200,6 +1203,7 @@ export default function Dashboard() {
         try {
           const userData = JSON.parse(storedUser)
           setUserId(userData.id || userData.userId || '')
+          setUserEmail(userData.email || '')
         } catch (e) {
           console.error('Failed to parse user data:', e)
         }
@@ -1318,15 +1322,33 @@ export default function Dashboard() {
         <button
           type="button"
           onClick={() => {
+            if (!canUsePaid) {
+              router.push('/select-plan')
+              return
+            }
             setAiCoachOpen(false)
             setClaudeOpen((v) => !v)
           }}
-          aria-label={claudeOpen ? 'Close Claude' : 'Open Claude'}
+          aria-label={canUsePaid ? (claudeOpen ? 'Close Claude' : 'Open Claude') : 'Claude, paid plan'}
           className="inline-flex items-center gap-2 rounded-lg bg-optimist-600 px-3 py-1.5 text-sm font-semibold text-white shadow hover:bg-optimist-500 transition-colors"
         >
           Claude
+          {!canUsePaid ? <span className="text-[10px] font-semibold uppercase">Paid</span> : null}
         </button>
       </div>
+    </div>
+  )
+
+  const paidLockPanel = (
+    <div className="rounded-xl border border-optimist-700 bg-gray-800 p-6 space-y-3">
+      <p className="text-white font-semibold">This tool is on a paid plan.</p>
+      <p className="text-sm text-gray-300">You can see it here. Use starts when you pay.</p>
+      <a
+        href="/select-plan"
+        className="inline-flex items-center rounded-lg bg-optimist-600 px-4 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
+      >
+        See plans
+      </a>
     </div>
   )
 
@@ -1473,12 +1495,16 @@ export default function Dashboard() {
                   type="button"
                   onClick={() => {
                     setMobileNavOpen(false)
+                    if (!canUsePaid) {
+                      router.push('/select-plan')
+                      return
+                    }
                     setAiCoachOpen(false)
                     setClaudeOpen(true)
                   }}
                   className="rounded-lg bg-optimist-600 px-3 py-2 text-sm font-semibold text-white hover:bg-optimist-500"
                 >
-                  Claude
+                  Claude{!canUsePaid ? ' · Paid' : ''}
                 </button>
               </div>
             </div>
@@ -1510,7 +1536,7 @@ export default function Dashboard() {
       </header>
 
       <AiCoachCorner token={token || null} open={aiCoachOpen} onOpenChange={setAiCoachOpen} />
-      <ClaudeCorner token={token || null} open={claudeOpen} onOpenChange={setClaudeOpen} />
+      <ClaudeCorner token={token || null} open={canUsePaid && claudeOpen} onOpenChange={setClaudeOpen} />
 
       <div className="flex">
         {/* Sidebar */}
@@ -1736,7 +1762,7 @@ export default function Dashboard() {
               </div>
 
               <div className="hidden lg:block">
-                <MoreAiToolsRow token={token} />
+                <MoreAiToolsRow token={token} locked={!canUsePaid} />
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1945,12 +1971,12 @@ export default function Dashboard() {
           )}
 
           {activeTab === 'calendar' && (
-            <CalendarView token={token} />
+            canUsePaid ? <CalendarView token={token} /> : paidLockPanel
           )}
 
           {activeTab === 'analytics' && (
             <div className="space-y-6">
-              <AdvancedAnalytics token={token} />
+              {canUsePaid ? <AdvancedAnalytics token={token} /> : paidLockPanel}
             </div>
           )}
 
@@ -1962,13 +1988,13 @@ export default function Dashboard() {
 
           {activeTab === 'social-listening' && (
             <div className="space-y-6">
-              <SocialListening token={token} />
+              {canUsePaid ? <SocialListening token={token} /> : paidLockPanel}
             </div>
           )}
 
           {activeTab === 'game-changers' && (
             <div className="space-y-6">
-              <GameChangerFeatures token={token} />
+              <GameChangerFeatures token={token} locked={!canUsePaid} />
             </div>
           )}
 
@@ -1994,7 +2020,7 @@ export default function Dashboard() {
           {activeTab === 'collaborations' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">Brand Collaborations</h2>
-              <CollaborationMarketplaceUI token={token} />
+              {canUsePaid ? <CollaborationMarketplaceUI token={token} /> : paidLockPanel}
             </div>
           )}
 

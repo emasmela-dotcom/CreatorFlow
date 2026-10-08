@@ -7,7 +7,7 @@ import ContentAssistantBot from '@/components/bots/ContentAssistantBot'
 import WriteThisForMe from '@/components/WriteThisForMe'
 import ClaudeWrite from '@/components/ClaudeWrite'
 import SchedulingAssistantBot from '@/components/bots/SchedulingAssistantBot'
-import { FREE_BUILD_PHASE } from '@/lib/aiUsagePolicy'
+import { FREE_BUILD_PHASE, canUsePaidTools } from '@/lib/aiUsagePolicy'
 
 function pickRecorderMime(): string {
   if (typeof MediaRecorder === 'undefined') return ''
@@ -77,6 +77,7 @@ function CreatePostInner() {
   const recorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null)
+  const [userEmail, setUserEmail] = useState('')
   const analysisRef = useRef<HTMLDivElement | null>(null)
   const [postInfo, setPostInfo] = useState<{
     monthlyLimit: number | null
@@ -678,6 +679,15 @@ function CreatePostInner() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setToken(localStorage.getItem('token') || '')
+      try {
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+          const userData = JSON.parse(storedUser)
+          setUserEmail(userData.email || '')
+        }
+      } catch {
+        setUserEmail('')
+      }
     }
 
     // Fetch post usage info and preferred platforms
@@ -837,7 +847,7 @@ function CreatePostInner() {
                 <WriteThisForMe token={token} onDraft={setContent} />
               </div>
               <div className="mb-4">
-                <ClaudeWrite token={token} onDraft={setContent} />
+                <ClaudeWrite token={token} onDraft={setContent} locked={!canUsePaidTools(userEmail, subscriptionTier)} />
               </div>
               <textarea
                 value={content}
