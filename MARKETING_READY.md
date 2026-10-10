@@ -7,7 +7,7 @@
 
 **How to use:** Agent or Eric marks `[x]` only when **verified on the live site** (not “should work”). Update this file as items complete. Commit + push when this file changes.
 
-**Last updated:** 2026-08-04
+**Last updated:** 2026-10-10 — live HTTP + copy check on creatorflow365.com
 
 ---
 
@@ -15,10 +15,25 @@
 
 | Phase | State |
 |-------|--------|
-| Core product (Documents) | In progress — text save tested good; video needs Blob on Vercel |
-| Free-now mode | Live (banner + no checkout push) |
-| Paid / Stripe marketing | **Not yet** — do not advertise paid plans until Eric turns billing on |
+| Core product | Live: home, signup, signin, Create (record/save), Documents, Saved, dashboard |
+| Paid tools | **Shown and locked** on home, `/select-plan`, `/creator-tools`, dashboard. Not free to run. |
+| Plans on site | **3 plans** on `/select-plan`: Starter $9, Creator $49, Business $149. `/pricing` redirects home. |
+| Free-now mode | Live (“Free while we build”). Do not blast paid checkout. |
+| Paid / Stripe marketing | **Not yet** — live pay test still open |
 | Broadcast posting | **Wait** until this file is 100% checked |
+
+### Proved live 2026-10-10 (curl)
+
+- [x] `/` 200 — “One draft, many platforms”, “Tools in the app”, “You can see every paid tool”, “Create a free account”, “Free while we build”, Performance Predictor listed
+- [x] `/select-plan` 200 — Starter / Creator / Business and $9 / $49 / $149. “Tools on paid plans”. No Essential / Professional on that page
+- [x] `/pricing` 307 → `/` (old 5-plan price page is not shown)
+- [x] `/create` 200 — Record, Save Draft, Write this for me, Claude visible
+- [x] `/documents` 200, `/saved` 200, `/dashboard` 200 (AI models, Claude, Calendar, Analytics, Game-Changer in the page)
+- [x] `/signup` 200, `/signin` 200, `/privacy` 200, `/terms` 200, `/support` 200, `/ai` 200, `/setup-guide` 200, `/creator-tools` 200
+- [x] Bad URL → **404** + “Page Not Found” + “Go Home”
+- [ ] Claude **write** on live (needs Anthropic credits + a paying/owner login) — **not proved this pass**
+- [ ] Stripe live pay → plan updates — **not proved this pass**
+- [ ] Stranger test this pass (someone else lands → signup → save → copy) — **not proved this pass**
 
 ---
 
@@ -30,10 +45,12 @@
 - [x] Save **text** original (title + content) — Eric tested multiple docs
 - [x] Platform format panel + **Copy formatted** (not saved to DB)
 - [x] **Video attach** works on live site (Vercel **Blob** store + `BLOB_READ_WRITE_TOKEN` + redeploy)
+- [x] **Saved video play** — Eric played a clip on live Saved 2026-10-06
+- [x] **Create** record / upload / Save Draft live at `/create` — page proved 2026-10-10
 - [x] Sign up works (Eric tested fresh account)
 - [x] Sign in works
 - [x] Session-expired message clear when JWT expires (~1 hour) — verified 2026-08-01
-- [ ] Stranger test: Eric watches someone land → sign up → save doc → format → copy (one pass)
+- [ ] Stranger test: Eric watches someone land → sign up → save doc → format → copy (one pass). Older note in `READY_TO_MARKET_ISSUES.md` (2026-08-13) is not re-proved today.
 
 ---
 
@@ -98,10 +115,10 @@ Suggested order:
 ## G. Later (after free-now traction — not blocking first marketing wave)
 
 - [ ] Turn paid plans + live AI back on when credits funded
-- [ ] Stripe live checkout in signup flow again
+- [ ] Stripe live checkout in signup flow again (live pay test still open)
 - [ ] Reviews / promo program (first N creators) — not built
 - [ ] Second Neon DB or auto-routing if storage fills — not built
-- [ ] Simplify or redirect `/create` to Documents
+- [x] `/create` stays the record/save path (do **not** redirect it to Documents)
 
 ---
 

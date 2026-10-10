@@ -9,7 +9,9 @@
 
 Mark `[x]` only after **checked** on the live site or real account — not from memory.
 
-**Last checklist update:** 2026-08-13 — full pass: live HTTP + page copy check + prior Eric/`MARKETING_READY` verifies. Open boxes = not done or not checked yet.
+**Last checklist update:** 2026-10-10 — live HTTP + copy check. Older 2026-08-13 notes kept where not re-tested.
+
+**Proved live 2026-10-10:** home tools list + lock copy; `/select-plan` is 3 plans ($9 / $49 / $149); `/pricing` redirects home so old 5-plan bullets are **not** shown to visitors; Create/Saved/dashboard pages load; 404 page works. **Not proved this pass:** Stripe live pay, Claude write with Anthropic credits, stranger test.
 
 ---
 
@@ -26,18 +28,12 @@ Mark `[x]` only after **checked** on the live site or real account — not from 
 
 If ads or the site promise more than the product does, that is the issue.
 
-- [ ] **Pricing feature lists** — **Checked live 2026-08-13:** `/pricing` still shows old bullets (Team collaboration, Enhanced AI, White-label, API access, Unlimited everything, 500 AI…). Honest rewrite drafted in chat — **not on site**.
-- [ ] **Team collaboration** — **Checked live:** still listed. Not built. Remove or “coming later” before ads mention teams.
-- [ ] **API access** — **Checked live:** still listed. No public customer API.
-- [ ] **White-label** — **Checked live:** still listed. Not built.
-- [ ] **“Enhanced / Advanced / Premium / Fastest AI”** — **Checked live:** “Enhanced AI” still on pricing. Same Groq model for everyone.
-- [ ] **AI bot call counts** (500 / 1,000 / unlimited) — **Checked live:** “500 AI” still on pricing. Draft caps (25 / 100 / 200 Groq AI Coach) not on site, not enforced.
-- [ ] **“Unlimited everything”** — **Checked live:** still on pricing.
-- [ ] **Support times** (48hr / 24hr / 6hr / 2hr / dedicated manager) — Still on live pricing. Draft: 48hr for early plans — not placed.
-- [ ] **Paid prices on `/pricing`** vs banner **“Free while we build”** — **Checked live:** both present (mixed). Free-now marketing until checkout intentionally on.
-- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + model name. **Updated 2026-10-04:** model in use is `openai/gpt-oss-20b` (`llama-3.1-8b-instant` is sales-only).
+- [x] **Pricing feature lists on `/pricing`** — **Checked live 2026-10-10:** `/pricing` is 307 → home. Visitors do not see the old 5-plan bullets.
+- [x] **Team collaboration / API / white-label / unlimited everything / support times** — those old `/pricing` claims are hidden by the redirect. Do not put them on `/select-plan`.
+- [x] **Paid prices vs “Free while we build”** — **Checked live 2026-10-10:** home still says free while we build. `/select-plan` shows Starter $9 / Creator $49 / Business $149 and says no charge today.
+- [x] **`/ai` page** — **Checked live 2026-08-13:** 200 OK; Groq + model name. **Updated 2026-10-04:** model in use is `openai/gpt-oss-20b` (`llama-3.1-8b-instant` is sales-only). Re-proved `/ai` 200 on 2026-10-10.
 
-**Section 1 status:** `/ai` done (incl. usage pool). **Paid plan rewrite on `/pricing` = coming later** (Eric: free while we build; place locked table only when funding that build). Until then, live `/pricing` still has old/overstated bullets — boxes above stay open.
+**Section 1 status:** Old `/pricing` over-promise is hidden. Real plans live on `/select-plan`. Still do not advertise paid checkout.
 
 ---
 
@@ -193,10 +189,10 @@ Site can be marketed as **free while we build** without this. **Do not** market 
 
 ---
 
-## Bottom line (after 2026-08-13 check)
+## Bottom line (after 2026-10-10 live check)
 
-**Checked done:** home, `/ai`, trust pages, 404, hosting, Documents path, several social **connects**, Bluesky **post-now**, free-now copy, copy/paste = main path, Groq key + prior coach verify, forgot-password, stranger-style core path (2026-08-13).
+**Proved today:** home, tools list + paid lock copy, `/select-plan` 3 plans, `/pricing` hidden, Create/Saved/dashboard load, trust pages, 404.
 
-**Still open:** honest `/pricing` (Section 1 — deferred until funded), Meta/Reddit/WhatsApp, Stripe live pay test + cancel path.
+**Still open:** Stripe live pay test + cancel path, Claude write with Anthropic credits, stranger test this pass, Meta/Reddit/WhatsApp.
 
-**Next:** Stripe live pay test (real card — small $9) or defer.
+**Next:** Stripe live pay test (real card — small $9) or defer. Do not blast ads yet.
