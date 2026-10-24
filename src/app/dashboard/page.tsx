@@ -19,6 +19,7 @@ import MoreAiToolsRow from '@/components/MoreAiToolsRow'
 import AiCoachCorner from '@/components/AiCoachCorner'
 import ClaudeCorner from '@/components/ClaudeCorner'
 import { canUsePaidTools } from '@/lib/aiUsagePolicy'
+import { DRAFT_FORMATS, SAVED_VIDEO, isSampleId, type SampleId } from '@/lib/homepageSample'
 import LockedContentBadge, { LockedContentIcon } from '@/components/LockedContentBadge'
 
 function HashtagResearchUI({ token, onClose }: { token: string, onClose: () => void }) {
@@ -1117,12 +1118,18 @@ export default function Dashboard() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [aiCoachOpen, setAiCoachOpen] = useState(false)
   const [claudeOpen, setClaudeOpen] = useState(false)
+  const [browseSample, setBrowseSample] = useState<SampleId | null>(null)
   const canUsePaid = canUsePaidTools(userEmail, subscriptionTier)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     const p = new URLSearchParams(window.location.search)
     setHeaderVariant(p.get('header') === 'full' ? 'full' : 'center')
+    const sample = p.get('sample')
+    if (isSampleId(sample)) {
+      setBrowseSample(sample)
+      setActiveTab('content')
+    }
 
     const subErr = p.get('subscribe_error')
     const subDbg = p.get('subscribe_debug')
@@ -1830,6 +1837,28 @@ export default function Dashboard() {
 
           {activeTab === 'content' && (
             <div className="space-y-6">
+              {browseSample && (
+                <div className="rounded-xl border border-optimist-700 bg-optimist-900 p-5 text-left">
+                  <p className="text-sm font-semibold text-white">Saved video</p>
+                  <p className="text-lg font-semibold text-white">{SAVED_VIDEO.title}</p>
+                  <p className="mt-1 text-sm text-gray-300">{SAVED_VIDEO.note}</p>
+                  <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+                    {DRAFT_FORMATS.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`rounded-lg border p-4 ${
+                          browseSample === item.id
+                            ? 'border-white bg-optimist-800'
+                            : 'border-optimist-700 bg-optimist-950'
+                        }`}
+                      >
+                        <p className="text-sm font-semibold text-white">{item.name}</p>
+                        <p className="mt-2 text-sm text-gray-200 whitespace-pre-line">{item.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <h2 className="text-2xl font-bold">Content Management</h2>
@@ -1873,7 +1902,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {visiblePosts.length === 0 ? (
+              {visiblePosts.length === 0 && !browseSample ? (
                 <div className="text-center py-12">
                   <p className="text-gray-300 mb-4">{uniquePosts.length === 0 ? 'No posts yet. Create your first post!' : 'No posts match that search.'}</p>
                   <button

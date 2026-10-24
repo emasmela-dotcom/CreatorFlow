@@ -7,6 +7,7 @@ import { useAnalytics } from '@/components/AnalyticsProvider'
 import { HOMEPAGE_FAQ_PAIRS } from '@/lib/seo/homepageFaq'
 import { FEATURED_PAID_TOOLS } from '@/lib/toolsByPlan'
 import { faqPageJsonLd } from '@/lib/seo/faqJsonLd'
+import { DRAFT_FORMATS, SAVED_VIDEO, sampleHref } from '@/lib/homepageSample'
 
 export default function HomePage() {
   useAnalytics()
@@ -44,7 +45,7 @@ export default function HomePage() {
 
         <main id="main-content">
           {/* Hero */}
-          <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-8 md:pt-24 pb-16">
+          <section className="relative flex items-start justify-center overflow-hidden pt-8 md:pt-24 pb-16">
             <div className="absolute inset-0 bg-optimist-900/20" />
             <div className="relative z-10 text-center max-w-3xl mx-auto px-6">
               <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-blue-900 bg-clip-text text-transparent">
@@ -54,6 +55,36 @@ export default function HomePage() {
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
                 Open CreatorFlow on your phone. Make your video and other content here. Come back anytime and change what you saved.
               </p>
+              <div className="mb-10 text-left">
+                <a
+                  href={sampleHref('saved')}
+                  className="block rounded-2xl border border-optimist-700 bg-optimist-900 p-4 hover:border-optimist-500"
+                >
+                  <div className="flex aspect-video items-center justify-center rounded-xl bg-optimist-950 border border-optimist-800">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-black">
+                      <Play className="h-7 w-7" aria-hidden />
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-white">Saved video</p>
+                  <p className="text-base font-semibold text-white">{SAVED_VIDEO.title}</p>
+                  <p className="mt-1 text-sm text-gray-300">{SAVED_VIDEO.note}</p>
+                </a>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  {DRAFT_FORMATS.map((item) => (
+                    <a
+                      key={item.id}
+                      href={sampleHref(item.id)}
+                      className="block rounded-xl border border-optimist-700 bg-optimist-900/80 p-4 hover:border-optimist-500"
+                    >
+                      <p className="text-sm font-semibold text-white">{item.name}</p>
+                      <p className="mt-2 text-sm text-gray-200 whitespace-pre-line line-clamp-6">{item.text}</p>
+                    </a>
+                  ))}
+                </div>
+                <p className="mt-3 text-center text-sm text-gray-300">
+                  Tap a version to open it in Browse app. No signup.
+                </p>
+              </div>
               <div className="mb-10 max-w-2xl mx-auto rounded-2xl border border-sage-500/20 bg-sage-900/20 px-6 py-5">
                 <p className="text-lg font-semibold text-sage-300">One draft, many platforms.</p>
                 <p className="mt-1 text-sm text-gray-300 leading-relaxed">

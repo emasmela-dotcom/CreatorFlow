@@ -171,7 +171,7 @@ export default function RootLayout({
           </>
         ) : null}
       </head>
-      <body>
+      <body className="pb-16">
         {metaPixelId ? (
           <noscript>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -193,8 +193,10 @@ export default function RootLayout({
         <EarlyAccessBanner />
         {children}
         <SeoSiteFooter />
-        <FeedbackWrapper />
-        <HomeButton />
+        <div className="fixed bottom-0 inset-x-0 z-50 flex items-center justify-between gap-3 border-t border-optimist-800 bg-optimist-950 px-4 py-2">
+          <HomeButton />
+          <FeedbackWrapper />
+        </div>
         <Analytics />
         <Script id="service-worker-registration" strategy="afterInteractive">
           {`
