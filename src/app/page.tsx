@@ -53,6 +53,9 @@ export default function HomePage() {
               </h1>
               <p className="text-xl md:text-2xl mb-6 text-gray-300">Stop juggling apps. Start growing.</p>
               <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
+                CreatorFlow365 is a repurposing tool. One piece of content gets a new shape so each platform can accept it.
+              </p>
+              <p className="text-lg md:text-xl text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
                 Open CreatorFlow on your phone. Make your video and other content here. Come back anytime and change what you saved.
               </p>
               <div className="mb-10 text-left">

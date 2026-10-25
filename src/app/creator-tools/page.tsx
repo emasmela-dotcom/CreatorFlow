@@ -8,7 +8,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.creatorflow365.c
 export const metadata: Metadata = {
   title: 'Creator Tools & Documents Workspace | CreatorFlow365',
   description:
-    'Documents workspace: save your original once, format for Instagram, X, LinkedIn, TikTok, YouTube, and more. Free while we build—more dashboard tools coming later.',
+    'Documents workspace: save your original once, format for Instagram, X, LinkedIn, TikTok, YouTube, and more. Free while we build—more dashboard tools coming later. Repurpose one original for each platform.',
   keywords: [
     'creator tools',
     'content creator software',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Creator Tools & Documents Workspace | CreatorFlow365',
     description:
-      'Save once in Documents, format for major creator platforms. Free account—paid plans with live AI later.',
+      'Save once in Documents, format for major creator platforms. Free account—paid plans with live AI later. Repurpose one original for each platform.',
     url: `${baseUrl}/creator-tools`,
     siteName: 'CreatorFlow365',
     locale: 'en_US',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Creator Tools & Documents Workspace | CreatorFlow365',
     description:
-      'Documents workspace for creators—save once, format for any platform. Free while we build.',
+      'Documents workspace for creators—save once, format for any platform. Free while we build. Repurpose one original for each platform.',
   },
   alternates: {
     canonical: `${baseUrl}/creator-tools`,
@@ -54,7 +54,7 @@ const jsonLd = {
       url: baseUrl,
       name: 'CreatorFlow365',
       description:
-        'Documents workspace for creators—save your original once and format for major platforms. More tools in progress.',
+        'Documents workspace for creators—save your original once and format for major platforms. More tools in progress. Repurpose one original for each platform.',
       publisher: { '@id': `${baseUrl}/#organization` },
     },
     {

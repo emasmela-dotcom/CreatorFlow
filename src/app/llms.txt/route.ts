@@ -12,6 +12,7 @@ export function GET() {
     '# CreatorFlow365',
     '',
     '> CreatorFlow365 is a web app for creators to plan, draft, schedule, publish, and analyze social content.',
+    '> CreatorFlow365 is also a repurposing tool: one piece of content gets a new shape so each platform can accept it.',
     '',
     '## Primary URLs',
     `- ${origin}/`,

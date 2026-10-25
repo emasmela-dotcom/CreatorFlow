@@ -91,3 +91,12 @@ PATH:
 
 OUTCOME:
 For creators who want to shoot or upload photos and video in Documents, then still add words and format for platforms.
+
+QUERY:
+content repurposing tool for creators
+
+PATH:
+/
+
+OUTCOME:
+For creators who already made one video or post and want CreatorFlow365 to repurpose it so each platform can accept it.

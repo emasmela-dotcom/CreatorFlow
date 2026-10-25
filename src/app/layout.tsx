@@ -14,7 +14,7 @@ const SITE_URL =
 const SITE_ORIGIN = SITE_URL.replace(/\/$/, '')
 
 const siteDescription =
-  'CreatorFlow365 is the creator workspace to plan, draft, schedule, publish, and track content across your social channels with AI tools, analytics, and collaboration workflows.'
+  'CreatorFlow365 is the creator workspace to plan, draft, schedule, publish, and track content across your social channels with AI tools, analytics, and collaboration workflows. Repurpose one piece of content so each platform can accept it.'
 
 const schemaOrgJsonLd = {
   '@context': 'https://schema.org',
@@ -55,9 +55,9 @@ const schemaOrgJsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
-  title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
+  title: 'CreatorFlow365 | Social Media AI Workspace for Creators | Repurposing',
   description: siteDescription,
-  keywords: 'creator workspace, social media scheduling, AI content writer, creator analytics, content calendar, multi-platform publishing, creator collaboration, social media management, creator tools',
+  keywords: 'creator workspace, social media scheduling, AI content writer, creator analytics, content calendar, multi-platform publishing, creator collaboration, social media management, creator tools, content repurposing, repurpose content for each platform',
   authors: [{ name: 'CreatorFlow365' }],
   creator: 'CreatorFlow365',
   publisher: 'CreatorFlow365',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
+    title: 'CreatorFlow365 | Social Media AI Workspace for Creators | Repurposing',
     description: siteDescription,
     type: 'website',
     url: SITE_ORIGIN,
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CreatorFlow365 | Social Media AI Workspace for Creators',
+    title: 'CreatorFlow365 | Social Media AI Workspace for Creators | Repurposing',
     description: siteDescription,
     creator: '@creatorflow365',
     images: ['/icon-512.png'],

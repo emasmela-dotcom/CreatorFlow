@@ -15,6 +15,7 @@
 | 9 | Content calendar app for creators | `/creator-tools` | For calendar-first searches who should land on the hub that explains scheduling and links to the scheduler guide. |
 | 10 | AI captions for reels and shorts | `/ai-caption-writer-instagram-tiktok` | For short-video creators who want one caption workflow whether they say reels, Shorts, or TikTok. |
 | 11 | Record and upload photos and video for creators | `/record-and-upload-content` | For creators who want to shoot or upload photos and video in Documents, then still add words and format for platforms. |
+| 12 | Content repurposing tool for creators | `/` | For creators who already made one video or post and want CreatorFlow365 to repurpose it so each platform can accept it. |
 
 Rows 6–7 use one pillar + one child where search intent splits; both URLs stay linked from the pillar page.
 

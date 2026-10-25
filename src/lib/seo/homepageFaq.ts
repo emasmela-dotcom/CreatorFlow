@@ -5,7 +5,7 @@ export const HOMEPAGE_FAQ_PAIRS: FaqPair[] = [
   {
     question: 'How does CreatorFlow365 work with social platforms?',
     answer:
-      'You save your original on Create, pick the platforms, and CreatorFlow365 formats the copy for each one. You copy that text and post it. Some accounts can be connected. We only describe auto-posting after it is proven live.',
+      'You save your original on Create, pick the platforms, and CreatorFlow365 formats the copy for each one. You copy that text and post it. Some accounts can be connected. We only describe auto-posting after it is proven live. Repurposing means that same original gets a new shape so each platform can accept it.',
   },
   {
     question: 'Is CreatorFlow365 free?',
