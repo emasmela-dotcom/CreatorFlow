@@ -781,7 +781,7 @@ function CreatePostInner() {
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <h1 className="text-xl sm:text-2xl font-bold truncate">Create New Post</h1>
+            <h1 className="text-xl sm:text-2xl font-bold truncate">Create/Upload</h1>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button

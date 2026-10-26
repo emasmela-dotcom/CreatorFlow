@@ -461,7 +461,7 @@ export default function PlatformConnections({ token }: PlatformConnectionsProps)
           <li>• You'll be redirected to the platform to log in</li>
           <li>• Grant permissions to allow CreatorFlow to post</li>
           <li>• Direct-post platforms publish from CreatorFlow once connected</li>
-          <li>• Fallback platforms still work via copy/export in Create Post</li>
+          <li>• Fallback platforms still work via copy/export in Create/Upload</li>
         </ul>
       </div>
 

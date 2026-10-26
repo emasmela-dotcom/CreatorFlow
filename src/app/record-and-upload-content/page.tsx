@@ -20,8 +20,8 @@ const howToJsonLd = {
     {
       '@type': 'HowToStep',
       position: 1,
-      name: 'Sign in and open Create',
-      text: 'Create a free account, sign in, and open Create.',
+      name: 'Sign in and open Create/Upload',
+      text: 'Create a free account, sign in, and open Create/Upload.',
     },
     {
       '@type': 'HowToStep',
@@ -80,7 +80,7 @@ export default function RecordAndUploadPage() {
             can still add words and format for platforms.
           </p>
           <p className="text-sm text-optimist-400">
-            Record lives on Create after you sign in. This page is public so Google and AI tools can read how it
+            Record lives on Create/Upload after you sign in. This page is public so Google and AI tools can read how it
             works. Free while we build.
           </p>
         </header>
@@ -88,7 +88,7 @@ export default function RecordAndUploadPage() {
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold">How to record or upload</h2>
           <ol className="list-decimal pl-6 space-y-2 text-gray-300">
-            <li>Create a free account, sign in, and open Create.</li>
+            <li>Create a free account, sign in, and open Create/Upload.</li>
             <li>
               On a phone, tap Record to shoot video, or Upload if you already have a file.
             </li>

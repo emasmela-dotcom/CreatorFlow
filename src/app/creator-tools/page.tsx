@@ -190,7 +190,7 @@ const sections: { id: string; title: string; queries: string[]; body: string[] }
       'creator document workspace',
     ],
     body: [
-      'Record and upload photos and video on Create. Keep briefs and scripts in Documents.',
+      'Record and upload photos and video on Create/Upload. Keep briefs and scripts in Documents.',
       'Central storage reduces the “which Google Doc was that reel script in?” problem as you scale output.',
     ],
   },
@@ -377,7 +377,7 @@ export default function CreatorToolsPage() {
             <ul className="list-disc pl-6 space-y-2 text-gray-300 leading-relaxed">
               <li>
                 <Link href="/record-and-upload-content" className="text-optimist-400 hover:underline">
-                  Record and upload photos and video on Create
+                  Record and upload photos and video on Create/Upload
                 </Link>
               </li>
               <li>

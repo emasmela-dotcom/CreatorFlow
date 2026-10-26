@@ -70,7 +70,7 @@ export const RECORD_UPLOAD_FAQ: FaqPair[] = [
   {
     question: 'Can I record photos and video inside CreatorFlow365?',
     answer:
-      'Yes. Sign in, open Create, then tap Record on a phone to shoot video, or Upload if you already have a file.',
+      'Yes. Sign in, open Create/Upload, then tap Record on a phone to shoot video, or Upload if you already have a file.',
   },
   {
     question: 'Can I upload a photo or video I already shot?',
@@ -84,6 +84,6 @@ export const RECORD_UPLOAD_FAQ: FaqPair[] = [
   {
     question: 'Is the camera tool on a public page?',
     answer:
-      'Record lives on Create after you sign in. This page explains it so search and AI tools can read it without signing in.',
+      'Record lives on Create/Upload after you sign in. This page explains it so search and AI tools can read it without signing in.',
   },
 ]

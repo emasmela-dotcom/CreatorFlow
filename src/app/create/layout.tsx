@@ -5,7 +5,7 @@ const baseUrl =
   'https://www.creatorflow365.com'
 const origin = baseUrl.replace(/\/$/, '')
 
-const title = 'Create Post | CreatorFlow365'
+const title = 'Create/Upload | CreatorFlow365'
 const description =
   'Draft and schedule posts in your CreatorFlow365 workspace—available after sign-in.'
 

@@ -18,11 +18,11 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
       questions: [
         {
           q: 'How do I create my first post?',
-          a: 'Go to the Create Post page, select your platform, type your content, and use the AI Content Assistant to optimize it before posting.'
+          a: 'Go to the Create/Upload page, select your platform, type your content, and use the AI Content Assistant to optimize it before posting.'
         },
         {
           q: 'Where do I get help with content and scheduling?',
-          a: 'Use the Create Post page for content creation and the Dashboard → Content and Calendar tabs for scheduling and organization.'
+          a: 'Use the Create/Upload page for content creation and the Dashboard → Content and Calendar tabs for scheduling and organization.'
         },
         {
           q: 'How do I save content for later?',
@@ -102,11 +102,11 @@ export default function HelpCenter({ isOpen, onClose }: HelpCenterProps) {
         },
         {
           q: 'Content or scheduling suggestions aren\'t showing. What\'s wrong?',
-          a: 'Make sure you\'ve entered content and selected a platform on the Create Post page. Some tools need specific information to work.'
+          a: 'Make sure you\'ve entered content and selected a platform on the Create/Upload page. Some tools need specific information to work.'
         },
         {
           q: 'I can\'t find a feature. Where is it?',
-          a: 'Use the search bar in the dashboard header to search across all your content. Most features are in Dashboard → Content tab or the Create Post page.'
+          a: 'Use the search bar in the dashboard header to search across all your content. Most features are in Dashboard → Content tab or the Create/Upload page.'
         },
         {
           q: 'How do I contact support?',

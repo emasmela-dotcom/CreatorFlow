@@ -1301,7 +1301,7 @@ export default function Dashboard() {
     { label: 'Tools', tab: 'game-changers' },
     { label: 'Listening', tab: 'social-listening' },
     { label: 'Community', tab: 'community' },
-    { label: 'Create', href: '/create' },
+    { label: 'Create/Upload', href: '/create' },
     { label: 'Documents', href: '/documents' },
   ]
 
@@ -1377,7 +1377,7 @@ export default function Dashboard() {
         <div className="flex flex-wrap items-center justify-start gap-1.5">
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
-          <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
+          <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create/Upload</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
           <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
@@ -1469,7 +1469,7 @@ export default function Dashboard() {
                   <div className="flex flex-wrap items-center justify-start gap-1.5">
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'connections' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('connections')}><Link2 className="w-3 h-3 inline mr-1 -mt-0.5" />Connections</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Wrench className="w-3 h-3 inline mr-1 -mt-0.5" />Tools</button>
-                    <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create</button>
+                    <button className="px-2.5 py-1 rounded-md text-xs font-medium transition-colors hover:bg-gray-700" onClick={() => router.push('/create')}><Plus className="w-3 h-3 inline mr-1 -mt-0.5" />Create/Upload</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'social-listening' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('social-listening')}><Search className="w-3 h-3 inline mr-1 -mt-0.5" />Listening</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'game-changers' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('game-changers')}><Sparkles className="w-3 h-3 inline mr-1 -mt-0.5" />Game-Changers</button>
                     <button className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${activeTab === 'community' ? 'bg-optimist-600' : 'hover:bg-gray-700'}`} onClick={() => setActiveTab('community')}><Users className="w-3 h-3 inline mr-1 -mt-0.5" />Community</button>
@@ -1897,7 +1897,7 @@ export default function Dashboard() {
                     className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all flex items-center gap-2"
                   >
                     <Plus className="w-5 h-5" />
-                    Create New Post
+                    Create/Upload
                   </button>
                 </div>
               </div>
@@ -1909,7 +1909,7 @@ export default function Dashboard() {
                     onClick={() => router.push('/create')}
                     className="px-6 py-3 bg-gradient-to-r from-optimist-500 to-optimist-500 rounded-lg font-semibold hover:from-optimist-600 hover:to-optimist-600 transition-all"
                   >
-                    Create Post
+                    Create/Upload
                   </button>
                 </div>
               ) : (
