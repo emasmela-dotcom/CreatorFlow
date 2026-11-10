@@ -23,10 +23,10 @@ export async function POST() {
         {
           price_data: {
             currency: 'usd',
-            unit_amount: 100,
+            unit_amount: 10,
             product_data: {
               name: 'CreatorFlow365 payment test',
-              description: 'One-time $1 charge to prove the Stripe account works.',
+              description: 'One-time 10 cent charge to prove the Stripe account works.',
             },
           },
           quantity: 1,

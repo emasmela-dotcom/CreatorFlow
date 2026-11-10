@@ -30,13 +30,13 @@ function PayOnceInner() {
   return (
     <main id="main-content" className="min-h-screen bg-optimist-950 text-white px-6 py-16">
       <div className="max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-4">Pay $1 once</h1>
+        <h1 className="text-3xl font-bold text-white mb-4">Pay 10 cents once</h1>
         <p className="text-gray-200 mb-6">
-          This charges $1 one time on the Stripe account connected to CreatorFlow365. It does not start a monthly plan.
+          This charges 10 cents one time on the Stripe account connected to CreatorFlow365. It does not start a monthly plan.
         </p>
         {paid && (
           <p className="mb-6 rounded-lg border border-sage-500 bg-sage-900/40 px-4 py-3 text-white">
-            Payment went through. Check Stripe for a $1 payment named CreatorFlow365 payment test.
+            Payment went through. Check Stripe for a 10 cent payment named CreatorFlow365 payment test.
           </p>
         )}
         {canceled && (
@@ -55,7 +55,7 @@ function PayOnceInner() {
           disabled={loading}
           className="px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 disabled:opacity-60"
         >
-          {loading ? 'Opening payment…' : 'Pay $1 now'}
+          {loading ? 'Opening payment…' : 'Pay 10 cents now'}
         </button>
       </div>
     </main>
